@@ -1,150 +1,92 @@
 import React from 'react';
-import { ArrowRight, Sparkles, Shield, Cpu } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 export default function HeroSection({ onNavigate }) {
   return (
     <section id="about" style={{
-      paddingTop: 140,
-      paddingBottom: 80,
-      background: 'radial-gradient(circle at 50% 20%, rgba(0, 161, 157, 0.18) 0%, rgba(11, 19, 25, 0) 70%)',
+      paddingTop: 148,
+      paddingBottom: 96,
       position: 'relative',
       overflow: 'hidden',
     }}>
-      {/* Grid lines */}
+      {/* Subtle grid */}
       <div style={{
         position: 'absolute', inset: 0, pointerEvents: 'none',
-        backgroundImage: `linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px)`,
-        backgroundSize: '64px 64px',
-        maskImage: 'radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 100%)',
-        WebkitMaskImage: 'radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 100%)',
+        backgroundImage: `linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px)`,
+        backgroundSize: '72px 72px',
+        maskImage: 'radial-gradient(ellipse 70% 50% at 50% 0%, black 30%, transparent 100%)',
+        WebkitMaskImage: 'radial-gradient(ellipse 70% 50% at 50% 0%, black 30%, transparent 100%)',
+      }} />
+      {/* Glow */}
+      <div style={{
+        position: 'absolute', top: -100, left: '50%', transform: 'translateX(-50%)',
+        width: 600, height: 400,
+        background: 'radial-gradient(ellipse at center, rgba(0,161,157,0.11) 0%, transparent 70%)',
+        pointerEvents: 'none',
       }} />
 
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
 
-        {/* Announcement pill */}
-        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 32 }}>
+        {/* Top label */}
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 40 }}>
           <div style={{
-            display: 'inline-flex', alignItems: 'center', gap: 10,
-            padding: '6px 18px', borderRadius: 999,
-            background: 'var(--bg-surface)', border: '1px solid rgba(0,161,157,0.35)',
-            fontSize: 12, color: 'var(--text-2)',
-            boxShadow: '0 4px 16px rgba(0,0,0,0.2)',
+            display: 'inline-flex', alignItems: 'center', gap: 8,
+            padding: '5px 14px', borderRadius: 999,
+            background: 'transparent', border: '1px solid var(--border-mid)',
+            fontSize: 11, color: 'var(--text-3)', letterSpacing: '0.07em', textTransform: 'uppercase',
+            fontFamily: 'var(--font-mono)',
           }}>
-            <span style={{ width: 7, height: 7, borderRadius: '50%', background: 'var(--teal)', display: 'inline-block' }} />
-            <span style={{ color: 'var(--teal)', fontWeight: 700, letterSpacing: '0.06em', fontSize: 11 }}>QOLVE SYSTEMS</span>
-            <span style={{ color: 'var(--text-3)' }}>|</span>
-            <span>Home of <strong style={{ color: 'var(--text-1)' }}>Quelp</strong> White-Label Helpdesk</span>
+            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e', display: 'inline-block' }} />
+            Qolve — UK software studio
           </div>
         </div>
 
-        {/* Headline */}
-        <div style={{ textAlign: 'center', maxWidth: 860, margin: '0 auto', marginBottom: 64 }}>
-          <h1 className="display-xl animate-fadeUp" style={{ marginBottom: 24, lineHeight: 1.1 }}>
-            Building the next era of{' '}
-            <br />
-            <span className="grad-text">intuitive AI applications.</span>
+        {/* Headline — direct, no fluff */}
+        <div style={{ textAlign: 'center', maxWidth: 780, margin: '0 auto', marginBottom: 40 }}>
+          <h1 className="display-xl animate-fadeUp" style={{ marginBottom: 28, lineHeight: 1.08 }}>
+            We build software<br />
+            that <span className="grad-text">actually works.</span>
           </h1>
 
-          <p className="body-lg animate-fadeUp delay-100" style={{ maxWidth: 620, margin: '0 auto 36px', color: 'var(--text-2)' }}>
-            Qolve is a modern software studio crafting robust, human-centric software. We build tools that make technology feel like a natural extension of your team — starting with our flagship platform, <span style={{ color: 'var(--text-1)', fontWeight: 600 }}>Quelp</span>.
+          <p className="body-lg animate-fadeUp delay-100" style={{ maxWidth: 560, margin: '0 auto 40px', color: 'var(--text-2)' }}>
+            Qolve is a small team of engineers, designers and operators. We build Quelp — a white-label helpdesk platform for businesses that want proper customer support without the enterprise price tag.
           </p>
 
           <div className="animate-fadeUp delay-200" style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
             <button onClick={() => onNavigate('quelp')} className="btn-primary">
-              Explore Quelp SaaS
-              <ArrowRight size={16} />
+              See what we're building
+              <ArrowRight size={15} />
             </button>
             <a href="#team" className="btn-ghost">
-              Meet Our Team
+              Who we are
             </a>
           </div>
         </div>
 
-        {/* Window mockup */}
+        {/* Simple divider with stats — no mockup */}
         <div className="animate-fadeUp delay-300" style={{
-          maxWidth: 900, margin: '0 auto 64px',
-          background: 'var(--bg-surface)',
-          border: '1px solid var(--border-mid)',
-          borderRadius: 18,
-          overflow: 'hidden',
-          boxShadow: '0 32px 80px rgba(0,0,0,0.45)',
-        }}>
-          {/* Title bar */}
-          <div style={{
-            background: 'var(--bg-void)',
-            padding: '12px 20px',
-            borderBottom: '1px solid var(--border-sub)',
-            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          }}>
-            <div style={{ display: 'flex', gap: 7 }}>
-              {['#ff5f56', '#ffbd2e', '#27c93f'].map(c => (
-                <div key={c} style={{ width: 12, height: 12, borderRadius: '50%', background: c }} />
-              ))}
-            </div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--text-3)' }}>qolve.systems / company-overview</div>
-            <div style={{
-              padding: '2px 10px', borderRadius: 4,
-              background: 'rgba(0,161,157,0.15)', border: '1px solid rgba(0,161,157,0.25)',
-              fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--text-teal)',
-            }}>v1.0 Operational</div>
-          </div>
-
-          {/* Inner grid */}
-          <div style={{
-            padding: '32px',
-            background: 'var(--bg-base)',
-            display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20,
-          }}>
-            {[
-              { icon: Sparkles, color: 'var(--teal)', bg: 'rgba(0,161,157,0.12)', title: 'Human-Centric AI', body: 'Developing intelligent assistants that behave like real team members, avoiding frustrating bot loops.' },
-              { icon: Shield, color: '#008082', bg: 'rgba(0,128,130,0.12)', title: 'White-Label First', body: 'Empowering SMBs to deliver fully branded customer support experiences under their own name.' },
-              { icon: Cpu, color: 'var(--text-3)', bg: 'rgba(99,125,140,0.12)', title: 'Atomic Engineering', body: 'Building lean, robust systems designed to minimize token waste and maximize operational efficiency.' },
-            ].map(({ icon: Icon, color, bg, title, body }) => (
-              <div key={title} style={{
-                background: 'var(--bg-surface)', padding: 20,
-                borderRadius: 12, border: '1px solid var(--border-sub)',
-              }}>
-                <div style={{
-                  width: 40, height: 40, borderRadius: 10, background: bg,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 14,
-                }}>
-                  <Icon size={20} style={{ color }} />
-                </div>
-                <div style={{ fontWeight: 600, fontSize: 14, color: 'var(--text-1)', marginBottom: 8 }}>{title}</div>
-                <p style={{ fontSize: 12.5, color: 'var(--text-2)', lineHeight: 1.65 }}>{body}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* 4-column stat strip */}
-        <div className="animate-fadeUp delay-400" style={{
-          display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)',
-          border: '1px solid var(--border-mid)', borderRadius: 14,
-          background: 'var(--bg-surface)', overflow: 'hidden',
+          maxWidth: 760, margin: '64px auto 0',
+          display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)',
+          borderTop: '1px solid var(--border-sub)',
+          paddingTop: 40, gap: 0,
         }}>
           {[
-            { value: 'Qolve',    sub: 'Software Studio' },
-            { value: 'Quelp',    sub: 'Flagship AI Helpdesk', teal: true },
-            { value: '6 Founders', sub: 'Dedicated Roles' },
-            { value: 'UK Based', sub: 'Registered Company' },
+            { value: 'Quelp', label: 'Our flagship product', sub: 'White-label helpdesk SaaS' },
+            { value: 'UK', label: 'Where we are', sub: 'Registered & operating in Britain' },
+            { value: '5 people', label: 'The whole team', sub: 'Engineering, product & sales' },
           ].map((s, i) => (
-            <div
-              key={i}
-              style={{
-                padding: '22px 16px', textAlign: 'center',
-                borderRight: i < 3 ? '1px solid var(--border-sub)' : 'none',
-                transition: 'background 0.2s',
-                cursor: 'default',
-              }}
-              onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.03)'}
-              onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
-            >
+            <div key={i} style={{
+              padding: '0 32px',
+              borderLeft: i > 0 ? '1px solid var(--border-sub)' : 'none',
+              textAlign: i === 1 ? 'center' : i === 2 ? 'right' : 'left',
+            }}>
               <div style={{
-                fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 20,
-                color: s.teal ? 'var(--text-teal)' : 'var(--text-1)', marginBottom: 5,
+                fontFamily: 'var(--font-display)', fontWeight: 800,
+                fontSize: 'clamp(1.3rem, 2.5vw, 1.9rem)',
+                color: 'var(--text-1)', letterSpacing: '-0.03em', marginBottom: 6,
               }}>{s.value}</div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--text-3)' }}>{s.sub}</div>
+              <div style={{ fontSize: 12, color: 'var(--text-3)', fontFamily: 'var(--font-mono)', marginBottom: 3 }}>{s.label}</div>
+              <div style={{ fontSize: 11.5, color: 'var(--text-3)' }}>{s.sub}</div>
             </div>
           ))}
         </div>

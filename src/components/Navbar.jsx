@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Sparkles, Menu, X, ChevronRight, Layers } from 'lucide-react';
+import { Menu, X, ChevronRight } from 'lucide-react';
 
 export default function Navbar({ activePage, onNavigate }) {
   const [scrolled, setScrolled]         = useState(false);
@@ -36,17 +36,13 @@ export default function Navbar({ activePage, onNavigate }) {
           {/* Logo */}
           <button onClick={() => onNavigate('home')} style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer' }}>
             <div style={{
-              width: 36, height: 36,
+              width: 32, height: 32,
               background: 'linear-gradient(135deg, var(--teal), var(--teal-deep))',
-              borderRadius: 10,
+              borderRadius: 9,
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 18, color: 'white',
-              boxShadow: '0 0 20px rgba(0,161,157,0.3)',
+              fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 16, color: 'white',
             }}>Q</div>
-            <div>
-              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 16, letterSpacing: '-0.02em', color: 'var(--text-1)', lineHeight: 1.2 }}>QOLVE</div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 9, color: 'var(--text-3)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Systems & AI</div>
-            </div>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 15, letterSpacing: '-0.02em', color: 'var(--text-1)' }}>Qolve</div>
           </button>
 
           {/* Desktop Nav */}
@@ -74,7 +70,6 @@ export default function Navbar({ activePage, onNavigate }) {
                 onMouseEnter={e => { e.currentTarget.style.color = link.highlight ? 'var(--text-teal)' : 'var(--text-1)'; e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; }}
                 onMouseLeave={e => { e.currentTarget.style.color = link.highlight ? 'var(--text-teal)' : activePage === link.page ? 'var(--text-1)' : 'var(--text-3)'; e.currentTarget.style.background = activePage === link.page ? 'rgba(255,255,255,0.06)' : 'transparent'; }}
               >
-                {link.highlight && <Sparkles size={12} />}
                 {link.label}
               </button>
             ))}
@@ -87,7 +82,7 @@ export default function Navbar({ activePage, onNavigate }) {
               className="btn-primary"
               style={{ padding: '9px 20px', fontSize: 13 }}
             >
-              Discover Quelp
+              View Quelp
               <ChevronRight size={14} />
             </button>
           </div>
@@ -133,7 +128,6 @@ export default function Navbar({ activePage, onNavigate }) {
                 cursor: 'pointer',
               }}
             >
-              {link.highlight && <Sparkles size={16} />}
               {link.label}
             </button>
           ))}
@@ -143,7 +137,7 @@ export default function Navbar({ activePage, onNavigate }) {
               className="btn-primary"
               style={{ width: '100%', justifyContent: 'center' }}
             >
-              Discover Quelp <ChevronRight size={16} />
+              View Quelp <ChevronRight size={16} />
             </button>
           </div>
         </div>
