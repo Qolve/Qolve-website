@@ -1,27 +1,24 @@
 import React, { useState } from 'react';
-import { ArrowRight, Lock, ShieldCheck, CheckCircle2, ChevronRight, Terminal, RefreshCw, Layers } from 'lucide-react';
+import { ArrowRight, Lock, CheckCircle2 } from 'lucide-react';
 
 export default function HeroSection({ onNavigate, onOpenContact }) {
-  const [demoBrand, setDemoBrand] = useState('acme'); // acme, techflow, qolve
+  const [demoBrand, setDemoBrand] = useState('acme');
 
   const brandStyles = {
     acme: {
       name: 'Acme Retail Ltd',
       domain: 'support.acme-retail.co.uk',
-      accent: '#14b8a6',
-      badge: 'Acme Brand Theme'
+      accent: '#14b8a6'
     },
     techflow: {
       name: 'TechFlow Cloud',
       domain: 'help.techflow.io',
-      accent: '#00d2ff',
-      badge: 'TechFlow Brand Theme'
+      accent: '#00d2ff'
     },
     qolve: {
       name: 'Default Workspace',
       domain: 'support.yourbrand.com',
-      accent: '#10b981',
-      badge: 'White-Label Preview'
+      accent: '#10b981'
     }
   };
 
@@ -29,26 +26,25 @@ export default function HeroSection({ onNavigate, onOpenContact }) {
 
   return (
     <section className="relative pt-32 pb-24 md:pt-40 md:pb-32 overflow-hidden bg-slate-950">
-      {/* Background Subtle Gradient Glows */}
+      {/* Background Glow */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-teal-500/10 blur-[140px] rounded-full pointer-events-none"></div>
 
       <div className="container-custom relative z-10">
-        {/* Main Hero Header */}
         <div className="max-w-3xl mx-auto text-center space-y-6">
-          {/* Status Badge */}
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-teal-400 text-xs font-mono font-medium">
+          {/* Badge */}
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-teal-400 text-xs font-mono font-medium">
             <span className="w-2 h-2 rounded-full bg-teal-400 animate-pulse"></span>
-            <span>Flagship SaaS in Build: Quelp Helpdesk V1</span>
+            <span>Flagship B2B Platform: Quelp</span>
           </div>
 
           {/* Main Title */}
           <h1 className="text-4xl md:text-6xl font-extrabold font-display text-white tracking-tight leading-[1.15]">
-            White-Label Customer Support <span className="text-gradient">Built for SMBs.</span>
+            White-Label Support Software <span className="text-gradient">Built for SMBs.</span>
           </h1>
 
           {/* Subtitle */}
           <p className="text-slate-300 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
-            Qolve engineers enterprise-grade, fully branded SaaS platforms for growing businesses. Replace expensive per-seat software bills with platforms branded entirely as your own.
+            Qolve engineers enterprise-grade, fully branded SaaS platforms. Replace expensive per-seat software bills with platforms branded entirely as your own.
           </p>
 
           {/* Buttons */}
@@ -57,19 +53,19 @@ export default function HeroSection({ onNavigate, onOpenContact }) {
               onClick={() => onNavigate('quelp')}
               className="btn-primary text-sm px-6 py-3 w-full sm:w-auto justify-center"
             >
-              Explore Quelp Specs <ArrowRight size={16} />
+              Explore Quelp Platform <ArrowRight size={16} />
             </button>
 
             <button
               onClick={onOpenContact}
               className="btn-secondary text-sm px-6 py-3 w-full sm:w-auto justify-center"
             >
-              Request B2B Pilot Access
+              Request Access
             </button>
           </div>
         </div>
 
-        {/* Browser Mockup / Interactive Platform Preview */}
+        {/* Browser Mockup */}
         <div className="mt-16 max-w-5xl mx-auto bento-card-accent p-2 md:p-3 relative shadow-2xl">
           <div className="bg-slate-950 rounded-xl overflow-hidden border border-white/10">
             {/* Top Browser Bar */}
@@ -100,16 +96,15 @@ export default function HeroSection({ onNavigate, onOpenContact }) {
               </div>
             </div>
 
-            {/* Helpdesk Dashboard Interface Preview */}
+            {/* Helpdesk Interface Preview */}
             <div className="p-6 grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
-              {/* Left Column - Product Highlights */}
               <div className="md:col-span-5 space-y-4 text-left">
                 <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded bg-teal-500/10 text-teal-300 text-xs font-mono border border-teal-500/30">
                   <Lock size={12} /> 100% Branded Experience
                 </div>
 
                 <h3 className="text-2xl font-bold font-display text-white">
-                  Quelp Helpdesk Engine
+                  Quelp Helpdesk Platform
                 </h3>
 
                 <p className="text-xs text-slate-300 leading-relaxed">
@@ -170,7 +165,7 @@ export default function HeroSection({ onNavigate, onOpenContact }) {
                   </div>
                   <div className="text-[11px] text-slate-400">From: dev@client.com • Priority: High</div>
                   <div className="text-[11px] text-amber-200/90 pt-1 border-t border-white/5 font-sans italic">
-                    "Flowchart Guardrail: Transferred directly to senior support engineer (Freddie H)."
+                    "Flowchart Guardrail: Transferred directly to senior support engineer."
                   </div>
                 </div>
               </div>

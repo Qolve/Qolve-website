@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import HeroSection from './components/HeroSection';
 import QuelpSpotlight from './components/QuelpSpotlight';
 import ArchitectureSection from './components/ArchitectureSection';
 import SavingsCalculator from './components/SavingsCalculator';
 import TeamSection from './components/TeamSection';
-import RoadmapWidget from './components/RoadmapWidget';
 import CompanyWidget from './components/CompanyWidget';
 import Footer from './components/Footer';
 import ContactModal from './components/ContactModal';
@@ -33,7 +32,7 @@ export default function App() {
   const handleCloseContact = () => setIsContactOpen(false);
 
   return (
-    <div style={{ minHeight: '100vh', background: 'var(--bg-base)', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ minHeight: '100vh', background: 'var(--bg-dark)', display: 'flex', flexDirection: 'column' }}>
       <Navbar activePage={activePage} onNavigate={navigate} onOpenContact={handleOpenContact} />
 
       <main
@@ -51,7 +50,6 @@ export default function App() {
             <ArchitectureSection />
             <SavingsCalculator onOpenContact={handleOpenContact} />
             <TeamSection />
-            <RoadmapWidget onOpenContact={handleOpenContact} />
             <CompanyWidget />
           </>
         )}
@@ -63,7 +61,7 @@ export default function App() {
 
       <Footer onNavigate={navigate} onOpenContact={handleOpenContact} />
 
-      {/* Global Early Access & Partnership Modal */}
+      {/* Global Contact & Early Access Modal */}
       <ContactModal isOpen={isContactOpen} onClose={handleCloseContact} />
     </div>
   );

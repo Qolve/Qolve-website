@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, ArrowUpRight, Lock } from 'lucide-react';
+import { Menu, X, ArrowUpRight } from 'lucide-react';
 
 export default function Navbar({ activePage, onNavigate, onOpenContact }) {
   const [scrolled, setScrolled] = useState(false);
@@ -17,8 +17,7 @@ export default function Navbar({ activePage, onNavigate, onOpenContact }) {
     { label: 'B2B Solutions', page: 'solutions', action: () => onNavigate('solutions') },
     { label: 'Applications', page: 'apps', action: () => onNavigate('apps') },
     { label: 'Architecture', action: () => { onNavigate('home'); setTimeout(() => document.getElementById('architecture')?.scrollIntoView({ behavior: 'smooth' }), 100); } },
-    { label: 'Team', action: () => { onNavigate('home'); setTimeout(() => document.getElementById('team')?.scrollIntoView({ behavior: 'smooth' }), 100); } },
-    { label: 'Roadmap', action: () => { onNavigate('home'); setTimeout(() => document.getElementById('roadmap')?.scrollIntoView({ behavior: 'smooth' }), 100); } }
+    { label: 'Team', action: () => { onNavigate('home'); setTimeout(() => document.getElementById('team')?.scrollIntoView({ behavior: 'smooth' }), 100); } }
   ];
 
   return (
