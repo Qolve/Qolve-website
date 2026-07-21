@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, ChevronRight } from 'lucide-react';
+import { Menu, X, ChevronRight, Sparkles, Command } from 'lucide-react';
 
-export default function Navbar({ activePage, onNavigate }) {
-  const [scrolled, setScrolled]         = useState(false);
-  const [mobileOpen, setMobileOpen]     = useState(false);
+export default function Navbar({ activePage, onNavigate, onOpenContact }) {
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -12,132 +12,120 @@ export default function Navbar({ activePage, onNavigate }) {
   }, []);
 
   const navLinks = [
-    { label: 'About',       action: () => { onNavigate('home'); setTimeout(() => { document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' }); }, 200); } },
-    { label: 'Quelp',       action: () => onNavigate('quelp'), page: 'quelp', highlight: true },
-    { label: 'Applications',action: () => onNavigate('apps'),  page: 'apps'  },
-    { label: 'Team',        action: () => { onNavigate('home'); setTimeout(() => { document.getElementById('team')?.scrollIntoView({ behavior: 'smooth' }); }, 200); } },
-    { label: 'Beliefs',     action: () => { onNavigate('home'); setTimeout(() => { document.getElementById('beliefs')?.scrollIntoView({ behavior: 'smooth' }); }, 200); } },
+    { label: 'Overview', page: 'home', action: () => onNavigate('home') },
+    { label: 'Quelp', page: 'quelp', action: () => onNavigate('quelp'), highlight: true },
+    { label: 'B2B Solutions', page: 'solutions', action: () => onNavigate('solutions') },
+    { label: 'Applications', page: 'apps', action: () => onNavigate('apps') },
+    { label: 'Architecture', action: () => { onNavigate('home'); setTimeout(() => document.getElementById('architecture')?.scrollIntoView({ behavior: 'smooth' }), 150); } },
+    { label: 'Team', action: () => { onNavigate('home'); setTimeout(() => document.getElementById('team')?.scrollIntoView({ behavior: 'smooth' }), 150); } },
+    { label: 'Roadmap', action: () => { onNavigate('home'); setTimeout(() => document.getElementById('roadmap')?.scrollIntoView({ behavior: 'smooth' }), 150); } },
   ];
 
   return (
     <>
       <header
-        className="fixed z-50"
+        className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
         style={{
-          top: 0, left: 0, right: 0,
-          transition: 'all 0.3s ease',
-          background: scrolled ? 'rgba(8,13,16,0.92)' : 'transparent',
-          backdropFilter: scrolled ? 'blur(20px)' : 'none',
-          borderBottom: scrolled ? '1px solid rgba(255,255,255,0.07)' : '1px solid transparent',
+          background: scrolled ? 'rgba(7, 10, 14, 0.92)' : 'rgba(7, 10, 14, 0.4)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          borderBottom: scrolled ? '1px solid rgba(255,255,255,0.08)' : '1px solid transparent',
         }}
       >
-        <div className="container" style={{ height: 68, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-
+        <div className="container-custom h-20 flex items-center justify-between">
           {/* Logo */}
-          <button onClick={() => onNavigate('home')} style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer' }}>
-            <div style={{
-              width: 32, height: 32,
-              background: 'linear-gradient(135deg, var(--teal), var(--teal-deep))',
-              borderRadius: 9,
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 16, color: 'white',
-            }}>Q</div>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 15, letterSpacing: '-0.02em', color: 'var(--text-1)' }}>Qolve</div>
+          <button
+            onClick={() => onNavigate('home')}
+            className="flex items-center gap-3 cursor-pointer group text-left"
+          >
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-teal-400 to-teal-700 flex items-center justify-center font-display font-extrabold text-xl text-slate-950 shadow-lg shadow-teal-500/20 group-hover:scale-105 transition-transform">
+              Q
+            </div>
+            <div>
+              <div className="font-display font-bold text-lg text-white tracking-tight leading-tight flex items-center gap-1.5">
+                Qolve <span className="text-[10px] font-mono font-medium px-1.5 py-0.5 rounded bg-teal-500/10 border border-teal-500/30 text-teal-300">B2B</span>
+              </div>
+              <div className="text-[11px] text-slate-400 font-mono">White-Label Systems</div>
+            </div>
           </button>
 
-          {/* Desktop Nav */}
-          <nav className="hide-mobile" style={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-            {navLinks.map(link => (
-              <button
-                key={link.label}
-                onClick={link.action}
-                style={{
-                  padding: '6px 14px',
-                  borderRadius: 8,
-                  fontSize: 13,
-                  fontWeight: 500,
-                  cursor: 'pointer',
-                  transition: 'all 0.15s ease',
-                  color: link.highlight
-                    ? 'var(--text-teal)'
-                    : activePage === link.page
-                    ? 'var(--text-1)'
-                    : 'var(--text-3)',
-                  background: activePage === link.page ? 'rgba(255,255,255,0.06)' : 'transparent',
-                  border: link.highlight ? '1px solid rgba(0,161,157,0.25)' : '1px solid transparent',
-                  display: 'flex', alignItems: 'center', gap: 5,
-                }}
-                onMouseEnter={e => { e.currentTarget.style.color = link.highlight ? 'var(--text-teal)' : 'var(--text-1)'; e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; }}
-                onMouseLeave={e => { e.currentTarget.style.color = link.highlight ? 'var(--text-teal)' : activePage === link.page ? 'var(--text-1)' : 'var(--text-3)'; e.currentTarget.style.background = activePage === link.page ? 'rgba(255,255,255,0.06)' : 'transparent'; }}
-              >
-                {link.label}
-              </button>
-            ))}
+          {/* Desktop Navigation */}
+          <nav className="hide-mobile flex items-center gap-1 bg-slate-900/60 p-1.5 rounded-xl border border-slate-800/80">
+            {navLinks.map((link) => {
+              const isActive = activePage === link.page;
+              return (
+                <button
+                  key={link.label}
+                  onClick={link.action}
+                  className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+                    link.highlight
+                      ? 'bg-teal-500/10 text-teal-300 border border-teal-500/30 hover:bg-teal-500/20'
+                      : isActive
+                      ? 'bg-slate-800 text-white shadow-sm'
+                      : 'text-slate-400 hover:text-white hover:bg-slate-800/50'
+                  }`}
+                >
+                  {link.label}
+                </button>
+              );
+            })}
           </nav>
 
-          {/* CTA */}
-          <div className="hide-mobile" style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          {/* Actions */}
+          <div className="hide-mobile flex items-center gap-3">
             <button
               onClick={() => onNavigate('quelp')}
-              className="btn-primary"
-              style={{ padding: '9px 20px', fontSize: 13 }}
+              className="text-xs font-semibold text-slate-300 hover:text-white px-3 py-2 transition-colors cursor-pointer"
             >
-              View Quelp
-              <ChevronRight size={14} />
+              Explore Quelp
+            </button>
+            <button
+              onClick={onOpenContact}
+              className="btn-primary py-2 px-4 text-xs"
+            >
+              Request Access <ChevronRight size={14} />
             </button>
           </div>
 
           {/* Mobile burger */}
           <button
-            className="show-mobile-only"
+            className="show-mobile-only p-2 text-slate-300 hover:text-white cursor-pointer"
             onClick={() => setMobileOpen(!mobileOpen)}
-            style={{ padding: 8, color: 'var(--text-2)', cursor: 'pointer' }}
+            aria-label="Toggle Menu"
           >
-            {mobileOpen ? <X size={22} /> : <Menu size={22} />}
+            {mobileOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
       </header>
 
       {/* Mobile Drawer */}
       {mobileOpen && (
-        <div
-          className="show-mobile-only fixed z-50"
-          style={{
-            top: 68, left: 0, right: 0, bottom: 0,
-            background: 'rgba(8,13,16,0.97)',
-            backdropFilter: 'blur(20px)',
-            borderTop: '1px solid var(--border-mid)',
-            padding: 24,
-            display: 'flex', flexDirection: 'column', gap: 8,
-            animation: 'fadeIn 0.2s ease',
-          }}
-        >
-          {navLinks.map(link => (
+        <div className="show-mobile-only fixed inset-0 z-40 bg-slate-950/95 backdrop-blur-2xl pt-24 px-6 pb-8 flex flex-col justify-between animate-fadeIn">
+          <div className="space-y-3">
+            {navLinks.map((link) => (
+              <button
+                key={link.label}
+                onClick={() => {
+                  link.action();
+                  setMobileOpen(false);
+                }}
+                className="w-full text-left py-3 px-4 rounded-xl text-lg font-display font-semibold text-slate-200 hover:text-white hover:bg-slate-900 border-b border-slate-800/60 flex items-center justify-between"
+              >
+                <span>{link.label}</span>
+                <ChevronRight size={16} className="text-slate-500" />
+              </button>
+            ))}
+          </div>
+
+          <div className="space-y-3 pt-6 border-t border-slate-800">
             <button
-              key={link.label}
-              onClick={() => { link.action(); setMobileOpen(false); }}
-              style={{
-                padding: '16px 0',
-                textAlign: 'left',
-                fontSize: 18,
-                fontFamily: 'var(--font-display)',
-                fontWeight: 600,
-                color: link.highlight ? 'var(--text-teal)' : 'var(--text-1)',
-                borderBottom: '1px solid var(--border-sub)',
-                display: 'flex', alignItems: 'center', gap: 8,
-                cursor: 'pointer',
+              onClick={() => {
+                onOpenContact();
+                setMobileOpen(false);
               }}
+              className="btn-primary w-full justify-center py-3 text-sm"
             >
-              {link.label}
-            </button>
-          ))}
-          <div style={{ marginTop: 24 }}>
-            <button
-              onClick={() => { onNavigate('quelp'); setMobileOpen(false); }}
-              className="btn-primary"
-              style={{ width: '100%', justifyContent: 'center' }}
-            >
-              View Quelp <ChevronRight size={16} />
+              Request Early Access <ChevronRight size={16} />
             </button>
           </div>
         </div>

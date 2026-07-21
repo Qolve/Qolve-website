@@ -1,232 +1,283 @@
 import React, { useState } from 'react';
-import { Sparkles, ShieldCheck, Mail, Zap, CheckCircle2, ArrowRight } from 'lucide-react';
+import { Bot, User, Send, ShieldCheck, RefreshCw, FileText, CheckCircle2, ArrowRight, CornerDownRight, Sparkles, Building, Lock } from 'lucide-react';
 
-const tabs = [
-  {
-    id: 'helpdesk',
-    icon: Mail,
-    label: 'Unified Helpdesk',
-    title: 'One Centralised Place for Customer Support',
-    body: 'Quelp replaces fragmented email inboxes and complex legacy platforms. Receive customer enquiries from email, web widgets, and customer portals directly in one unified queue with assignment, tagging, and priority tracking.',
-    bullets: [
-      'Threaded email ticketing & customer profiles',
-      'Agent assignment, teams & priority queues',
-      'Knowledge base & public help centre',
-      'Performance reports (SLA, resolution time)',
-    ],
-    color: 'var(--teal)',
-    bg: 'rgba(0,161,157,0.12)',
-  },
-  {
-    id: 'whitelabel',
-    icon: ShieldCheck,
-    label: 'White-Label Control',
-    title: 'Your Brand, Front & Centre',
-    body: "White-labelling is built into Quelp's core architecture. Customise your support portal, agent workspace, emails, widgets, and custom domain so your customer experience feels 100% native.",
-    bullets: [
-      'Custom support subdomains & custom DNS',
-      'Logo, favicon & primary brand colour styling',
-      'Branded transactional email templates',
-      'No "Powered by" watermarks on white-label plans',
-    ],
-    color: '#008082',
-    bg: 'rgba(0,128,130,0.12)',
-  },
-  {
-    id: 'ai',
-    icon: Zap,
-    label: 'Grounded AI Engine',
-    title: 'Grounded AI Assistance & Cost Control',
-    body: 'Quelp uses AI to summarise long threads, auto-tag incoming tickets, and draft grounded responses based on your knowledge base. When an issue requires human attention, it escalates instantly with full transcript context.',
-    bullets: [
-      'Fast human handoff over fake AI confidence',
-      'Strict scope boundaries to stop token waste & jailbreaks',
-      'One-click AI draft generation for agents',
-      'Transparent token usage & predictable costs',
-    ],
-    color: 'var(--text-3)',
-    bg: 'rgba(99,125,140,0.12)',
-  },
-];
+export default function QuelpSpotlight({ onNavigate, onOpenContact }) {
+  const [activeTab, setActiveTab] = useState('demo');
+  const [selectedBrand, setSelectedBrand] = useState('acme'); // acme, techflow, qolve
+  const [chatInput, setChatInput] = useState('');
+  
+  // Interactive Chat Simulator State
+  const [messages, setMessages] = useState([
+    {
+      sender: 'bot',
+      text: 'Hello! Welcome to Support. How can I assist you with your order or account today?',
+      grounded: true,
+      citation: 'KB-101: General Support Policy'
+    }
+  ]);
 
-export default function QuelpSpotlight({ onNavigate }) {
-  const [active, setActive] = useState('helpdesk');
-  const tab = tabs.find(t => t.id === active);
-  const TabIcon = tab.icon;
+  const brandPresets = {
+    acme: {
+      name: 'Acme Retail Ltd',
+      color: '#00C4B4',
+      bg: '#0a1518',
+      header: 'Acme Support Hub'
+    },
+    techflow: {
+      name: 'TechFlow Cloud',
+      color: '#00d2ff',
+      bg: '#0b1320',
+      header: 'TechFlow Helpdesk'
+    },
+    qolve: {
+      name: 'Quelp Default',
+      color: '#10b981',
+      bg: '#080d12',
+      header: 'Customer Portal'
+    }
+  };
+
+  const currentBrand = brandPresets[selectedBrand];
+
+  const handleSendMessage = (textToSend) => {
+    const text = textToSend || chatInput;
+    if (!text.trim()) return;
+
+    // Add user message
+    const newMsgs = [...messages, { sender: 'user', text }];
+    setMessages(newMsgs);
+    setChatInput('');
+
+    // Simulate Quelp's deterministic grounded response vs instant human handoff
+    setTimeout(() => {
+      const lower = text.toLowerCase();
+      if (lower.includes('human') || lower.includes('agent') || lower.includes('person') || lower.includes('refund')) {
+        setMessages([
+          ...newMsgs,
+          {
+            sender: 'bot',
+            text: 'I have transferred your ticket directly to our support team agent. A human representative will take over this thread immediately with your full conversation history.',
+            escalated: true,
+            citation: 'Flowchart Gate: Immediate Human Handoff Triggered'
+          }
+        ]);
+      } else if (lower.includes('return') || lower.includes('policy')) {
+        setMessages([
+          ...newMsgs,
+          {
+            sender: 'bot',
+            text: 'Our return policy allows items to be returned within 30 days of delivery in original packaging. Would you like me to generate a prepaid return label for your order?',
+            grounded: true,
+            citation: 'KB-204: Returns & Replacements Guide'
+          }
+        ]);
+      } else {
+        setMessages([
+          ...newMsgs,
+          {
+            sender: 'bot',
+            text: 'Thank you for your message. I have indexed your request against our knowledge articles. Is there anything specific regarding your account or order number I can check?',
+            grounded: true,
+            citation: 'KB-102: Account & Order Verification'
+          }
+        ]);
+      }
+    }, 600);
+  };
 
   return (
-    <section id="quelp" style={{
-      padding: '100px 0',
-      background: 'var(--bg-void)',
-      borderTop: '1px solid var(--border-sub)',
-    }}>
-      <div className="container">
-
-        {/* Header */}
-        <div style={{ textAlign: 'center', maxWidth: 640, margin: '0 auto 56px' }}>
-          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 20 }}>
-            <div className="pill pill-teal"><Sparkles size={11} /> Flagship Product Application</div>
-          </div>
-          <h2 className="display-lg" style={{ marginBottom: 16 }}>
-            Meet <span className="grad-text">Quelp</span>
+    <section id="quelp" className="py-24 relative overflow-hidden bg-slate-950/80">
+      <div className="container-custom relative z-10">
+        {/* Section Header */}
+        <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+          <span className="badge-teal inline-flex items-center gap-1.5">
+            <Sparkles size={14} /> Flagship Software Project
+          </span>
+          <h2 className="text-3xl md:text-5xl font-bold font-display text-white tracking-tight">
+            Quelp: The White-Label Support Platform
           </h2>
-          <p className="body-lg" style={{ color: 'var(--text-2)' }}>
-            The white-label customer support & helpdesk platform engineered by Qolve for growing businesses that need enterprise-grade tools without enterprise price tags.
+          <p className="text-slate-300 text-base md:text-lg">
+            Everything SMBs need from Zendesk or Gorgias—re-engineered for affordability, 100% white-label identity, and safe human-like AI assistance.
           </p>
         </div>
 
-        {/* Main card */}
-        <div style={{
-          background: 'var(--bg-surface)',
-          borderRadius: 24,
-          border: '1px solid var(--border-mid)',
-          padding: '40px',
-          boxShadow: '0 24px 80px rgba(0,0,0,0.35)',
-        }}>
+        {/* Brand Selector Controls */}
+        <div className="mb-8 p-4 rounded-xl bg-slate-900/90 border border-slate-800 flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-slate-300">
+            <Building size={16} className="text-teal-400" /> Test White-Label Brand Theme:
+          </div>
+          <div className="flex items-center gap-2">
+            {Object.keys(brandPresets).map((bKey) => (
+              <button
+                key={bKey}
+                onClick={() => setSelectedBrand(bKey)}
+                className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
+                  selectedBrand === bKey
+                    ? 'bg-teal-500/20 text-white border border-teal-500/50'
+                    : 'bg-slate-950 text-slate-400 border border-slate-800 hover:text-white'
+                }`}
+              >
+                {brandPresets[bKey].name}
+              </button>
+            ))}
+          </div>
+        </div>
 
-          {/* Tab bar */}
-          <div style={{
-            display: 'flex', flexWrap: 'wrap', gap: 8, justifyContent: 'center',
-            padding: 6, background: 'var(--bg-void)', borderRadius: 16,
-            border: '1px solid var(--border-sub)', marginBottom: 40,
-            maxWidth: 520, margin: '0 auto 40px',
-          }}>
-            {tabs.map(t => {
-              const Icon = t.icon;
-              const isActive = active === t.id;
-              return (
+        {/* Interactive Sandbox Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          {/* Left Column: Interactive Chat Simulation */}
+          <div className="lg:col-span-7 glass-panel-accent p-4 md:p-6 rounded-2xl">
+            <div className="rounded-xl overflow-hidden border border-slate-800" style={{ background: currentBrand.bg }}>
+              {/* Header */}
+              <div className="p-4 border-b border-slate-800 flex items-center justify-between bg-slate-950/60">
+                <div className="flex items-center gap-3">
+                  <div
+                    className="w-8 h-8 rounded-lg flex items-center justify-center font-bold text-slate-950 text-xs font-display"
+                    style={{ background: currentBrand.color }}
+                  >
+                    {currentBrand.name.substring(0, 1)}
+                  </div>
+                  <div>
+                    <div className="text-sm font-bold text-white font-display">{currentBrand.header}</div>
+                    <div className="text-[11px] text-slate-400 flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                      <span>100% Branded Experience</span>
+                    </div>
+                  </div>
+                </div>
+
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-900 text-slate-400 border border-slate-800">
+                  Quelp Engine
+                </span>
+              </div>
+
+              {/* Chat Messages Body */}
+              <div className="p-4 h-[320px] overflow-y-auto space-y-3 font-body text-xs">
+                {messages.map((m, idx) => (
+                  <div
+                    key={idx}
+                    className={`flex flex-col ${m.sender === 'user' ? 'items-end' : 'items-start'}`}
+                  >
+                    <div
+                      className={`max-w-[85%] p-3 rounded-xl ${
+                        m.sender === 'user'
+                          ? 'bg-teal-500 text-slate-950 font-medium rounded-br-none'
+                          : m.escalated
+                          ? 'bg-amber-950/70 border border-amber-500/40 text-amber-100 rounded-bl-none'
+                          : 'bg-slate-900 border border-slate-800 text-slate-200 rounded-bl-none'
+                      }`}
+                    >
+                      <p>{m.text}</p>
+                    </div>
+
+                    {m.citation && (
+                      <div className="mt-1 flex items-center gap-1 text-[10px] text-slate-400 font-mono">
+                        <FileText size={10} className="text-teal-400" />
+                        <span>{m.citation}</span>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+
+              {/* Sample Prompts */}
+              <div className="p-2 bg-slate-950/80 border-t border-slate-800 flex items-center gap-2 overflow-x-auto text-[11px] text-slate-400">
+                <span className="text-slate-500 shrink-0 font-mono">Quick test:</span>
                 <button
-                  key={t.id}
-                  onClick={() => setActive(t.id)}
-                  style={{
-                    flex: 1, minWidth: 140,
-                    padding: '11px 16px',
-                    borderRadius: 12,
-                    fontSize: 13, fontWeight: 600,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7,
-                    cursor: 'pointer', border: 'none',
-                    transition: 'all 0.2s var(--ease-out)',
-                    background: isActive ? 'linear-gradient(135deg, var(--teal), var(--teal-deep))' : 'transparent',
-                    color: isActive ? 'white' : 'var(--text-3)',
-                    boxShadow: isActive ? '0 4px 16px rgba(0,161,157,0.25)' : 'none',
-                  }}
-                  onMouseEnter={e => { if (!isActive) e.currentTarget.style.color = 'var(--text-1)'; }}
-                  onMouseLeave={e => { if (!isActive) e.currentTarget.style.color = 'var(--text-3)'; }}
+                  onClick={() => handleSendMessage('What is your return policy?')}
+                  className="px-2 py-1 rounded bg-slate-900 hover:bg-slate-800 text-slate-300 shrink-0 border border-slate-800"
                 >
-                  <Icon size={15} />
-                  {t.label}
+                  "What is return policy?"
                 </button>
-              );
-            })}
+                <button
+                  onClick={() => handleSendMessage('I want to speak to a real person')}
+                  className="px-2 py-1 rounded bg-slate-900 hover:bg-slate-800 text-teal-300 shrink-0 border border-teal-500/30"
+                >
+                  "Talk to human agent"
+                </button>
+              </div>
+
+              {/* Input Footer */}
+              <div className="p-3 bg-slate-950 border-t border-slate-800 flex items-center gap-2">
+                <input
+                  type="text"
+                  value={chatInput}
+                  onChange={(e) => setChatInput(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
+                  placeholder="Type a customer question..."
+                  className="flex-1 bg-slate-900 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-teal-500"
+                />
+                <button
+                  onClick={() => handleSendMessage()}
+                  className="p-2 rounded-lg bg-teal-500 hover:bg-teal-400 text-slate-950 transition-colors"
+                >
+                  <Send size={14} />
+                </button>
+              </div>
+            </div>
           </div>
 
-          {/* Two-col content */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 40, alignItems: 'center' }}>
-
-            {/* Left — description */}
-            <div key={active} style={{ animation: 'fadeUp 0.35s var(--ease-out) both' }}>
-              <div style={{
-                width: 48, height: 48, borderRadius: 14,
-                background: tab.bg, border: `1px solid ${tab.color}40`,
-                display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 20,
-              }}>
-                <TabIcon size={22} style={{ color: tab.color }} />
+          {/* Right Column: Key Pillars */}
+          <div className="lg:col-span-5 space-y-6">
+            <div className="glass-panel p-6 space-y-4">
+              <div className="flex items-center gap-3">
+                <div className="p-2.5 rounded-lg bg-teal-500/10 border border-teal-500/30 text-teal-400">
+                  <ShieldCheck size={20} />
+                </div>
+                <div>
+                  <h4 className="font-bold font-display text-white text-base">Helpdesk First, AI Second</h4>
+                  <p className="text-xs text-slate-400">Core ticketing functions even if LLMs are offline.</p>
+                </div>
               </div>
-
-              <h3 className="display-md" style={{ marginBottom: 14, color: 'var(--text-1)' }}>{tab.title}</h3>
-              <p style={{ fontSize: 14.5, color: 'var(--text-2)', lineHeight: 1.7, marginBottom: 24 }}>{tab.body}</p>
-
-              <ul style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 32 }}>
-                {tab.bullets.map(b => (
-                  <li key={b} style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 14, color: 'var(--text-2)' }}>
-                    <CheckCircle2 size={15} style={{ color: 'var(--teal)', flexShrink: 0 }} />
-                    {b}
-                  </li>
-                ))}
-              </ul>
-
-              <button
-                onClick={() => onNavigate('quelp')}
-                style={{
-                  display: 'inline-flex', alignItems: 'center', gap: 6,
-                  fontSize: 14, fontWeight: 600, color: 'var(--text-teal)',
-                  background: 'none', border: 'none', cursor: 'pointer',
-                  padding: 0,
-                }}
-                onMouseEnter={e => e.currentTarget.style.textDecoration = 'underline'}
-                onMouseLeave={e => e.currentTarget.style.textDecoration = 'none'}
-              >
-                Learn how the Qolve team builds Quelp
-                <ArrowRight size={15} />
-              </button>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                Quelp is a complete ticketing platform. You get email inbox syncing, ticket assignment, custom tags, agent roles, knowledge base, and SLA tracking—not just an isolated chat bubble.
+              </p>
             </div>
 
-            {/* Right — ticket mockup */}
-            <div key={`mock-${active}`} style={{
-              background: 'var(--bg-void)', borderRadius: 16,
-              border: '1px solid var(--border-mid)', padding: 24,
-              animation: 'fadeUp 0.35s 0.1s var(--ease-out) both',
-            }}>
-              {/* Ticket header */}
-              <div style={{
-                display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                paddingBottom: 16, borderBottom: '1px solid var(--border-sub)', marginBottom: 16,
-              }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                  <span style={{
-                    padding: '3px 10px', borderRadius: 5,
-                    background: 'rgba(0,161,157,0.15)', border: '1px solid rgba(0,161,157,0.25)',
-                    fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700, color: 'var(--text-teal)',
-                  }}>TICK-8402</span>
-                  <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-1)' }}>
-                    Shipping Enquiry & Return Request
-                  </span>
+            <div className="glass-panel p-6 space-y-4">
+              <div className="flex items-center gap-3">
+                <div className="p-2.5 rounded-lg bg-cyan-500/10 border border-cyan-500/30 text-cyan-400">
+                  <Building size={20} />
                 </div>
-                <span style={{
-                  padding: '3px 10px', borderRadius: 5,
-                  background: 'var(--bg-raised)', border: '1px solid var(--border-sub)',
-                  fontSize: 11, color: 'var(--text-3)',
-                }}>Status: Open</span>
+                <div>
+                  <h4 className="font-bold font-display text-white text-base">True White-Label Branding</h4>
+                  <p className="text-xs text-slate-400">Your custom domain, emails, logo & colors.</p>
+                </div>
               </div>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                Remove "Powered by Third-Party" badges completely. Run your helpdesk on your own domain (`support.yourbrand.com`) with custom transactional email identities.
+              </p>
+            </div>
 
-              {/* Customer message */}
-              <div style={{
-                padding: '14px 16px', borderRadius: 12,
-                background: 'var(--bg-surface)', border: '1px solid var(--border-sub)', marginBottom: 14,
-              }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
-                  <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-1)' }}>Customer (Sarah M.)</span>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--text-3)' }}>10:42 AM</span>
+            <div className="glass-panel p-6 space-y-4">
+              <div className="flex items-center gap-3">
+                <div className="p-2.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">
+                  <Lock size={20} />
                 </div>
-                <p style={{ fontSize: 13, color: 'var(--text-2)', lineHeight: 1.6 }}>
-                  "Hi there! I ordered the starter kit yesterday. Can I change my delivery address before it ships?"
-                </p>
+                <div>
+                  <h4 className="font-bold font-display text-white text-base">Transparent Token Pricing</h4>
+                  <p className="text-xs text-slate-400">Direct API costs + 15% transparent markup.</p>
+                </div>
               </div>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                Stop paying per-outcome penalties or runaway monthly bills. Quelp passes through raw LLM token costs with a transparent 15% maintenance markup.
+              </p>
+            </div>
 
-              {/* AI draft */}
-              <div style={{
-                padding: '14px 16px', borderRadius: 12,
-                background: 'rgba(0,161,157,0.07)', border: '1px solid rgba(0,161,157,0.2)',
-              }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
-                  <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 700, color: 'var(--text-teal)' }}>
-                    <Sparkles size={12} /> Quelp AI Grounded Draft
-                  </span>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--text-3)' }}>Confidence: High</span>
-                </div>
-                <p style={{
-                  fontSize: 12.5, color: 'var(--text-2)', lineHeight: 1.65,
-                  fontFamily: 'var(--font-mono)',
-                  background: 'var(--bg-void)', padding: '10px 12px', borderRadius: 8,
-                  border: '1px solid var(--border-sub)', marginBottom: 12,
-                }}>
-                  "Hello Sarah! We can update your shipping address if your order hasn't entered fulfillment yet. Please provide your new address..."
-                </p>
-                <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
-                  <button style={{ padding: '5px 14px', borderRadius: 7, border: '1px solid var(--border-mid)', background: 'transparent', color: 'var(--text-2)', fontSize: 12, cursor: 'pointer' }}>Edit</button>
-                  <button style={{ padding: '5px 14px', borderRadius: 7, background: 'var(--teal)', color: 'white', border: 'none', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>Approve & Send</button>
-                </div>
-              </div>
+            <div className="pt-2 flex items-center justify-between">
+              <button
+                onClick={() => onNavigate('quelp')}
+                className="btn-primary text-xs"
+              >
+                Deep-Dive Quelp Features <ArrowRight size={14} />
+              </button>
+
+              <button
+                onClick={onOpenContact}
+                className="btn-secondary text-xs"
+              >
+                Join Pilot Program
+              </button>
             </div>
           </div>
         </div>

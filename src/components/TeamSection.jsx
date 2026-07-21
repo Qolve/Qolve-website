@@ -1,175 +1,132 @@
 import React from 'react';
-import { Users, Cpu, Palette, Server, LineChart, ClipboardList, UserCheck } from 'lucide-react';
-
-const members = [
-  {
-    name: 'Liam Haines',
-    role: 'Product & Commercial Lead',
-    focus: 'Target market, product requirements, brand direction, pricing, customer interviews & pilot relationships',
-    icon: LineChart,
-    color: '#00A19D',
-    bg: 'rgba(0,161,157,0.12)',
-    border: 'rgba(0,161,157,0.25)',
-    initials: 'LH',
-    bio: 'Owns the product vision and commercial roadmap — from competitor tracking and pricing research through to customer interviews, lead qualification, and pilot opportunities.',
-  },
-  {
-    name: 'Freddie Haude',
-    role: 'Project Manager & AI / Product-Quality Lead',
-    focus: 'Sprint planning, task acceptance criteria, AI evaluation, prompt experiments, documentation & release checklists',
-    icon: ClipboardList,
-    color: '#008082',
-    bg: 'rgba(0,128,130,0.12)',
-    border: 'rgba(0,128,130,0.25)',
-    initials: 'FH',
-    bio: 'Keeps the project moving — owning sprint planning, acceptance criteria, risk register, AI quality datasets, and making sure decisions are documented and followed up on.',
-  },
-  {
-    name: 'Vilius',
-    role: 'Frontend & Data-Model Lead',
-    focus: 'Design system, agent interface, customer portal, white-label UI, frontend architecture & UX prototypes',
-    icon: Palette,
-    color: '#536877',
-    bg: 'rgba(83,104,119,0.12)',
-    border: 'rgba(83,104,119,0.25)',
-    initials: 'V',
-    bio: 'Owns every pixel and every schema — from the design system and white-label UI through to database design, frontend architecture, accessibility, and demos.',
-  },
-  {
-    name: 'heo',
-    role: 'Backend, Infrastructure & Automation Lead',
-    focus: 'Backend architecture, API design, auth, multi-tenancy, deployment, monitoring & security controls',
-    icon: Server,
-    color: '#708091',
-    bg: 'rgba(112,128,145,0.12)',
-    border: 'rgba(112,128,145,0.25)',
-    initials: 'H',
-    bio: "Owns the engine room — backend architecture, API design, authentication, multi-tenancy, deployment pipelines, monitoring, and every security control that keeps Quelp solid.",
-  },
-  {
-    name: 'Oreo',
-    role: 'Lead Sales',
-    focus: 'Qualified conversations, pilot opportunities, outreach experiments & lead pipeline',
-    icon: Users,
-    color: '#91A3B1',
-    bg: 'rgba(145,163,177,0.1)',
-    border: 'rgba(145,163,177,0.2)',
-    initials: 'O',
-    bio: 'Drives commercial traction — turning outreach into qualified conversations and qualified conversations into pilot relationships. Success is measured in real opportunities, not email counts.',
-  },
-];
+import { Users, Linkedin, Github, ShieldCheck, Code, Compass, HeartHandshake } from 'lucide-react';
 
 export default function TeamSection() {
+  const team = [
+    {
+      name: 'Freddie Haude',
+      role: 'Founder & Product Lead',
+      bio: 'Leading product vision, sprint execution, and operational strategy for Qolve and the Quelp ecosystem.',
+      focus: 'Product Strategy & Operations',
+      avatar: 'FH',
+      color: 'from-teal-400 to-teal-700'
+    },
+    {
+      name: 'Liam Haines',
+      role: 'Brand & Legal Strategy',
+      bio: 'Directing brand architecture, trade-mark clearance, domain security, and B2B positioning.',
+      focus: 'Brand Governance & Compliance',
+      avatar: 'LH',
+      color: 'from-cyan-400 to-cyan-700'
+    },
+    {
+      name: 'Vilius',
+      role: 'Lead UX & System Architecture',
+      bio: 'Designing low-friction user experiences, data-model relationships, and clean ticket workflows.',
+      focus: 'UX Engineering & Data Models',
+      avatar: 'VI',
+      color: 'from-emerald-400 to-emerald-700'
+    },
+    {
+      name: 'Gabriel',
+      role: 'Backend & Infrastructure Engineer',
+      bio: 'Building modular monolith backend services, multi-tenant isolation, and resilient background queues.',
+      focus: 'Multi-Tenant Security & Infrastructure',
+      avatar: 'GA',
+      color: 'from-blue-400 to-indigo-700'
+    }
+  ];
+
+  const beliefs = [
+    {
+      title: 'Atomic & Robust Code',
+      desc: 'Systems engineered to run with zero unhandled errors, deterministic fallbacks, and multi-tenant security.'
+    },
+    {
+      title: 'Human Outcome First',
+      desc: 'Fast escalation beats fake confidence. If an AI model is uncertain, it hands off to a human agent immediately.'
+    },
+    {
+      title: 'Transparent Pricing',
+      desc: 'No hidden enterprise taxes or per-outcome penalties. Direct LLM API costs plus a 15% transparent markup.'
+    },
+    {
+      title: '100% Brand Independence',
+      desc: 'Your customer portal, emails, and chat widgets belong to your brand—never ours.'
+    }
+  ];
+
   return (
-    <section id="team" style={{ padding: '100px 0', background: 'var(--bg-base)', borderTop: '1px solid var(--border-sub)' }}>
-      <div className="container">
-
-        {/* Header */}
-        <div style={{ textAlign: 'center', maxWidth: 640, margin: '0 auto 56px' }}>
-          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 20 }}>
-            <div className="pill">
-              <Users size={11} />
-              People Behind Qolve
-            </div>
-          </div>
-          <h2 className="display-lg" style={{ marginBottom: 16 }}>Our Team & Roles</h2>
-          <p className="body-lg" style={{ color: 'var(--text-2)' }}>
-            We are a focused, multi-disciplinary software studio committed to creating software that works cleanly, reliably, and beautifully.
+    <section id="team" className="py-24 relative overflow-hidden bg-slate-950 border-t border-slate-800/60">
+      <div className="container-custom relative z-10">
+        {/* Section Header */}
+        <div className="text-center max-w-2xl mx-auto mb-16 space-y-3">
+          <span className="badge-teal inline-flex items-center gap-1.5">
+            <Users size={14} /> Leadership & Engineering
+          </span>
+          <h2 className="text-3xl md:text-5xl font-bold font-display text-white tracking-tight">
+            The Team Behind Qolve
+          </h2>
+          <p className="text-slate-400 text-base">
+            We are a UK-based B2B software engineering company focused on creating resilient, fully branded SaaS products for growing businesses.
           </p>
         </div>
 
-        {/* Grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: 18 }}>
-          {members.map((m, i) => {
-            const Icon = m.icon;
-            return (
-              <div
-                key={m.name}
-                style={{
-                  background: 'var(--bg-surface)',
-                  border: '1px solid var(--border-mid)',
-                  borderRadius: 18,
-                  padding: '24px',
-                  transition: 'all 0.25s var(--ease-out)',
-                  animation: `fadeUp 0.5s ${i * 0.07}s var(--ease-out) both`,
-                  cursor: 'default',
-                  position: 'relative', overflow: 'hidden',
-                }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.background = '#192936';
-                  e.currentTarget.style.borderColor = m.border;
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.boxShadow = '0 16px 48px rgba(0,0,0,0.35)';
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.background = 'var(--bg-surface)';
-                  e.currentTarget.style.borderColor = 'var(--border-mid)';
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = 'none';
-                }}
-              >
-                {/* Top row: icon + badge */}
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 18 }}>
-                  <div style={{
-                    width: 48, height: 48, borderRadius: 12,
-                    background: m.bg, border: `1px solid ${m.border}`,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  }}>
-                    <Icon size={22} style={{ color: m.color }} />
-                  </div>
-                  <span style={{
-                    padding: '3px 10px', borderRadius: 999,
-                    background: 'var(--bg-void)', border: '1px solid var(--border-sub)',
-                    fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--text-3)',
-                  }}>Qolve Core Team</span>
+        {/* Team Members Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
+          {team.map((member, idx) => (
+            <div
+              key={idx}
+              className="glass-panel p-6 relative group hover:border-teal-500/50 transition-all duration-300"
+            >
+              <div className="flex items-center gap-4 mb-4">
+                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${member.color} flex items-center justify-center font-display font-extrabold text-slate-950 text-base shadow-lg`}>
+                  {member.avatar}
                 </div>
-
-                {/* Name & role */}
-                <div style={{ marginBottom: 14 }}>
-                  <h3 style={{
-                    fontFamily: 'var(--font-display)', fontSize: 17, fontWeight: 700,
-                    color: 'var(--text-1)', marginBottom: 4, letterSpacing: '-0.01em',
-                  }}>{m.name}</h3>
-                  <div style={{ fontSize: 12, fontWeight: 600, color: m.color }}>{m.role}</div>
+                <div>
+                  <h3 className="font-bold font-display text-white text-base group-hover:text-teal-300 transition-colors">
+                    {member.name}
+                  </h3>
+                  <div className="text-xs text-teal-400 font-medium">{member.role}</div>
                 </div>
-
-                {/* Focus area */}
-                <div style={{
-                  padding: '10px 12px', borderRadius: 8,
-                  background: 'var(--bg-void)', border: '1px solid var(--border-sub)',
-                  marginBottom: 14,
-                }}>
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--text-1)', fontWeight: 600, marginBottom: 4 }}>Owns:</div>
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--text-3)', lineHeight: 1.5 }}>{m.focus}</div>
-                </div>
-
-                {/* Bio */}
-                <p style={{ fontSize: 13.5, color: 'var(--text-2)', lineHeight: 1.65 }}>{m.bio}</p>
               </div>
-            );
-          })}
+
+              <p className="text-xs text-slate-300 leading-relaxed mb-4">
+                {member.bio}
+              </p>
+
+              <div className="pt-3 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400 font-mono">
+                <span>Focus:</span>
+                <span className="text-slate-300 font-semibold">{member.focus}</span>
+              </div>
+            </div>
+          ))}
         </div>
 
-        {/* Culture strip */}
-        <div style={{
-          marginTop: 40,
-          background: 'var(--bg-surface)',
-          border: '1px solid var(--border-mid)',
-          borderRadius: 18, padding: '32px 36px', textAlign: 'center',
-          maxWidth: 720, margin: '40px auto 0',
-        }}>
-          <h3 style={{
-            fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 18, color: 'var(--text-1)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, marginBottom: 14,
-          }}>
-            <UserCheck size={18} style={{ color: 'var(--teal)' }} />
-            Driven by Collaboration & Direct Access
-          </h3>
-          <p style={{ fontSize: 14, color: 'var(--text-2)', lineHeight: 1.7, maxWidth: 560, margin: '0 auto' }}>
-            At Qolve, every deliverable has one accountable owner and one reviewer. Our customers work directly with the engineering and product team — ensuring fast updates, transparent communication, and software designed around real needs.
-          </p>
-        </div>
+        {/* Core Beliefs Banner */}
+        <div id="beliefs" className="glass-panel-accent p-8 md:p-10">
+          <div className="text-center max-w-xl mx-auto mb-8">
+            <span className="text-xs font-mono font-semibold text-teal-400 uppercase tracking-widest">
+              Core Engineering Values
+            </span>
+            <h3 className="text-2xl md:text-3xl font-bold font-display text-white mt-1">
+              What We Stand For
+            </h3>
+          </div>
 
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {beliefs.map((b, bIdx) => (
+              <div key={bIdx} className="p-5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-2">
+                <div className="flex items-center gap-2 text-teal-400 font-display font-semibold text-sm">
+                  <ShieldCheck size={16} /> {b.title}
+                </div>
+                <p className="text-xs text-slate-300 leading-relaxed">
+                  {b.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );
