@@ -1,14 +1,14 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Sparkles, ArrowRight, ShieldCheck, Mail, Zap, CheckCircle2, Bot, Layers } from 'lucide-react';
+import { Sparkles, ArrowRight, Shield, Zap, Layers, Globe } from 'lucide-react';
 
 export default function HeroSection({ onOpenContact }) {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-teal-50/60 via-white to-slate-50 pt-16 pb-24 lg:pt-24 lg:pb-32">
+    <section className="relative overflow-hidden bg-gradient-to-b from-teal-50/60 via-white to-slate-50 pt-20 pb-28 lg:pt-32 lg:pb-36">
       
-      {/* Background Glow Orbs */}
+      {/* Background Orbs */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 pointer-events-none">
-        <div className="absolute top-10 left-1/4 w-96 h-96 bg-teal-300/30 rounded-full blur-3xl" />
+        <div className="absolute top-10 left-1/4 w-96 h-96 bg-teal-300/25 rounded-full blur-3xl" />
         <div className="absolute top-20 right-1/4 w-96 h-96 bg-sky-300/20 rounded-full blur-3xl" />
       </div>
 
@@ -20,10 +20,10 @@ export default function HeroSection({ onOpenContact }) {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-teal-100/80 border border-teal-200 text-teal-800 text-xs font-semibold tracking-wide"
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-teal-100/80 border border-teal-200 text-teal-800 text-xs font-semibold tracking-wide"
           >
             <Sparkles className="w-4 h-4 text-teal-600" />
-            <span>Introducing <strong>Quelp by Qolve</strong> — White-Label Helpdesk SaaS</span>
+            <span>Technology & Software Innovation Lab</span>
           </motion.div>
 
           {/* Heading */}
@@ -33,8 +33,8 @@ export default function HeroSection({ onOpenContact }) {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="font-heading text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.15]"
           >
-            Smarter B2B Support.<br />
-            <span className="text-teal-gradient">Zero Per-Seat Tax.</span>
+            Engineering Intelligent<br />
+            <span className="text-teal-gradient">B2B Technology Solutions.</span>
           </motion.h1>
 
           {/* Subheading */}
@@ -44,10 +44,10 @@ export default function HeroSection({ onOpenContact }) {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-lg sm:text-xl text-slate-600 leading-relaxed font-normal"
           >
-            Qolve engineers high-performance customer support infrastructure. Ingest inbound emails, triage tickets automatically with AI, and deliver seamless client portals with transparent flat-rate pricing.
+            Qolve builds modern software architecture designed for performance, clarity, and scale. We combine strategic engineering with refined user experience to solve complex modern challenges.
           </motion.p>
 
-          {/* Call to Actions */}
+          {/* Actions */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -58,88 +58,54 @@ export default function HeroSection({ onOpenContact }) {
               onClick={onOpenContact}
               className="w-full sm:w-auto btn-teal py-3.5 px-8 text-base shadow-xl shadow-teal-700/25 hover:shadow-teal-700/40 rounded-xl"
             >
-              Get Access to Quelp
+              Get in Touch with Qolve
               <ArrowRight className="w-5 h-5" />
             </button>
             
             <a 
-              href="#demo"
+              href="#focus"
               className="w-full sm:w-auto btn-outline py-3.5 px-8 text-base rounded-xl"
             >
-              Explore Interactive Demo
+              Explore Our Focus Areas
             </a>
-          </motion.div>
-
-          {/* Trust Highlights */}
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="pt-10 flex flex-wrap items-center justify-center gap-6 text-xs sm:text-sm font-semibold text-slate-600"
-          >
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-teal-600" />
-              <span>Inbound Email Triage</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-teal-600" />
-              <span>Custom White-Label Domain</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-teal-600" />
-              <span>Stalwart Mail Relay</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-teal-600" />
-              <span>Flat-Rate Subscription</span>
-            </div>
           </motion.div>
         </div>
 
-        {/* Hero Interactive Card Preview */}
+        {/* Feature Cards Highlights */}
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="mt-14 max-w-5xl mx-auto bg-slate-900 rounded-2xl p-4 sm:p-6 shadow-2xl border border-slate-800 text-slate-100"
+          className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto"
         >
-          {/* Mock App Window Header */}
-          <div className="flex items-center justify-between pb-4 border-b border-slate-800 mb-4">
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full bg-rose-500" />
-              <div className="w-3 h-3 rounded-full bg-amber-500" />
-              <div className="w-3 h-3 rounded-full bg-emerald-500" />
-              <span className="text-xs text-slate-400 font-mono ml-2">quelp.qolve.systems / inbox</span>
+          <div className="bg-white p-6 rounded-2xl border border-slate-200 card-shadow text-left">
+            <div className="w-10 h-10 rounded-xl bg-teal-50 text-teal-700 flex items-center justify-center font-bold mb-4">
+              <Zap className="w-5 h-5" />
             </div>
-            <div className="flex items-center gap-2 text-xs text-slate-400">
-              <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span>SES Inbound Live</span>
-            </div>
+            <h3 className="font-heading font-bold text-slate-900 text-lg mb-2">High Performance</h3>
+            <p className="text-xs text-slate-600 leading-relaxed">
+              Architecting fast, responsive digital experiences built on solid engineering foundations.
+            </p>
           </div>
 
-          {/* Quick Mock Dashboard */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-left">
-            
-            {/* Stat Card 1 */}
-            <div className="bg-slate-800/60 p-4 rounded-xl border border-slate-700/60">
-              <div className="text-slate-400 text-xs font-semibold uppercase tracking-wider">Active Inbound Tickets</div>
-              <div className="text-2xl font-bold text-teal-400 mt-1">128</div>
-              <div className="text-xs text-slate-400 mt-1">⚡ 94% Auto-triaged via AI</div>
+          <div className="bg-white p-6 rounded-2xl border border-slate-200 card-shadow text-left">
+            <div className="w-10 h-10 rounded-xl bg-teal-50 text-teal-700 flex items-center justify-center font-bold mb-4">
+              <Layers className="w-5 h-5" />
             </div>
+            <h3 className="font-heading font-bold text-slate-900 text-lg mb-2">Modern Architecture</h3>
+            <p className="text-xs text-slate-600 leading-relaxed">
+              Designing modular, scalable software systems built to adapt as business needs evolve.
+            </p>
+          </div>
 
-            {/* Stat Card 2 */}
-            <div className="bg-slate-800/60 p-4 rounded-xl border border-slate-700/60">
-              <div className="text-slate-400 text-xs font-semibold uppercase tracking-wider">Avg Response Time</div>
-              <div className="text-2xl font-bold text-sky-400 mt-1">1m 42s</div>
-              <div className="text-xs text-slate-400 mt-1">📉 82% faster than Zendesk</div>
+          <div className="bg-white p-6 rounded-2xl border border-slate-200 card-shadow text-left">
+            <div className="w-10 h-10 rounded-xl bg-teal-50 text-teal-700 flex items-center justify-center font-bold mb-4">
+              <Globe className="w-5 h-5" />
             </div>
-
-            {/* Stat Card 3 */}
-            <div className="bg-slate-800/60 p-4 rounded-xl border border-slate-700/60">
-              <div className="text-slate-400 text-xs font-semibold uppercase tracking-wider">Monthly Seat Savings</div>
-              <div className="text-2xl font-bold text-emerald-400 mt-1">$1,450/mo</div>
-              <div className="text-xs text-slate-400 mt-1">💰 Flat rate pricing benefit</div>
-            </div>
+            <h3 className="font-heading font-bold text-slate-900 text-lg mb-2">User-Centric Design</h3>
+            <p className="text-xs text-slate-600 leading-relaxed">
+              Combining elegant visual aesthetics with intuitive workflows for maximum clarity.
+            </p>
           </div>
         </motion.div>
 

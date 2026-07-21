@@ -7,7 +7,7 @@ export default function ContactModal({ isOpen, onClose }) {
     name: '',
     email: '',
     company: '',
-    agents: '10-50',
+    subject: 'General Inquiry',
     message: ''
   });
 
@@ -34,13 +34,13 @@ export default function ContactModal({ isOpen, onClose }) {
           <div>
             <div className="flex items-center gap-2 text-teal-600 font-semibold text-xs mb-1">
               <Sparkles className="w-4 h-4" />
-              <span>Get Access to Quelp</span>
+              <span>Get in Touch</span>
             </div>
             <h3 className="font-heading text-2xl font-bold text-slate-900 mb-2">
-              Request Early Access & Demo
+              Contact Qolve
             </h3>
             <p className="text-slate-600 text-xs sm:text-sm mb-6">
-              Connect with Liam and Freddie from the Qolve team to set up your white-label customer support sandbox.
+              Have a question or proposal? Send us a message and our team will be in touch.
             </p>
 
             <form onSubmit={handleSubmit} className="space-y-4 text-xs sm:text-sm">
@@ -57,7 +57,7 @@ export default function ContactModal({ isOpen, onClose }) {
               </div>
 
               <div>
-                <label className="block font-semibold text-slate-700 mb-1">Work Email</label>
+                <label className="block font-semibold text-slate-700 mb-1">Email Address</label>
                 <input 
                   type="email" 
                   required
@@ -68,38 +68,23 @@ export default function ContactModal({ isOpen, onClose }) {
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Company</label>
-                  <input 
-                    type="text" 
-                    placeholder="Acme Corp"
-                    value={formData.company}
-                    onChange={(e) => setFormData({...formData, company: e.target.value})}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-teal-500"
-                  />
-                </div>
-
-                <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Support Team Size</label>
-                  <select 
-                    value={formData.agents}
-                    onChange={(e) => setFormData({...formData, agents: e.target.value})}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-teal-500 bg-white"
-                  >
-                    <option value="1-5">1-5 agents</option>
-                    <option value="5-20">5-20 agents</option>
-                    <option value="20-50">20-50 agents</option>
-                    <option value="50+">50+ agents</option>
-                  </select>
-                </div>
+              <div>
+                <label className="block font-semibold text-slate-700 mb-1">Company / Organization</label>
+                <input 
+                  type="text" 
+                  placeholder="Acme Corp"
+                  value={formData.company}
+                  onChange={(e) => setFormData({...formData, company: e.target.value})}
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-teal-500"
+                />
               </div>
 
               <div>
-                <label className="block font-semibold text-slate-700 mb-1">Use Case / Notes</label>
+                <label className="block font-semibold text-slate-700 mb-1">Message</label>
                 <textarea 
                   rows={3}
-                  placeholder="Tell us about your helpdesk requirements or custom domain..."
+                  required
+                  placeholder="How can Qolve help you?"
                   value={formData.message}
                   onChange={(e) => setFormData({...formData, message: e.target.value})}
                   className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-teal-500 resize-none"
@@ -110,7 +95,7 @@ export default function ContactModal({ isOpen, onClose }) {
                 type="submit"
                 className="btn-teal w-full py-3 text-center justify-center font-bold text-sm shadow-md"
               >
-                Submit Demo Request
+                Send Message
                 <Send className="w-4 h-4" />
               </button>
             </form>
@@ -121,10 +106,10 @@ export default function ContactModal({ isOpen, onClose }) {
               <CheckCircle2 className="w-8 h-8" />
             </div>
             <h3 className="font-heading text-2xl font-bold text-slate-900">
-              Request Received!
+              Message Sent!
             </h3>
             <p className="text-slate-600 text-sm max-w-sm mx-auto">
-              Thank you, {formData.name}! A team member from Qolve (support@qolve.systems) will get back to you shortly.
+              Thank you, {formData.name}! The Qolve team will get back to you shortly.
             </p>
             <button 
               onClick={onClose}

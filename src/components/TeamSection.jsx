@@ -1,35 +1,35 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Users, Code, Terminal, Server, Shield, Sparkles } from 'lucide-react';
+import { Users, Code, Terminal, Server, Sparkles } from 'lucide-react';
 
 const TEAM = [
   {
     name: 'Liam Haines',
     role: 'Chief Executive Officer (CEO)',
-    focus: 'Strategic Growth & Product Vision',
+    focus: 'Strategic Leadership & Operations',
     icon: Users,
-    bio: 'Directing Qolve’s mission to democratize white-label B2B customer support technology for growing businesses.'
+    bio: 'Guiding Qolve’s strategic vision and operations to deliver high-impact software solutions.'
   },
   {
     name: 'Freddie',
-    role: 'Product & Lead Architect',
-    focus: 'Product Strategy & UX Architecture',
+    role: 'Product Lead',
+    focus: 'Product Strategy & Design Architecture',
     icon: Sparkles,
-    bio: 'Architecting Quelp’s intuitive helpdesk workspace, AI triage pipelines, and flat-rate SaaS model.'
+    bio: 'Overseeing product direction, user experience design, and digital architecture.'
   },
   {
     name: 'Vilius',
-    role: 'Core Software Engineer',
-    focus: 'Full-Stack & Ticket Engine',
+    role: 'Lead Engineer',
+    focus: 'Software Engineering & Systems',
     icon: Code,
-    bio: 'Engineering high-throughput ticket ingestion APIs, real-time webhooks, and backend microservices.'
+    bio: 'Leading core software engineering, application logic, and technical standards.'
   },
   {
     name: 'Seb',
-    role: 'DevOps & Systems Engineer',
-    focus: 'Stalwart Relay & Cloud Security',
+    role: 'DevOps & Infrastructure Engineer',
+    focus: 'Systems Reliability & Security',
     icon: Server,
-    bio: 'Managing secure mail server infrastructure, SES deliverability, TLS encryption, and high-availability containers.'
+    bio: 'Managing cloud infrastructure, security protocols, and system reliability.'
   }
 ];
 
@@ -42,13 +42,13 @@ export default function TeamSection() {
         <div className="text-center max-w-3xl mx-auto mb-16">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-teal-50 border border-teal-200 text-teal-700 text-xs font-semibold mb-3">
             <Users className="w-3.5 h-3.5" />
-            <span>The Qolve Engineering Lab</span>
+            <span>Our Leadership</span>
           </div>
           <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-            Built by Engineers, Designed for Growth
+            The Team Behind Qolve
           </h2>
           <p className="text-slate-600 mt-3 text-base">
-            We are a lean, specialized technical team building the next generation of white-label customer support software.
+            A specialized team dedicated to software excellence, modern design, and robust engineering.
           </p>
         </div>
 
@@ -81,7 +81,7 @@ export default function TeamSection() {
                 </div>
 
                 <div className="mt-6 pt-4 border-t border-slate-200/80 text-[11px] font-mono text-slate-500">
-                  Focus: {member.focus}
+                  {member.focus}
                 </div>
               </motion.div>
             );
