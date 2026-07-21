@@ -1,77 +1,218 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { CheckCircle2, Zap } from 'lucide-react';
+import { useEffect, useRef } from 'react'
+
+// Animated number counter hook
+function useCountUp(end, duration = 2000, trigger) {
+  const ref = useRef(null)
+  const hasRun = useRef(false)
+
+  useEffect(() => {
+    if (!trigger || hasRun.current) return
+    hasRun.current = true
+    const el = ref.current
+    if (!el) return
+    const start = 0
+    const startTime = performance.now()
+    const step = (currentTime) => {
+      const elapsed = currentTime - startTime
+      const progress = Math.min(elapsed / duration, 1)
+      const easeOut = 1 - Math.pow(1 - progress, 3)
+      el.textContent = Math.floor(easeOut * end).toLocaleString()
+      if (progress < 1) requestAnimationFrame(step)
+    }
+    requestAnimationFrame(step)
+  }, [trigger, end, duration])
+
+  return ref
+}
+
+function StatCard({ children, className = '' }) {
+  return (
+    <div className={`card_about ${className}`} data-anim="true">
+      {children}
+    </div>
+  )
+}
 
 export default function AboutSection() {
+  const sectionRef = useRef(null)
+  const triggered = useRef(false)
+
+  // We'll use vanilla JS for count animation on scroll
+  useEffect(() => {
+    const counters = sectionRef.current?.querySelectorAll('[data-count]')
+    if (!counters?.length) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !triggered.current) {
+            triggered.current = true
+            counters.forEach((el) => {
+              const end = parseInt(el.dataset.count)
+              const duration = parseInt(el.dataset.duration || 2000)
+              const startTime = performance.now()
+              const step = (currentTime) => {
+                const elapsed = currentTime - startTime
+                const progress = Math.min(elapsed / duration, 1)
+                const easeOut = 1 - Math.pow(1 - progress, 3)
+                el.textContent = Math.floor(easeOut * end).toLocaleString()
+                if (progress < 1) requestAnimationFrame(step)
+              }
+              requestAnimationFrame(step)
+            })
+          }
+        })
+      },
+      { threshold: 0.3 }
+    )
+
+    if (sectionRef.current) observer.observe(sectionRef.current)
+    return () => observer.disconnect()
+  }, [])
+
   return (
-    <section id="about" className="py-24 bg-[#f2f8fc] border-t border-slate-200">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          
-          {/* Left Column: Narrative Copy */}
-          <div className="lg:col-span-7 space-y-6">
-            <span className="font-mono-code text-xs font-bold uppercase tracking-widest text-slate-500 bg-white px-3.5 py-1.5 rounded-full border border-slate-200">
-              About Qolve
-            </span>
-
-            <h2 className="font-heading text-3xl sm:text-4xl font-black text-[#0f172a] tracking-tight leading-tight">
-              A Specialized Technology Lab Driven by Precision
-            </h2>
-
-            <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
-              Qolve brings together strategy, engineering, and visual design to build software products that create long-term business value. We partner with forward-thinking organizations to turn vision into scalable technology.
-            </p>
-
-            <div className="space-y-3 pt-2 text-xs sm:text-sm text-slate-800 font-semibold">
-              <div className="flex items-center gap-3">
-                <CheckCircle2 className="w-5 h-5 text-[#0f172a] shrink-0" />
-                <span>Dedicated strategy aligned with organizational goals.</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <CheckCircle2 className="w-5 h-5 text-[#0f172a] shrink-0" />
-                <span>Modern component architecture built for speed and security.</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <CheckCircle2 className="w-5 h-5 text-[#0f172a] shrink-0" />
-                <span>Clear metrics and data-driven insights at every phase.</span>
-              </div>
+    <section className="section_about" id="about" ref={sectionRef}>
+      <div className="padding-section-large" />
+      <div className="padding-global">
+        <div className="container-large">
+          <div className="vertical-center">
+            {/* Tag */}
+            <div className="tag" data-anim>
+              <div className="dot-square" />
+              <div>About us</div>
             </div>
 
-            <div className="pt-4 flex items-center gap-4">
-              <Link to="/about" className="btn-figma-dark uppercase text-xs">
-                <span>Learn More About Us</span>
-              </Link>
-              <Link to="/contact" className="btn-figma-lime uppercase text-xs">
-                <span>Contact Team</span>
-              </Link>
-            </div>
-          </div>
+            <div className="spacer-large" />
 
-          {/* Right Column: Visual Box */}
-          <div className="lg:col-span-5 bg-white p-8 rounded-3xl border border-slate-200 shadow-xl space-y-6">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-[#0f172a] text-white flex items-center justify-center font-bold">
-                <Zap className="w-5 h-5 text-[#c6f529]" />
-              </div>
-              <span className="font-heading text-xl font-bold text-[#0f172a]">Qolve Principles</span>
-            </div>
-
-            <div className="space-y-4 text-xs sm:text-sm">
-              <div className="p-4 bg-[#f2f8fc] rounded-2xl border border-slate-200">
-                <span className="font-bold text-[#0f172a] block mb-1">Clear Execution</span>
-                <span className="text-slate-600">No jargon or corporate fluff. We deliver clean, working code.</span>
-              </div>
-              <div className="p-4 bg-[#f2f8fc] rounded-2xl border border-slate-200">
-                <span className="font-bold text-[#0f172a] block mb-1">Human-Centered Design</span>
-                <span className="text-slate-600">Software designed around real user needs and intuitive workflows.</span>
+            {/* Animated heading */}
+            <div className="max-width-medium is-41rem">
+              <div className="title-wrap" data-anim>
+                <h2>A</h2>
+                <h2>global</h2>
+                <h2>consulting</h2>
+                <h2>partner</h2>
+                <h2>dedicated</h2>
+                <h2>to</h2>
+                <h2>building</h2>
+                <img
+                  src="https://cdn.prod.website-files.com/6929c116366a14507fc8424d/69a8b414d6ce72030aa90514_icon1.svg"
+                  loading="lazy"
+                  alt=""
+                  className="title-icon"
+                />
+                <h2>smarter</h2>
+                <h2 style={{ opacity: 0.5 }}>and</h2>
+                <img
+                  src="https://cdn.prod.website-files.com/6929c116366a14507fc8424d/69a8b414217a32d2ca851e82_icon2.svg"
+                  loading="lazy"
+                  alt=""
+                  className="title-icon"
+                />
+                <h2 style={{ opacity: 0.5 }}>more</h2>
+                <h2 style={{ opacity: 0.5 }}>adaptive</h2>
               </div>
             </div>
           </div>
 
+          <div className="spacer-section-large" />
+
+          {/* Bento Cards */}
+          <div className="about_layout">
+            {/* Card 1 - Large with photo */}
+            <div className="card_about" data-anim style={{ gridColumn: 'span 1' }}>
+              <img
+                src="https://cdn.prod.website-files.com/6929c116366a14507fc8424d/693671b05ed33655d4b7ce17_card-about-img.avif"
+                loading="lazy"
+                alt=""
+                className="img"
+                style={{ width: '100%', height: '10rem', objectFit: 'cover', borderRadius: '0.75rem' }}
+              />
+              <div className="vertical-space-between">
+                <div className="card_1-top">
+                  <img
+                    src="https://cdn.prod.website-files.com/6929c116366a14507fc8424d/692a148227a37705feded0ce_ipsum-logo.svg"
+                    loading="lazy"
+                    alt=""
+                    style={{ height: '1.25rem', width: 'auto' }}
+                  />
+                  <div className="container-svg">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                      <path d="M16 20V13H20V20H16ZM10 20V4H14V20H10ZM4 20V9H8V20H4Z" fill="currentColor" />
+                    </svg>
+                  </div>
+                </div>
+                <div className="about_card-float">
+                  <div className="text-wrap">
+                    <div className="text-5xl" data-count="120" data-duration="2100">0</div>
+                    <div className="text-5xl">+</div>
+                  </div>
+                  <div className="spacer-small" />
+                  <div className="text-weight-medium">Collaborating with leading AI and cloud technology providers.</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Card 2 - Subtle bg with testimonial */}
+            <div className="card_about bg-subtle" data-anim>
+              <div>
+                <div className="text-weight-medium">Commitment to measurable</div>
+                <div className="spacer-small" />
+                <div className="text-wrap">
+                  <div className="text-4xl" data-count="100" data-duration="2000">0</div>
+                  <div className="text-4xl">%</div>
+                </div>
+              </div>
+              <div>
+                <div className="avatars-wrap">
+                  {[
+                    'https://cdn.prod.website-files.com/6929c116366a14507fc8424d/6998d6e4c804dbf540688e23_users-1.avif',
+                    'https://cdn.prod.website-files.com/6929c116366a14507fc8424d/6998d6e4fe402c7f09028c97_users-2.avif',
+                    'https://cdn.prod.website-files.com/6929c116366a14507fc8424d/6998d6e4bfe84c916ea64131_users-3.avif',
+                    'https://cdn.prod.website-files.com/6929c116366a14507fc8424d/6998d6e43cf07256024b75c1_users-4.avif',
+                  ].map((src, i) => (
+                    <div key={i} className={`avatar-item is-${['first','second','third','fourth'][i]}`}>
+                      <img loading="lazy" src={src} alt="" className="img" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }} />
+                    </div>
+                  ))}
+                </div>
+                <div className="spacer-small" />
+                <div className="text-base text-weight-medium">
+                  "Their automation strategy completely reshaped how we work. It's efficient, intelligent, and seamless."
+                </div>
+              </div>
+            </div>
+
+            {/* Card 3 - Green bg with data points */}
+            <div className="card_about bg-green" data-anim>
+              <div className="vertical-space-between">
+                <div>
+                  <div className="text-weight-medium">Data Points</div>
+                  <div className="spacer-small" />
+                  <div className="text-wrap">
+                    <div className="text-4xl" data-count="520" data-duration="3000">0</div>
+                    <div className="text-4xl">k+</div>
+                  </div>
+                </div>
+                <div className="text-base text-weight-medium">
+                  Analyzed monthly to power smarter business strategies.
+                </div>
+              </div>
+            </div>
+
+            {/* Card 4 - Black bg */}
+            <div className="card_about bg-black" data-anim>
+              <div className="card_4-content">
+                <div className="text-weight-medium text-color-on-primary">Continents</div>
+                <div className="text-wrap text-color-on-primary">
+                  <div className="text-4xl" data-count="20" data-duration="2000">0</div>
+                  <div className="text-4xl">+</div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-
       </div>
+      <div className="padding-section-large" />
     </section>
-  );
+  )
 }

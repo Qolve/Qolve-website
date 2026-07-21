@@ -1,63 +1,135 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Zap } from 'lucide-react';
+import { useState } from 'react'
+
+const ArrowIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+    <path d="M13.0457 8.13128L5.8733 15.3037L4.69479 14.1252L11.8672 6.95277L5.54568 6.95277L5.54568 5.28636H14.7121V14.4528L13.0457 14.4528V8.13128Z" fill="currentColor" />
+  </svg>
+)
+
+const navColumns = [
+  {
+    links: [
+      { label: 'Home V.1', href: '#home' },
+      { label: 'Home V.2', href: '#home' },
+      { label: 'Home V.3', href: '#home' },
+      { label: 'Services', href: '#services' },
+    ],
+  },
+  {
+    links: [
+      { label: 'Contact V.1', href: '#contact' },
+      { label: 'Contact V.2', href: '#contact' },
+      { label: 'Contact V.3', href: '#contact' },
+      { label: 'Pricing', href: '#pricing' },
+    ],
+  },
+  {
+    links: [
+      { label: 'About us V.1', href: '#about' },
+      { label: 'About us V.2', href: '#about' },
+      { label: 'About us V.3', href: '#about' },
+      { label: 'Blog', href: '#blog' },
+    ],
+  },
+]
 
 export default function Footer() {
+  const [email, setEmail] = useState('')
+  const [submitted, setSubmitted] = useState(false)
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    if (email) {
+      setSubmitted(true)
+      setEmail('')
+    }
+  }
+
   return (
-    <footer className="bg-[#0f172a] text-slate-300 border-t border-slate-800">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-          
-          {/* Brand */}
-          <div className="space-y-4">
-            <Link to="/" className="flex items-center gap-2.5 group focus:outline-none focus-visible:ring-2 focus-visible:ring-white rounded-lg p-1 w-fit">
-              <div className="w-8 h-8 rounded-lg bg-white text-[#0f172a] flex items-center justify-center font-bold group-hover:scale-105 transition-transform">
-                <Zap className="w-4 h-4 fill-current text-[#0f172a]" />
+    <footer className="footer" data-anim>
+      <div className="padding-global is-footer">
+        <div className="container-full">
+          <div className="footer_wrap">
+            <div className="footer_top">
+              <div className="footer_content">
+                {/* Left: logo + tagline */}
+                <div className="footer_content-wrap">
+                  <a href="#home">
+                    <img
+                      src="https://cdn.prod.website-files.com/6929c116366a14507fc8424d/69bc6c8e343f8f1f1832309a_aeline-logo.svg"
+                      loading="lazy"
+                      alt="aeline"
+                      style={{ height: '1.75rem', width: 'auto' }}
+                    />
+                  </a>
+                  <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.9375rem', lineHeight: 1.6 }}>
+                    Easily adapt to changes and scale your operations with our flexible infrastructure, designed to support your business growth.
+                  </div>
+                </div>
+
+                {/* Right: newsletter */}
+                <div className="footer_content-wrap">
+                  <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.9375rem', fontWeight: 500 }}>
+                    Subscribe our newsletter
+                  </div>
+                  {submitted ? (
+                    <div style={{ color: '#d6fd70', fontSize: '0.9375rem' }}>
+                      Thank you! Your submission has been received!
+                    </div>
+                  ) : (
+                    <form onSubmit={handleSubmit} className="footer-form">
+                      <input
+                        className="text-field"
+                        type="email"
+                        placeholder="Enter your email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                      />
+                      <button type="submit" className="button-arrow" style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
+                        <div className="button-arrow_wrap">
+                          <div
+                            className="button_container-arrow"
+                            style={{ background: 'white', color: '#0f0f0f', width: '2.75rem', height: '2.75rem', flexShrink: 0 }}
+                          >
+                            <div className="icon-1x1-main">
+                              <ArrowIcon />
+                            </div>
+                          </div>
+                        </div>
+                      </button>
+                    </form>
+                  )}
+                </div>
               </div>
-              <span className="font-heading text-2xl font-black text-white">Qolve</span>
-            </Link>
-            <p className="text-slate-400 text-xs leading-relaxed max-w-sm">
-              Building the future with AI and strategy. Unlocking growth and efficiency through data-driven consulting and intelligent software.
-            </p>
-          </div>
 
-          {/* Navigation Links */}
-          <div>
-            <h4 className="font-bold text-white mb-4 uppercase tracking-widest text-[11px] font-mono-code">Navigation</h4>
-            <ul className="space-y-2.5 font-medium text-xs">
-              <li><Link to="/" className="hover:text-[#c6f529] transition-colors">Home</Link></li>
-              <li><Link to="/services" className="hover:text-[#c6f529] transition-colors">Services</Link></li>
-              <li><Link to="/about" className="hover:text-[#c6f529] transition-colors">About Us</Link></li>
-              <li><Link to="/contact" className="hover:text-[#c6f529] transition-colors">Contact</Link></li>
-            </ul>
-          </div>
+              {/* Navigation columns */}
+              <div className="footer_right">
+                {navColumns.map((col, ci) => (
+                  <div key={ci} className="footer_links">
+                    {col.links.map((link, li) => (
+                      <a key={li} href={link.href} className="footer_link">
+                        {link.label}
+                      </a>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            </div>
 
-          {/* Contact CTA */}
-          <div>
-            <h4 className="font-bold text-white mb-4 uppercase tracking-widest text-[11px] font-mono-code">Get Started</h4>
-            <p className="text-xs text-slate-400 mb-5 leading-relaxed">
-              Ready to transform your technical operations? Connect with our engineering and strategy team today.
-            </p>
-            <Link 
-              to="/contact"
-              className="btn-figma-lime uppercase text-xs inline-flex"
-            >
-              Get Started
-            </Link>
-          </div>
-
-        </div>
-
-        {/* Bottom Bar */}
-        <div className="mt-12 pt-8 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-500 font-mono-code">
-          <div>© {new Date().getFullYear()} Qolve. All rights reserved.</div>
-          <div className="flex gap-6">
-            <Link to="/contact" className="hover:text-slate-300 transition-colors">Privacy Policy</Link>
-            <Link to="/contact" className="hover:text-slate-300 transition-colors">Terms of Service</Link>
+            {/* Footer Bottom */}
+            <div className="footer_bottom">
+              <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.875rem' }}>
+                © Aeline. All rights reserved. Powered by Webflow.
+              </div>
+              <div className="footer_bottom-links">
+                <a href="#privacy" className="footer_bottom-link">Privacy Policy</a>
+                <a href="#terms" className="footer_bottom-link">Terms of Service</a>
+              </div>
+            </div>
           </div>
         </div>
-
       </div>
     </footer>
-  );
+  )
 }

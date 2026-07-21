@@ -1,193 +1,297 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { ArrowRight, ArrowUpRight, Star } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react'
+
+// Unique card images from Aeline template
+const CAROUSEL_IMAGES = [
+  'https://cdn.prod.website-files.com/6929c116366a14507fc8424d/69a5007e9793bec9aef0bae6_card.avif',
+  'https://cdn.prod.website-files.com/6929c116366a14507fc8424d/69a5007db9ab99a268357410_card-3.avif',
+  'https://cdn.prod.website-files.com/6929c116366a14507fc8424d/69a5007d21f950db130e28c9_card-6.avif',
+  'https://cdn.prod.website-files.com/6929c116366a14507fc8424d/69a5007eb87553c5aa32934f_card-1.avif',
+  'https://cdn.prod.website-files.com/6929c116366a14507fc8424d/69a5007e27ef20e6e3edd02e_card-4.avif',
+  'https://cdn.prod.website-files.com/6929c116366a14507fc8424d/69a5007e9468539ba66cdd61_card-7.avif',
+  'https://cdn.prod.website-files.com/6929c116366a14507fc8424d/69a5007dd38878bbefc784aa_card-8.avif',
+  'https://cdn.prod.website-files.com/6929c116366a14507fc8424d/69a5007d920bdd6882dc8eb7_card-2.avif',
+  'https://cdn.prod.website-files.com/6929c116366a14507fc8424d/69a5007d1354bb8698409c38_card-5.avif',
+]
+
+function MerryGoRound() {
+  const [rotationY, setRotationY] = useState(0)
+  const [isDragging, setIsDragging] = useState(false)
+  const [hasDragged, setHasDragged] = useState(false)
+  const startXRef = useRef(0)
+  const startRotationRef = useRef(0)
+  const velocityRef = useRef(0)
+  const lastXRef = useRef(0)
+  const animFrameRef = useRef(null)
+
+  const numCards = CAROUSEL_IMAGES.length
+  const angleStep = 360 / numCards
+  const radius = 340
+
+  const handlePointerDown = (e) => {
+    e.preventDefault()
+    setIsDragging(true)
+    setHasDragged(true)
+    if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current)
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX
+    startXRef.current = clientX
+    lastXRef.current = clientX
+    startRotationRef.current = rotationY
+    velocityRef.current = 0
+  }
+
+  const handlePointerMove = (e) => {
+    if (!isDragging) return
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX
+    const deltaX = clientX - startXRef.current
+    const stepDelta = clientX - lastXRef.current
+    lastXRef.current = clientX
+    velocityRef.current = stepDelta * 0.3
+
+    setRotationY(startRotationRef.current + deltaX * 0.4)
+  }
+
+  const handlePointerUp = () => {
+    if (!isDragging) return
+    setIsDragging(false)
+
+    let currentVel = velocityRef.current
+    let currentRot = rotationY
+    const decay = () => {
+      if (Math.abs(currentVel) > 0.05) {
+        currentRot += currentVel
+        currentVel *= 0.92
+        setRotationY(currentRot)
+        animFrameRef.current = requestAnimationFrame(decay)
+      }
+    }
+    animFrameRef.current = requestAnimationFrame(decay)
+  }
+
+  useEffect(() => {
+    const onUp = () => handlePointerUp()
+    window.addEventListener('mouseup', onUp)
+    window.addEventListener('touchend', onUp)
+    return () => {
+      window.removeEventListener('mouseup', onUp)
+      window.removeEventListener('touchend', onUp)
+    }
+  }, [isDragging, rotationY])
+
+  return (
+    <div
+      style={{
+        width: '100%',
+        perspective: '1200px',
+        padding: '3rem 0',
+        position: 'relative',
+        zIndex: 10,
+        isolation: 'isolate', // Isolate stacking context so background blue glow doesn't affect cards
+        userSelect: 'none',
+        WebkitUserSelect: 'none',
+        MozUserSelect: 'none',
+        msUserSelect: 'none',
+        cursor: isDragging ? 'grabbing' : 'grab',
+        touchAction: 'pan-y',
+      }}
+      onMouseDown={handlePointerDown}
+      onMouseMove={handlePointerMove}
+      onTouchStart={handlePointerDown}
+      onTouchMove={handlePointerMove}
+    >
+      {/* 3D Carousel Stage */}
+      <div
+        style={{
+          position: 'relative',
+          width: '220px',
+          height: '150px',
+          margin: '0 auto',
+          transformStyle: 'preserve-3d',
+          transform: `rotateX(-6deg) rotateY(${rotationY}deg)`,
+          transition: isDragging ? 'none' : 'transform 0.05s ease-out',
+        }}
+      >
+        {CAROUSEL_IMAGES.map((src, i) => {
+          const itemAngle = i * angleStep
+          return (
+            <div
+              key={i}
+              style={{
+                position: 'absolute',
+                width: '220px',
+                height: '150px',
+                left: 0,
+                top: 0,
+                transformStyle: 'preserve-3d',
+                transform: `rotateY(${itemAngle}deg) translateZ(${radius}px)`,
+                borderRadius: '0.875rem',
+                overflow: 'hidden',
+                backgroundColor: '#141414', // Opaque dark background fill for card
+                boxShadow: '0 16px 40px rgba(0,0,0,0.85), 0 0 0 1px rgba(255,255,255,0.18)',
+                backfaceVisibility: 'hidden',
+                WebkitBackfaceVisibility: 'hidden',
+                isolation: 'isolate',
+              }}
+            >
+              <img
+                src={src}
+                alt=""
+                draggable={false}
+                onDragStart={(e) => e.preventDefault()}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  display: 'block',
+                  pointerEvents: 'none',
+                  userSelect: 'none',
+                  WebkitUserSelect: 'none',
+                  WebkitUserDrag: 'none',
+                  borderRadius: '0.875rem',
+                  filter: 'none',
+                  mixBlendMode: 'normal',
+                  opacity: 1,
+                }}
+              />
+            </div>
+          )
+        })}
+      </div>
+
+      {/* Drag hint badge */}
+      <div
+        style={{
+          textAlign: 'center',
+          marginTop: '2.5rem',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '0.5rem',
+          color: 'rgba(255,255,255,0.7)',
+          fontSize: '0.8125rem',
+          fontWeight: 500,
+          letterSpacing: '0.02em',
+          textShadow: '0 2px 8px rgba(0,0,0,0.8)',
+        }}
+      >
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M18 11l-3-3m0 6l3-3M6 11l3-3m0 6L6 11" />
+          <path d="M9 11h6" />
+        </svg>
+        <span>{hasDragged ? 'Click & drag sideways to spin' : '✨ Click & drag sideways to spin merry-go-round'}</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M18 11l-3-3m0 6l3-3M6 11l3-3m0 6L6 11" />
+          <path d="M9 11h6" />
+        </svg>
+      </div>
+    </div>
+  )
+}
 
 export default function HeroSection() {
   return (
-    <section className="relative overflow-hidden figma-sky-bg pt-12 pb-24 md:pt-16 md:pb-32 px-4 sm:px-6 lg:px-8">
-      
-      {/* Translucent Floating Clouds from Figma */}
-      <div className="absolute top-10 left-[-5%] w-[450px] h-[140px] figma-cloud blur-sm opacity-60 pointer-events-none" />
-      <div className="absolute top-4 right-[-10%] w-[550px] h-[180px] figma-cloud blur-sm opacity-70 pointer-events-none" />
-      <div className="absolute top-36 left-[15%] w-[650px] h-[160px] figma-cloud opacity-40 pointer-events-none" />
-      <div className="absolute top-44 right-[10%] w-[500px] h-[150px] figma-cloud opacity-50 pointer-events-none" />
-      <div className="absolute top-72 left-[30%] w-[400px] h-[100px] figma-cloud opacity-30 pointer-events-none" />
+    <section className="section_hero" id="home">
+      {/* Original Aeline Blue Hero Background Image */}
+      <img
+        src="https://cdn.prod.website-files.com/6929c116366a14507fc8424d/6929d3408e9ff6a515b9eee8_ai-hero%20(1).avif"
+        loading="lazy"
+        alt=""
+        className="img is-hero"
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          zIndex: 1,
+          opacity: 0.65,
+          pointerEvents: 'none',
+          filter: 'none',
+          mixBlendMode: 'normal',
+        }}
+      />
 
-      <div className="max-w-6xl mx-auto relative z-10 text-center">
-        
-        {/* Main Title from Figma */}
-        <motion.h1 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="font-heading text-4xl sm:text-6xl lg:text-7xl font-black text-white tracking-tight leading-[1.08] max-w-4xl mx-auto drop-shadow-sm"
-        >
-          Building the future<br />
-          with AI and strategy
-        </motion.h1>
+      {/* Hero text content */}
+      <div className="hero_wrap">
+        <div className="padding-global is-hero" style={{ width: '100%' }}>
+          <div className="vertical-center">
+            <h1 className="text-align-center">
+              Building the future with <br />
+              <span className="opacity-73">AI and strategy</span>
+            </h1>
 
-        {/* Subtitle from Figma */}
-        <motion.p 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.15 }}
-          className="mt-6 text-sm sm:text-base md:text-lg text-slate-800/90 font-medium max-w-2xl mx-auto leading-relaxed"
-        >
-          We help organizations unlock growth and efficiency through data-driven consulting and intelligent automation.
-        </motion.p>
+            <div className="spacer-medium" />
 
-        {/* CTA Buttons from Figma */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="mt-8 flex flex-wrap items-center justify-center gap-4"
-        >
-          <Link 
-            to="/services"
-            className="btn-figma-glass uppercase"
-          >
-            View Services
-          </Link>
-
-          <Link 
-            to="/contact"
-            className="btn-figma-dark group uppercase"
-          >
-            <span>Get Started</span>
-            <div className="w-7 h-7 rounded-full bg-[#c6f529] text-[#0f172a] flex items-center justify-center font-bold group-hover:translate-x-0.5 transition-transform">
-              <ArrowRight className="w-4 h-4" />
+            <div className="max-width-medium">
+              <div className="text-base text-color-on-primary text-align-center">
+                We help organizations unlock growth and efficiency through data-driven consulting and intelligent automation.
+              </div>
             </div>
-          </Link>
-        </motion.div>
 
-        {/* 5 Floating Bento Cards (1-to-1 Match from Figma) */}
-        <motion.div 
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="mt-16 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4 max-w-5xl mx-auto text-left"
-        >
-          {/* Card 1: Black Expertise Card */}
-          <div className="figma-card-dark flex flex-col justify-between h-[155px]">
-            <div>
-              <span className="font-mono-code text-[10px] font-extrabold uppercase tracking-widest text-slate-400 block mb-2">
-                Expertise
-              </span>
-              <p className="font-heading font-bold text-xs leading-snug text-white">
-                Combining Strategy, Data & Intelligence
-              </p>
-            </div>
-            <div className="w-full h-1 bg-slate-800 rounded-full overflow-hidden flex">
-              <div className="w-1/3 bg-[#c6f529]" />
-              <div className="w-1/3 bg-blue-500" />
-              <div className="w-1/3 bg-slate-600" />
+            <div className="spacer-huge" />
+
+            <div className="button_wrapper is-hero">
+              <a
+                href="https://temlis.com"
+                className="button"
+                style={{ background: 'transparent', color: '#fff', border: '1.5px solid rgba(255,255,255,0.35)', padding: '0.75rem 1.5rem', borderRadius: '9999px', fontWeight: 600, fontSize: '0.9375rem', display: 'inline-flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', transition: 'all 0.2s' }}
+              >
+                <div className="text-button-wrap">
+                  <div>View Demo</div>
+                </div>
+              </a>
+
+              <a
+                href="#contact"
+                className="button-arrow"
+                style={{ display: 'inline-flex', alignItems: 'center', textDecoration: 'none', cursor: 'pointer' }}
+              >
+                <div className="button-arrow_wrap">
+                  <div className="button-arrow_text">
+                    <div className="text_button" style={{ color: '#ffffff', fontWeight: 600, fontSize: '0.9375rem' }}>
+                      Get Started
+                    </div>
+                  </div>
+                  <div
+                    className="button_container-arrow"
+                    style={{ width: '2.75rem', height: '2.75rem', borderRadius: '50%', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#0f0f0f', flexShrink: 0 }}
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                      <path d="M13.0457 8.13128L5.8733 15.3037L4.69479 14.1252L11.8672 6.95277L5.54568 6.95277L5.54568 5.28636H14.7121V14.4528L13.0457 14.4528V8.13128Z" fill="currentColor" />
+                    </svg>
+                  </div>
+                  <div className="button-arrow_bg" />
+                </div>
+              </a>
             </div>
           </div>
+        </div>
+      </div>
 
-          {/* Card 2: White Intelligence Card */}
-          <div className="figma-card-white flex flex-col justify-between h-[155px]">
-            <div className="flex items-center justify-between">
-              <span className="font-mono-code text-[10px] font-extrabold uppercase tracking-widest text-slate-500">
-                Intelligence
-              </span>
-              <span className="w-2 h-2 rounded-full bg-[#c6f529]" />
-            </div>
-            <div>
-              <span className="font-heading text-3xl font-black text-[#0f172a] block">
-                94%
-              </span>
-              <span className="text-[11px] font-semibold text-slate-500 block">
-                Efficiency score
-              </span>
-            </div>
-            <div className="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
-              <div className="bg-[#0f172a] h-full rounded-full w-[94%]" />
-            </div>
-          </div>
+      {/* Spacer between text and Merry-Go-Round */}
+      <div style={{ height: '1.5rem' }} />
 
-          {/* Card 3: White Data Insights Card */}
-          <div className="figma-card-white flex flex-col justify-between h-[155px]">
-            <div>
-              <span className="font-mono-code text-[10px] font-extrabold uppercase tracking-widest text-slate-500 block mb-1">
-                Data Insights
-              </span>
-              <span className="font-heading text-2xl font-black text-[#0f172a] block">
-                520k+
-              </span>
-              <span className="text-[10px] font-semibold text-slate-400 block">
-                data points / month
-              </span>
-            </div>
-            <div className="flex items-end gap-1.5 h-6 pt-2">
-              <div className="flex-1 bg-slate-200 h-3 rounded-sm" />
-              <div className="flex-1 bg-slate-200 h-4 rounded-sm" />
-              <div className="flex-1 bg-slate-200 h-5 rounded-sm" />
-              <div className="flex-1 bg-slate-200 h-3 rounded-sm" />
-              <div className="flex-1 bg-[#0f172a] h-6 rounded-sm" />
-              <div className="flex-1 bg-slate-200 h-4 rounded-sm" />
-            </div>
-          </div>
+      {/* Interactive 3D Merry-Go-Round */}
+      <MerryGoRound />
 
-          {/* Card 4: Black Dataframing Card */}
-          <div className="figma-card-dark flex flex-col justify-between h-[155px]">
-            <div>
-              <span className="font-mono-code text-[10px] font-extrabold uppercase tracking-widest text-slate-400 block mb-2">
-                Dataframing
-              </span>
-            </div>
-            <div className="flex items-end justify-between gap-1.5 h-12">
-              <div className="w-3 bg-[#c6f529] h-[50%] rounded-sm" />
-              <div className="w-3 bg-[#c6f529] h-[75%] rounded-sm" />
-              <div className="w-3 bg-[#c6f529] h-[40%] rounded-sm" />
-              <div className="w-3 bg-[#c6f529] h-[90%] rounded-sm" />
-              <div className="w-3 bg-[#c6f529] h-[65%] rounded-sm" />
-            </div>
-            <span className="text-[10px] font-mono text-slate-400 block">
-              Real-time feed
-            </span>
-          </div>
+      <div className="_3d_spacer" />
 
-          {/* Card 5: White Growth Card */}
-          <div className="figma-card-white flex flex-col justify-between h-[155px] relative">
-            <div>
-              <span className="font-mono-code text-[10px] font-extrabold uppercase tracking-widest text-slate-500 block mb-1">
-                Growth
-              </span>
-              <span className="font-heading text-2xl font-black text-[#0f172a] block">
-                49%
-              </span>
-              <span className="text-[10px] font-semibold text-slate-500 block">
-                efficiency gain
-              </span>
+      {/* Rating badge */}
+      <div className="rating" style={{ position: 'relative', bottom: 'auto', marginBottom: '2rem', transform: 'none', left: 'auto', zIndex: 10 }}>
+        <div className="text-color-on-primary" style={{ fontSize: '0.875rem' }}>
+          Rated 4.9/5 by 4.900+ clients
+        </div>
+        <div className="spacer-xsmall" />
+        <div className="stars-wrap">
+          {[...Array(5)].map((_, i) => (
+            <div key={i} className="icon-1x1-small">
+              <svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 16 16" fill="none">
+                <path d="M3.88203 13.9987L4.96536 9.31536L1.33203 6.16536L6.13203 5.7487L7.9987 1.33203L9.86536 5.7487L14.6654 6.16536L11.032 9.31536L12.1154 13.9987L7.9987 11.5154L3.88203 13.9987Z" fill="#F1EE46" />
+              </svg>
             </div>
-            <div className="w-8 h-8 rounded-full bg-[#c6f529] text-[#0f172a] flex items-center justify-center self-start shadow-sm">
-              <ArrowUpRight className="w-4 h-4 font-bold" />
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Social Proof Rating from Figma */}
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="mt-12 space-y-2"
-        >
-          <div className="flex items-center justify-center gap-1 text-[#c6f529]">
-            <Star className="w-4 h-4 fill-current text-yellow-400" />
-            <Star className="w-4 h-4 fill-current text-yellow-400" />
-            <Star className="w-4 h-4 fill-current text-yellow-400" />
-            <Star className="w-4 h-4 fill-current text-yellow-400" />
-            <Star className="w-4 h-4 fill-current text-yellow-400" />
-          </div>
-          <p className="text-xs font-semibold text-slate-600/90">
-            Rated 4.9/5 by 4,900+ clients
-          </p>
-        </motion.div>
-
+          ))}
+        </div>
       </div>
     </section>
-  );
+  )
 }

@@ -1,103 +1,158 @@
-import React, { useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
-import { Zap, Menu, X } from 'lucide-react';
+import { useState, useEffect } from 'react'
 
 export default function Navbar() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const [dropdownOpen, setDropdownOpen] = useState(false)
 
-  const navLinkClass = ({ isActive }) =>
-    isActive
-      ? "text-[#0f172a] bg-[#c6f529] px-4 py-1.5 rounded-full font-black shadow-sm transition-all"
-      : "text-slate-800 hover:text-black hover:bg-white/50 px-4 py-1.5 rounded-full transition-all";
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20)
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
-  const mobileNavLinkClass = ({ isActive }) =>
-    isActive
-      ? "py-2.5 px-4 rounded-xl bg-[#c6f529] text-[#0f172a] font-black"
-      : "py-2.5 px-4 rounded-xl text-slate-800 hover:bg-slate-100 font-bold";
+  const dropdownLinks = {
+    col1: [
+      { label: 'Home V.1', href: '/' },
+      { label: 'Home V.2', href: '/' },
+      { label: 'Home V.3', href: '/' },
+      { label: 'Services', href: '#services' },
+    ],
+    col2: [
+      { label: 'About V.1', href: '#about' },
+      { label: 'About V.2', href: '#about' },
+      { label: 'About V.3', href: '#about' },
+      { label: 'Pricing', href: '#pricing' },
+    ],
+    col3: [
+      { label: 'Contact V.1', href: '#contact' },
+      { label: 'Contact V.2', href: '#contact' },
+      { label: 'Contact V.3', href: '#contact' },
+      { label: 'Blog', href: '#blog' },
+    ],
+  }
 
   return (
-    <header className="relative z-50 w-full pt-8 px-4 sm:px-8 max-w-7xl mx-auto">
-      <div className="flex items-center justify-between">
-        
-        {/* Brand Logo from Figma */}
-        <Link 
-          to="/" 
-          className="flex items-center gap-3 group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0f172a] rounded-xl p-1"
-          aria-label="Qolve Home"
-        >
-          <div className="w-10 h-10 rounded-xl bg-[#0f172a] text-white flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
-            <Zap className="w-5 h-5 fill-current text-white" />
+    <nav className="navbar" style={{ background: scrolled ? 'rgba(15,15,15,0.97)' : 'rgba(15,15,15,0.82)' }}>
+      <div className="padding-global is-navbar">
+        <div className="container-large">
+          <div className="navbar_content">
+            {/* Logo */}
+            <a href="/" className="navbar_logo-link">
+              <img
+                src="https://cdn.prod.website-files.com/6929c116366a14507fc8424d/69bc6c8e343f8f1f1832309a_aeline-logo.svg"
+                loading="lazy"
+                alt="aeline"
+                className="navbar_logo"
+                style={{ height: '1.75rem', width: 'auto' }}
+              />
+            </a>
+
+            {/* Desktop nav links */}
+            <div className="nav_wrap">
+              <nav className="nav_mobile">
+                <div className="navbar_list">
+                  <a href="#home" className="nav_links">Home</a>
+                  <a href="#services" className="nav_links">Services</a>
+                  <a href="#about" className="nav_links">About Us</a>
+
+                  {/* More Links dropdown */}
+                  <div
+                    className="nav_dropdown"
+                    onMouseEnter={() => setDropdownOpen(true)}
+                    onMouseLeave={() => setDropdownOpen(false)}
+                  >
+                    <div className="nav_links is-dropdown">
+                      <div className="geistmono" style={{ color: 'rgba(255,255,255,0.7)' }}>More Links</div>
+                      <svg width="10" height="6" viewBox="0 0 10 6" fill="none" style={{ flexShrink: 0 }}>
+                        <path d="M1 1L5 5L9 1" stroke="rgba(255,255,255,0.7)" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
+                      </svg>
+                    </div>
+
+                    {dropdownOpen && (
+                      <nav className="nav_link-dropdown">
+                        <div className="nav_dropdown-wrap">
+                          <div className="nav_dropdown-content">
+                            {Object.values(dropdownLinks).map((col, ci) => (
+                              <div key={ci} className="nav_dropdown-column">
+                                {col.map((link, li) => (
+                                  <a key={li} href={link.href} className="nav_dropdown-link">
+                                    {link.label}
+                                  </a>
+                                ))}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </nav>
+                    )}
+                  </div>
+                </div>
+              </nav>
+            </div>
+
+            {/* Right buttons */}
+            <div className="nav_buttons-wrap">
+              <div className="login-wrap">
+                <a
+                  href="https://temlis.com"
+                  className="button"
+                  data-variant="base"
+                  style={{ padding: '0.625rem 1.25rem', fontSize: '0.875rem', background: '#fff', color: '#0f0f0f' }}
+                >
+                  <div className="text-button-wrap">
+                    <div>Buy Template</div>
+                  </div>
+                </a>
+              </div>
+
+              {/* Hamburger (mobile) */}
+              <button
+                className="menu-button"
+                onClick={() => setMobileOpen(!mobileOpen)}
+                style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'none' }}
+              >
+                <div className="nav-button_component">
+                  <div className="nav-button_line is-first" style={{ transform: mobileOpen ? 'rotate(45deg) translate(5px, 5px)' : 'none' }} />
+                  <div className="nav-button_line is-second" style={{ opacity: mobileOpen ? 0 : 1 }} />
+                  <div className="nav-button_line is-third" style={{ transform: mobileOpen ? 'rotate(-45deg) translate(5px, -5px)' : 'none' }} />
+                </div>
+              </button>
+            </div>
           </div>
-          <span className="font-heading text-2xl font-black tracking-tight text-[#0f172a]">
-            Qolve
-          </span>
-        </Link>
-
-        {/* Center Nav Links using react-router-dom */}
-        <nav aria-label="Main Navigation" className="hidden md:flex items-center gap-2 text-[11px] font-extrabold tracking-widest uppercase">
-          <NavLink to="/" end className={navLinkClass}>
-            Home
-          </NavLink>
-          <NavLink to="/services" className={navLinkClass}>
-            Services
-          </NavLink>
-          <NavLink to="/about" className={navLinkClass}>
-            About Us
-          </NavLink>
-          <NavLink to="/contact" className={navLinkClass}>
-            Contact
-          </NavLink>
-        </nav>
-
-        {/* Right CTA Button from Figma (#c6f529) */}
-        <div className="hidden md:flex items-center gap-3">
-          <Link 
-            to="/contact"
-            className="btn-figma-lime uppercase focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#c6f529]"
-          >
-            Get Started
-          </Link>
-        </div>
-
-        {/* Mobile Hamburger */}
-        <div className="md:hidden flex items-center">
-          <button 
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-expanded={mobileMenuOpen}
-            aria-label="Toggle Navigation Menu"
-            className="p-2 rounded-lg text-slate-800 hover:bg-white/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0f172a]"
-          >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
         </div>
       </div>
 
-      {/* Mobile Drawer */}
-      {mobileMenuOpen && (
-        <div className="md:hidden mt-4 bg-white/95 backdrop-blur-lg rounded-2xl p-6 space-y-4 shadow-xl border border-white/60 animate-fade-in">
-          <div className="flex flex-col gap-2 text-xs font-bold uppercase tracking-wider text-slate-800">
-            <NavLink to="/" end onClick={() => setMobileMenuOpen(false)} className={mobileNavLinkClass}>
-              Home
-            </NavLink>
-            <NavLink to="/services" onClick={() => setMobileMenuOpen(false)} className={mobileNavLinkClass}>
-              Services
-            </NavLink>
-            <NavLink to="/about" onClick={() => setMobileMenuOpen(false)} className={mobileNavLinkClass}>
-              About Us
-            </NavLink>
-            <NavLink to="/contact" onClick={() => setMobileMenuOpen(false)} className={mobileNavLinkClass}>
-              Contact
-            </NavLink>
-          </div>
-          <Link 
-            to="/contact"
-            onClick={() => setMobileMenuOpen(false)}
-            className="w-full btn-figma-lime text-center justify-center uppercase text-xs py-3"
-          >
-            Get Started
-          </Link>
+      {/* Mobile menu */}
+      {mobileOpen && (
+        <div style={{
+          background: 'rgba(15,15,15,0.99)',
+          padding: '1rem 2.5rem 1.5rem',
+          borderBottom: '1px solid rgba(255,255,255,0.08)',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '0.25rem',
+        }}>
+          {['Home', 'Services', 'About Us', 'Expertise', 'Pricing', 'Blog', 'Contact'].map((item) => (
+            <a
+              key={item}
+              href={`#${item.toLowerCase().replace(/\s+/g, '-')}`}
+              className="nav_links"
+              onClick={() => setMobileOpen(false)}
+              style={{ display: 'block', padding: '0.75rem 0.5rem' }}
+            >
+              {item}
+            </a>
+          ))}
         </div>
       )}
-    </header>
-  );
+
+      <style>{`
+        @media (max-width: 991px) {
+          .nav_wrap { display: none !important; }
+          .menu-button { display: block !important; }
+        }
+      `}</style>
+    </nav>
+  )
 }
