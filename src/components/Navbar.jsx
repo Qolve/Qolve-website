@@ -9,8 +9,12 @@ export default function Navbar({ onOpenContact }) {
       <div className="flex items-center justify-between">
         
         {/* Brand Logo from Figma */}
-        <a href="#" className="flex items-center gap-3 group">
-          <div className="w-10 h-10 rounded-xl bg-[#0f172a] text-white flex items-center justify-center shadow-md">
+        <a 
+          href="#" 
+          className="flex items-center gap-3 group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0f172a] rounded-xl p-1"
+          aria-label="Qolve Home"
+        >
+          <div className="w-10 h-10 rounded-xl bg-[#0f172a] text-white flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
             <Zap className="w-5 h-5 fill-current text-white" />
           </div>
           <span className="font-heading text-2xl font-black tracking-tight text-[#0f172a]">
@@ -19,21 +23,21 @@ export default function Navbar({ onOpenContact }) {
         </a>
 
         {/* Center Nav Links from Figma */}
-        <nav className="hidden md:flex items-center gap-8 text-[11px] font-extrabold tracking-widest text-slate-800 uppercase">
-          <a href="#home" className="hover:text-black transition-colors">Home</a>
-          <a href="#services" className="hover:text-black transition-colors">Services</a>
-          <a href="#about" className="hover:text-black transition-colors">About Us</a>
-          <div className="cursor-pointer flex items-center gap-1 hover:text-black">
+        <nav aria-label="Main Navigation" className="hidden md:flex items-center gap-8 text-[11px] font-extrabold tracking-widest text-slate-800 uppercase">
+          <a href="#home" className="hover:text-black transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0f172a] rounded px-1">Home</a>
+          <a href="#services" className="hover:text-black transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0f172a] rounded px-1">Services</a>
+          <a href="#about" className="hover:text-black transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0f172a] rounded px-1">About Us</a>
+          <a href="#about" className="cursor-pointer flex items-center gap-1 hover:text-black focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0f172a] rounded px-1">
             <span>More Links</span>
             <ChevronDown className="w-3.5 h-3.5" />
-          </div>
+          </a>
         </nav>
 
         {/* Right CTA Button from Figma */}
         <div className="hidden md:flex items-center gap-3">
           <button 
             onClick={onOpenContact}
-            className="btn-figma-lime uppercase"
+            className="btn-figma-lime uppercase focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#c6f529]"
           >
             Get Started
           </button>
@@ -43,7 +47,9 @@ export default function Navbar({ onOpenContact }) {
         <div className="md:hidden flex items-center">
           <button 
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 rounded-lg text-slate-800 hover:bg-white/40"
+            aria-expanded={mobileMenuOpen}
+            aria-label="Toggle Navigation Menu"
+            className="p-2 rounded-lg text-slate-800 hover:bg-white/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0f172a]"
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
