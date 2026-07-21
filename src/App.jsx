@@ -1,70 +1,105 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import HeroSection from './components/HeroSection';
-import MarqueeTicker from './components/MarqueeTicker';
-import QuelpSpotlight from './components/QuelpSpotlight';
-import ArchitectureSection from './components/ArchitectureSection';
-import SavingsCalculator from './components/SavingsCalculator';
-import TeamSection from './components/TeamSection';
-import CompanyWidget from './components/CompanyWidget';
-import Footer from './components/Footer';
+import ProductsSection from './components/ProductsSection';
+import InteractiveSandbox from './components/InteractiveSandbox';
+import ROIStatsSection from './components/ROIStatsSection';
+import EcosystemSection from './components/EcosystemSection';
+import TeamValuesSection from './components/TeamValuesSection';
+import TestimonialsSection from './components/TestimonialsSection';
 import ContactModal from './components/ContactModal';
-
-import QuelpPage from './pages/QuelpPage';
-import SolutionsPage from './pages/SolutionsPage';
-import AppsPage from './pages/AppsPage';
+import SearchModal from './components/SearchModal';
+import Footer from './components/Footer';
 
 export default function App() {
-  const [activePage, setActivePage] = useState('home');
-  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [activeSection, setActiveSection] = useState('hero');
   const [isContactOpen, setIsContactOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
-  const navigate = (page) => {
-    if (page === activePage) return;
-    setIsTransitioning(true);
-    setTimeout(() => {
-      setActivePage(page);
-      window.scrollTo({ top: 0, behavior: 'instant' });
-      setIsTransitioning(false);
-    }, 180);
+  // Ctrl+K keyboard shortcut listener for search modal
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        setIsSearchOpen((prev) => !prev);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  const scrollToSection = (sectionId) => {
+    setActiveSection(sectionId);
+    if (sectionId === 'hero') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      const el = document.getElementById(sectionId);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
   };
 
-  const handleOpenContact = () => setIsContactOpen(true);
-  const handleCloseContact = () => setIsContactOpen(false);
-
   return (
-    <div style={{ minHeight: '100vh', background: 'var(--bg-dark)', display: 'flex', flexDirection: 'column' }}>
-      <Navbar activePage={activePage} onNavigate={navigate} onOpenContact={handleOpenContact} />
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: 'var(--bg-primary)' }}>
+      {/* Sticky Navigation */}
+      <Navbar
+        activeSection={activeSection}
+        onNavigate={scrollToSection}
+        onOpenSearch={() => setIsSearchOpen(true)}
+        onOpenContact={() => setIsContactOpen(true)}
+      />
 
-      <main
-        style={{
-          flex: 1,
-          opacity: isTransitioning ? 0 : 1,
-          transform: isTransitioning ? 'translateY(6px)' : 'translateY(0)',
-          transition: 'opacity 0.18s ease, transform 0.18s ease',
-        }}
-      >
-        {activePage === 'home' && (
-          <>
-            <HeroSection onNavigate={navigate} onOpenContact={handleOpenContact} />
-            <MarqueeTicker />
-            <QuelpSpotlight onNavigate={navigate} onOpenContact={handleOpenContact} />
-            <ArchitectureSection />
-            <SavingsCalculator onOpenContact={handleOpenContact} />
-            <TeamSection />
-            <CompanyWidget />
-          </>
-        )}
+      {/* Main Page Layout */}
+      <main style={{ flex: 1 }}>
+        <HeroSection 
+          onNavigate={scrollToSection}
+          onOpenContact={() => setIsContactOpen(true)}
+        />
 
-        {activePage === 'quelp' && <QuelpPage onNavigate={navigate} onOpenContact={handleOpenContact} />}
-        {activePage === 'solutions' && <SolutionsPage onNavigate={navigate} onOpenContact={handleOpenContact} />}
-        {activePage === 'apps' && <AppsPage onNavigate={navigate} onOpenContact={handleOpenContact} />}
+        <ProductsSection 
+          onNavigate={scrollToSection}
+          onOpenContact={() => setIsContactOpen(true)}
+        />
+
+        <InteractiveSandbox 
+          onOpenContact={() => setIsContactOpen(true)}
+        />
+
+        <ROIStatsSection 
+          onOpenContact={() => setIsContactOpen(true)}
+        />
+
+        <EcosystemSection 
+          onOpenContact={() => setIsContactOpen(true)}
+        />
+
+        <TeamValuesSection 
+          onOpenContact={() => setIsContactOpen(true)}
+        />
+
+        <TestimonialsSection 
+          onOpenContact={() => setIsContactOpen(true)}
+        />
       </main>
 
-      <Footer onNavigate={navigate} onOpenContact={handleOpenContact} />
+      {/* Footer */}
+      <Footer 
+        onNavigate={scrollToSection}
+        onOpenContact={() => setIsContactOpen(true)}
+      />
 
-      {/* Global Contact & Early Access Modal */}
-      <ContactModal isOpen={isContactOpen} onClose={handleCloseContact} />
+      {/* Interactive Modals */}
+      <ContactModal 
+        isOpen={isContactOpen}
+        onClose={() => setIsContactOpen(false)}
+      />
+
+      <SearchModal 
+        isOpen={isSearchOpen}
+        onClose={() => setIsSearchOpen(false)}
+        onNavigate={scrollToSection}
+      />
     </div>
   );
 }

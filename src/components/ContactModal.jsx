@@ -1,5 +1,14 @@
 import React, { useState } from 'react';
-import { X, CheckCircle2, ArrowRight, ShieldCheck, Mail, Building2, User, MessageSquare } from 'lucide-react';
+import { 
+  X, 
+  Sparkles, 
+  CheckCircle2, 
+  ArrowRight, 
+  Calendar, 
+  Clock, 
+  ShieldCheck,
+  Send
+} from 'lucide-react';
 
 export default function ContactModal({ isOpen, onClose }) {
   const [submitted, setSubmitted] = useState(false);
@@ -7,9 +16,9 @@ export default function ContactModal({ isOpen, onClose }) {
     name: '',
     email: '',
     company: '',
-    teamSize: '3-15',
-    interest: 'quelp-pilot',
-    message: ''
+    teamSize: '20-50',
+    productInterest: 'quelp',
+    notes: ''
   });
 
   if (!isOpen) return null;
@@ -19,143 +28,222 @@ export default function ContactModal({ isOpen, onClose }) {
     setSubmitted(true);
   };
 
-  const resetAndClose = () => {
+  const handleReset = () => {
     setSubmitted(false);
     onClose();
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: 'rgba(4, 7, 10, 0.85)', backdropFilter: 'blur(12px)' }}>
+    <div 
+      style={{
+        position: 'fixed',
+        inset: 0,
+        zIndex: 100,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '1.5rem',
+        background: 'rgba(4, 47, 46, 0.65)',
+        backdropFilter: 'blur(8px)',
+        WebkitBackdropFilter: 'blur(8px)',
+        animation: 'fadeIn 0.2s ease-out'
+      }}
+      onClick={onClose}
+    >
       <div 
-        className="glass-panel-accent relative w-full max-w-xl overflow-hidden p-6 md:p-8"
         style={{
-          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 40px rgba(0, 196, 180, 0.15)',
-          borderRadius: '16px'
+          background: '#ffffff',
+          borderRadius: '24px',
+          padding: '2.5rem',
+          maxWidth: '560px',
+          width: '100%',
+          boxShadow: '0 25px 60px rgba(0,0,0,0.25)',
+          border: '1px solid rgba(13, 148, 136, 0.3)',
+          position: 'relative',
+          maxHeight: '90vh',
+          overflowY: 'auto'
         }}
+        onClick={(e) => e.stopPropagation()}
       >
-        {/* Close button */}
+        {/* Close Button */}
         <button
-          onClick={resetAndClose}
-          className="absolute top-5 right-5 text-slate-400 hover:text-white transition-colors p-1 rounded-lg hover:bg-white/10"
+          onClick={onClose}
+          style={{
+            position: 'absolute',
+            top: '1.25rem',
+            right: '1.25rem',
+            width: '36px',
+            height: '36px',
+            borderRadius: '50%',
+            border: '1px solid #e2e8f0',
+            background: '#f8fafc',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
         >
-          <X size={20} />
+          <X size={18} color="#64748b" />
         </button>
 
         {submitted ? (
-          <div className="py-8 text-center space-y-4">
-            <div className="w-16 h-16 bg-teal-500/10 border border-teal-500/30 rounded-full flex items-center justify-center mx-auto text-teal-400">
-              <CheckCircle2 size={36} />
+          <div style={{ textAlign: 'center', padding: '2rem 1rem' }}>
+            <div 
+              style={{
+                width: '64px',
+                height: '64px',
+                borderRadius: '50%',
+                background: 'rgba(13, 148, 136, 0.15)',
+                color: '#0d9488',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                margin: '0 auto 1.5rem'
+              }}
+            >
+              <CheckCircle2 size={36} color="#0d9488" />
             </div>
-            <h3 className="text-2xl font-bold font-display text-white">Request Received</h3>
-            <p className="text-slate-300 text-sm max-w-md mx-auto">
-              Thank you, <span className="text-teal-400 font-medium">{formData.name}</span>. Our founder <span className="text-white font-semibold">Freddie Haude</span> and the Qolve team will get back to you within 24 hours.
+
+            <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.8rem', fontWeight: 800, color: '#042f2e', marginBottom: '0.75rem' }}>
+              Demo Request Scheduled!
+            </h3>
+            <p style={{ color: '#475569', fontSize: '0.98rem', lineHeight: 1.6, marginBottom: '2rem' }}>
+              Thank you <strong>{formData.name || 'there'}</strong>! Our enterprise Solutions Architect will reach out to <strong>{formData.email}</strong> within 15 minutes with calendar invites and sandbox API credentials.
             </p>
-            <div className="pt-4">
-              <button
-                onClick={resetAndClose}
-                className="btn-primary"
-              >
-                Return to Website
-              </button>
-            </div>
+
+            <button onClick={handleReset} className="btn-primary" style={{ width: '100%', justifyContent: 'center' }}>
+              <span>Done</span>
+            </button>
           </div>
         ) : (
           <div>
-            <div className="mb-6">
-              <span className="badge-teal mb-2">Qolve Partner Program</span>
-              <h3 className="text-2xl font-bold font-display text-white">Let’s discuss your white-label requirements</h3>
-              <p className="text-slate-400 text-sm mt-1">
-                Whether you need early access to <strong className="text-teal-400 font-semibold">Quelp</strong> or a custom B2B white-label software build, we’re here to help.
-              </p>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+              <span style={{ fontSize: '0.75rem', fontWeight: 800, color: '#0d9488', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                DIRECT SALES & DEMO ACCESS
+              </span>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">Your Name</label>
-                  <div className="relative">
-                    <User size={16} className="absolute left-3 top-3 text-slate-500" />
-                    <input
-                      type="text"
-                      required
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      placeholder="Freddie Haude"
-                      className="w-full bg-slate-900/90 border border-slate-700/60 rounded-lg py-2.5 pl-9 pr-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-teal-500 transition-colors"
-                    />
-                  </div>
-                </div>
+            <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.8rem', fontWeight: 800, color: '#042f2e', marginBottom: '0.5rem' }}>
+              Book Your 1-on-1 Qolve Demo
+            </h3>
+            <p style={{ color: '#64748b', fontSize: '0.9rem', marginBottom: '1.75rem' }}>
+              Get a personalized walkthrough of Quelp Graph Engine & Qolve Orchestrator tailored for your stack.
+            </p>
 
-                <div>
-                  <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">Work Email</label>
-                  <div className="relative">
-                    <Mail size={16} className="absolute left-3 top-3 text-slate-500" />
-                    <input
-                      type="email"
-                      required
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      placeholder="freddie@company.com"
-                      className="w-full bg-slate-900/90 border border-slate-700/60 rounded-lg py-2.5 pl-9 pr-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-teal-500 transition-colors"
-                    />
-                  </div>
-                </div>
+            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              <div>
+                <label style={{ fontSize: '0.82rem', fontWeight: 700, color: '#1e293b', display: 'block', marginBottom: '0.35rem' }}>
+                  Full Name *
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  placeholder="e.g. Alex Morgan"
+                  style={{
+                    width: '100%',
+                    padding: '0.75rem 1rem',
+                    borderRadius: '10px',
+                    border: '1px solid #cbd5e1',
+                    fontSize: '0.9rem',
+                    outline: 'none',
+                  }}
+                />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label style={{ fontSize: '0.82rem', fontWeight: 700, color: '#1e293b', display: 'block', marginBottom: '0.35rem' }}>
+                  Work Email Address *
+                </label>
+                <input
+                  type="email"
+                  required
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  placeholder="alex@company.com"
+                  style={{
+                    width: '100%',
+                    padding: '0.75rem 1rem',
+                    borderRadius: '10px',
+                    border: '1px solid #cbd5e1',
+                    fontSize: '0.9rem',
+                    outline: 'none',
+                  }}
+                />
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                 <div>
-                  <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">Company / Organization</label>
-                  <div className="relative">
-                    <Building2 size={16} className="absolute left-3 top-3 text-slate-500" />
-                    <input
-                      type="text"
-                      required
-                      value={formData.company}
-                      onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                      placeholder="Acme Systems Ltd"
-                      className="w-full bg-slate-900/90 border border-slate-700/60 rounded-lg py-2.5 pl-9 pr-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-teal-500 transition-colors"
-                    />
-                  </div>
+                  <label style={{ fontSize: '0.82rem', fontWeight: 700, color: '#1e293b', display: 'block', marginBottom: '0.35rem' }}>
+                    Company Name
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.company}
+                    onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                    placeholder="Acme Corp"
+                    style={{
+                      width: '100%',
+                      padding: '0.75rem 1rem',
+                      borderRadius: '10px',
+                      border: '1px solid #cbd5e1',
+                      fontSize: '0.9rem',
+                      outline: 'none',
+                    }}
+                  />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">Primary Interest</label>
+                  <label style={{ fontSize: '0.82rem', fontWeight: 700, color: '#1e293b', display: 'block', marginBottom: '0.35rem' }}>
+                    Primary Product Interest
+                  </label>
                   <select
-                    value={formData.interest}
-                    onChange={(e) => setFormData({ ...formData, interest: e.target.value })}
-                    className="w-full bg-slate-900/90 border border-slate-700/60 rounded-lg py-2.5 px-3 text-sm text-white focus:outline-none focus:border-teal-500 transition-colors"
+                    value={formData.productInterest}
+                    onChange={(e) => setFormData({ ...formData, productInterest: e.target.value })}
+                    style={{
+                      width: '100%',
+                      padding: '0.75rem 1rem',
+                      borderRadius: '10px',
+                      border: '1px solid #cbd5e1',
+                      fontSize: '0.9rem',
+                      outline: 'none',
+                      background: '#ffffff'
+                    }}
                   >
-                    <option value="quelp-pilot">Quelp V1 Early Access Pilot</option>
-                    <option value="white-label">White-Label Partner Program</option>
-                    <option value="custom-build">Custom B2B Software Engineering</option>
+                    <option value="quelp">Quelp Graph Engine</option>
+                    <option value="orchestrator">Qolve Orchestrator</option>
+                    <option value="secureshield">SecureShield Security</option>
+                    <option value="full">Full Enterprise Suite</option>
                   </select>
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">Project Details or Questions</label>
-                <div className="relative">
-                  <MessageSquare size={16} className="absolute left-3 top-3 text-slate-500" />
-                  <textarea
-                    rows={3}
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    placeholder="Tell us about your current support volume, tech stack, or custom white-label requirements..."
-                    className="w-full bg-slate-900/90 border border-slate-700/60 rounded-lg py-2.5 pl-9 pr-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-teal-500 transition-colors resize-none"
-                  ></textarea>
-                </div>
+                <label style={{ fontSize: '0.82rem', fontWeight: 700, color: '#1e293b', display: 'block', marginBottom: '0.35rem' }}>
+                  Use Case & Goals (Optional)
+                </label>
+                <textarea
+                  rows="3"
+                  value={formData.notes}
+                  onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+                  placeholder="Tell us about your current workflow bottlenecks or API volume..."
+                  style={{
+                    width: '100%',
+                    padding: '0.75rem 1rem',
+                    borderRadius: '10px',
+                    border: '1px solid #cbd5e1',
+                    fontSize: '0.9rem',
+                    outline: 'none',
+                    resize: 'none'
+                  }}
+                />
               </div>
 
-              <div className="pt-2 flex items-center justify-between">
-                <div className="flex items-center gap-1.5 text-xs text-slate-400">
-                  <ShieldCheck size={14} className="text-teal-400" />
-                  <span>No spam. Strict NDA compliance.</span>
-                </div>
-
-                <button type="submit" className="btn-primary">
-                  Submit Request <ArrowRight size={16} />
-                </button>
-              </div>
+              <button type="submit" className="btn-primary" style={{ width: '100%', justifyContent: 'center', padding: '0.85rem', marginTop: '0.5rem' }}>
+                <Send size={16} />
+                <span>Confirm Demo Reservation</span>
+              </button>
             </form>
           </div>
         )}
