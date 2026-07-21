@@ -1,7 +1,3 @@
-node_modules/
-dist/
-.vercel/
-*.local
-.env
-.env.*
-vite.config.js.timestamp-*
+node_modules
+dist
+.DS_Store
