@@ -1,216 +1,220 @@
 import React, { useState } from 'react';
-import { Bot, ShieldCheck, Zap, Lock, Building, FileText, Send, ArrowRight, CheckCircle2, CornerDownRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { MessageSquare, ShieldCheck, Zap, Layers, ArrowRight, Send, CheckCircle2, User, Bot, HelpCircle } from 'lucide-react';
 
 export default function QuelpSpotlight({ onNavigate, onOpenContact }) {
-  const [selectedBrand, setSelectedBrand] = useState('acme');
-  const [chatInput, setChatInput] = useState('');
+  const [activeTab, setActiveTab] = useState('chat');
   const [messages, setMessages] = useState([
-    {
-      sender: 'bot',
-      text: 'Hello! Welcome to Support. How can I assist you with your order or account today?',
-      citation: 'KB-101: Support Policy Overview'
-    }
+    { sender: 'user', text: 'Where is my order #8842?' },
+    { sender: 'bot', text: 'Checking logistics system... Your order #8842 was dispatched yesterday via Royal Mail Tracked 24. Expected delivery today by 3 PM.', kb: 'KB-104: Logistics API' }
   ]);
+  const [inputVal, setInputVal] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
 
-  const brands = {
-    acme: { name: 'Acme Retail', bg: '#080d12', accent: '#14b8a6' },
-    techflow: { name: 'TechFlow Cloud', bg: '#0b1320', accent: '#00d2ff' },
-    qolve: { name: 'Quelp Default', bg: '#090e15', accent: '#10b981' }
-  };
+  const handleSend = (e) => {
+    e.preventDefault();
+    if (!inputVal.trim()) return;
 
-  const currentBrand = brands[selectedBrand];
-
-  const handleSendMessage = (customText) => {
-    const text = customText || chatInput;
-    if (!text.trim()) return;
-
-    const updated = [...messages, { sender: 'user', text }];
-    setMessages(updated);
-    setChatInput('');
+    const userText = inputVal;
+    setMessages((prev) => [...prev, { sender: 'user', text: userText }]);
+    setInputVal('');
+    setIsTyping(true);
 
     setTimeout(() => {
-      const lower = text.toLowerCase();
-      if (lower.includes('human') || lower.includes('person') || lower.includes('agent') || lower.includes('refund')) {
-        setMessages([
-          ...updated,
+      setIsTyping(false);
+      if (userText.toLowerCase().includes('refund') || userText.toLowerCase().includes('cancel')) {
+        setMessages((prev) => [
+          ...prev,
           {
             sender: 'bot',
-            text: 'I have escalated your conversation directly to a human agent. A team member will join this thread immediately with complete context.',
-            escalated: true,
-            citation: 'Flowchart Gate: Instant Human Handoff'
-          }
-        ]);
-      } else if (lower.includes('return') || lower.includes('policy')) {
-        setMessages([
-          ...updated,
-          {
-            sender: 'bot',
-            text: 'Our return policy permits returns within 30 days of delivery in original condition. Would you like me to email you a return authorization form?',
-            citation: 'KB-204: Returns & Exchange Policy'
+            text: 'Guardrail Triggered: Financial/refund operations require human confirmation. Thread escalated to senior support agent.',
+            escalated: true
           }
         ]);
       } else {
-        setMessages([
-          ...updated,
+        setMessages((prev) => [
+          ...prev,
           {
             sender: 'bot',
-            text: 'I have logged your request against our knowledge articles. Could you provide your order number or account email so I can check details?',
-            citation: 'KB-102: Account Verification'
+            text: `Grounded Answer: Regarding "${userText}", our system has verified your account details against the knowledge base. All systems operating normally.`,
+            kb: 'KB-201: Account Verification'
           }
         ]);
       }
-    }, 500);
+    }, 900);
   };
 
   return (
-    <section id="quelp" className="py-24 bg-slate-950/90 relative overflow-hidden">
+    <section id="quelp" className="py-28 bg-slate-950 relative overflow-hidden border-t border-white/10">
       <div className="container-custom relative z-10">
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
-          <span className="badge-pill">Flagship Product</span>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center max-w-2xl mx-auto mb-16 space-y-3"
+        >
+          <span className="badge-pill inline-flex items-center gap-1.5">
+            <Zap size={14} /> Flagship B2B Product
+          </span>
           <h2 className="text-3xl md:text-5xl font-bold font-display text-white tracking-tight">
-            Quelp: The White-Label Support Platform
+            Quelp: White-Label Helpdesk
           </h2>
-          <p className="text-slate-300 text-base md:text-lg">
-            Re-engineering customer support for SMBs. 100% white-label identity, safe human-first AI handoffs, and transparent token pricing.
+          <p className="text-slate-300 text-sm md:text-base">
+            Replace per-seat SaaS costs with a fully branded, deterministic helpdesk engineered for high reliability and zero hallucinations.
           </p>
-        </div>
+        </motion.div>
 
-        {/* Bento Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch mb-12">
-          {/* Card 1: Interactive Chat Simulator (Left 7 Cols) */}
-          <div className="lg:col-span-7 bento-card p-6 flex flex-col justify-between space-y-4">
-            <div className="flex items-center justify-between border-b border-white/10 pb-3">
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-mono text-slate-400">Interactive Sandbox</span>
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-teal-500/10 text-teal-300 border border-teal-500/30">
-                  Quelp V1 Engine
+        {/* Bento Interactive Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+          {/* Left Feature Card Matrix */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="lg:col-span-6 bento-card p-6 md:p-8 flex flex-col justify-between space-y-6"
+          >
+            <div className="space-y-4">
+              <span className="text-xs font-mono text-teal-400 uppercase tracking-widest">
+                Core Platform Architecture
+              </span>
+              <h3 className="text-2xl font-bold font-display text-white">
+                3 Pillars of Safe White-Label AI
+              </h3>
+              <p className="text-xs md:text-sm text-slate-300 leading-relaxed">
+                Most AI customer service bots damage customer trust by hallucinating or making unapproved commitments. Quelp operates with strict deterministic guardrails.
+              </p>
+
+              <div className="space-y-4 pt-2">
+                <div className="p-4 rounded-xl bg-slate-900/80 border border-white/5 space-y-1">
+                  <div className="flex items-center gap-2 font-display font-semibold text-white text-sm">
+                    <ShieldCheck size={16} className="text-teal-400" />
+                    1. Helpdesk First, AI Second
+                  </div>
+                  <p className="text-xs text-slate-400 leading-relaxed">
+                    Core ticket routing, custom email addresses, tags, and agent assignments work 100% reliably even if LLM APIs experience downtime.
+                  </p>
+                </div>
+
+                <div className="p-4 rounded-xl bg-slate-900/80 border border-white/5 space-y-1">
+                  <div className="flex items-center gap-2 font-display font-semibold text-white text-sm">
+                    <Layers size={16} className="text-teal-400" />
+                    2. 100% White-Label Isolation
+                  </div>
+                  <p className="text-xs text-slate-400 leading-relaxed">
+                    Custom domain (`support.yourbrand.com`), custom email headers, and total removal of third-party branding.
+                  </p>
+                </div>
+
+                <div className="p-4 rounded-xl bg-slate-900/80 border border-white/5 space-y-1">
+                  <div className="flex items-center gap-2 font-display font-semibold text-white text-sm">
+                    <Zap size={16} className="text-teal-400" />
+                    3. Pass-Through LLM Billing (+15%)
+                  </div>
+                  <p className="text-xs text-slate-400 leading-relaxed">
+                    Pay direct token costs for model queries + a flat 15% transparent margin. No per-resolution penalty tax.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <button
+              onClick={() => onNavigate('quelp')}
+              className="btn-primary w-full justify-center text-xs py-3.5 cursor-pointer"
+            >
+              View Full Quelp Platform Specs <ArrowRight size={14} />
+            </button>
+          </motion.div>
+
+          {/* Right Interactive Chat Sandbox */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="lg:col-span-6 bento-card-accent p-6 md:p-8 flex flex-col justify-between relative min-h-[440px]"
+          >
+            <div className="space-y-4">
+              <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                <div className="flex items-center gap-2">
+                  <div className="w-2.5 h-2.5 rounded-full bg-teal-400 animate-pulse"></div>
+                  <span className="font-mono text-xs text-teal-300 uppercase font-semibold">
+                    Interactive Helpdesk Simulator
+                  </span>
+                </div>
+                <span className="text-[11px] font-mono text-slate-400">
+                  Try asking "Where is my order?" or "Request refund"
                 </span>
               </div>
 
-              {/* Brand Switcher */}
-              <div className="flex items-center gap-1.5">
-                {Object.keys(brands).map((bKey) => (
-                  <button
-                    key={bKey}
-                    onClick={() => setSelectedBrand(bKey)}
-                    className={`px-2.5 py-1 rounded text-[11px] font-mono transition-colors cursor-pointer ${
-                      selectedBrand === bKey
-                        ? 'bg-teal-500/20 text-teal-300 border border-teal-500/40'
-                        : 'bg-slate-900 text-slate-400 hover:text-white'
-                    }`}
+              {/* Chat Thread */}
+              <div className="space-y-3 max-h-[300px] overflow-y-auto pr-1 text-xs font-sans">
+                {messages.map((m, idx) => (
+                  <motion.div
+                    key={idx}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className={`flex items-start gap-2.5 ${m.sender === 'user' ? 'justify-end' : 'justify-start'}`}
                   >
-                    {brands[bKey].name.split(' ')[0]}
-                  </button>
+                    {m.sender === 'bot' && (
+                      <div className="w-6 h-6 rounded bg-teal-500/20 border border-teal-500/40 text-teal-300 flex items-center justify-center shrink-0 mt-0.5">
+                        <Bot size={12} />
+                      </div>
+                    )}
+
+                    <div
+                      className={`p-3 rounded-xl max-w-[85%] leading-relaxed ${
+                        m.sender === 'user'
+                          ? 'bg-teal-500 text-slate-950 font-medium'
+                          : m.escalated
+                          ? 'bg-amber-950/80 border border-amber-500/40 text-amber-200'
+                          : 'bg-slate-900 border border-white/10 text-slate-200'
+                      }`}
+                    >
+                      <div>{m.text}</div>
+                      {m.kb && (
+                        <div className="text-[10px] font-mono text-teal-400 mt-1 pt-1 border-t border-white/10">
+                          Verified Citation: {m.kb}
+                        </div>
+                      )}
+                    </div>
+
+                    {m.sender === 'user' && (
+                      <div className="w-6 h-6 rounded bg-slate-800 text-slate-300 flex items-center justify-center shrink-0 mt-0.5">
+                        <User size={12} />
+                      </div>
+                    )}
+                  </motion.div>
                 ))}
-              </div>
-            </div>
 
-            {/* Chat Body */}
-            <div className="rounded-xl p-4 h-[280px] overflow-y-auto space-y-3 font-sans text-xs border border-white/5" style={{ background: currentBrand.bg }}>
-              {messages.map((m, idx) => (
-                <div key={idx} className={`flex flex-col ${m.sender === 'user' ? 'items-end' : 'items-start'}`}>
-                  <div
-                    className={`max-w-[85%] p-3 rounded-lg ${
-                      m.sender === 'user'
-                        ? 'bg-teal-500 text-slate-950 font-medium'
-                        : m.escalated
-                        ? 'bg-amber-950/80 border border-amber-500/40 text-amber-200'
-                        : 'bg-slate-900 border border-white/10 text-slate-200'
-                    }`}
-                  >
-                    <p>{m.text}</p>
+                {isTyping && (
+                  <div className="flex items-center gap-2 text-slate-400 text-xs font-mono">
+                    <Bot size={12} className="text-teal-400 animate-spin" />
+                    <span>Quelp grounded AI thinking...</span>
                   </div>
-                  {m.citation && (
-                    <span className="text-[10px] font-mono text-slate-500 mt-1 flex items-center gap-1">
-                      <FileText size={10} className="text-teal-400" /> {m.citation}
-                    </span>
-                  )}
-                </div>
-              ))}
-            </div>
-
-            {/* Quick Suggestions & Input */}
-            <div className="space-y-2">
-              <div className="flex items-center gap-2 overflow-x-auto text-[11px] text-slate-400 py-1">
-                <span className="font-mono text-slate-500 shrink-0">Try prompt:</span>
-                <button
-                  onClick={() => handleSendMessage('What is your return policy?')}
-                  className="px-2.5 py-1 rounded bg-slate-900 hover:bg-slate-800 text-slate-300 border border-white/10 shrink-0 cursor-pointer"
-                >
-                  "Return policy"
-                </button>
-                <button
-                  onClick={() => handleSendMessage('I need to speak to a real person')}
-                  className="px-2.5 py-1 rounded bg-slate-900 hover:bg-slate-800 text-teal-300 border border-teal-500/30 shrink-0 cursor-pointer"
-                >
-                  "Talk to human agent"
-                </button>
-              </div>
-
-              <div className="flex items-center gap-2">
-                <input
-                  type="text"
-                  value={chatInput}
-                  onChange={(e) => setChatInput(e.target.value)}
-                  onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
-                  placeholder="Type a support inquiry..."
-                  className="flex-1 bg-slate-900 border border-white/10 rounded-lg px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-teal-500"
-                />
-                <button
-                  onClick={() => handleSendMessage()}
-                  className="p-2 rounded-lg bg-teal-500 hover:bg-teal-400 text-slate-950 transition-colors cursor-pointer"
-                >
-                  <Send size={14} />
-                </button>
+                )}
               </div>
             </div>
-          </div>
 
-          {/* Card 2: 3 Pillars (Right 5 Cols) */}
-          <div className="lg:col-span-5 flex flex-col justify-between space-y-4">
-            <div className="bento-card p-5 space-y-2">
-              <div className="flex items-center gap-2 text-teal-400 font-display font-bold text-sm">
-                <ShieldCheck size={18} /> Helpdesk First Architecture
-              </div>
-              <p className="text-xs text-slate-300 leading-relaxed">
-                Core ticketing, email thread ingestion, agent roles, tags, and SLA reporting function 100% reliably even if third-party LLMs experience an outage.
-              </p>
-            </div>
-
-            <div className="bento-card p-5 space-y-2">
-              <div className="flex items-center gap-2 text-cyan-400 font-display font-bold text-sm">
-                <Building size={18} /> Deep Multi-Tenancy & Custom Subdomains
-              </div>
-              <p className="text-xs text-slate-300 leading-relaxed">
-                Run your helpdesk on `support.yourbrand.com` with custom transactional email identities and zero third-party "Powered by" badges.
-              </p>
-            </div>
-
-            <div className="bento-card p-5 space-y-2">
-              <div className="flex items-center gap-2 text-emerald-400 font-display font-bold text-sm">
-                <Lock size={18} /> Direct Token Cost Model (+15%)
-              </div>
-              <p className="text-xs text-slate-300 leading-relaxed">
-                Stop paying per-outcome penalties or bloated monthly seat fees. Pay raw LLM API costs directly with a transparent 15% maintenance markup.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Action Bar */}
-        <div className="flex flex-col sm:flex-row items-center justify-between p-6 rounded-xl bg-slate-900/60 border border-white/10 gap-4">
-          <div className="text-xs text-slate-300">
-            <strong>Ready to evaluate Quelp for your team?</strong> Apply for V1 commercial beta access or schedule a technical review with our engineering team.
-          </div>
-          <div className="flex items-center gap-3 shrink-0">
-            <button onClick={() => onNavigate('quelp')} className="btn-primary text-xs py-2 px-4">
-              Explore Quelp Specs <ArrowRight size={14} />
-            </button>
-            <button onClick={onOpenContact} className="btn-secondary text-xs py-2 px-4">
-              Join Pilot List
-            </button>
-          </div>
+            {/* Input Form */}
+            <form onSubmit={handleSend} className="mt-4 pt-4 border-t border-white/10 flex items-center gap-2">
+              <input
+                type="text"
+                value={inputVal}
+                onChange={(e) => setInputVal(e.target.value)}
+                placeholder="Type customer question..."
+                className="flex-1 bg-slate-900/90 border border-white/10 rounded-lg px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-teal-500"
+              />
+              <button
+                type="submit"
+                className="btn-primary text-xs py-2.5 px-3.5 shrink-0 cursor-pointer"
+              >
+                <Send size={12} /> Send
+              </button>
+            </form>
+          </motion.div>
         </div>
       </div>
     </section>

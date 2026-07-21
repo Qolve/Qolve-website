@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import HeroSection from './components/HeroSection';
+import MarqueeTicker from './components/MarqueeTicker';
 import QuelpSpotlight from './components/QuelpSpotlight';
 import ArchitectureSection from './components/ArchitectureSection';
 import SavingsCalculator from './components/SavingsCalculator';
@@ -46,6 +47,7 @@ export default function App() {
         {activePage === 'home' && (
           <>
             <HeroSection onNavigate={navigate} onOpenContact={handleOpenContact} />
+            <MarqueeTicker />
             <QuelpSpotlight onNavigate={navigate} onOpenContact={handleOpenContact} />
             <ArchitectureSection />
             <SavingsCalculator onOpenContact={handleOpenContact} />

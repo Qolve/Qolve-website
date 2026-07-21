@@ -1,150 +1,165 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
 @layer base {
   :root {
     --bg-dark: #030712;
-    --bg-surface: #0b0f19;
-    --bg-card: #111827;
-    --bg-card-hover: #1f2937;
-
-    --border-subtle: rgba(255, 255, 255, 0.08);
-    --border-hover: rgba(255, 255, 255, 0.16);
-    --border-accent: rgba(45, 212, 191, 0.3);
-
-    --teal-400: #2dd4bf;
-    --teal-500: #14b8a6;
-    --teal-600: #0d9488;
-
-    --font-display: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  }
-
-  html {
-    scroll-behavior: smooth;
-    color-scheme: dark;
-    background-color: var(--bg-dark);
-    color: #f8fafc;
-    font-family: var(--font-body);
-    -webkit-font-smoothing: antialiased;
+    --bg-card: #0b0f19;
+    --bg-accent: #111827;
+    --border-glass: rgba(255, 255, 255, 0.08);
+    --border-highlight: rgba(45, 212, 191, 0.3);
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --accent-teal: #2dd4bf;
+    --accent-teal-dark: #14b8a6;
   }
 
   body {
     background-color: var(--bg-dark);
+    color: var(--text-primary);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   }
 }
 
-/* Custom Utilities */
+/* Custom Grid Background Overlay */
+.bg-grid-pattern {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+}
+
+/* Bento Card Styles */
+.bento-card {
+  background: rgba(11, 15, 25, 0.75);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1.25rem;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.bento-card:hover {
+  border-color: rgba(45, 212, 191, 0.35);
+  transform: translateY(-2px);
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5), 0 0 20px 0 rgba(45, 212, 191, 0.08);
+}
+
+.bento-card-accent {
+  background: linear-gradient(145deg, rgba(17, 24, 39, 0.9), rgba(11, 15, 25, 0.95));
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(45, 212, 191, 0.25);
+  border-radius: 1.25rem;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.bento-card-accent:hover {
+  border-color: rgba(45, 212, 191, 0.5);
+  box-shadow: 0 25px 50px -12px rgba(45, 212, 191, 0.15);
+}
+
+/* Buttons */
+.btn-primary {
+  background: linear-gradient(135deg, #2dd4bf 0%, #14b8a6 100%);
+  color: #030712;
+  font-weight: 700;
+  border-radius: 9999px;
+  padding: 0.75rem 1.5rem;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 14px 0 rgba(45, 212, 191, 0.35);
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px 0 rgba(45, 212, 191, 0.5);
+  filter: brightness(1.05);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.05);
+  color: #f8fafc;
+  font-weight: 600;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 0.75rem 1.5rem;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  backdrop-filter: blur(8px);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
+}
+
+/* Badges */
+.badge-pill {
+  background: rgba(45, 212, 191, 0.1);
+  border: 1px solid rgba(45, 212, 191, 0.3);
+  color: #2dd4bf;
+  border-radius: 9999px;
+  padding: 0.35rem 0.85rem;
+  font-size: 0.75rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+/* Typography Gradient */
+.text-gradient {
+  background: linear-gradient(135deg, #ffffff 0%, #2dd4bf 50%, #94a3b8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-teal {
+  background: linear-gradient(135deg, #5eead4 0%, #14b8a6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Infinite Marquee Animation */
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  display: flex;
+  width: 200%;
+  animation: marquee 25s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Container Utilities */
 .container-custom {
-  max-width: 1200px;
+  max-width: 1240px;
   margin-left: auto;
   margin-right: auto;
   padding-left: 1.5rem;
   padding-right: 1.5rem;
 }
 
-/* Linear-style Card Surface */
-.bento-card {
-  background-color: rgba(17, 24, 39, 0.75);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 1rem;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.bento-card:hover {
-  border-color: rgba(255, 255, 255, 0.18);
-  transform: translateY(-2px);
-  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7);
-}
-
-.bento-card-accent {
-  background: linear-gradient(135deg, rgba(20, 184, 166, 0.08) 0%, rgba(11, 15, 25, 0.9) 100%);
-  border: 1px solid rgba(45, 212, 191, 0.3);
-  border-radius: 1rem;
-}
-
-/* Sleek Buttons */
-.btn-primary {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  background-color: #14b8a6;
-  color: #030712;
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 0.875rem;
-  padding: 0.625rem 1.25rem;
-  border-radius: 0.5rem;
-  transition: all 0.2s ease;
-  box-shadow: 0 0 20px rgba(20, 184, 166, 0.25);
-  cursor: pointer;
-}
-
-.btn-primary:hover {
-  background-color: #2dd4bf;
-  box-shadow: 0 0 25px rgba(45, 212, 191, 0.4);
-  transform: translateY(-1px);
-}
-
-.btn-secondary {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  background-color: rgba(255, 255, 255, 0.05);
-  color: #e2e8f0;
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: 0.875rem;
-  padding: 0.625rem 1.25rem;
-  border-radius: 0.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  transition: all 0.2s ease;
-  cursor: pointer;
-}
-
-.btn-secondary:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.25);
-  color: #ffffff;
-  transform: translateY(-1px);
-}
-
-/* Badge pill */
-.badge-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.25rem 0.75rem;
-  border-radius: 9999px;
-  background-color: rgba(20, 184, 166, 0.1);
-  border: 1px solid rgba(45, 212, 191, 0.3);
-  color: #2dd4bf;
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
-
-/* Text Gradients */
-.text-gradient {
-  background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 60%, #2dd4bf 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-/* Responsive helper classes */
 @media (max-width: 768px) {
-  .hide-mobile {
-    display: none !important;
-  }
-}
-
-@media (min-width: 769px) {
-  .show-mobile-only {
-    display: none !important;
+  .container-custom {
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 }
