@@ -115,7 +115,7 @@ export default function CompanyWidget() {
                   </div>
                 )}
                 <div style={{
-                  padding: '12px 16px', borderRadius: 16, maxWidth: '82%',
+                  padding: '12px 16px', maxWidth: '82%',
                   fontSize: 13.5, lineHeight: 1.6,
                   background: m.sender === 'user'
                     ? 'linear-gradient(135deg, var(--teal), var(--teal-deep))'
