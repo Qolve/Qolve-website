@@ -1,29 +1,31 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import HeroSection from './components/HeroSection';
-import ServicesSection from './components/ServicesSection';
-import AboutSection from './components/AboutSection';
-import ContactModal from './components/ContactModal';
 import Footer from './components/Footer';
+import ScrollToTop from './components/ScrollToTop';
+import HomePage from './pages/HomePage';
+import ServicesPage from './pages/ServicesPage';
+import AboutPage from './pages/AboutPage';
+import ContactPage from './pages/ContactPage';
 
 export default function App() {
-  const [isContactOpen, setIsContactOpen] = useState(false);
-
   return (
-    <div className="min-h-screen font-sans text-slate-900 selection:bg-[#c6f529] selection:text-[#0f172a]">
-      <Navbar onOpenContact={() => setIsContactOpen(true)} />
-      
-      <main id="home">
-        <HeroSection onOpenContact={() => setIsContactOpen(true)} />
-        <ServicesSection onOpenContact={() => setIsContactOpen(true)} />
-        <AboutSection onOpenContact={() => setIsContactOpen(true)} />
-      </main>
+    <Router>
+      <ScrollToTop />
+      <div className="min-h-screen font-sans text-slate-900 selection:bg-[#c6f529] selection:text-[#0f172a] flex flex-col justify-between">
+        <Navbar />
+        
+        <main className="flex-grow">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/services" element={<ServicesPage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+          </Routes>
+        </main>
 
-      <Footer onOpenContact={() => setIsContactOpen(true)} />
-
-      {isContactOpen && (
-        <ContactModal onClose={() => setIsContactOpen(false)} />
-      )}
-    </div>
+        <Footer />
+      </div>
+    </Router>
   );
 }

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Cpu, BarChart2, ShieldCheck, ArrowRight } from 'lucide-react';
 
@@ -20,7 +21,7 @@ const SERVICES = [
   }
 ];
 
-export default function ServicesSection({ onOpenContact }) {
+export default function ServicesSection() {
   return (
     <section id="services" className="py-24 bg-white text-slate-900 border-t border-slate-100">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -63,13 +64,13 @@ export default function ServicesSection({ onOpenContact }) {
                   </p>
                 </div>
 
-                <div 
-                  onClick={onOpenContact}
-                  className="mt-8 pt-4 border-t border-slate-200/80 flex items-center justify-between text-xs font-bold text-[#0f172a] cursor-pointer hover:text-black"
+                <Link 
+                  to="/contact"
+                  className="mt-8 pt-4 border-t border-slate-200/80 flex items-center justify-between text-xs font-bold text-[#0f172a] hover:text-black group"
                 >
                   <span>Get Started</span>
-                  <ArrowRight className="w-4 h-4 text-[#0f172a]" />
-                </div>
+                  <ArrowRight className="w-4 h-4 text-[#0f172a] group-hover:translate-x-1 transition-transform" />
+                </Link>
               </motion.div>
             );
           })}

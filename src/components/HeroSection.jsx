@@ -1,17 +1,18 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight, ArrowUpRight, Star } from 'lucide-react';
 
-export default function HeroSection({ onOpenContact }) {
+export default function HeroSection() {
   return (
     <section className="relative overflow-hidden figma-sky-bg pt-12 pb-24 md:pt-16 md:pb-32 px-4 sm:px-6 lg:px-8">
       
       {/* Translucent Floating Clouds from Figma */}
-      <div className="absolute top-10 left-[-5%] w-[450px] h-[140px] figma-cloud blur-sm opacity-60" />
-      <div className="absolute top-4 right-[-10%] w-[550px] h-[180px] figma-cloud blur-sm opacity-70" />
-      <div className="absolute top-36 left-[15%] w-[650px] h-[160px] figma-cloud opacity-40" />
-      <div className="absolute top-44 right-[10%] w-[500px] h-[150px] figma-cloud opacity-50" />
-      <div className="absolute top-72 left-[30%] w-[400px] h-[100px] figma-cloud opacity-30" />
+      <div className="absolute top-10 left-[-5%] w-[450px] h-[140px] figma-cloud blur-sm opacity-60 pointer-events-none" />
+      <div className="absolute top-4 right-[-10%] w-[550px] h-[180px] figma-cloud blur-sm opacity-70 pointer-events-none" />
+      <div className="absolute top-36 left-[15%] w-[650px] h-[160px] figma-cloud opacity-40 pointer-events-none" />
+      <div className="absolute top-44 right-[10%] w-[500px] h-[150px] figma-cloud opacity-50 pointer-events-none" />
+      <div className="absolute top-72 left-[30%] w-[400px] h-[100px] figma-cloud opacity-30 pointer-events-none" />
 
       <div className="max-w-6xl mx-auto relative z-10 text-center">
         
@@ -43,22 +44,22 @@ export default function HeroSection({ onOpenContact }) {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="mt-8 flex flex-wrap items-center justify-center gap-4"
         >
-          <button 
-            onClick={onOpenContact}
+          <Link 
+            to="/services"
             className="btn-figma-glass uppercase"
           >
-            View Demo
-          </button>
+            View Services
+          </Link>
 
-          <button 
-            onClick={onOpenContact}
+          <Link 
+            to="/contact"
             className="btn-figma-dark group uppercase"
           >
             <span>Get Started</span>
             <div className="w-7 h-7 rounded-full bg-[#c6f529] text-[#0f172a] flex items-center justify-center font-bold group-hover:translate-x-0.5 transition-transform">
               <ArrowRight className="w-4 h-4" />
             </div>
-          </button>
+          </Link>
         </motion.div>
 
         {/* 5 Floating Bento Cards (1-to-1 Match from Figma) */}

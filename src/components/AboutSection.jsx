@@ -1,8 +1,8 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { CheckCircle2, Zap } from 'lucide-react';
 
-export default function AboutSection({ onOpenContact }) {
+export default function AboutSection() {
   return (
     <section id="about" className="py-24 bg-[#f2f8fc] border-t border-slate-200">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -38,10 +38,13 @@ export default function AboutSection({ onOpenContact }) {
               </div>
             </div>
 
-            <div className="pt-4">
-              <button onClick={onOpenContact} className="btn-figma-dark uppercase text-xs">
-                <span>Contact Our Team</span>
-              </button>
+            <div className="pt-4 flex items-center gap-4">
+              <Link to="/about" className="btn-figma-dark uppercase text-xs">
+                <span>Learn More About Us</span>
+              </Link>
+              <Link to="/contact" className="btn-figma-lime uppercase text-xs">
+                <span>Contact Team</span>
+              </Link>
             </div>
           </div>
 
