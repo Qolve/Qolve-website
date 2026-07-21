@@ -1,215 +1,165 @@
 import React, { useState } from 'react';
-import { Bot, User, Send, ShieldCheck, RefreshCw, FileText, CheckCircle2, ArrowRight, CornerDownRight, Sparkles, Building, Lock } from 'lucide-react';
+import { Bot, ShieldCheck, Zap, Lock, Building, FileText, Send, ArrowRight, CheckCircle2, CornerDownRight } from 'lucide-react';
 
 export default function QuelpSpotlight({ onNavigate, onOpenContact }) {
-  const [activeTab, setActiveTab] = useState('demo');
-  const [selectedBrand, setSelectedBrand] = useState('acme'); // acme, techflow, qolve
+  const [selectedBrand, setSelectedBrand] = useState('acme');
   const [chatInput, setChatInput] = useState('');
-  
-  // Interactive Chat Simulator State
   const [messages, setMessages] = useState([
     {
       sender: 'bot',
       text: 'Hello! Welcome to Support. How can I assist you with your order or account today?',
-      grounded: true,
-      citation: 'KB-101: General Support Policy'
+      citation: 'KB-101: Support Policy Overview'
     }
   ]);
 
-  const brandPresets = {
-    acme: {
-      name: 'Acme Retail Ltd',
-      color: '#00C4B4',
-      bg: '#0a1518',
-      header: 'Acme Support Hub'
-    },
-    techflow: {
-      name: 'TechFlow Cloud',
-      color: '#00d2ff',
-      bg: '#0b1320',
-      header: 'TechFlow Helpdesk'
-    },
-    qolve: {
-      name: 'Quelp Default',
-      color: '#10b981',
-      bg: '#080d12',
-      header: 'Customer Portal'
-    }
+  const brands = {
+    acme: { name: 'Acme Retail', bg: '#080d12', accent: '#14b8a6' },
+    techflow: { name: 'TechFlow Cloud', bg: '#0b1320', accent: '#00d2ff' },
+    qolve: { name: 'Quelp Default', bg: '#090e15', accent: '#10b981' }
   };
 
-  const currentBrand = brandPresets[selectedBrand];
+  const currentBrand = brands[selectedBrand];
 
-  const handleSendMessage = (textToSend) => {
-    const text = textToSend || chatInput;
+  const handleSendMessage = (customText) => {
+    const text = customText || chatInput;
     if (!text.trim()) return;
 
-    // Add user message
-    const newMsgs = [...messages, { sender: 'user', text }];
-    setMessages(newMsgs);
+    const updated = [...messages, { sender: 'user', text }];
+    setMessages(updated);
     setChatInput('');
 
-    // Simulate Quelp's deterministic grounded response vs instant human handoff
     setTimeout(() => {
       const lower = text.toLowerCase();
-      if (lower.includes('human') || lower.includes('agent') || lower.includes('person') || lower.includes('refund')) {
+      if (lower.includes('human') || lower.includes('person') || lower.includes('agent') || lower.includes('refund')) {
         setMessages([
-          ...newMsgs,
+          ...updated,
           {
             sender: 'bot',
-            text: 'I have transferred your ticket directly to our support team agent. A human representative will take over this thread immediately with your full conversation history.',
+            text: 'I have escalated your conversation directly to a human agent. A team member will join this thread immediately with complete context.',
             escalated: true,
-            citation: 'Flowchart Gate: Immediate Human Handoff Triggered'
+            citation: 'Flowchart Gate: Instant Human Handoff'
           }
         ]);
       } else if (lower.includes('return') || lower.includes('policy')) {
         setMessages([
-          ...newMsgs,
+          ...updated,
           {
             sender: 'bot',
-            text: 'Our return policy allows items to be returned within 30 days of delivery in original packaging. Would you like me to generate a prepaid return label for your order?',
-            grounded: true,
-            citation: 'KB-204: Returns & Replacements Guide'
+            text: 'Our return policy permits returns within 30 days of delivery in original condition. Would you like me to email you a return authorization form?',
+            citation: 'KB-204: Returns & Exchange Policy'
           }
         ]);
       } else {
         setMessages([
-          ...newMsgs,
+          ...updated,
           {
             sender: 'bot',
-            text: 'Thank you for your message. I have indexed your request against our knowledge articles. Is there anything specific regarding your account or order number I can check?',
-            grounded: true,
-            citation: 'KB-102: Account & Order Verification'
+            text: 'I have logged your request against our knowledge articles. Could you provide your order number or account email so I can check details?',
+            citation: 'KB-102: Account Verification'
           }
         ]);
       }
-    }, 600);
+    }, 500);
   };
 
   return (
-    <section id="quelp" className="py-24 relative overflow-hidden bg-slate-950/80">
+    <section id="quelp" className="py-24 bg-slate-950/90 relative overflow-hidden">
       <div className="container-custom relative z-10">
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-          <span className="badge-teal inline-flex items-center gap-1.5">
-            <Sparkles size={14} /> Flagship Software Project
-          </span>
+        <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
+          <span className="badge-pill">Flagship Product</span>
           <h2 className="text-3xl md:text-5xl font-bold font-display text-white tracking-tight">
             Quelp: The White-Label Support Platform
           </h2>
           <p className="text-slate-300 text-base md:text-lg">
-            Everything SMBs need from Zendesk or Gorgias—re-engineered for affordability, 100% white-label identity, and safe human-like AI assistance.
+            Re-engineering customer support for SMBs. 100% white-label identity, safe human-first AI handoffs, and transparent token pricing.
           </p>
         </div>
 
-        {/* Brand Selector Controls */}
-        <div className="mb-8 p-4 rounded-xl bg-slate-900/90 border border-slate-800 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-slate-300">
-            <Building size={16} className="text-teal-400" /> Test White-Label Brand Theme:
-          </div>
-          <div className="flex items-center gap-2">
-            {Object.keys(brandPresets).map((bKey) => (
-              <button
-                key={bKey}
-                onClick={() => setSelectedBrand(bKey)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
-                  selectedBrand === bKey
-                    ? 'bg-teal-500/20 text-white border border-teal-500/50'
-                    : 'bg-slate-950 text-slate-400 border border-slate-800 hover:text-white'
-                }`}
-              >
-                {brandPresets[bKey].name}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Interactive Sandbox Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Left Column: Interactive Chat Simulation */}
-          <div className="lg:col-span-7 glass-panel-accent p-4 md:p-6 rounded-2xl">
-            <div className="rounded-xl overflow-hidden border border-slate-800" style={{ background: currentBrand.bg }}>
-              {/* Header */}
-              <div className="p-4 border-b border-slate-800 flex items-center justify-between bg-slate-950/60">
-                <div className="flex items-center gap-3">
-                  <div
-                    className="w-8 h-8 rounded-lg flex items-center justify-center font-bold text-slate-950 text-xs font-display"
-                    style={{ background: currentBrand.color }}
-                  >
-                    {currentBrand.name.substring(0, 1)}
-                  </div>
-                  <div>
-                    <div className="text-sm font-bold text-white font-display">{currentBrand.header}</div>
-                    <div className="text-[11px] text-slate-400 flex items-center gap-1">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                      <span>100% Branded Experience</span>
-                    </div>
-                  </div>
-                </div>
-
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-900 text-slate-400 border border-slate-800">
-                  Quelp Engine
+        {/* Bento Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch mb-12">
+          {/* Card 1: Interactive Chat Simulator (Left 7 Cols) */}
+          <div className="lg:col-span-7 bento-card p-6 flex flex-col justify-between space-y-4">
+            <div className="flex items-center justify-between border-b border-white/10 pb-3">
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-mono text-slate-400">Interactive Sandbox</span>
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-teal-500/10 text-teal-300 border border-teal-500/30">
+                  Quelp V1 Engine
                 </span>
               </div>
 
-              {/* Chat Messages Body */}
-              <div className="p-4 h-[320px] overflow-y-auto space-y-3 font-body text-xs">
-                {messages.map((m, idx) => (
-                  <div
-                    key={idx}
-                    className={`flex flex-col ${m.sender === 'user' ? 'items-end' : 'items-start'}`}
+              {/* Brand Switcher */}
+              <div className="flex items-center gap-1.5">
+                {Object.keys(brands).map((bKey) => (
+                  <button
+                    key={bKey}
+                    onClick={() => setSelectedBrand(bKey)}
+                    className={`px-2.5 py-1 rounded text-[11px] font-mono transition-colors cursor-pointer ${
+                      selectedBrand === bKey
+                        ? 'bg-teal-500/20 text-teal-300 border border-teal-500/40'
+                        : 'bg-slate-900 text-slate-400 hover:text-white'
+                    }`}
                   >
-                    <div
-                      className={`max-w-[85%] p-3 rounded-xl ${
-                        m.sender === 'user'
-                          ? 'bg-teal-500 text-slate-950 font-medium rounded-br-none'
-                          : m.escalated
-                          ? 'bg-amber-950/70 border border-amber-500/40 text-amber-100 rounded-bl-none'
-                          : 'bg-slate-900 border border-slate-800 text-slate-200 rounded-bl-none'
-                      }`}
-                    >
-                      <p>{m.text}</p>
-                    </div>
-
-                    {m.citation && (
-                      <div className="mt-1 flex items-center gap-1 text-[10px] text-slate-400 font-mono">
-                        <FileText size={10} className="text-teal-400" />
-                        <span>{m.citation}</span>
-                      </div>
-                    )}
-                  </div>
+                    {brands[bKey].name.split(' ')[0]}
+                  </button>
                 ))}
               </div>
+            </div>
 
-              {/* Sample Prompts */}
-              <div className="p-2 bg-slate-950/80 border-t border-slate-800 flex items-center gap-2 overflow-x-auto text-[11px] text-slate-400">
-                <span className="text-slate-500 shrink-0 font-mono">Quick test:</span>
+            {/* Chat Body */}
+            <div className="rounded-xl p-4 h-[280px] overflow-y-auto space-y-3 font-sans text-xs border border-white/5" style={{ background: currentBrand.bg }}>
+              {messages.map((m, idx) => (
+                <div key={idx} className={`flex flex-col ${m.sender === 'user' ? 'items-end' : 'items-start'}`}>
+                  <div
+                    className={`max-w-[85%] p-3 rounded-lg ${
+                      m.sender === 'user'
+                        ? 'bg-teal-500 text-slate-950 font-medium'
+                        : m.escalated
+                        ? 'bg-amber-950/80 border border-amber-500/40 text-amber-200'
+                        : 'bg-slate-900 border border-white/10 text-slate-200'
+                    }`}
+                  >
+                    <p>{m.text}</p>
+                  </div>
+                  {m.citation && (
+                    <span className="text-[10px] font-mono text-slate-500 mt-1 flex items-center gap-1">
+                      <FileText size={10} className="text-teal-400" /> {m.citation}
+                    </span>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            {/* Quick Suggestions & Input */}
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 overflow-x-auto text-[11px] text-slate-400 py-1">
+                <span className="font-mono text-slate-500 shrink-0">Try prompt:</span>
                 <button
                   onClick={() => handleSendMessage('What is your return policy?')}
-                  className="px-2 py-1 rounded bg-slate-900 hover:bg-slate-800 text-slate-300 shrink-0 border border-slate-800"
+                  className="px-2.5 py-1 rounded bg-slate-900 hover:bg-slate-800 text-slate-300 border border-white/10 shrink-0 cursor-pointer"
                 >
-                  "What is return policy?"
+                  "Return policy"
                 </button>
                 <button
-                  onClick={() => handleSendMessage('I want to speak to a real person')}
-                  className="px-2 py-1 rounded bg-slate-900 hover:bg-slate-800 text-teal-300 shrink-0 border border-teal-500/30"
+                  onClick={() => handleSendMessage('I need to speak to a real person')}
+                  className="px-2.5 py-1 rounded bg-slate-900 hover:bg-slate-800 text-teal-300 border border-teal-500/30 shrink-0 cursor-pointer"
                 >
                   "Talk to human agent"
                 </button>
               </div>
 
-              {/* Input Footer */}
-              <div className="p-3 bg-slate-950 border-t border-slate-800 flex items-center gap-2">
+              <div className="flex items-center gap-2">
                 <input
                   type="text"
                   value={chatInput}
                   onChange={(e) => setChatInput(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
-                  placeholder="Type a customer question..."
-                  className="flex-1 bg-slate-900 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-teal-500"
+                  placeholder="Type a support inquiry..."
+                  className="flex-1 bg-slate-900 border border-white/10 rounded-lg px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-teal-500"
                 />
                 <button
                   onClick={() => handleSendMessage()}
-                  className="p-2 rounded-lg bg-teal-500 hover:bg-teal-400 text-slate-950 transition-colors"
+                  className="p-2 rounded-lg bg-teal-500 hover:bg-teal-400 text-slate-950 transition-colors cursor-pointer"
                 >
                   <Send size={14} />
                 </button>
@@ -217,68 +167,49 @@ export default function QuelpSpotlight({ onNavigate, onOpenContact }) {
             </div>
           </div>
 
-          {/* Right Column: Key Pillars */}
-          <div className="lg:col-span-5 space-y-6">
-            <div className="glass-panel p-6 space-y-4">
-              <div className="flex items-center gap-3">
-                <div className="p-2.5 rounded-lg bg-teal-500/10 border border-teal-500/30 text-teal-400">
-                  <ShieldCheck size={20} />
-                </div>
-                <div>
-                  <h4 className="font-bold font-display text-white text-base">Helpdesk First, AI Second</h4>
-                  <p className="text-xs text-slate-400">Core ticketing functions even if LLMs are offline.</p>
-                </div>
+          {/* Card 2: 3 Pillars (Right 5 Cols) */}
+          <div className="lg:col-span-5 flex flex-col justify-between space-y-4">
+            <div className="bento-card p-5 space-y-2">
+              <div className="flex items-center gap-2 text-teal-400 font-display font-bold text-sm">
+                <ShieldCheck size={18} /> Helpdesk First Architecture
               </div>
               <p className="text-xs text-slate-300 leading-relaxed">
-                Quelp is a complete ticketing platform. You get email inbox syncing, ticket assignment, custom tags, agent roles, knowledge base, and SLA tracking—not just an isolated chat bubble.
+                Core ticketing, email thread ingestion, agent roles, tags, and SLA reporting function 100% reliably even if third-party LLMs experience an outage.
               </p>
             </div>
 
-            <div className="glass-panel p-6 space-y-4">
-              <div className="flex items-center gap-3">
-                <div className="p-2.5 rounded-lg bg-cyan-500/10 border border-cyan-500/30 text-cyan-400">
-                  <Building size={20} />
-                </div>
-                <div>
-                  <h4 className="font-bold font-display text-white text-base">True White-Label Branding</h4>
-                  <p className="text-xs text-slate-400">Your custom domain, emails, logo & colors.</p>
-                </div>
+            <div className="bento-card p-5 space-y-2">
+              <div className="flex items-center gap-2 text-cyan-400 font-display font-bold text-sm">
+                <Building size={18} /> Deep Multi-Tenancy & Custom Subdomains
               </div>
               <p className="text-xs text-slate-300 leading-relaxed">
-                Remove "Powered by Third-Party" badges completely. Run your helpdesk on your own domain (`support.yourbrand.com`) with custom transactional email identities.
+                Run your helpdesk on `support.yourbrand.com` with custom transactional email identities and zero third-party "Powered by" badges.
               </p>
             </div>
 
-            <div className="glass-panel p-6 space-y-4">
-              <div className="flex items-center gap-3">
-                <div className="p-2.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">
-                  <Lock size={20} />
-                </div>
-                <div>
-                  <h4 className="font-bold font-display text-white text-base">Transparent Token Pricing</h4>
-                  <p className="text-xs text-slate-400">Direct API costs + 15% transparent markup.</p>
-                </div>
+            <div className="bento-card p-5 space-y-2">
+              <div className="flex items-center gap-2 text-emerald-400 font-display font-bold text-sm">
+                <Lock size={18} /> Direct Token Cost Model (+15%)
               </div>
               <p className="text-xs text-slate-300 leading-relaxed">
-                Stop paying per-outcome penalties or runaway monthly bills. Quelp passes through raw LLM token costs with a transparent 15% maintenance markup.
+                Stop paying per-outcome penalties or bloated monthly seat fees. Pay raw LLM API costs directly with a transparent 15% maintenance markup.
               </p>
             </div>
+          </div>
+        </div>
 
-            <div className="pt-2 flex items-center justify-between">
-              <button
-                onClick={() => onNavigate('quelp')}
-                className="btn-primary text-xs"
-              >
-                Deep-Dive Quelp Features <ArrowRight size={14} />
-              </button>
-
-              <button
-                onClick={onOpenContact}
-                className="btn-secondary text-xs"
-              >
-                Join Pilot Program
-              </button>
-            </div>
+        {/* Action Bar */}
+        <div className="flex flex-col sm:flex-row items-center justify-between p-6 rounded-xl bg-slate-900/60 border border-white/10 gap-4">
+          <div className="text-xs text-slate-300">
+            <strong>Ready to evaluate Quelp for your team?</strong> Apply for V1 commercial beta access or schedule a technical review with our engineering team.
+          </div>
+          <div className="flex items-center gap-3 shrink-0">
+            <button onClick={() => onNavigate('quelp')} className="btn-primary text-xs py-2 px-4">
+              Explore Quelp Specs <ArrowRight size={14} />
+            </button>
+            <button onClick={onOpenContact} className="btn-secondary text-xs py-2 px-4">
+              Join Pilot List
+            </button>
           </div>
         </div>
       </div>
