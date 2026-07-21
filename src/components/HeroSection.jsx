@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 
-// Unique card images from Aeline template
+// Unique card images from Quelp/Aeline template
 const CAROUSEL_IMAGES = [
   'https://cdn.prod.website-files.com/6929c116366a14507fc8424d/69a5007e9793bec9aef0bae6_card.avif',
   'https://cdn.prod.website-files.com/6929c116366a14507fc8424d/69a5007db9ab99a268357410_card-3.avif',
@@ -85,7 +85,7 @@ function MerryGoRound() {
         padding: '3rem 0',
         position: 'relative',
         zIndex: 10,
-        isolation: 'isolate', // Isolate stacking context so background blue glow doesn't affect cards
+        isolation: 'isolate',
         userSelect: 'none',
         WebkitUserSelect: 'none',
         MozUserSelect: 'none',
@@ -125,7 +125,7 @@ function MerryGoRound() {
                 transform: `rotateY(${itemAngle}deg) translateZ(${radius}px)`,
                 borderRadius: '0.875rem',
                 overflow: 'hidden',
-                backgroundColor: '#141414', // Opaque dark background fill for card
+                backgroundColor: '#141414',
                 boxShadow: '0 16px 40px rgba(0,0,0,0.85), 0 0 0 1px rgba(255,255,255,0.18)',
                 backfaceVisibility: 'hidden',
                 WebkitBackfaceVisibility: 'hidden',
@@ -187,7 +187,7 @@ function MerryGoRound() {
   )
 }
 
-export default function HeroSection() {
+export default function HeroSection({ onNavigate }) {
   return (
     <section className="section_hero" id="home">
       {/* Original Aeline Blue Hero Background Image */}
@@ -211,35 +211,68 @@ export default function HeroSection() {
         }}
       />
 
-      {/* Hero text content */}
+      {/* Hero text content - Tailored specifically for Quelp */}
       <div className="hero_wrap">
         <div className="padding-global is-hero" style={{ width: '100%' }}>
           <div className="vertical-center">
+            {/* Startup Brand Pill */}
+            <div
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                padding: '0.375rem 0.875rem',
+                borderRadius: '9999px',
+                background: 'rgba(214, 253, 112, 0.12)',
+                border: '1px solid rgba(214, 253, 112, 0.3)',
+                color: '#d6fd70',
+                fontSize: '0.8125rem',
+                fontWeight: 600,
+                marginBottom: '1.25rem',
+              }}
+            >
+              <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#d6fd70' }} />
+              Welcome to Quelp
+            </div>
+
             <h1 className="text-align-center">
-              Building the future with <br />
-              <span className="opacity-73">AI and strategy</span>
+              Reinventing Customer Support with <br />
+              <span className="opacity-73">Quelp &amp; Intelligent Automation</span>
             </h1>
 
             <div className="spacer-medium" />
 
             <div className="max-width-medium">
               <div className="text-base text-color-on-primary text-align-center">
-                We help organizations unlock growth and efficiency through data-driven consulting and intelligent automation.
+                Quelp is a fully branded, lower-cost customer support platform for growing businesses. Unify email, chat, and knowledge base in one intelligent, seamlessly styled platform.
               </div>
             </div>
 
             <div className="spacer-huge" />
 
             <div className="button_wrapper is-hero">
-              <a
-                href="https://temlis.com"
+              <button
+                onClick={() => onNavigate && onNavigate('products')}
                 className="button"
-                style={{ background: 'transparent', color: '#fff', border: '1.5px solid rgba(255,255,255,0.35)', padding: '0.75rem 1.5rem', borderRadius: '9999px', fontWeight: 600, fontSize: '0.9375rem', display: 'inline-flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', transition: 'all 0.2s' }}
+                style={{
+                  background: 'transparent',
+                  color: '#fff',
+                  border: '1.5px solid rgba(255,255,255,0.35)',
+                  padding: '0.75rem 1.5rem',
+                  borderRadius: '9999px',
+                  fontWeight: 600,
+                  fontSize: '0.9375rem',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s',
+                }}
               >
                 <div className="text-button-wrap">
-                  <div>View Demo</div>
+                  <div>Explore Products</div>
                 </div>
-              </a>
+              </button>
 
               <a
                 href="#contact"

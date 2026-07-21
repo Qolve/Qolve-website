@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-export default function Navbar() {
+export default function Navbar({ activePage, onNavigate }) {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [dropdownOpen, setDropdownOpen] = useState(false)
@@ -11,25 +11,12 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const dropdownLinks = {
-    col1: [
-      { label: 'Home V.1', href: '/' },
-      { label: 'Home V.2', href: '/' },
-      { label: 'Home V.3', href: '/' },
-      { label: 'Services', href: '#services' },
-    ],
-    col2: [
-      { label: 'About V.1', href: '#about' },
-      { label: 'About V.2', href: '#about' },
-      { label: 'About V.3', href: '#about' },
-      { label: 'Pricing', href: '#pricing' },
-    ],
-    col3: [
-      { label: 'Contact V.1', href: '#contact' },
-      { label: 'Contact V.2', href: '#contact' },
-      { label: 'Contact V.3', href: '#contact' },
-      { label: 'Blog', href: '#blog' },
-    ],
+  const navTo = (page, sectionId) => {
+    setMobileOpen(false)
+    setDropdownOpen(false)
+    if (onNavigate) {
+      onNavigate(page, sectionId)
+    }
   }
 
   return (
@@ -37,56 +24,76 @@ export default function Navbar() {
       <div className="padding-global is-navbar">
         <div className="container-large">
           <div className="navbar_content">
-            {/* Logo */}
-            <a href="/" className="navbar_logo-link">
-              <img
-                src="https://cdn.prod.website-files.com/6929c116366a14507fc8424d/69bc6c8e343f8f1f1832309a_aeline-logo.svg"
-                loading="lazy"
-                alt="aeline"
-                className="navbar_logo"
-                style={{ height: '1.75rem', width: 'auto' }}
-              />
-            </a>
+            {/* Logo - Quelp */}
+            <button
+              onClick={() => navTo('home')}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', gap: '0.625rem' }}
+            >
+              <div style={{
+                width: '2rem',
+                height: '2rem',
+                borderRadius: '0.5rem',
+                background: '#d6fd70',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontWeight: 800,
+                color: '#0f0f0f',
+                fontSize: '1.125rem'
+              }}>
+                Q
+              </div>
+              <span style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '1.375rem', fontWeight: 700, color: '#ffffff', letterSpacing: '-0.02em' }}>
+                quelp
+              </span>
+            </button>
 
             {/* Desktop nav links */}
             <div className="nav_wrap">
               <nav className="nav_mobile">
                 <div className="navbar_list">
-                  <a href="#home" className="nav_links">Home</a>
-                  <a href="#services" className="nav_links">Services</a>
-                  <a href="#about" className="nav_links">About Us</a>
-
-                  {/* More Links dropdown */}
-                  <div
-                    className="nav_dropdown"
-                    onMouseEnter={() => setDropdownOpen(true)}
-                    onMouseLeave={() => setDropdownOpen(false)}
+                  <button
+                    onClick={() => navTo('home')}
+                    className="nav_links"
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: activePage === 'home' ? '#d6fd70' : '#ffffff' }}
                   >
-                    <div className="nav_links is-dropdown">
-                      <div className="geistmono" style={{ color: 'rgba(255,255,255,0.7)' }}>More Links</div>
-                      <svg width="10" height="6" viewBox="0 0 10 6" fill="none" style={{ flexShrink: 0 }}>
-                        <path d="M1 1L5 5L9 1" stroke="rgba(255,255,255,0.7)" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
-                      </svg>
-                    </div>
-
-                    {dropdownOpen && (
-                      <nav className="nav_link-dropdown">
-                        <div className="nav_dropdown-wrap">
-                          <div className="nav_dropdown-content">
-                            {Object.values(dropdownLinks).map((col, ci) => (
-                              <div key={ci} className="nav_dropdown-column">
-                                {col.map((link, li) => (
-                                  <a key={li} href={link.href} className="nav_dropdown-link">
-                                    {link.label}
-                                  </a>
-                                ))}
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      </nav>
-                    )}
-                  </div>
+                    Home
+                  </button>
+                  <button
+                    onClick={() => navTo('products')}
+                    className="nav_links"
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: activePage === 'products' ? '#d6fd70' : '#ffffff' }}
+                  >
+                    Products
+                  </button>
+                  <button
+                    onClick={() => navTo('team')}
+                    className="nav_links"
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: activePage === 'team' ? '#d6fd70' : '#ffffff' }}
+                  >
+                    Team
+                  </button>
+                  <button
+                    onClick={() => navTo('home', 'services')}
+                    className="nav_links"
+                    style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+                  >
+                    Services
+                  </button>
+                  <button
+                    onClick={() => navTo('home', 'about')}
+                    className="nav_links"
+                    style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+                  >
+                    About Us
+                  </button>
+                  <button
+                    onClick={() => navTo('home', 'pricing')}
+                    className="nav_links"
+                    style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+                  >
+                    Pricing
+                  </button>
                 </div>
               </nav>
             </div>
@@ -94,16 +101,15 @@ export default function Navbar() {
             {/* Right buttons */}
             <div className="nav_buttons-wrap">
               <div className="login-wrap">
-                <a
-                  href="https://temlis.com"
+                <button
+                  onClick={() => navTo('products')}
                   className="button"
-                  data-variant="base"
-                  style={{ padding: '0.625rem 1.25rem', fontSize: '0.875rem', background: '#fff', color: '#0f0f0f' }}
+                  style={{ padding: '0.625rem 1.25rem', fontSize: '0.875rem', background: '#d6fd70', color: '#0f0f0f', border: 'none', borderRadius: '9999px', fontWeight: 600, cursor: 'pointer' }}
                 >
                   <div className="text-button-wrap">
-                    <div>Buy Template</div>
+                    <div>Explore Platform</div>
                   </div>
-                </a>
+                </button>
               </div>
 
               {/* Hamburger (mobile) */}
@@ -133,16 +139,22 @@ export default function Navbar() {
           flexDirection: 'column',
           gap: '0.25rem',
         }}>
-          {['Home', 'Services', 'About Us', 'Expertise', 'Pricing', 'Blog', 'Contact'].map((item) => (
-            <a
-              key={item}
-              href={`#${item.toLowerCase().replace(/\s+/g, '-')}`}
+          {[
+            { label: 'Home', action: () => navTo('home') },
+            { label: 'Products', action: () => navTo('products') },
+            { label: 'Team', action: () => navTo('team') },
+            { label: 'Services', action: () => navTo('home', 'services') },
+            { label: 'About Us', action: () => navTo('home', 'about') },
+            { label: 'Pricing', action: () => navTo('home', 'pricing') },
+          ].map((item, idx) => (
+            <button
+              key={idx}
+              onClick={item.action}
               className="nav_links"
-              onClick={() => setMobileOpen(false)}
-              style={{ display: 'block', padding: '0.75rem 0.5rem' }}
+              style={{ display: 'block', padding: '0.75rem 0.5rem', textAlign: 'left', background: 'none', border: 'none', width: '100%', cursor: 'pointer' }}
             >
-              {item}
-            </a>
+              {item.label}
+            </button>
           ))}
         </div>
       )}

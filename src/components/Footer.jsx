@@ -6,34 +6,7 @@ const ArrowIcon = () => (
   </svg>
 )
 
-const navColumns = [
-  {
-    links: [
-      { label: 'Home V.1', href: '#home' },
-      { label: 'Home V.2', href: '#home' },
-      { label: 'Home V.3', href: '#home' },
-      { label: 'Services', href: '#services' },
-    ],
-  },
-  {
-    links: [
-      { label: 'Contact V.1', href: '#contact' },
-      { label: 'Contact V.2', href: '#contact' },
-      { label: 'Contact V.3', href: '#contact' },
-      { label: 'Pricing', href: '#pricing' },
-    ],
-  },
-  {
-    links: [
-      { label: 'About us V.1', href: '#about' },
-      { label: 'About us V.2', href: '#about' },
-      { label: 'About us V.3', href: '#about' },
-      { label: 'Blog', href: '#blog' },
-    ],
-  },
-]
-
-export default function Footer() {
+export default function Footer({ onNavigate }) {
   const [email, setEmail] = useState('')
   const [submitted, setSubmitted] = useState(false)
 
@@ -45,6 +18,12 @@ export default function Footer() {
     }
   }
 
+  const navTo = (page, sectionId) => {
+    if (onNavigate) {
+      onNavigate(page, sectionId)
+    }
+  }
+
   return (
     <footer className="footer" data-anim>
       <div className="padding-global is-footer">
@@ -52,29 +31,46 @@ export default function Footer() {
           <div className="footer_wrap">
             <div className="footer_top">
               <div className="footer_content">
-                {/* Left: logo + tagline */}
+                {/* Left: Quelp logo + tagline */}
                 <div className="footer_content-wrap">
-                  <a href="#home">
-                    <img
-                      src="https://cdn.prod.website-files.com/6929c116366a14507fc8424d/69bc6c8e343f8f1f1832309a_aeline-logo.svg"
-                      loading="lazy"
-                      alt="aeline"
-                      style={{ height: '1.75rem', width: 'auto' }}
-                    />
-                  </a>
+                  <button
+                    onClick={() => navTo('home')}
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', gap: '0.625rem' }}
+                  >
+                    <div style={{
+                      width: '2rem',
+                      height: '2rem',
+                      borderRadius: '0.5rem',
+                      background: '#d6fd70',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontWeight: 800,
+                      color: '#0f0f0f',
+                      fontSize: '1.125rem'
+                    }}>
+                      Q
+                    </div>
+                    <span style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '1.375rem', fontWeight: 700, color: '#ffffff', letterSpacing: '-0.02em' }}>
+                      quelp
+                    </span>
+                  </button>
                   <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.9375rem', lineHeight: 1.6 }}>
-                    Easily adapt to changes and scale your operations with our flexible infrastructure, designed to support your business growth.
+                    Lower-cost, white-label customer-support platform designed for growing businesses.
+                  </div>
+                  <div style={{ color: '#d6fd70', fontSize: '0.875rem', fontWeight: 500 }}>
+                    Contact: Quelp@quelp.co.uk
                   </div>
                 </div>
 
                 {/* Right: newsletter */}
                 <div className="footer_content-wrap">
                   <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.9375rem', fontWeight: 500 }}>
-                    Subscribe our newsletter
+                    Subscribe to product updates
                   </div>
                   {submitted ? (
                     <div style={{ color: '#d6fd70', fontSize: '0.9375rem' }}>
-                      Thank you! Your submission has been received!
+                      Thank you! You're subscribed for updates.
                     </div>
                   ) : (
                     <form onSubmit={handleSubmit} className="footer-form">
@@ -105,22 +101,25 @@ export default function Footer() {
 
               {/* Navigation columns */}
               <div className="footer_right">
-                {navColumns.map((col, ci) => (
-                  <div key={ci} className="footer_links">
-                    {col.links.map((link, li) => (
-                      <a key={li} href={link.href} className="footer_link">
-                        {link.label}
-                      </a>
-                    ))}
-                  </div>
-                ))}
+                <div className="footer_links">
+                  <span style={{ color: '#ffffff', fontWeight: 600, fontSize: '0.875rem', marginBottom: '0.25rem' }}>Main</span>
+                  <button onClick={() => navTo('home')} className="footer_link" style={{ background: 'none', border: 'none', textAlign: 'left', cursor: 'pointer' }}>Home</button>
+                  <button onClick={() => navTo('products')} className="footer_link" style={{ background: 'none', border: 'none', textAlign: 'left', cursor: 'pointer' }}>Products</button>
+                  <button onClick={() => navTo('team')} className="footer_link" style={{ background: 'none', border: 'none', textAlign: 'left', cursor: 'pointer' }}>Team</button>
+                </div>
+                <div className="footer_links">
+                  <span style={{ color: '#ffffff', fontWeight: 600, fontSize: '0.875rem', marginBottom: '0.25rem' }}>Sections</span>
+                  <button onClick={() => navTo('home', 'services')} className="footer_link" style={{ background: 'none', border: 'none', textAlign: 'left', cursor: 'pointer' }}>Services</button>
+                  <button onClick={() => navTo('home', 'about')} className="footer_link" style={{ background: 'none', border: 'none', textAlign: 'left', cursor: 'pointer' }}>About Us</button>
+                  <button onClick={() => navTo('home', 'pricing')} className="footer_link" style={{ background: 'none', border: 'none', textAlign: 'left', cursor: 'pointer' }}>Pricing</button>
+                </div>
               </div>
             </div>
 
             {/* Footer Bottom */}
             <div className="footer_bottom">
               <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.875rem' }}>
-                © Aeline. All rights reserved. Powered by Webflow.
+                © Quelp. All rights reserved.
               </div>
               <div className="footer_bottom-links">
                 <a href="#privacy" className="footer_bottom-link">Privacy Policy</a>
