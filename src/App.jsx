@@ -1,32 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import HeroSection from './components/HeroSection';
-import ProductsSection from './components/ProductsSection';
-import InteractiveSandbox from './components/InteractiveSandbox';
-import ROIStatsSection from './components/ROIStatsSection';
-import EcosystemSection from './components/EcosystemSection';
-import TeamValuesSection from './components/TeamValuesSection';
-import TestimonialsSection from './components/TestimonialsSection';
+import FeaturesSection from './components/FeaturesSection';
+import InteractiveInboxDemo from './components/InteractiveInboxDemo';
+import PricingCalculatorSection from './components/PricingCalculatorSection';
+import KnowledgeBaseSection from './components/KnowledgeBaseSection';
+import AboutSection from './components/AboutSection';
 import ContactModal from './components/ContactModal';
-import SearchModal from './components/SearchModal';
 import Footer from './components/Footer';
 
 export default function App() {
   const [activeSection, setActiveSection] = useState('hero');
-  const [isContactOpen, setIsContactOpen] = useState(false);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-
-  // Ctrl+K keyboard shortcut listener for search modal
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
-        e.preventDefault();
-        setIsSearchOpen((prev) => !prev);
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
+  const [isDemoOpen, setIsDemoOpen] = useState(false);
 
   const scrollToSection = (sectionId) => {
     setActiveSection(sectionId);
@@ -41,64 +26,53 @@ export default function App() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: 'var(--bg-primary)' }}>
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: 'var(--bg-main)' }}>
       {/* Sticky Navigation */}
       <Navbar
         activeSection={activeSection}
         onNavigate={scrollToSection}
-        onOpenSearch={() => setIsSearchOpen(true)}
-        onOpenContact={() => setIsContactOpen(true)}
+        onOpenDemo={() => setIsDemoOpen(true)}
       />
 
       {/* Main Page Layout */}
       <main style={{ flex: 1 }}>
         <HeroSection 
           onNavigate={scrollToSection}
-          onOpenContact={() => setIsContactOpen(true)}
+          onOpenDemo={() => setIsDemoOpen(true)}
         />
 
-        <ProductsSection 
+        <FeaturesSection 
           onNavigate={scrollToSection}
-          onOpenContact={() => setIsContactOpen(true)}
+          onOpenDemo={() => setIsDemoOpen(true)}
         />
 
-        <InteractiveSandbox 
-          onOpenContact={() => setIsContactOpen(true)}
+        <InteractiveInboxDemo 
+          onOpenDemo={() => setIsDemoOpen(true)}
         />
 
-        <ROIStatsSection 
-          onOpenContact={() => setIsContactOpen(true)}
+        <PricingCalculatorSection 
+          onOpenDemo={() => setIsDemoOpen(true)}
         />
 
-        <EcosystemSection 
-          onOpenContact={() => setIsContactOpen(true)}
+        <KnowledgeBaseSection 
+          onOpenDemo={() => setIsDemoOpen(true)}
         />
 
-        <TeamValuesSection 
-          onOpenContact={() => setIsContactOpen(true)}
-        />
-
-        <TestimonialsSection 
-          onOpenContact={() => setIsContactOpen(true)}
+        <AboutSection 
+          onOpenDemo={() => setIsDemoOpen(true)}
         />
       </main>
 
       {/* Footer */}
       <Footer 
         onNavigate={scrollToSection}
-        onOpenContact={() => setIsContactOpen(true)}
+        onOpenDemo={() => setIsDemoOpen(true)}
       />
 
-      {/* Interactive Modals */}
+      {/* Trial Modal */}
       <ContactModal 
-        isOpen={isContactOpen}
-        onClose={() => setIsContactOpen(false)}
-      />
-
-      <SearchModal 
-        isOpen={isSearchOpen}
-        onClose={() => setIsSearchOpen(false)}
-        onNavigate={scrollToSection}
+        isOpen={isDemoOpen}
+        onClose={() => setIsDemoOpen(false)}
       />
     </div>
   );

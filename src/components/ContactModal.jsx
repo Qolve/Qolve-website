@@ -1,14 +1,5 @@
 import React, { useState } from 'react';
-import { 
-  X, 
-  Sparkles, 
-  CheckCircle2, 
-  ArrowRight, 
-  Calendar, 
-  Clock, 
-  ShieldCheck,
-  Send
-} from 'lucide-react';
+import { X, CheckCircle2, ArrowRight, Send, ShieldCheck } from 'lucide-react';
 
 export default function ContactModal({ isOpen, onClose }) {
   const [submitted, setSubmitted] = useState(false);
@@ -16,9 +7,7 @@ export default function ContactModal({ isOpen, onClose }) {
     name: '',
     email: '',
     company: '',
-    teamSize: '20-50',
-    productInterest: 'quelp',
-    notes: ''
+    teamSize: '5-15'
   });
 
   if (!isOpen) return null;
@@ -28,7 +17,7 @@ export default function ContactModal({ isOpen, onClose }) {
     setSubmitted(true);
   };
 
-  const handleReset = () => {
+  const handleDone = () => {
     setSubmitted(false);
     onClose();
   };
@@ -43,10 +32,9 @@ export default function ContactModal({ isOpen, onClose }) {
         alignItems: 'center',
         justifyContent: 'center',
         padding: '1.5rem',
-        background: 'rgba(4, 47, 46, 0.65)',
-        backdropFilter: 'blur(8px)',
-        WebkitBackdropFilter: 'blur(8px)',
-        animation: 'fadeIn 0.2s ease-out'
+        background: 'rgba(15, 23, 42, 0.6)',
+        backdropFilter: 'blur(6px)',
+        WebkitBackdropFilter: 'blur(6px)'
       }}
       onClick={onClose}
     >
@@ -55,17 +43,14 @@ export default function ContactModal({ isOpen, onClose }) {
           background: '#ffffff',
           borderRadius: '24px',
           padding: '2.5rem',
-          maxWidth: '560px',
+          maxWidth: '520px',
           width: '100%',
-          boxShadow: '0 25px 60px rgba(0,0,0,0.25)',
-          border: '1px solid rgba(13, 148, 136, 0.3)',
-          position: 'relative',
-          maxHeight: '90vh',
-          overflowY: 'auto'
+          boxShadow: '0 25px 50px rgba(0,0,0,0.2)',
+          border: '1px solid #e2e8f0',
+          position: 'relative'
         }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Close Button */}
         <button
           onClick={onClose}
           style={{
@@ -75,7 +60,7 @@ export default function ContactModal({ isOpen, onClose }) {
             width: '36px',
             height: '36px',
             borderRadius: '50%',
-            border: '1px solid #e2e8f0',
+            border: '1px solid #cbd5e1',
             background: '#f8fafc',
             cursor: 'pointer',
             display: 'flex',
@@ -87,52 +72,38 @@ export default function ContactModal({ isOpen, onClose }) {
         </button>
 
         {submitted ? (
-          <div style={{ textAlign: 'center', padding: '2rem 1rem' }}>
-            <div 
-              style={{
-                width: '64px',
-                height: '64px',
-                borderRadius: '50%',
-                background: 'rgba(13, 148, 136, 0.15)',
-                color: '#0d9488',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                margin: '0 auto 1.5rem'
-              }}
-            >
-              <CheckCircle2 size={36} color="#0d9488" />
+          <div style={{ textAlign: 'center', padding: '1.5rem 0' }}>
+            <div style={{ width: '60px', height: '60px', borderRadius: '50%', background: '#f0fdfa', color: '#0d9488', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.25rem' }}>
+              <CheckCircle2 size={32} color="#0d9488" />
             </div>
 
-            <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.8rem', fontWeight: 800, color: '#042f2e', marginBottom: '0.75rem' }}>
-              Demo Request Scheduled!
+            <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.6rem', fontWeight: 800, color: '#0f172a', marginBottom: '0.5rem' }}>
+              Trial Reserved!
             </h3>
-            <p style={{ color: '#475569', fontSize: '0.98rem', lineHeight: 1.6, marginBottom: '2rem' }}>
-              Thank you <strong>{formData.name || 'there'}</strong>! Our enterprise Solutions Architect will reach out to <strong>{formData.email}</strong> within 15 minutes with calendar invites and sandbox API credentials.
+            <p style={{ color: '#475569', fontSize: '0.95rem', lineHeight: 1.5, marginBottom: '1.75rem' }}>
+              Thanks <strong>{formData.name || 'there'}</strong>! We’ve reserved your 14-day free trial for <strong>{formData.email}</strong>. Our team will send your workspace login link in a moment.
             </p>
 
-            <button onClick={handleReset} className="btn-primary" style={{ width: '100%', justifyContent: 'center' }}>
+            <button onClick={handleDone} className="btn-teal" style={{ width: '100%', justifyContent: 'center' }}>
               <span>Done</span>
             </button>
           </div>
         ) : (
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
-              <span style={{ fontSize: '0.75rem', fontWeight: 800, color: '#0d9488', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                DIRECT SALES & DEMO ACCESS
-              </span>
+            <div style={{ fontSize: '0.78rem', fontWeight: 800, color: '#0d9488', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.4rem' }}>
+              14-DAY FREE TRIAL
             </div>
 
-            <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.8rem', fontWeight: 800, color: '#042f2e', marginBottom: '0.5rem' }}>
-              Book Your 1-on-1 Qolve Demo
+            <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.6rem', fontWeight: 800, color: '#0f172a', marginBottom: '0.5rem' }}>
+              Start Using Quelp Desk Today
             </h3>
-            <p style={{ color: '#64748b', fontSize: '0.9rem', marginBottom: '1.75rem' }}>
-              Get a personalized walkthrough of Quelp Graph Engine & Qolve Orchestrator tailored for your stack.
+            <p style={{ color: '#64748b', fontSize: '0.9rem', marginBottom: '1.5rem' }}>
+              No credit card required. Setup your custom domain support workspace in under 5 minutes.
             </p>
 
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               <div>
-                <label style={{ fontSize: '0.82rem', fontWeight: 700, color: '#1e293b', display: 'block', marginBottom: '0.35rem' }}>
+                <label style={{ fontSize: '0.82rem', fontWeight: 700, color: '#1e293b', display: 'block', marginBottom: '0.3rem' }}>
                   Full Name *
                 </label>
                 <input
@@ -143,17 +114,17 @@ export default function ContactModal({ isOpen, onClose }) {
                   placeholder="e.g. Alex Morgan"
                   style={{
                     width: '100%',
-                    padding: '0.75rem 1rem',
+                    padding: '0.75rem 0.9rem',
                     borderRadius: '10px',
                     border: '1px solid #cbd5e1',
                     fontSize: '0.9rem',
-                    outline: 'none',
+                    outline: 'none'
                   }}
                 />
               </div>
 
               <div>
-                <label style={{ fontSize: '0.82rem', fontWeight: 700, color: '#1e293b', display: 'block', marginBottom: '0.35rem' }}>
+                <label style={{ fontSize: '0.82rem', fontWeight: 700, color: '#1e293b', display: 'block', marginBottom: '0.3rem' }}>
                   Work Email Address *
                 </label>
                 <input
@@ -164,46 +135,46 @@ export default function ContactModal({ isOpen, onClose }) {
                   placeholder="alex@company.com"
                   style={{
                     width: '100%',
-                    padding: '0.75rem 1rem',
+                    padding: '0.75rem 0.9rem',
                     borderRadius: '10px',
                     border: '1px solid #cbd5e1',
                     fontSize: '0.9rem',
-                    outline: 'none',
+                    outline: 'none'
                   }}
                 />
               </div>
 
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                 <div>
-                  <label style={{ fontSize: '0.82rem', fontWeight: 700, color: '#1e293b', display: 'block', marginBottom: '0.35rem' }}>
+                  <label style={{ fontSize: '0.82rem', fontWeight: 700, color: '#1e293b', display: 'block', marginBottom: '0.3rem' }}>
                     Company Name
                   </label>
                   <input
                     type="text"
                     value={formData.company}
                     onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                    placeholder="Acme Corp"
+                    placeholder="Acme Ltd"
                     style={{
                       width: '100%',
-                      padding: '0.75rem 1rem',
+                      padding: '0.75rem 0.9rem',
                       borderRadius: '10px',
                       border: '1px solid #cbd5e1',
                       fontSize: '0.9rem',
-                      outline: 'none',
+                      outline: 'none'
                     }}
                   />
                 </div>
 
                 <div>
-                  <label style={{ fontSize: '0.82rem', fontWeight: 700, color: '#1e293b', display: 'block', marginBottom: '0.35rem' }}>
-                    Primary Product Interest
+                  <label style={{ fontSize: '0.82rem', fontWeight: 700, color: '#1e293b', display: 'block', marginBottom: '0.3rem' }}>
+                    Support Agents
                   </label>
                   <select
-                    value={formData.productInterest}
-                    onChange={(e) => setFormData({ ...formData, productInterest: e.target.value })}
+                    value={formData.teamSize}
+                    onChange={(e) => setFormData({ ...formData, teamSize: e.target.value })}
                     style={{
                       width: '100%',
-                      padding: '0.75rem 1rem',
+                      padding: '0.75rem 0.9rem',
                       borderRadius: '10px',
                       border: '1px solid #cbd5e1',
                       fontSize: '0.9rem',
@@ -211,38 +182,17 @@ export default function ContactModal({ isOpen, onClose }) {
                       background: '#ffffff'
                     }}
                   >
-                    <option value="quelp">Quelp Graph Engine</option>
-                    <option value="orchestrator">Qolve Orchestrator</option>
-                    <option value="secureshield">SecureShield Security</option>
-                    <option value="full">Full Enterprise Suite</option>
+                    <option value="1-5">1 - 5 Agents</option>
+                    <option value="5-15">5 - 15 Agents</option>
+                    <option value="15-50">15 - 50 Agents</option>
+                    <option value="50+">50+ Agents</option>
                   </select>
                 </div>
               </div>
 
-              <div>
-                <label style={{ fontSize: '0.82rem', fontWeight: 700, color: '#1e293b', display: 'block', marginBottom: '0.35rem' }}>
-                  Use Case & Goals (Optional)
-                </label>
-                <textarea
-                  rows="3"
-                  value={formData.notes}
-                  onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                  placeholder="Tell us about your current workflow bottlenecks or API volume..."
-                  style={{
-                    width: '100%',
-                    padding: '0.75rem 1rem',
-                    borderRadius: '10px',
-                    border: '1px solid #cbd5e1',
-                    fontSize: '0.9rem',
-                    outline: 'none',
-                    resize: 'none'
-                  }}
-                />
-              </div>
-
-              <button type="submit" className="btn-primary" style={{ width: '100%', justifyContent: 'center', padding: '0.85rem', marginTop: '0.5rem' }}>
+              <button type="submit" className="btn-teal" style={{ width: '100%', justifyContent: 'center', padding: '0.85rem', marginTop: '0.5rem' }}>
                 <Send size={16} />
-                <span>Confirm Demo Reservation</span>
+                <span>Create Workspace Trial</span>
               </button>
             </form>
           </div>
