@@ -51,7 +51,7 @@ export default function Navbar({ activePage, onNavigate }) {
                   qolve
                 </span>
                 <span style={{ fontSize: '0.7rem', fontWeight: 600, color: '#d6fd70', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
-                  Building White Label Solutions
+                  Whitelabel Solutions
                 </span>
               </div>
             </button>
