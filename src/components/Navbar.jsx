@@ -1,37 +1,55 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 export default function Navbar({ activePage, onNavigate }) {
   const [scrolled, setScrolled] = useState(false)
+  const [hidden, setHidden] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
-  const [dropdownOpen, setDropdownOpen] = useState(false)
+  const lastScrollY = useRef(0)
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20)
-    window.addEventListener('scroll', handleScroll)
+    const handleScroll = () => {
+      const currentY = window.scrollY
+      setScrolled(currentY > 20)
+      // Hide when scrolling down past 80px, show when scrolling up
+      if (currentY > lastScrollY.current && currentY > 80) {
+        setHidden(true)
+        setMobileOpen(false)
+      } else {
+        setHidden(false)
+      }
+      lastScrollY.current = currentY
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
   const navTo = (page, sectionId) => {
     setMobileOpen(false)
-    setDropdownOpen(false)
     if (onNavigate) {
       onNavigate(page, sectionId)
     }
   }
 
   return (
-    <nav className="navbar" style={{ background: scrolled ? 'rgba(15,15,15,0.97)' : 'rgba(15,15,15,0.82)' }}>
+    <nav
+      className="navbar"
+      style={{
+        background: scrolled ? 'rgba(15,15,15,0.97)' : 'rgba(15,15,15,0.85)',
+        transform: hidden ? 'translateY(-100%)' : 'translateY(0)',
+        transition: 'transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease',
+      }}
+    >
       <div className="padding-global is-navbar">
         <div className="container-large">
           <div className="navbar_content">
-            {/* Logo - Quelp */}
+            {/* Logo - Qolve Company & Quelp Product */}
             <button
               onClick={() => navTo('home')}
               style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', gap: '0.625rem' }}
             >
               <div style={{
-                width: '2rem',
-                height: '2rem',
+                width: '2.25rem',
+                height: '2.25rem',
                 borderRadius: '0.5rem',
                 background: '#d6fd70',
                 display: 'flex',
@@ -39,13 +57,18 @@ export default function Navbar({ activePage, onNavigate }) {
                 justifyContent: 'center',
                 fontWeight: 800,
                 color: '#0f0f0f',
-                fontSize: '1.125rem'
+                fontSize: '1.25rem'
               }}>
                 Q
               </div>
-              <span style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '1.375rem', fontWeight: 700, color: '#ffffff', letterSpacing: '-0.02em' }}>
-                quelp
-              </span>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+                <span style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '1.25rem', fontWeight: 800, color: '#ffffff', letterSpacing: '-0.02em', lineHeight: 1.1 }}>
+                  qolve
+                </span>
+                <span style={{ fontSize: '0.7rem', fontWeight: 600, color: '#d6fd70', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+                  Building Quelp
+                </span>
+              </div>
             </button>
 
             {/* Desktop nav links */}
@@ -64,28 +87,28 @@ export default function Navbar({ activePage, onNavigate }) {
                     className="nav_links"
                     style={{ background: 'none', border: 'none', cursor: 'pointer', color: activePage === 'products' ? '#d6fd70' : '#ffffff' }}
                   >
-                    Products
+                    Quelp Platform
+                  </button>
+                  <button
+                    onClick={() => navTo('home', 'roadmap')}
+                    className="nav_links"
+                    style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+                  >
+                    Architecture
                   </button>
                   <button
                     onClick={() => navTo('team')}
                     className="nav_links"
                     style={{ background: 'none', border: 'none', cursor: 'pointer', color: activePage === 'team' ? '#d6fd70' : '#ffffff' }}
                   >
-                    Team
-                  </button>
-                  <button
-                    onClick={() => navTo('home', 'services')}
-                    className="nav_links"
-                    style={{ background: 'none', border: 'none', cursor: 'pointer' }}
-                  >
-                    Services
+                    Qolve Team
                   </button>
                   <button
                     onClick={() => navTo('home', 'about')}
                     className="nav_links"
                     style={{ background: 'none', border: 'none', cursor: 'pointer' }}
                   >
-                    About Us
+                    About Qolve
                   </button>
                   <button
                     onClick={() => navTo('home', 'pricing')}
@@ -107,7 +130,7 @@ export default function Navbar({ activePage, onNavigate }) {
                   style={{ padding: '0.625rem 1.25rem', fontSize: '0.875rem', background: '#d6fd70', color: '#0f0f0f', border: 'none', borderRadius: '9999px', fontWeight: 600, cursor: 'pointer' }}
                 >
                   <div className="text-button-wrap">
-                    <div>Explore Platform</div>
+                    <div>Explore Quelp Platform</div>
                   </div>
                 </button>
               </div>
@@ -141,10 +164,10 @@ export default function Navbar({ activePage, onNavigate }) {
         }}>
           {[
             { label: 'Home', action: () => navTo('home') },
-            { label: 'Products', action: () => navTo('products') },
-            { label: 'Team', action: () => navTo('team') },
-            { label: 'Services', action: () => navTo('home', 'services') },
-            { label: 'About Us', action: () => navTo('home', 'about') },
+            { label: 'Quelp Platform', action: () => navTo('products') },
+            { label: 'Architecture', action: () => navTo('home', 'roadmap') },
+            { label: 'Qolve Team', action: () => navTo('team') },
+            { label: 'About Qolve', action: () => navTo('home', 'about') },
             { label: 'Pricing', action: () => navTo('home', 'pricing') },
           ].map((item, idx) => (
             <button
@@ -168,3 +191,4 @@ export default function Navbar({ activePage, onNavigate }) {
     </nav>
   )
 }
+
