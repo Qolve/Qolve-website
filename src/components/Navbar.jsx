@@ -1,34 +1,11 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 
 export default function Navbar({ activePage, onNavigate }) {
   const [scrolled, setScrolled] = useState(false)
-  const [hidden, setHidden] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
-  const lastScrollY = useRef(0)
-  const scrollDelta = useRef(0)
 
   useEffect(() => {
-    const handleScroll = () => {
-      const currentY = window.scrollY
-      const diff = currentY - lastScrollY.current
-
-      setScrolled(currentY > 20)
-
-      if (diff > 0) {
-        // Scrolling down — accumulate delta, hide after 100px of downward scroll
-        scrollDelta.current += diff
-        if (scrollDelta.current > 100 && currentY > 80) {
-          setHidden(true)
-          setMobileOpen(false)
-        }
-      } else {
-        // Scrolling up — reset delta and immediately show
-        scrollDelta.current = 0
-        setHidden(false)
-      }
-
-      lastScrollY.current = currentY
-    }
+    const handleScroll = () => setScrolled(window.scrollY > 20)
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
@@ -45,8 +22,6 @@ export default function Navbar({ activePage, onNavigate }) {
       className="navbar"
       style={{
         background: scrolled ? 'rgba(15,15,15,0.97)' : 'rgba(15,15,15,0.85)',
-        transform: hidden ? 'translateY(-100%)' : 'translateY(0)',
-        transition: 'transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease',
       }}
     >
       <div className="padding-global is-navbar">
