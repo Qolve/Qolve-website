@@ -5,18 +5,28 @@ export default function Navbar({ activePage, onNavigate }) {
   const [hidden, setHidden] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const lastScrollY = useRef(0)
+  const scrollDelta = useRef(0)
 
   useEffect(() => {
     const handleScroll = () => {
       const currentY = window.scrollY
+      const diff = currentY - lastScrollY.current
+
       setScrolled(currentY > 20)
-      // Hide when scrolling down past 80px, show when scrolling up
-      if (currentY > lastScrollY.current && currentY > 80) {
-        setHidden(true)
-        setMobileOpen(false)
+
+      if (diff > 0) {
+        // Scrolling down — accumulate delta, hide after 100px of downward scroll
+        scrollDelta.current += diff
+        if (scrollDelta.current > 100 && currentY > 80) {
+          setHidden(true)
+          setMobileOpen(false)
+        }
       } else {
+        // Scrolling up — reset delta and immediately show
+        scrollDelta.current = 0
         setHidden(false)
       }
+
       lastScrollY.current = currentY
     }
     window.addEventListener('scroll', handleScroll, { passive: true })
