@@ -1,139 +1,185 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Calendar, CheckCircle2, Clock, Sparkles, Layers, ShieldCheck, Cpu, Globe } from 'lucide-react';
-
-const ROADMAP_PHASES = [
+const PLATFORM_PILLARS = [
   {
-    phase: 'Phase 1',
-    timeline: 'Q3 2026 (Completed)',
-    title: 'Core Infrastructure & Inbound Mail Relay',
-    status: 'Done',
-    icon: ShieldCheck,
-    deliverables: [
-      'Stalwart Mail Server + AWS SES Outbound Relay',
-      'Central Domain Identity (qolve.systems) with SPF/DKIM',
-      'Secure TLS / HTTPS Docker networking & IMAP sync',
-      'Initial Mailbox Architecture (support@qolve.systems)'
-    ]
+    pillar: 'Pillar 1',
+    title: 'Resilient Mail & Relay Infrastructure',
+    cardBg: 'card_about bg-black',
+    tagColor: '#d6fd70',
+    description: 'High-availability email routing built on Stalwart Mail Server with AWS SES outbound relay, featuring strict SPF, DKIM, and DMARC identity verification under qolve.systems.',
+    capabilities: [
+      'Zero-loss inbound & outbound email processing',
+      'Custom MAIL FROM subdomain alignment',
+      'Automated DKIM signature verification',
+      'Dedicated support mailboxes (support@qolve.systems)',
+    ],
   },
   {
-    phase: 'Phase 2',
-    timeline: 'Q4 2026 (Active)',
-    title: 'Quelp Helpdesk MVP & Inbound Triage',
-    status: 'In Progress',
-    icon: Layers,
-    deliverables: [
-      'Auto-ticket creation from inbound emails',
-      'Collaborative agent inbox with status & category tags',
-      'AI-assisted response drafting for support agents',
-      'SLA tracking and automated team assignments'
-    ]
+    pillar: 'Pillar 2',
+    title: 'Omnichannel Helpdesk & Ticket Triage',
+    cardBg: 'card_about bg-green',
+    tagColor: '#0f0f0f',
+    description: 'A unified workspace consolidating customer inquiries from email, live web widgets, and customer portals into structured, assigned ticket streams.',
+    capabilities: [
+      'Multi-channel inbound ticket consolidation',
+      'Threaded conversation history & customer context',
+      'Automated team assignment rules & priority tagging',
+      'Real-time status tracking & agent collision prevention',
+    ],
   },
   {
-    phase: 'Phase 3',
-    timeline: 'Q1 2027 (Upcoming)',
-    title: 'AI Automation & Visual Ticket Canvas',
-    status: 'Planned',
-    icon: Cpu,
-    deliverables: [
-      'Visual drag-and-drop ticket automation canvas',
-      'Self-learning Knowledge Base & FAQ auto-resolution',
-      'Multi-channel web widget & bubble chatbot SDK',
-      'Advanced ticket telemetry & agent performance analytics'
-    ]
-  },
-  {
-    phase: 'Phase 4',
-    timeline: 'Q2 2027 (Scale)',
-    title: 'White-Label Client Portals & Enterprise Multi-Tenancy',
-    status: 'Planned',
-    icon: Globe,
-    deliverables: [
+    pillar: 'Pillar 3',
+    title: '100% White-Label Customer Experience',
+    cardBg: 'card_about bg-subtle',
+    tagColor: '#555555',
+    description: 'Complete branding autonomy allowing growing businesses to present customer support as an integral part of their software ecosystem.',
+    capabilities: [
       'Custom CNAME domain mapping for client portals',
-      '100% white-label branding (logo, colors, typography)',
-      'Multi-tenant SSO authentication (OAuth / SAML)',
-      'Flat-rate subscription tier launch'
-    ]
-  }
-];
+      'Workspace theme customization (logos, colors, typography)',
+      'Branded customer self-service knowledge base',
+      'Customizable email templates & notification headers',
+    ],
+  },
+  {
+    pillar: 'Pillar 4',
+    title: 'Grounded AI Assistance (Permafix AI)',
+    cardBg: 'card_about bg-subtle',
+    tagColor: '#555555',
+    description: 'Intelligent AI agent layer designed to auto-classify incoming tickets, draft grounded response suggestions, and escalate complex issues safely.',
+    capabilities: [
+      'Automatic ticket category & sentiment analysis',
+      'Grounded reply drafting from approved knowledge articles',
+      'Instant thread summarization for support agents',
+      'Human-in-the-loop escalation controls & safety rules',
+    ],
+  },
+  {
+    pillar: 'Pillar 5',
+    title: 'Multi-Tenant Security & Access Control',
+    cardBg: 'card_about bg-black',
+    tagColor: '#d6fd70',
+    description: 'Enterprise-grade multi-tenancy architecture ensuring complete data isolation, role-based access control, and secure API access.',
+    capabilities: [
+      'Strict tenant data isolation & encrypted storage',
+      'Role-Based Access Control (RBAC) for agents & admins',
+      'OAuth & single sign-on (SSO) authentication',
+      'HMAC-SHA256 signed webhook events & API tokens',
+    ],
+  },
+  {
+    pillar: 'Pillar 6',
+    title: 'SLAs, Rules & Performance Analytics',
+    cardBg: 'card_about bg-subtle',
+    tagColor: '#555555',
+    description: 'Comprehensive operational intelligence giving leadership full visibility into response speeds, resolution metrics, and customer satisfaction.',
+    capabilities: [
+      'Configurable SLA response & resolution targets',
+      'Automated escalation workflows for breached tickets',
+      'Real-time CSAT customer feedback collection',
+      'Exportable performance dashboards & queue metrics',
+    ],
+  },
+]
 
 export default function RoadmapSection() {
   return (
-    <section id="roadmap" className="py-24 bg-slate-50 border-y border-slate-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-teal-100 border border-teal-200 text-teal-800 text-xs font-semibold mb-3">
-            <Calendar className="w-3.5 h-3.5 text-teal-600" />
-            <span>Project Roadmap (2026 – 2027)</span>
+    <section className="section_about" id="roadmap" style={{ background: '#f8f8f8', padding: '6rem 0' }}>
+      <div className="padding-global">
+        <div className="container-large">
+          <div className="vertical-center">
+            {/* Tag pill */}
+            <div className="tag" data-anim>
+              <div className="dot-square" />
+              <div>Platform Architecture</div>
+            </div>
+
+            <div className="spacer-large" />
+
+            <div className="max-width-medium is-41rem">
+              <h2 className="text-align-center" data-anim>
+                Core Pillars of the Qolve Ecosystem
+              </h2>
+            </div>
+
+            <div className="spacer-large" />
+
+            <div className="max-width-medium">
+              <div className="text-base text-align-center text-color-secondary" data-anim>
+                Engineered by Qolve to deliver enterprise-level helpdesk performance, white-label branding, and grounded AI support automation.
+              </div>
+            </div>
           </div>
-          <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-            How We Are Building Qolve & Quelp
-          </h2>
-          <p className="text-slate-600 mt-3 text-base">
-            Transparent engineering milestones. From resilient email infrastructure to full white-label AI helpdesk multi-tenancy.
-          </p>
-        </div>
 
-        {/* Roadmap Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {ROADMAP_PHASES.map((item, idx) => {
-            const IconComponent = item.icon;
-            const isDone = item.status === 'Done';
-            const isInProgress = item.status === 'In Progress';
+          <div className="spacer-section-large" />
 
-            return (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 card-shadow relative flex flex-col justify-between"
-              >
-                <div>
-                  {/* Badge Row */}
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-2">
-                      <div className="w-9 h-9 rounded-xl bg-teal-50 border border-teal-200 flex items-center justify-center text-teal-700">
-                        <IconComponent className="w-5 h-5" />
-                      </div>
-                      <span className="font-mono text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                        {item.phase} • {item.timeline}
+          {/* Grid of Platform Pillars */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.5rem' }}>
+            {PLATFORM_PILLARS.map((item, idx) => (
+              <div key={idx} className={item.cardBg} data-anim style={{ padding: '2rem', minHeight: '24rem' }}>
+                <div className="vertical-space-between" style={{ height: '100%' }}>
+                  <div>
+                    {/* Header Row */}
+                    <div style={{ marginBottom: '1rem' }}>
+                      <span
+                        className="geistmono"
+                        style={{
+                          fontSize: '0.75rem',
+                          fontWeight: 700,
+                          padding: '0.25rem 0.625rem',
+                          borderRadius: '9999px',
+                          background: item.cardBg.includes('bg-black') ? 'rgba(214,253,112,0.15)' : 'rgba(0,0,0,0.06)',
+                          color: item.cardBg.includes('bg-black') ? '#d6fd70' : '#0f0f0f',
+                        }}
+                      >
+                        {item.pillar}
                       </span>
                     </div>
 
-                    <span className={`text-xs font-semibold px-3 py-1 rounded-full border ${
-                      isDone ? 'bg-emerald-50 text-emerald-700 border-emerald-200' :
-                      isInProgress ? 'bg-teal-50 text-teal-700 border-teal-200 animate-pulse' :
-                      'bg-slate-100 text-slate-600 border-slate-200'
-                    }`}>
-                      {item.status}
-                    </span>
+                    <h3
+                      className={`text-xl ${item.cardBg.includes('bg-black') ? 'text-color-on-primary' : 'text-color-primary'}`}
+                      style={{ fontSize: '1.375rem', fontWeight: 700 }}
+                    >
+                      {item.title}
+                    </h3>
+
+                    <div className="spacer-small" />
+
+                    <p
+                      className={`text-base ${item.cardBg.includes('bg-black') ? 'text-color-on-primary' : 'text-color-secondary'}`}
+                      style={{ fontSize: '0.875rem', lineHeight: 1.6, opacity: 0.9 }}
+                    >
+                      {item.description}
+                    </p>
+
+                    <div className="spacer-medium" />
+
+                    {/* Capabilities */}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                      {item.capabilities.map((cap, cIdx) => (
+                        <div key={cIdx} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem' }}>
+                          <span style={{ color: item.cardBg.includes('bg-black') ? '#d6fd70' : '#0f0f0f', fontSize: '0.875rem', lineHeight: 1.4 }}>•</span>
+                          <span
+                            className={`text-base ${item.cardBg.includes('bg-black') ? 'text-color-on-primary' : 'text-color-secondary'}`}
+                            style={{ fontSize: '0.875rem', lineHeight: 1.5, opacity: 0.9 }}
+                          >
+                            {cap}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
 
-                  {/* Title */}
-                  <h3 className="font-heading text-xl font-bold text-slate-900 mb-4">
-                    {item.title}
-                  </h3>
-
-                  {/* Deliverables List */}
-                  <ul className="space-y-2.5">
-                    {item.deliverables.map((del, dIdx) => (
-                      <li key={dIdx} className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-600">
-                        <CheckCircle2 className={`w-4 h-4 shrink-0 mt-0.5 ${isDone ? 'text-emerald-500' : 'text-teal-600'}`} />
-                        <span>{del}</span>
-                      </li>
-                    ))}
-                  </ul>
+                  <div style={{ marginTop: '1.5rem', paddingTop: '1rem', borderTop: item.cardBg.includes('bg-black') ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.08)' }}>
+                    <span className="geistmono" style={{ fontSize: '0.75rem', color: item.cardBg.includes('bg-black') ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.5)' }}>
+                      Qolve Architecture Spec
+                    </span>
+                  </div>
                 </div>
-              </motion.div>
-            );
-          })}
+              </div>
+            ))}
+          </div>
         </div>
-
       </div>
     </section>
-  );
+  )
 }
+
+

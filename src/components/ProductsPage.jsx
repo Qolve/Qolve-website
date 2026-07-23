@@ -82,7 +82,7 @@ export default function ProductsPage({ onNavigate }) {
             {/* Header Title */}
             <div className="max-width-medium is-41rem">
               <h2 className="text-align-center" data-anim>
-                The Quelp Support Platform
+                The Qolve Support Platform
               </h2>
             </div>
 

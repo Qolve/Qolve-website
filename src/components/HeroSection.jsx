@@ -1,70 +1,118 @@
 import { useState, useRef, useEffect } from 'react'
 
-// Unique card images from Quelp/Aeline template
-const CAROUSEL_IMAGES = [
-  'https://cdn.prod.website-files.com/6929c116366a14507fc8424d/69a5007e9793bec9aef0bae6_card.avif',
-  'https://cdn.prod.website-files.com/6929c116366a14507fc8424d/69a5007db9ab99a268357410_card-3.avif',
-  'https://cdn.prod.website-files.com/6929c116366a14507fc8424d/69a5007d21f950db130e28c9_card-6.avif',
-  'https://cdn.prod.website-files.com/6929c116366a14507fc8424d/69a5007eb87553c5aa32934f_card-1.avif',
-  'https://cdn.prod.website-files.com/6929c116366a14507fc8424d/69a5007e27ef20e6e3edd02e_card-4.avif',
-  'https://cdn.prod.website-files.com/6929c116366a14507fc8424d/69a5007e9468539ba66cdd61_card-7.avif',
-  'https://cdn.prod.website-files.com/6929c116366a14507fc8424d/69a5007dd38878bbefc784aa_card-8.avif',
-  'https://cdn.prod.website-files.com/6929c116366a14507fc8424d/69a5007d920bdd6882dc8eb7_card-2.avif',
-  'https://cdn.prod.website-files.com/6929c116366a14507fc8424d/69a5007d1354bb8698409c38_card-5.avif',
+// 8 Tailored Cards for Qolve Support Platform 3D Ring
+const CAROUSEL_ITEMS = [
+  {
+    title: 'Omnichannel Helpdesk',
+    badge: 'Core Feature',
+    desc: 'Unified ticket inbox consolidating email, live web chat & customer support portal streams.',
+    imgSrc: '/images/helpdesk_inbox_ui_1784657456203.jpg',
+    snippetTag: 'Live Inbox',
+    snippetText: 'Multi-channel ticket queue & customer context',
+  },
+  {
+    title: '100% White-Label Suite',
+    badge: 'Core Feature',
+    desc: 'Custom CNAME domain mapping, color palette customization & branded portal experience.',
+    imgSrc: '/images/whitelabel_branding_ui_1784657470405.jpg',
+    snippetTag: 'White-Label Domain',
+    snippetText: 'Custom CNAME domain & theme styling',
+  },
+  {
+    title: 'Permafix AI Assistant',
+    badge: 'Coming Soon',
+    desc: 'Grounded knowledge base matching, ticket classification & automated draft replies.',
+    imgSrc: '/images/permafix_ai_ui_1784657484270.jpg',
+    snippetTag: 'Coming Soon • In Development',
+    snippetText: 'Grounded AI ticket suggestion engine',
+  },
+  {
+    title: 'Resilient Mail Relay',
+    badge: 'Core Feature',
+    desc: 'Dedicated email server container + outbound relay for verified deliverability.',
+    imgSrc: '/images/mail_relay_ui_1784657498874.jpg',
+    snippetTag: 'Email Ingestion',
+    snippetText: 'SPF, DKIM & DMARC deliverability suite',
+  },
+  {
+    title: 'Real-Time SLA Engine',
+    badge: 'Coming Soon',
+    desc: 'Live response countdown timers, priority escalation rules & breach alerts.',
+    imgSrc: '/images/sla_engine_ui_1784657513405.jpg',
+    snippetTag: 'Coming Soon • Planned',
+    snippetText: 'Custom SLA countdowns & escalation rules',
+  },
+  {
+    title: 'CSAT & Queue Analytics',
+    badge: 'Coming Soon',
+    desc: 'Customer satisfaction scoring, resolution time trends & team performance reports.',
+    imgSrc: '/images/csat_analytics_ui_1784657527955.jpg',
+    snippetTag: 'Coming Soon • Planned',
+    snippetText: 'Queue analytics & satisfaction tracking',
+  },
+  {
+    title: 'RBAC & Multi-Tenancy',
+    badge: 'Core Feature',
+    desc: 'Isolated tenant workspaces, role-based access control & secure authentication.',
+    imgSrc: '/images/rbac_security_ui_1784657541898.jpg',
+    snippetTag: 'Workspace Security',
+    snippetText: 'Tenant data isolation & role permissions',
+  },
+  {
+    title: 'Webhooks & Developer API',
+    badge: 'Coming Soon',
+    desc: 'Signed webhook events, REST API endpoints & custom integration triggers.',
+    imgSrc: '/images/webhooks_api_ui_1784657557989.jpg',
+    snippetTag: 'Coming Soon • Planned',
+    snippetText: 'Developer API access & webhook events',
+  },
 ]
 
 function MerryGoRound() {
   const [rotationY, setRotationY] = useState(0)
   const [isDragging, setIsDragging] = useState(false)
-  const [hasDragged, setHasDragged] = useState(false)
+  const [activeItem, setActiveItem] = useState(null)
+  const isDraggingRef = useRef(false)
+  const isHoveredRef = useRef(false)
   const startXRef = useRef(0)
   const startRotationRef = useRef(0)
-  const velocityRef = useRef(0)
-  const lastXRef = useRef(0)
-  const animFrameRef = useRef(null)
 
-  const numCards = CAROUSEL_IMAGES.length
-  const angleStep = 360 / numCards
-  const radius = 340
+  const numCards = 8
+  const angleStep = 360 / numCards // 45 degrees per card for 8-card ring
+  const radius = 480 // 3D ring radius for 8 orbiting cards
+
+  // Continuous slow rotation loop (80% slower speed, pauses on hover or drag)
+  useEffect(() => {
+    let animId
+    const autoRotate = () => {
+      if (!isDraggingRef.current && !isHoveredRef.current && !activeItem) {
+        setRotationY((prev) => (prev + 0.05) % 360)
+      }
+      animId = requestAnimationFrame(autoRotate)
+    }
+    animId = requestAnimationFrame(autoRotate)
+    return () => cancelAnimationFrame(animId)
+  }, [activeItem])
 
   const handlePointerDown = (e) => {
     e.preventDefault()
     setIsDragging(true)
-    setHasDragged(true)
-    if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current)
+    isDraggingRef.current = true
     const clientX = e.touches ? e.touches[0].clientX : e.clientX
     startXRef.current = clientX
-    lastXRef.current = clientX
     startRotationRef.current = rotationY
-    velocityRef.current = 0
   }
 
   const handlePointerMove = (e) => {
-    if (!isDragging) return
+    if (!isDraggingRef.current) return
     const clientX = e.touches ? e.touches[0].clientX : e.clientX
     const deltaX = clientX - startXRef.current
-    const stepDelta = clientX - lastXRef.current
-    lastXRef.current = clientX
-    velocityRef.current = stepDelta * 0.3
-
     setRotationY(startRotationRef.current + deltaX * 0.4)
   }
 
   const handlePointerUp = () => {
-    if (!isDragging) return
     setIsDragging(false)
-
-    let currentVel = velocityRef.current
-    let currentRot = rotationY
-    const decay = () => {
-      if (Math.abs(currentVel) > 0.05) {
-        currentRot += currentVel
-        currentVel *= 0.92
-        setRotationY(currentRot)
-        animFrameRef.current = requestAnimationFrame(decay)
-      }
-    }
-    animFrameRef.current = requestAnimationFrame(decay)
+    isDraggingRef.current = false
   }
 
   useEffect(() => {
@@ -75,87 +123,171 @@ function MerryGoRound() {
       window.removeEventListener('mouseup', onUp)
       window.removeEventListener('touchend', onUp)
     }
-  }, [isDragging, rotationY])
+  }, [])
 
   return (
     <div
       style={{
         width: '100%',
-        perspective: '1200px',
-        padding: '3rem 0',
+        perspective: '1500px',
+        padding: '3.5rem 0 2.5rem',
         position: 'relative',
         zIndex: 10,
         isolation: 'isolate',
         userSelect: 'none',
         WebkitUserSelect: 'none',
-        MozUserSelect: 'none',
-        msUserSelect: 'none',
         cursor: isDragging ? 'grabbing' : 'grab',
         touchAction: 'pan-y',
+        overflow: 'hidden',
       }}
       onMouseDown={handlePointerDown}
       onMouseMove={handlePointerMove}
       onTouchStart={handlePointerDown}
       onTouchMove={handlePointerMove}
+      onMouseEnter={() => { isHoveredRef.current = true }}
+      onMouseLeave={() => { isHoveredRef.current = false }}
     >
       {/* 3D Carousel Stage */}
       <div
         style={{
           position: 'relative',
-          width: '220px',
-          height: '150px',
+          width: '280px',
+          height: '190px',
           margin: '0 auto',
           transformStyle: 'preserve-3d',
-          transform: `rotateX(-6deg) rotateY(${rotationY}deg)`,
-          transition: isDragging ? 'none' : 'transform 0.05s ease-out',
+          transform: `rotateX(-7deg) rotateY(${rotationY}deg)`,
+          transition: isDragging ? 'none' : 'transform 0.1s linear',
         }}
       >
-        {CAROUSEL_IMAGES.map((src, i) => {
+        {CAROUSEL_ITEMS.map((item, i) => {
           const itemAngle = i * angleStep
           return (
             <div
               key={i}
+              onClick={() => setActiveItem(item)}
               style={{
                 position: 'absolute',
-                width: '220px',
-                height: '150px',
+                width: '280px',
+                height: '190px',
                 left: 0,
                 top: 0,
                 transformStyle: 'preserve-3d',
                 transform: `rotateY(${itemAngle}deg) translateZ(${radius}px)`,
-                borderRadius: '0.875rem',
+                borderRadius: '1.125rem',
                 overflow: 'hidden',
-                backgroundColor: '#141414',
-                boxShadow: '0 16px 40px rgba(0,0,0,0.85), 0 0 0 1px rgba(255,255,255,0.18)',
-                backfaceVisibility: 'hidden',
-                WebkitBackfaceVisibility: 'hidden',
+                background: '#ffffff',
+                border: '1px solid rgba(0, 0, 0, 0.12)',
+                boxShadow: 'none',
+                backfaceVisibility: 'visible',
+                WebkitBackfaceVisibility: 'visible',
                 isolation: 'isolate',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                cursor: 'pointer',
+                transition: 'border-color 0.2s ease, transform 0.2s ease',
               }}
             >
-              <img
-                src={src}
-                alt=""
-                draggable={false}
-                onDragStart={(e) => e.preventDefault()}
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  display: 'block',
-                  pointerEvents: 'none',
-                  userSelect: 'none',
-                  WebkitUserSelect: 'none',
-                  WebkitUserDrag: 'none',
-                  borderRadius: '0.875rem',
-                  filter: 'none',
-                  mixBlendMode: 'normal',
-                  opacity: 1,
-                }}
-              />
+              {/* Card Content Overlay - Clean White & Dark Text */}
+              <div style={{ position: 'relative', zIndex: 2, padding: '1.125rem', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                {/* Header Badge */}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span
+                    className="geistmono"
+                    style={{
+                      fontSize: '0.6875rem',
+                      fontWeight: 700,
+                      padding: '0.22rem 0.55rem',
+                      borderRadius: '9999px',
+                      background: '#0f0f0f',
+                      color: '#ffffff',
+                      letterSpacing: '0.04em',
+                    }}
+                  >
+                    {item.badge}
+                  </span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                    <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#0f0f0f' }} />
+                    <span className="geistmono" style={{ fontSize: '0.65rem', color: '#666666', fontWeight: 600 }}>LIVE</span>
+                  </div>
+                </div>
+
+                {/* UI Snippet Box */}
+                <div style={{
+                  background: '#f5f5f7',
+                  border: '1px solid #e2e2e7',
+                  borderRadius: '0.5rem',
+                  padding: '0.45rem 0.65rem',
+                  margin: '0.35rem 0',
+                }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.15rem' }}>
+                    <span className="geistmono" style={{ fontSize: '0.65rem', color: '#0f0f0f', fontWeight: 700 }}>{item.snippetTag}</span>
+                  </div>
+                  <div style={{ fontSize: '0.725rem', color: '#333333', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    {item.snippetText}
+                  </div>
+                </div>
+
+                {/* Footer Title & Subtitle */}
+                <div>
+                  <h4 style={{ color: '#0f0f0f', fontSize: '1rem', fontWeight: 800, margin: '0 0 0.15rem 0', letterSpacing: '-0.01em' }}>
+                    {item.title}
+                  </h4>
+                  <p style={{ color: '#555555', fontSize: '0.725rem', margin: 0, lineHeight: 1.3 }}>
+                    {item.desc}
+                  </p>
+                </div>
+              </div>
             </div>
           )
         })}
       </div>
+
+      {/* Interactive Item Modal / Detail View */}
+      {activeItem && (
+        <div
+          onClick={() => setActiveItem(null)}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 999,
+            background: 'rgba(0,0,0,0.7)',
+            backdropFilter: 'blur(8px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '2rem',
+          }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              background: '#ffffff',
+              border: '1px solid #0f0f0f',
+              borderRadius: '1.25rem',
+              maxWidth: '560px',
+              width: '100%',
+              overflow: 'hidden',
+              position: 'relative',
+              boxShadow: 'none',
+              padding: '2rem',
+            }}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
+              <span className="geistmono" style={{ background: '#0f0f0f', color: '#ffffff', padding: '0.3rem 0.8rem', borderRadius: '9999px', fontWeight: 700, fontSize: '0.75rem' }}>
+                {activeItem.badge}
+              </span>
+              <button onClick={() => setActiveItem(null)} style={{ background: 'none', border: 'none', color: '#0f0f0f', fontSize: '1.75rem', cursor: 'pointer', fontWeight: 700 }}>×</button>
+            </div>
+            <h3 style={{ color: '#0f0f0f', fontSize: '1.625rem', fontWeight: 800, marginBottom: '0.75rem' }}>{activeItem.title}</h3>
+            <p style={{ color: '#444444', fontSize: '1rem', lineHeight: 1.6, marginBottom: '1.5rem' }}>{activeItem.desc}</p>
+            <div style={{ background: '#f5f5f7', padding: '1.25rem', borderRadius: '0.875rem', border: '1px solid #e0e0e0' }}>
+              <span className="geistmono" style={{ color: '#0f0f0f', fontSize: '0.8125rem', fontWeight: 700, display: 'block', marginBottom: '0.35rem' }}>{activeItem.snippetTag}</span>
+              <span style={{ color: '#222222', fontSize: '0.9375rem', fontWeight: 500 }}>{activeItem.snippetText}</span>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Drag hint badge */}
       <div
@@ -166,26 +298,20 @@ function MerryGoRound() {
           alignItems: 'center',
           justifyContent: 'center',
           gap: '0.5rem',
-          color: 'rgba(255,255,255,0.7)',
+          color: 'rgba(255,255,255,0.85)',
           fontSize: '0.8125rem',
-          fontWeight: 500,
+          fontWeight: 600,
           letterSpacing: '0.02em',
-          textShadow: '0 2px 8px rgba(0,0,0,0.8)',
         }}
       >
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M18 11l-3-3m0 6l3-3M6 11l3-3m0 6L6 11" />
-          <path d="M9 11h6" />
-        </svg>
-        <span>{hasDragged ? 'Click & drag sideways to spin' : '✨ Click & drag sideways to spin merry-go-round'}</span>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M18 11l-3-3m0 6l3-3M6 11l3-3m0 6L6 11" />
-          <path d="M9 11h6" />
-        </svg>
+        <span>✨ 8 Platform Capabilities — Solid white cards • Hover to pause • Click for details</span>
       </div>
     </div>
   )
 }
+
+
+
 
 export default function HeroSection({ onNavigate }) {
   return (
@@ -211,7 +337,7 @@ export default function HeroSection({ onNavigate }) {
         }}
       />
 
-      {/* Hero text content - Tailored specifically for Quelp */}
+      {/* Hero text content - Tailored specifically for Qolve */}
       <div className="hero_wrap">
         <div className="padding-global is-hero" style={{ width: '100%' }}>
           <div className="vertical-center">
@@ -232,12 +358,12 @@ export default function HeroSection({ onNavigate }) {
               }}
             >
               <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#d6fd70' }} />
-              Welcome to Quelp
+              Welcome to Qolve
             </div>
 
             <h1 className="text-align-center">
               Reinventing Customer Support with <br />
-              <span className="opacity-73">Quelp &amp; Intelligent Automation</span>
+              <span className="opacity-73">Qolve &amp; Intelligent Automation</span>
             </h1>
 
             <div className="spacer-medium" />

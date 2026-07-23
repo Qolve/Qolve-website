@@ -13,15 +13,15 @@ const ArrowIcon = () => (
 const plans = [
   {
     name: 'Starter Plan',
-    price: '$2,500',
-    description: 'Perfect for small teams beginning to explore AI and automation.',
+    price: '$49',
+    description: 'Flat-rate customer support platform designed for small teams and early-stage startups.',
     iconBg: 'bg-green',
     isTop: false,
     features: [
-      'Strategy consultation (up to 10 hours)',
-      'Business process mapping',
-      'Basic AI workflow setup',
-      'Email support',
+      'Unified email ticket inbox',
+      'Basic white-label branding (logo & primary color)',
+      'Branded customer knowledge base',
+      'Up to 3 team agent seats',
     ],
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -31,15 +31,16 @@ const plans = [
   },
   {
     name: 'Growth Plan',
-    price: '$8,500',
-    description: 'Designed for growing companies ready to integrate AI into their operations.',
+    price: '$149',
+    description: 'Complete white-label support suite with custom domain and Permafix AI assistance.',
     iconBg: 'bg-black',
     isTop: true,
     features: [
-      'Dedicated consultant',
-      'End-to-end automation setup',
-      'Predictive analytics dashboards',
-      'AI-driven reporting & insights',
+      '100% white-label customer portal & web widget',
+      'Custom CNAME domain mapping',
+      'Permafix AI smart drafts & thread summarization',
+      'Stalwart + AWS SES relay email delivery',
+      'Up to 10 team agent seats',
     ],
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -48,16 +49,16 @@ const plans = [
     ),
   },
   {
-    name: 'Enterprise Plan',
-    price: '$10,500',
-    description: 'Custom-built for enterprises seeking full-scale transformation optimization.',
+    name: 'Enterprise Tier',
+    price: '$399',
+    description: 'Scalable multi-tenant setup with dedicated support scope, SLA rules, and custom webhooks.',
     iconBg: 'bg-green',
     isTop: false,
     features: [
-      'Tailored AI implementation roadmap',
-      'Custom automation architecture',
-      'Advanced data analytics',
-      '24/7 premium support',
+      'Unlimited team agent seats & mailboxes',
+      'Automated SLA routing & CSAT analytics',
+      'High-volume AI token processing (at cost + 15%)',
+      '24/7 dedicated engineering support from Qolve',
     ],
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -76,14 +77,14 @@ export default function PricingSection() {
           <div className="vertical-center">
             <div className="tag" data-anim>
               <div className="dot-square" />
-              <div>Pricing</div>
+              <div>Transparent Qolve Pricing</div>
             </div>
 
             <div className="spacer-medium" />
 
             <div className="max-width-medium">
               <h2 className="text-align-center" data-anim>
-                Flexible Plans Built for Every Stage of Growth
+                Lower-cost, predictable pricing for growing businesses
               </h2>
             </div>
 
@@ -91,16 +92,16 @@ export default function PricingSection() {
 
             <div className="max-width-medium">
               <div className="text-base text-align-center text-color-secondary" data-anim>
-                Whether you're just starting your AI journey or scaling enterprise-wide innovation, we offer tailored solutions that grow with you.
+                Replace expensive enterprise support software with a transparent flat-rate subscription and cost-effective AI token scaling.
               </div>
             </div>
 
             <div className="spacer-medium" />
 
-            <a href="#contact" className="button-arrow is-black">
+            <a href="#products" className="button-arrow is-black">
               <div className="button-arrow_wrap">
                 <div className="button-arrow_text">
-                  <div className="text_button">Get Started</div>
+                  <div className="text_button">Explore Platform</div>
                 </div>
                 <div className="button_container-arrow is-black">
                   <div className="icon-1x1-main">
@@ -145,7 +146,7 @@ export default function PricingSection() {
                 </div>
 
                 <a
-                  href="#contact"
+                  href="#products"
                   className="button"
                   data-variant="bg-black"
                   style={{
@@ -168,3 +169,4 @@ export default function PricingSection() {
     </section>
   )
 }
+
