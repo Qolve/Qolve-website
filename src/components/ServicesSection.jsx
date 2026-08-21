@@ -6,65 +6,68 @@ const ArrowIcon = () => (
 
 const services = [
   {
-    id: 'ai-strategy',
-    title: 'AI strategy',
-    description: 'We help you identify opportunities for AI adoption and implement the right solutions.',
-    iconSrc: 'https://cdn.prod.website-files.com/6929c116366a14507fc84252/698e4863b7c4e4770533722e_mingcute_ai-fill.svg',
-    imgSrc: 'https://cdn.prod.website-files.com/6929c116366a14507fc84252/6961fe8f17d6448d5348850c_service-img.webp',
+    id: 'omnichannel-helpdesk',
+    badge: '🌿 Omnichannel Canopy',
+    title: 'Omnichannel Helpdesk & Ticket Triage',
+    description: 'Consolidate inbound customer enquiries from Email, Web Chat Widget, and Customer Portals into one fluid, thread-aware support queue.',
+    icon: '💧',
+    imgSrc: '/images/eco-card-1.jpg',
     imgClass: 'is-first',
   },
   {
-    id: 'business-consulting',
-    title: 'Business consulting',
-    description: 'We help you identify opportunities for top growth and implement the right strategies.',
-    iconSrc: 'https://cdn.prod.website-files.com/6929c116366a14507fc84252/698e4875214fe570673439cb_basil_chart-pie-solid.svg',
-    imgSrc: 'https://cdn.prod.website-files.com/6929c116366a14507fc84252/696202d02a0dce5f45a031fb_service-img-2.webp',
+    id: 'mail-infrastructure',
+    badge: '🍃 Resilient Soil',
+    title: 'Automated Mail & Relay Systems',
+    description: 'Self-hosted Stalwart mail server container integrated with AWS SES relay for SPF/DKIM/DMARC compliant email delivery under qolve.systems.',
+    icon: '🌱',
+    imgSrc: '/images/eco-card-2.jpg',
     imgClass: 'is-second',
   },
   {
-    id: 'data-insights',
-    title: 'Data & insights',
-    description: 'We help you identify opportunities for Big Data use and implement the right analytics.',
-    iconSrc: 'https://cdn.prod.website-files.com/6929c116366a14507fc84252/698e487f52e4cd9da04322e0_ic_round-insert-chart.svg',
-    imgSrc: 'https://cdn.prod.website-files.com/6929c116366a14507fc84252/696202de6ed108d94012bd8e_service-img-3.webp',
+    id: 'permafix-ai',
+    badge: '✨ Grounded Intelligence',
+    title: 'Permafix AI Knowledge Assistance',
+    description: 'Context-aware AI assistance that summarizes ticket threads, drafts grounded responses, auto-categorizes priority, and manages human escalation.',
+    icon: '🔮',
+    imgSrc: '/images/eco-card-3.jpg',
     imgClass: 'is-third',
   },
 ]
 
 export default function ServicesSection() {
   return (
-    <section className="section_services" id="services">
+    <section className="section_services" id="services" style={{ position: 'relative', overflow: 'hidden' }}>
       <div className="padding-section-large" />
       <div className="padding-global">
         <div className="container-large">
           <div className="vertical-center">
             <div className="tag" data-anim>
               <div className="dot-square" />
-              <div>Services</div>
+              <div>Core Engineering Capabilities</div>
             </div>
 
             <div className="spacer-large" />
 
             <div className="max-width-medium is-41rem">
-              <h2 className="text-align-center" data-anim>
-                Comprehensive consulting and intelligent innovation
+              <h2 className="text-align-center" data-anim style={{ fontSize: 'clamp(2rem, 4.5vw, 3.25rem)', color: '#f8fafc', letterSpacing: '-0.02em', lineHeight: 1.15 }}>
+                High-performance architecture engineered by Qolve
               </h2>
             </div>
 
             <div className="spacer-large" />
 
             <div className="max-width-medium">
-              <div className="text-base text-align-center text-color-secondary" data-anim>
-                Whether you're optimizing today or building for tomorrow we help you move faster with confidence.
+              <div className="text-base text-align-center" style={{ color: '#cbd5e1', fontSize: '1.0625rem' }} data-anim>
+                We build dependable infrastructure that powers Quelp — from resilient email routing to grounded AI draft suggestions.
               </div>
             </div>
 
             <div className="spacer-large" />
 
-            <a href="#contact" className="button-arrow is-black">
+            <a href="#products" className="button-arrow is-black" style={{ textDecoration: 'none' }}>
               <div className="button-arrow_wrap">
                 <div className="button-arrow_text">
-                  <div className="text_button">Get Started</div>
+                  <div className="text_button" style={{ color: '#f8fafc', fontWeight: 600 }}>Explore Quelp Platform</div>
                 </div>
                 <div className="button_container-arrow is-black">
                   <div className="icon-1x1-main">
@@ -77,23 +80,33 @@ export default function ServicesSection() {
 
           <div className="spacer-section-medium" />
 
-          {/* Service cards */}
+          {/* Service Liquid Glass cards */}
           <div className="services_cards" data-anim>
             {services.map((service) => (
-              <div key={service.id} className="service_card">
-                <a href={`#${service.id}`} className="service_container">
-                  <div className="service_content">
-                    <div className="container-icon bg-green">
-                      <img src={service.iconSrc} loading="lazy" alt="" className="icon-1x1-medium" style={{ width: '1.5rem', height: '1.5rem' }} />
+              <div key={service.id} className="service_card liquid-glass" style={{ borderRadius: '1.75rem', overflow: 'hidden' }}>
+                <a href={`#${service.id}`} className="service_container" style={{ textDecoration: 'none', display: 'block', height: '100%' }}>
+                  <div className="service_content" style={{ padding: '2rem' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
+                      <div className="container-icon bg-green" style={{ width: '3rem', height: '3rem', fontSize: '1.25rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        {service.icon}
+                      </div>
+                      <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#6ee7b7', letterSpacing: '0.05em', textTransform: 'uppercase', background: 'rgba(52,211,153,0.15)', padding: '0.3rem 0.75rem', borderRadius: '9999px', border: '1px solid rgba(52,211,153,0.3)' }}>
+                        {service.badge}
+                      </span>
                     </div>
                     <div>
-                      <h3 className="text-xl">{service.title}</h3>
-                      <div className="spacer-xsmall" />
-                      <div className="text-base text-color-secondary">{service.description}</div>
+                      <h3 className="text-xl" style={{ color: '#f8fafc', fontWeight: 700, marginBottom: '0.5rem' }}>{service.title}</h3>
+                      <div className="text-base" style={{ color: '#cbd5e1', lineHeight: 1.6 }}>{service.description}</div>
                     </div>
                   </div>
-                  <div className={`service_img ${service.imgClass}`}>
-                    <img src={service.imgSrc} loading="lazy" alt={service.title} className="img" />
+                  <div className={`service_img ${service.imgClass}`} style={{ overflow: 'hidden', height: '220px' }}>
+                    <img
+                      src={service.imgSrc}
+                      loading="lazy"
+                      alt={service.title}
+                      className="img"
+                      style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s ease' }}
+                    />
                   </div>
                 </a>
               </div>
@@ -105,3 +118,5 @@ export default function ServicesSection() {
     </section>
   )
 }
+
+

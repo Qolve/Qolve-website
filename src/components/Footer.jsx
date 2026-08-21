@@ -25,68 +25,87 @@ export default function Footer({ onNavigate }) {
   }
 
   return (
-    <footer className="footer" data-anim>
+    <footer className="footer" data-anim style={{ position: 'relative', overflow: 'hidden' }}>
       <div className="padding-global is-footer">
         <div className="container-full">
           <div className="footer_wrap">
             <div className="footer_top">
               <div className="footer_content">
-                {/* Left: Quelp logo + tagline */}
+                {/* Left: Qolve logo + tagline */}
                 <div className="footer_content-wrap">
                   <button
                     onClick={() => navTo('home')}
-                    style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', gap: '0.625rem' }}
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', gap: '0.75rem' }}
                   >
                     <div style={{
-                      width: '2rem',
-                      height: '2rem',
-                      borderRadius: '0.5rem',
-                      background: '#d6fd70',
+                      width: '2.5rem',
+                      height: '2.5rem',
+                      borderRadius: '0.75rem',
+                      background: 'radial-gradient(135deg, #6ee7b7 0%, #10b981 50%, #065f46 100%)',
+                      border: '1.5px solid rgba(255,255,255,0.6)',
+                      boxShadow: '0 0 20px rgba(52, 211, 153, 0.4), inset 0 1px 1px rgba(255,255,255,0.8)',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      fontWeight: 800,
-                      color: '#0f0f0f',
-                      fontSize: '1.125rem'
+                      fontSize: '1.25rem'
                     }}>
-                      Q
+                      🌿
                     </div>
-                    <span style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '1.375rem', fontWeight: 700, color: '#ffffff', letterSpacing: '-0.02em' }}>
-                      quelp
-                    </span>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+                      <span style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '1.35rem', fontWeight: 800, color: '#f8fafc', letterSpacing: '-0.02em', lineHeight: 1.1 }}>
+                        qolve
+                      </span>
+                      <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#34d399', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+                        Liquid Eco Systems
+                      </span>
+                    </div>
                   </button>
-                  <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.9375rem', lineHeight: 1.6 }}>
-                    Lower-cost, white-label customer-support platform designed for growing businesses.
+                  <div style={{ color: '#cbd5e1', fontSize: '0.9375rem', lineHeight: 1.6 }}>
+                    Qolve is a technical product lab cultivating <strong>Quelp</strong> — a sustainable, white-label customer support &amp; helpdesk ecosystem built for modern growing teams.
                   </div>
-                  <div style={{ color: '#d6fd70', fontSize: '0.875rem', fontWeight: 500 }}>
-                    Contact: Quelp@quelp.co.uk
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
+                    <div style={{ color: '#6ee7b7', fontSize: '0.875rem', fontWeight: 600 }}>
+                      General Enquiries: <code style={{ color: '#f8fafc', background: 'rgba(52,211,153,0.15)', padding: '0.15rem 0.45rem', borderRadius: '0.35rem' }}>hello@qolve.systems</code>
+                    </div>
+                    <div style={{ color: '#6ee7b7', fontSize: '0.875rem', fontWeight: 600 }}>
+                      Support Stream: <code style={{ color: '#f8fafc', background: 'rgba(52,211,153,0.15)', padding: '0.15rem 0.45rem', borderRadius: '0.35rem' }}>support@qolve.systems</code>
+                    </div>
                   </div>
                 </div>
 
                 {/* Right: newsletter */}
                 <div className="footer_content-wrap">
-                  <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.9375rem', fontWeight: 500 }}>
-                    Subscribe to product updates
+                  <div style={{ color: '#f8fafc', fontSize: '0.9375rem', fontWeight: 600 }}>
+                    🌱 Subscribe to Qolve &amp; Quelp ecosystem dispatches
                   </div>
                   {submitted ? (
-                    <div style={{ color: '#d6fd70', fontSize: '0.9375rem' }}>
-                      Thank you! You're subscribed for updates.
+                    <div style={{ color: '#34d399', fontSize: '0.9375rem', fontWeight: 600 }}>
+                      ✓ Thank you! You're subscribed for updates.
                     </div>
                   ) : (
-                    <form onSubmit={handleSubmit} className="footer-form">
+                    <form onSubmit={handleSubmit} className="footer-form" style={{ display: 'flex', gap: '0.5rem' }}>
                       <input
                         className="text-field"
                         type="email"
-                        placeholder="Enter your email"
+                        placeholder="Enter your work email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
+                        style={{
+                          background: 'rgba(4, 25, 14, 0.7)',
+                          border: '1px solid rgba(255,255,255,0.2)',
+                          color: '#f8fafc',
+                          borderRadius: '9999px',
+                          padding: '0.75rem 1.25rem',
+                          backdropFilter: 'blur(20px)',
+                          outline: 'none',
+                        }}
                       />
                       <button type="submit" className="button-arrow" style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
                         <div className="button-arrow_wrap">
                           <div
                             className="button_container-arrow"
-                            style={{ background: 'white', color: '#0f0f0f', width: '2.75rem', height: '2.75rem', flexShrink: 0 }}
+                            style={{ background: 'linear-gradient(135deg, #6ee7b7 0%, #10b981 100%)', color: '#03150b', width: '2.75rem', height: '2.75rem', borderRadius: '50%', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 0 15px rgba(52,211,153,0.4)' }}
                           >
                             <div className="icon-1x1-main">
                               <ArrowIcon />
@@ -102,28 +121,28 @@ export default function Footer({ onNavigate }) {
               {/* Navigation columns */}
               <div className="footer_right">
                 <div className="footer_links">
-                  <span style={{ color: '#ffffff', fontWeight: 600, fontSize: '0.875rem', marginBottom: '0.25rem' }}>Main</span>
-                  <button onClick={() => navTo('home')} className="footer_link" style={{ background: 'none', border: 'none', textAlign: 'left', cursor: 'pointer' }}>Home</button>
-                  <button onClick={() => navTo('products')} className="footer_link" style={{ background: 'none', border: 'none', textAlign: 'left', cursor: 'pointer' }}>Products</button>
-                  <button onClick={() => navTo('team')} className="footer_link" style={{ background: 'none', border: 'none', textAlign: 'left', cursor: 'pointer' }}>Team</button>
+                  <span style={{ color: '#f8fafc', fontWeight: 700, fontSize: '0.875rem', marginBottom: '0.35rem' }}>Platform</span>
+                  <button onClick={() => navTo('home')} className="footer_link" style={{ background: 'none', border: 'none', textAlign: 'left', cursor: 'pointer', color: '#cbd5e1' }}>Home</button>
+                  <button onClick={() => navTo('products')} className="footer_link" style={{ background: 'none', border: 'none', textAlign: 'left', cursor: 'pointer', color: '#cbd5e1' }}>Quelp Platform</button>
+                  <button onClick={() => navTo('team')} className="footer_link" style={{ background: 'none', border: 'none', textAlign: 'left', cursor: 'pointer', color: '#cbd5e1' }}>Qolve Team</button>
                 </div>
                 <div className="footer_links">
-                  <span style={{ color: '#ffffff', fontWeight: 600, fontSize: '0.875rem', marginBottom: '0.25rem' }}>Sections</span>
-                  <button onClick={() => navTo('home', 'services')} className="footer_link" style={{ background: 'none', border: 'none', textAlign: 'left', cursor: 'pointer' }}>Services</button>
-                  <button onClick={() => navTo('home', 'about')} className="footer_link" style={{ background: 'none', border: 'none', textAlign: 'left', cursor: 'pointer' }}>About Us</button>
-                  <button onClick={() => navTo('home', 'pricing')} className="footer_link" style={{ background: 'none', border: 'none', textAlign: 'left', cursor: 'pointer' }}>Pricing</button>
+                  <span style={{ color: '#f8fafc', fontWeight: 700, fontSize: '0.875rem', marginBottom: '0.35rem' }}>Ecosystem</span>
+                  <button onClick={() => navTo('home', 'roadmap')} className="footer_link" style={{ background: 'none', border: 'none', textAlign: 'left', cursor: 'pointer', color: '#cbd5e1' }}>Architecture</button>
+                  <button onClick={() => navTo('home', 'about')} className="footer_link" style={{ background: 'none', border: 'none', textAlign: 'left', cursor: 'pointer', color: '#cbd5e1' }}>About Qolve</button>
+                  <button onClick={() => navTo('home', 'pricing')} className="footer_link" style={{ background: 'none', border: 'none', textAlign: 'left', cursor: 'pointer', color: '#cbd5e1' }}>Pricing</button>
                 </div>
               </div>
             </div>
 
             {/* Footer Bottom */}
-            <div className="footer_bottom">
-              <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.875rem' }}>
-                © Quelp. All rights reserved.
+            <div className="footer_bottom" style={{ borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '1.5rem', marginTop: '2rem' }}>
+              <div style={{ color: '#94a3b8', fontSize: '0.875rem' }}>
+                © {new Date().getFullYear()} Qolve. All rights reserved. Quelp is a cultivated trademark of Qolve.
               </div>
               <div className="footer_bottom-links">
-                <a href="#privacy" className="footer_bottom-link">Privacy Policy</a>
-                <a href="#terms" className="footer_bottom-link">Terms of Service</a>
+                <a href="#privacy" className="footer_bottom-link" style={{ color: '#94a3b8' }}>Privacy Policy</a>
+                <a href="#terms" className="footer_bottom-link" style={{ color: '#94a3b8' }}>Terms of Service</a>
               </div>
             </div>
           </div>
@@ -132,3 +151,5 @@ export default function Footer({ onNavigate }) {
     </footer>
   )
 }
+
+
