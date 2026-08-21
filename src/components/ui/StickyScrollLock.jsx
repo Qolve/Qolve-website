@@ -69,14 +69,12 @@ export default function StickyScrollLock() {
       className="section_capabilities"
       style={{
         position: 'relative',
-        minHeight: '100vh',
-        height: '100vh',
+        minHeight: 'auto',
         display: 'flex',
         alignItems: 'center',
         background: '#0f0f0f',
-        overflow: 'hidden',
         boxSizing: 'border-box',
-        padding: '2rem 0',
+        padding: '5rem 0',
       }}
     >
       {/* Pinned Viewport Frame */}
@@ -156,30 +154,24 @@ export default function StickyScrollLock() {
               {/* Left Column: Active Step Info */}
               <div>
                 {/* Step indicator tabs */}
-                <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '1.5rem' }}>
+                <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
                   {STEPS.map((s, idx) => (
                     <button
                       key={idx}
-                      onClick={() => {
-                        const target = containerRef.current
-                        if (target) {
-                          const top = target.offsetTop + (idx / 3) * target.offsetHeight
-                          window.scrollTo({ top, behavior: 'smooth' })
-                        }
-                      }}
+                      onClick={() => setActiveStep(idx)}
                       style={{
                         background: activeStep === idx ? '#d6fd70' : 'rgba(255, 255, 255, 0.06)',
                         color: activeStep === idx ? '#0f0f0f' : 'rgba(255, 255, 255, 0.6)',
                         border: activeStep === idx ? '1px solid #d6fd70' : '1px solid rgba(255, 255, 255, 0.08)',
                         borderRadius: '9999px',
-                        padding: '0.35rem 0.9rem',
+                        padding: '0.4rem 1rem',
                         fontSize: '0.8125rem',
                         fontWeight: activeStep === idx ? 700 : 500,
                         cursor: 'pointer',
                         transition: 'all 0.25s ease',
                       }}
                     >
-                      Step {s.step}
+                      Step {s.step} • {s.badge.split('&')[0]}
                     </button>
                   ))}
                 </div>
@@ -210,7 +202,7 @@ export default function StickyScrollLock() {
                     <h3
                       className="text-color-on-primary"
                       style={{
-                        fontSize: '2.25rem',
+                        fontSize: 'clamp(1.5rem, 5.5vw, 2.25rem)',
                         lineHeight: 1.15,
                         fontWeight: 800,
                         marginBottom: '1rem',
@@ -223,7 +215,7 @@ export default function StickyScrollLock() {
                     <p
                       style={{
                         color: 'rgba(255, 255, 255, 0.7)',
-                        fontSize: '1rem',
+                        fontSize: 'clamp(0.875rem, 3.5vw, 1rem)',
                         lineHeight: 1.6,
                         marginBottom: '1.5rem',
                       }}

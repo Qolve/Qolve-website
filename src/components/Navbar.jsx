@@ -217,8 +217,8 @@ export default function Navbar({ activePage, onNavigate }) {
             <button
               key={idx}
               onClick={item.action}
-              className="nav_links"
-              style={{ display: 'block', padding: '0.75rem 0.5rem', textAlign: 'left', background: 'none', border: 'none', width: '100%', cursor: 'pointer', fontSize: '1rem', color: '#ffffff' }}
+              className="mobile-nav-link"
+              style={{ display: 'block', padding: '0.75rem 0.5rem', textAlign: 'left', background: 'none', border: 'none', width: '100%', cursor: 'pointer', fontSize: '1.05rem', color: '#ffffff', fontWeight: 600 }}
             >
               {item.label}
             </button>

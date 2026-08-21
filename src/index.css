@@ -2868,5 +2868,144 @@ html.lenis, html.lenis body {
   pointer-events: none;
 }
 
+/* ========================================================
+   DEFINITIVE MOBILE & RESPONSIVE DESIGN ENFORCEMENT
+   ======================================================== */
+
+@media (max-width: 991px) {
+  .nav_wrap {
+    display: none !important;
+  }
+  .nav_buttons-wrap {
+    display: none !important;
+  }
+  .menu-button {
+    display: block !important;
+  }
+  .services_cards {
+    grid-template-columns: 1fr !important;
+  }
+  .expertise_cards {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  .pricing_cards {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 767px) {
+  /* Typography & Global Padding */
+  .padding-global {
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
+  }
+
+  h1 {
+    font-size: clamp(1.85rem, 8vw, 2.75rem) !important;
+    line-height: 1.12 !important;
+    word-break: break-word !important;
+  }
+
+  h2 {
+    font-size: clamp(1.5rem, 6.5vw, 2.2rem) !important;
+    line-height: 1.18 !important;
+    word-break: break-word !important;
+  }
+
+  h3 {
+    font-size: clamp(1.1rem, 4.5vw, 1.35rem) !important;
+  }
+
+  .title-wrap {
+    flex-wrap: wrap !important;
+    row-gap: 0.25rem !important;
+  }
+
+  /* About Bento Cards */
+  .about_layout {
+    width: 100% !important;
+    margin-left: 0 !important;
+    grid-template-columns: 1fr !important;
+    gap: 1.25rem !important;
+  }
+
+  .card_about {
+    grid-column: span 1 !important;
+  }
+
+  .ascii-earth-wrap {
+    right: -35vw !important;
+    transform: translateY(-50%) scale(0.5) !important;
+    opacity: 0.25 !important;
+  }
+
+  .ascii-moon-wrap {
+    left: -25vw !important;
+    top: -15vw !important;
+    transform: scale(0.48) !important;
+    opacity: 0.25 !important;
+  }
+
+  /* Services Grid */
+  .services_cards {
+    grid-template-columns: 1fr !important;
+    gap: 1.25rem !important;
+  }
+
+  /* Capabilities Grid */
+  .sticky-scroll-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
+
+  /* Platform / Expertise Cards */
+  .expertise_cards {
+    grid-template-columns: 1fr !important;
+    gap: 1.25rem !important;
+  }
+
+  /* Pricing Cards */
+  .pricing_cards {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+  }
+
+  /* Testimonials */
+  .testimonials_list {
+    flex-direction: column !important;
+  }
+
+  .testimonials_card {
+    min-width: 100% !important;
+    width: 100% !important;
+  }
+
+  /* Blog */
+  .blog_cards {
+    grid-template-columns: 1fr !important;
+    gap: 1.25rem !important;
+  }
+
+  /* CTA */
+  .cta-wrap {
+    margin: 0 !important;
+    padding: 3rem 1.5rem !important;
+  }
+
+  /* Footer */
+  .footer_top, .footer_content, .footer_bottom, .footer_right {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 1.5rem !important;
+  }
+
+  .horizontal-bottom.is-between {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 1.5rem !important;
+  }
+}
+
+
 
 

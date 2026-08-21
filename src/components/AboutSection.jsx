@@ -166,9 +166,9 @@ export default function AboutSection() {
               spotlightColor="rgba(214, 253, 112, 0.15)"
             >
               <img
-                src="https://cdn.prod.website-files.com/6929c116366a14507fc8424d/693671b05ed33655d4b7ce17_card-about-img.avif"
+                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80"
                 loading="lazy"
-                alt=""
+                alt="Qolve Team Collaboration"
                 className="img"
                 style={{ width: '100%', height: '10rem', objectFit: 'cover', borderRadius: '0.75rem' }}
               />
