@@ -1,12 +1,12 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 import Lenis from 'lenis'
-import Snap from 'lenis/snap'
 import 'lenis/dist/lenis.css'
 
 const SECTIONS = [
   { id: 'home', label: 'Overview' },
   { id: 'about', label: 'About' },
   { id: 'services', label: 'Services' },
+  { id: 'capabilities', label: 'Capabilities' },
   { id: 'expertise', label: 'Platform' },
   { id: 'pricing', label: 'Pricing' },
   { id: 'testimonials', label: 'Reviews' },
@@ -16,42 +16,67 @@ const SECTIONS = [
 
 export default function SmoothScrollProvider({ children }) {
   const lenisRef = useRef(null)
-  const snapRef = useRef(null)
   const [activeSection, setActiveSection] = useState('home')
   const [isHoveredNav, setIsHoveredNav] = useState(false)
+  const isTransitioningRef = useRef(false)
+  const touchStartYRef = useRef(0)
+  const lastWheelTimeRef = useRef(0)
+
+  // Smooth Quartic Easing curve: ultra-smooth acceleration and cushioned landing
+  const easeQuartic = (t) => 1 - Math.pow(1 - t, 4)
+
+  const getSectionElements = useCallback(() => {
+    return SECTIONS.map((sec) => document.getElementById(sec.id)).filter(Boolean)
+  }, [])
+
+  const getActiveIndex = useCallback(() => {
+    const sections = getSectionElements()
+    if (!sections.length) return 0
+    const scrollY = window.scrollY + window.innerHeight * 0.35
+
+    for (let i = sections.length - 1; i >= 0; i--) {
+      const top = sections[i].offsetTop
+      if (scrollY >= top) {
+        return i
+      }
+    }
+    return 0
+  }, [getSectionElements])
+
+  const scrollToSectionIndex = useCallback((targetIndex) => {
+    const sections = getSectionElements()
+    if (!sections.length || targetIndex < 0 || targetIndex >= sections.length) return
+
+    const targetEl = sections[targetIndex]
+    if (!targetEl || !lenisRef.current) return
+
+    isTransitioningRef.current = true
+    setActiveSection(SECTIONS[targetIndex]?.id || 'home')
+
+    lenisRef.current.scrollTo(targetEl, {
+      offset: 0,
+      duration: 1.0,
+      easing: easeQuartic,
+      onComplete: () => {
+        setTimeout(() => {
+          isTransitioningRef.current = false
+        }, 150)
+      },
+    })
+  }, [getSectionElements])
 
   useEffect(() => {
-    // 1. Initialize Lenis for buttery smooth scrolling
+    // 1. Initialize Lenis with smooth lerp physics
     const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      duration: 1.1,
+      easing: easeQuartic,
       smoothWheel: true,
-      wheelMultiplier: 1.05,
-      touchMultiplier: 1.5,
+      wheelMultiplier: 0.9,
+      touchMultiplier: 1.2,
+      infinite: false,
     })
     lenisRef.current = lenis
 
-    // 2. Initialize Lenis Snap for fixed viewing positions
-    const snap = new Snap(lenis, {
-      type: 'proximity',
-      distanceThreshold: '35%',
-      duration: 0.9,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      debounce: 300,
-    })
-    snapRef.current = snap
-
-    // Register each major section as a fixed snap viewing position
-    const sectionElements = []
-    SECTIONS.forEach(({ id }) => {
-      const el = document.getElementById(id) || document.querySelector(`section[id="${id}"]`)
-      if (el) {
-        snap.addElement(el, { align: 'start' })
-        sectionElements.push(el)
-      }
-    })
-
-    // RAF loop
     let rafId
     function raf(time) {
       lenis.raf(time)
@@ -59,39 +84,121 @@ export default function SmoothScrollProvider({ children }) {
     }
     rafId = requestAnimationFrame(raf)
 
-    // Active section intersection tracker for HUD
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && entry.target.id) {
-            setActiveSection(entry.target.id)
-          }
-        })
-      },
-      {
-        rootMargin: '-30% 0px -40% 0px',
-        threshold: 0.1,
-      }
-    )
+    // 2. Controlled Wheel Glider: smoothly transitions between fixed sections without stutter
+    const handleWheel = (e) => {
+      const now = Date.now()
+      const delta = e.deltaY
 
-    sectionElements.forEach((el) => observer.observe(el))
+      // Ignore micro-scrolls and active transitions
+      if (Math.abs(delta) < 25) return
+      if (isTransitioningRef.current) {
+        e.preventDefault()
+        return
+      }
+
+      // Debounce rapid wheel events
+      if (now - lastWheelTimeRef.current < 800) {
+        e.preventDefault()
+        return
+      }
+
+      const currentIndex = getActiveIndex()
+      const sections = getSectionElements()
+      const currentEl = sections[currentIndex]
+
+      if (currentEl) {
+        const rect = currentEl.getBoundingClientRect()
+        // If current section is taller than viewport and user is scrolling within it
+        if (delta > 0 && rect.bottom > window.innerHeight + 100) {
+          // Allow natural scroll within tall section
+          return
+        }
+        if (delta < 0 && rect.top < -100) {
+          // Allow natural scroll up within tall section
+          return
+        }
+      }
+
+      if (delta > 0 && currentIndex < sections.length - 1) {
+        e.preventDefault()
+        lastWheelTimeRef.current = now
+        scrollToSectionIndex(currentIndex + 1)
+      } else if (delta < 0 && currentIndex > 0) {
+        e.preventDefault()
+        lastWheelTimeRef.current = now
+        scrollToSectionIndex(currentIndex - 1)
+      }
+    }
+
+    // 3. Touch support for mobile / trackpads
+    const handleTouchStart = (e) => {
+      touchStartYRef.current = e.touches[0].clientY
+    }
+
+    const handleTouchEnd = (e) => {
+      if (isTransitioningRef.current) return
+      const touchEndY = e.changedTouches[0].clientY
+      const deltaY = touchStartYRef.current - touchEndY
+
+      if (Math.abs(deltaY) > 60) {
+        const currentIndex = getActiveIndex()
+        const sections = getSectionElements()
+        if (deltaY > 0 && currentIndex < sections.length - 1) {
+          scrollToSectionIndex(currentIndex + 1)
+        } else if (deltaY < 0 && currentIndex > 0) {
+          scrollToSectionIndex(currentIndex - 1)
+        }
+      }
+    }
+
+    // 4. Keyboard navigation (ArrowDown, ArrowUp, PageDown, PageUp)
+    const handleKeyDown = (e) => {
+      if (isTransitioningRef.current) return
+      const currentIndex = getActiveIndex()
+      const sections = getSectionElements()
+
+      if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
+        if (currentIndex < sections.length - 1) {
+          e.preventDefault()
+          scrollToSectionIndex(currentIndex + 1)
+        }
+      } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+        if (currentIndex > 0) {
+          e.preventDefault()
+          scrollToSectionIndex(currentIndex - 1)
+        }
+      }
+    }
+
+    // 5. Scroll listener to update active indicator
+    const handleScroll = () => {
+      if (!isTransitioningRef.current) {
+        const currentIndex = getActiveIndex()
+        setActiveSection(SECTIONS[currentIndex]?.id || 'home')
+      }
+    }
+
+    window.addEventListener('wheel', handleWheel, { passive: false })
+    window.addEventListener('touchstart', handleTouchStart, { passive: true })
+    window.addEventListener('touchend', handleTouchEnd, { passive: true })
+    window.addEventListener('keydown', handleKeyDown)
+    window.addEventListener('scroll', handleScroll, { passive: true })
 
     return () => {
       cancelAnimationFrame(rafId)
-      observer.disconnect()
-      snap.destroy()
+      window.removeEventListener('wheel', handleWheel)
+      window.removeEventListener('touchstart', handleTouchStart)
+      window.removeEventListener('touchend', handleTouchEnd)
+      window.removeEventListener('keydown', handleKeyDown)
+      window.removeEventListener('scroll', handleScroll)
       lenis.destroy()
     }
-  }, [])
+  }, [getActiveIndex, getSectionElements, scrollToSectionIndex])
 
-  const scrollToSection = (id) => {
-    const el = document.getElementById(id)
-    if (el && lenisRef.current) {
-      lenisRef.current.scrollTo(el, {
-        offset: 0,
-        duration: 1.2,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      })
+  const handleHudClick = (id) => {
+    const index = SECTIONS.findIndex((s) => s.id === id)
+    if (index !== -1) {
+      scrollToSectionIndex(index)
     }
   }
 
@@ -99,7 +206,7 @@ export default function SmoothScrollProvider({ children }) {
     <>
       {children}
 
-      {/* Floating Section Snap HUD on Desktop */}
+      {/* Floating Section Snap HUD */}
       <div
         className="fixed-section-hud"
         onMouseEnter={() => setIsHoveredNav(true)}
@@ -122,7 +229,7 @@ export default function SmoothScrollProvider({ children }) {
           return (
             <button
               key={sec.id}
-              onClick={() => scrollToSection(sec.id)}
+              onClick={() => handleHudClick(sec.id)}
               aria-label={`Scroll to ${sec.label}`}
               style={{
                 background: 'none',
@@ -183,3 +290,4 @@ export default function SmoothScrollProvider({ children }) {
     </>
   )
 }
+

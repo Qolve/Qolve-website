@@ -76,6 +76,7 @@ export default function StickyScrollLock() {
 
   return (
     <div
+      id="capabilities"
       ref={containerRef}
       className="sticky-scroll-lock-container"
       style={{
