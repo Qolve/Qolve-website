@@ -59,17 +59,16 @@ export default function SmoothScrollProvider({ children }) {
     const startY = window.scrollY
     const endY = targetEl.offsetTop
     const distance = endY - startY
-    const duration = 850 // Smooth 850ms glide duration
+    const duration = 420
     let startTime = null
 
-    // Quartic Ease-Out curve for ultra-smooth momentum and landing
-    const easeOutQuart = (x) => 1 - Math.pow(1 - x, 4)
+    const easeOutCubic = (x) => 1 - Math.pow(1 - x, 3)
 
     function step(currentTime) {
       if (!startTime) startTime = currentTime
       const elapsed = currentTime - startTime
       const progress = Math.min(elapsed / duration, 1)
-      const ease = easeOutQuart(progress)
+      const ease = easeOutCubic(progress)
 
       window.scrollTo(0, startY + distance * ease)
 
@@ -77,10 +76,7 @@ export default function SmoothScrollProvider({ children }) {
         animFrameIdRef.current = requestAnimationFrame(step)
       } else {
         window.scrollTo(0, endY)
-        // Brief cooldown to prevent accidental over-scrolls
-        setTimeout(() => {
-          isTransitioningRef.current = false
-        }, 180)
+        isTransitioningRef.current = false
       }
     }
 
@@ -88,12 +84,11 @@ export default function SmoothScrollProvider({ children }) {
   }, [getSectionElements])
 
   useEffect(() => {
-    // 1. Instant Wheel Interceptor: prevents partial micro-adjustments and glides smoothly
     const handleWheel = (e) => {
       e.preventDefault()
 
       if (isTransitioningRef.current) return
-      if (Math.abs(e.deltaY) < 3) return
+      if (Math.abs(e.deltaY) < 1) return
 
       const currentIndex = getClosestIndex()
 
