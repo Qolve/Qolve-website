@@ -79,25 +79,27 @@ export default function Ascii3DStarfield({
 
     window.addEventListener('resize', handleResize, { passive: true })
 
-    // Boundary check helper to strictly exclude celestial bodies
+    // Precise 5% contour boundary check helper
     const isExcluded = (col, row) => {
       const normX = col / cols
       const normY = row / rows
+      // Correct for viewport pixel aspect ratio so exclusion boundary is a perfect circle
+      const aspect = (width / height) || 1.77
 
       if (variant === 'about') {
-        // Earth occupies right side: center ~ (0.85, 0.50), radius ~ 0.32 in X and 0.45 in Y
-        const dx = (normX - 0.88) * 1.5
-        const dy = (normY - 0.50)
+        // Earth sphere silhouette: center ~ (0.94, 0.50) with tight 5% border
+        const dx = (normX - 0.94) * aspect
+        const dy = normY - 0.50
         const dist = Math.sqrt(dx * dx + dy * dy)
-        if (dist < 0.42 || normX > 0.68) return true
+        if (dist < 0.30) return true
       }
 
       if (variant === 'services') {
-        // Moon occupies top-left: center ~ (0.08, 0.12), radius ~ 0.28
-        const dx = (normX - 0.05) * 1.4
-        const dy = (normY - 0.08)
+        // Moon sphere silhouette: center ~ (0.05, 0.06) with tight 5% border
+        const dx = (normX - 0.05) * aspect
+        const dy = normY - 0.06
         const dist = Math.sqrt(dx * dx + dy * dy)
-        if (dist < 0.34 || (normX < 0.26 && normY < 0.35)) return true
+        if (dist < 0.23) return true
       }
 
       return false
