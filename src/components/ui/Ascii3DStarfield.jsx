@@ -1,69 +1,91 @@
 import React, { useEffect, useRef } from 'react'
 
 /**
- * Ascii3DStarfield - Stationary when idle, Hyper-speed vertical travel on scroll
+ * Ascii3DStarfield - Multi-Color & Shape Glistening Starfield
  *
  * Features:
- * - Beautiful, uniform, non-clumping spatial distribution across the page
- * - Fixed & stationary when the page is at rest
- * - High-speed vertical travel with velocity light streaks (| : .) on scroll
+ * - Much slower, graceful glistening cycles (8–14 seconds per cycle)
+ * - Randomized glistening behaviors: Shape-morphing, Color-gradient morphing, Dual morphing, or Solid
+ * - Beautiful cosmic color palettes (Monochrome, Solar Gold, Cyber Lime, Ice Cyan, Nebula Violet)
+ * - Stationary in balanced distribution when page is at rest
+ * - Hyperspace vertical travel streaks on scroll
  * - Exact outskirts boundary clipping around Earth and Moon
  */
 
-const CHARS = ['*', '+', '.', "'", 'o', '*', '+', '.', "'", '.']
+const BASE_CHARS = ['*', '+', '.', "'", 'o', '*', '+', '.', "'", '.']
+const GLISTEN_SHAPES = ['.', "'", '+', '*', '+', "'", '.']
+
+const COLOR_PALETTES = [
+  // 1. Deep Monochrome / Silver shimmer
+  ['#000000', '#334155', '#64748b', '#94a3b8', '#64748b', '#334155', '#000000'],
+  // 2. Solar Gold / Amber shimmer
+  ['#000000', '#78350f', '#d97706', '#fbbf24', '#d97706', '#78350f', '#000000'],
+  // 3. Cyber Lime / Emerald shimmer (matching Qolve brand accents)
+  ['#000000', '#14532d', '#65a30d', '#a3e635', '#65a30d', '#14532d', '#000000'],
+  // 4. Deep Ice Cyan shimmer
+  ['#000000', '#0c4a6e', '#0284c7', '#38bdf8', '#0284c7', '#0c4a6e', '#000000'],
+  // 5. Nebula Violet shimmer
+  ['#000000', '#581c87', '#9333ea', '#c084fc', '#9333ea', '#581c87', '#000000'],
+]
 
 export default function Ascii3DStarfield({
   variant = 'about',
-  opacity = 0.7,
+  opacity = 0.85,
   numStars = 160,
 }) {
-  const preRef = useRef(null)
+  const canvasRef = useRef(null)
   const containerRef = useRef(null)
 
   useEffect(() => {
-    const pre = preRef.current
+    const canvas = canvasRef.current
     const container = containerRef.current
-    if (!pre || !container) return
+    if (!canvas || !container) return
+
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
 
     let animId
     let isMounted = true
     let width = container.clientWidth || window.innerWidth
     let height = container.clientHeight || window.innerHeight
 
-    const charW = 7.8
-    const charH = 13.5
-    let cols = Math.max(20, Math.floor(width / charW))
-    let rows = Math.max(15, Math.floor(height / charH))
+    const dpr = Math.min(window.devicePixelRatio || 1, 2)
+    canvas.width = width * dpr
+    canvas.height = height * dpr
+    canvas.style.width = `${width}px`
+    canvas.style.height = `${height}px`
 
-    let buffer = Array.from({ length: rows }, () => new Array(cols).fill(' '))
-
-    const GLISTEN_RAMP = ['.', "'", '+', '*', '+', "'", '.']
-
-    // Generate balanced, beautifully distributed stars across a grid
+    // Generate balanced, randomized stars with distinct behaviors
     const createDistributedStars = () => {
       const list = []
       const gridX = 16
       const gridY = 10
+      const behaviors = ['shape', 'color', 'both', 'static']
 
       for (let gy = 0; gy < gridY; gy++) {
         for (let gx = 0; gx < gridX; gx++) {
           if (list.length >= numStars) break
-          // Organic jitter within grid cells to avoid alignment patterns
           const u = (gx + 0.15 + Math.random() * 0.7) / gridX
           const v = (gy + 0.15 + Math.random() * 0.7) / gridY
           const depth = 0.6 + Math.random() * 1.4
-          const char = CHARS[Math.floor(Math.random() * CHARS.length)]
-          const isGlistening = Math.random() < 0.35
-          const glistenSpeed = 1.2 + Math.random() * 2.2
+          const baseChar = BASE_CHARS[Math.floor(Math.random() * BASE_CHARS.length)]
+
+          // Randomize behavior per star
+          const behavior = behaviors[Math.floor(Math.random() * behaviors.length)]
+          const palette = COLOR_PALETTES[Math.floor(Math.random() * COLOR_PALETTES.length)]
+
+          // Much slower glistening: 0.3 to 0.7 rad/sec (8-14s period)
+          const glistenSpeed = 0.35 + Math.random() * 0.45
           const glistenPhase = Math.random() * Math.PI * 2
 
           list.push({
             baseU: u,
             baseV: v,
             currentV: v,
-            char,
+            baseChar,
             depth,
-            isGlistening,
+            behavior,
+            palette,
             glistenSpeed,
             glistenPhase,
           })
@@ -92,21 +114,20 @@ export default function Ascii3DStarfield({
       if (!container) return
       width = container.clientWidth || window.innerWidth
       height = container.clientHeight || window.innerHeight
-      cols = Math.max(20, Math.floor(width / charW))
-      rows = Math.max(15, Math.floor(height / charH))
-      buffer = Array.from({ length: rows }, () => new Array(cols).fill(' '))
+      canvas.width = width * dpr
+      canvas.height = height * dpr
+      canvas.style.width = `${width}px`
+      canvas.style.height = `${height}px`
     }
 
     window.addEventListener('resize', handleResize, { passive: true })
 
-    // Exact planet outskirts boundary check helper
-    const isExcluded = (col, row) => {
-      const normX = col / cols
-      const normY = row / rows
+    // Exact outskirts boundary check
+    const isExcluded = (normX, normY) => {
       const aspect = (width / height) || 1.77
 
       if (variant === 'about') {
-        // Earth sphere silhouette: exact physical outskirts at R = 0.255
+        // Earth outskirts silhouette at R = 0.255
         const dx = (normX - 0.95) * aspect
         const dy = normY - 0.50
         const dist = Math.sqrt(dx * dx + dy * dy)
@@ -114,7 +135,7 @@ export default function Ascii3DStarfield({
       }
 
       if (variant === 'services') {
-        // Moon sphere silhouette: exact physical outskirts at R = 0.185
+        // Moon outskirts silhouette at R = 0.185
         const dx = (normX - 0.04) * aspect
         const dy = normY - 0.05
         const dist = Math.sqrt(dx * dx + dy * dy)
@@ -124,7 +145,7 @@ export default function Ascii3DStarfield({
       return false
     }
 
-    // Animation Loop
+    // Animation Render Loop
     const renderLoop = (time) => {
       if (!isMounted) return
 
@@ -138,61 +159,78 @@ export default function Ascii3DStarfield({
       const isScrolling = Math.abs(scrollVelocity) > 0.05
       const scrollDir = scrollVelocity > 0 ? 1 : -1
 
-      // Clear buffer
-      for (let r = 0; r < rows; r++) {
-        buffer[r].fill(' ')
-      }
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      ctx.save()
+      ctx.scale(dpr, dpr)
+
+      const fontSize = 12
+      ctx.font = `600 ${fontSize}px "SF Mono", "Menlo", "Monaco", "Cascadia Code", monospace`
+      ctx.textAlign = 'center'
+      ctx.textBaseline = 'middle'
 
       for (let i = 0; i < stars.length; i++) {
         const star = stars[i]
 
         if (isScrolling) {
-          // In motion: travel vertically with depth parallax
+          // Hyper-speed vertical travel with depth parallax
           star.currentV -= scrollVelocity * dt * 0.45 * star.depth
           if (star.currentV < 0) star.currentV += 1
           if (star.currentV > 1) star.currentV -= 1
         } else {
-          // Stationary: smoothly ease back to fixed balanced resting coordinate
+          // Stationary resting return
           star.currentV += (star.baseV - star.currentV) * 0.15
         }
 
-        const screenX = Math.floor(star.baseU * cols)
-        const screenY = Math.floor(star.currentV * rows)
+        const normX = star.baseU
+        const normY = star.currentV
 
-        if (screenX >= 0 && screenX < cols && screenY >= 0 && screenY < rows) {
-          if (!isExcluded(screenX, screenY)) {
-            let renderChar = star.char
-            if (star.isGlistening && !isScrolling) {
-              const phase = (time * 0.001 * star.glistenSpeed + star.glistenPhase) % (Math.PI * 2)
-              const norm = (Math.sin(phase) + 1) / 2
-              const idx = Math.min(GLISTEN_RAMP.length - 1, Math.floor(norm * GLISTEN_RAMP.length))
-              renderChar = GLISTEN_RAMP[idx]
+        if (!isExcluded(normX, normY)) {
+          const posX = normX * width
+          const posY = normY * height
+
+          // Calculate slow glisten phase [0..1]
+          const phase = (time * 0.001 * star.glistenSpeed + star.glistenPhase) % (Math.PI * 2)
+          const norm = (Math.sin(phase) + 1) / 2
+
+          let char = star.baseChar
+          let color = '#000000'
+
+          if (!isScrolling) {
+            // Apply randomized behavior
+            if (star.behavior === 'shape' || star.behavior === 'both') {
+              const shapeIdx = Math.min(GLISTEN_SHAPES.length - 1, Math.floor(norm * GLISTEN_SHAPES.length))
+              char = GLISTEN_SHAPES[shapeIdx]
             }
 
-            buffer[screenY][screenX] = renderChar
+            if (star.behavior === 'color' || star.behavior === 'both') {
+              const colorIdx = Math.min(star.palette.length - 1, Math.floor(norm * star.palette.length))
+              color = star.palette[colorIdx]
+            }
+          }
 
-            // Vertical hyperspace speed line trails during scroll
-            if (isScrolling) {
-              const streakLength = Math.min(6, Math.floor(Math.abs(scrollVelocity) * 2.4 * star.depth))
-              for (let s = 1; s <= streakLength; s++) {
-                const trailY = screenY + s * scrollDir
-                if (trailY >= 0 && trailY < rows && !isExcluded(screenX, trailY)) {
-                  if (buffer[trailY][screenX] === ' ') {
-                    buffer[trailY][screenX] = s === 1 ? '|' : s <= 3 ? ':' : '.'
-                  }
-                }
+          // Draw main star glyph
+          ctx.fillStyle = color
+          ctx.fillText(char, posX, posY)
+
+          // Vertical velocity light streak trails during scroll
+          if (isScrolling) {
+            const streakLength = Math.min(5, Math.floor(Math.abs(scrollVelocity) * 2.2 * star.depth))
+            const stepY = 11 * scrollDir
+
+            for (let s = 1; s <= streakLength; s++) {
+              const trailY = posY + s * stepY
+              const trailNormY = trailY / height
+              if (!isExcluded(normX, trailNormY) && trailY >= 0 && trailY <= height) {
+                const trailChar = s === 1 ? '|' : s <= 3 ? ':' : '.'
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.45)'
+                ctx.fillText(trailChar, posX, trailY)
               }
             }
           }
         }
       }
 
-      let output = ''
-      for (let r = 0; r < rows; r++) {
-        output += buffer[r].join('') + '\n'
-      }
-      pre.textContent = output
-
+      ctx.restore()
       animId = requestAnimationFrame(renderLoop)
     }
 
@@ -219,18 +257,10 @@ export default function Ascii3DStarfield({
         opacity: opacity,
       }}
     >
-      <pre
-        ref={preRef}
+      <canvas
+        ref={canvasRef}
         style={{
-          margin: 0,
-          padding: 0,
-          fontFamily: '"SF Mono", "Menlo", "Monaco", "Cascadia Code", "Courier New", monospace',
-          fontSize: '0.75rem',
-          lineHeight: '1.15',
-          color: '#000000',
-          WebkitFontSmoothing: 'none',
-          MozOsxFontSmoothing: 'unset',
-          whiteSpace: 'pre',
+          display: 'block',
           width: '100%',
           height: '100%',
         }}
