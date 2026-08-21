@@ -108,7 +108,7 @@ export default function AboutSection() {
               </div>
             </div>
 
-            {/* Smooth Spinning ASCII Earth */}
+            {/* Smooth Spinning ASCII Earth - Enriched & Large */}
             <motion.div
               initial={{ opacity: 0, scale: 0.9, x: 20 }}
               whileInView={{ opacity: 1, scale: 1, x: 0 }}
@@ -116,14 +116,21 @@ export default function AboutSection() {
               transition={{ duration: 0.5, delay: 0.15 }}
               style={{ flexShrink: 0 }}
             >
-              <AsciiEarth size={16} />
+              <AsciiEarth size={22} />
             </motion.div>
           </div>
 
           <div className="spacer-medium" />
 
-          {/* Bento Cards with Spotlight Effect & CountUp */}
-          <div className="about_layout">
+          {/* Bento Cards with Spotlight Effect - Pushed 20% leftward */}
+          <div
+            className="about_layout"
+            style={{
+              marginLeft: '-10%',
+              width: '120%',
+              transition: 'all 0.3s ease',
+            }}
+          >
             {/* Card 1 - Large with photo */}
             <SpotlightCard
               className="card_about"

@@ -1,14 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
 
-export default function AsciiEarth({ size = 18 }) {
+export default function AsciiEarth({ size = 22 }) {
   const [asciiFrame, setAsciiFrame] = useState('')
   const angleRef = useRef(0)
   const reqRef = useRef(null)
 
   useEffect(() => {
-    const width = Math.round(size * 2.1)
+    const width = Math.round(size * 2.15)
     const height = size
-    const chars = ' .:-=+*#%@'
     const landChars = ' .:=+*#%@'
 
     const render = () => {
@@ -88,42 +87,42 @@ export default function AsciiEarth({ size = 18 }) {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: '0.75rem 1.25rem',
-        borderRadius: '1rem',
-        background: 'rgba(20, 20, 20, 0.75)',
-        border: '1px solid rgba(214, 253, 112, 0.25)',
-        boxShadow: '0 0 30px rgba(214, 253, 112, 0.1), inset 0 0 20px rgba(0,0,0,0.8)',
-        backdropFilter: 'blur(10px)',
+        padding: '1rem 1.5rem',
+        borderRadius: '1.25rem',
+        background: 'rgba(15, 15, 15, 0.85)',
+        border: '1.5px solid rgba(214, 253, 112, 0.35)',
+        boxShadow: '0 0 40px rgba(214, 253, 112, 0.15), inset 0 0 25px rgba(0,0,0,0.85)',
+        backdropFilter: 'blur(12px)',
       }}
     >
       <pre
         style={{
           margin: 0,
           fontFamily: 'monospace',
-          fontSize: '0.65rem',
-          lineHeight: '0.68rem',
+          fontSize: '0.8125rem',
+          lineHeight: '0.84rem',
           color: '#d6fd70',
-          letterSpacing: '0.05em',
+          letterSpacing: '0.04em',
           userSelect: 'none',
-          textShadow: '0 0 8px rgba(214, 253, 112, 0.6)',
+          textShadow: '0 0 10px rgba(214, 253, 112, 0.7)',
         }}
       >
         {asciiFrame}
       </pre>
       <div
         style={{
-          marginTop: '0.4rem',
-          fontSize: '0.65rem',
+          marginTop: '0.6rem',
+          fontSize: '0.7rem',
           fontWeight: 700,
           letterSpacing: '0.08em',
           textTransform: 'uppercase',
-          color: 'rgba(214, 253, 112, 0.8)',
+          color: '#d6fd70',
           display: 'flex',
           alignItems: 'center',
-          gap: '0.4rem',
+          gap: '0.5rem',
         }}
       >
-        <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#d6fd70', boxShadow: '0 0 6px #d6fd70' }} />
+        <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#d6fd70', boxShadow: '0 0 8px #d6fd70' }} />
         <span>Live Global Relay Node</span>
       </div>
     </div>
