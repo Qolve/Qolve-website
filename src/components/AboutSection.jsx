@@ -1,320 +1,96 @@
-import { useEffect, useRef } from 'react'
-
 export default function AboutSection({ onNavigate }) {
   return (
     <>
-      {/* Series 01: The Oak Series / Quelp Core Architecture */}
-      <section className="relative w-full py-20 md:py-32 bg-[#121413] overflow-hidden" id="about">
-        <div className="container-large" style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 1.5rem' }}>
-          
-          {/* Header */}
-          <div style={{ marginBottom: '3.5rem', textAlign: 'left' }}>
-            <span
-              style={{
-                display: 'inline-block',
-                background: 'rgba(45, 75, 62, 0.25)',
-                color: '#adcebd',
-                padding: '0.35rem 0.9rem',
-                borderRadius: '9999px',
-                fontSize: '0.75rem',
-                fontWeight: 600,
-                letterSpacing: '0.12em',
-                textTransform: 'uppercase',
-                border: '1px solid rgba(173, 206, 189, 0.2)',
-                marginBottom: '1.25rem',
-              }}
-            >
+      {/* The Oak Series (Bento Grid Section) */}
+      <section id="series01" className="relative w-full py-stack-xl bg-surface-container-low overflow-hidden">
+        <div className="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop relative z-10">
+          <div className="mb-16 md:mb-24 text-center md:text-left">
+            <span className="inline-block bg-primary-container/20 text-primary px-3 py-1 rounded-full font-label-sm text-label-sm uppercase tracking-widest border border-primary/20 mb-6">
               Series 01 // Architecture
             </span>
-
-            <h2
-              style={{
-                fontFamily: 'Hanken Grotesk, sans-serif',
-                fontSize: 'clamp(2.25rem, 4.5vw, 3.25rem)',
-                fontWeight: 600,
-                color: '#e2e3e0',
-                letterSpacing: '-0.025em',
-                lineHeight: 1.15,
-                marginBottom: '0.85rem',
-              }}
-            >
+            <h2 className="font-headline-xl text-headline-xl text-on-surface mb-4">
               The Oak Series
             </h2>
-
-            <p
-              style={{
-                fontFamily: 'Inter, sans-serif',
-                fontSize: '1.0625rem',
-                color: '#c1c8c3',
-                maxWidth: '32rem',
-                lineHeight: 1.6,
-              }}
-            >
+            <p className="font-body-md text-body-md text-on-surface-variant max-w-md">
               Solid charcoal oak architecture, machined to microscopic tolerances. Finished with a liquid glass interface.
             </p>
           </div>
 
-          {/* 12-Column Asymmetric Bento Grid */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: '1.5rem' }}>
-            
-            {/* Col-8 Main Feature Card */}
-            <div
-              className="glass-panel group"
-              style={{
-                gridColumn: 'span 8',
-                position: 'relative',
-                minHeight: '480px',
-                borderRadius: '1.5rem',
-                overflow: 'hidden',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'flex-end',
-                padding: '2.5rem',
-              }}
-            >
-              {/* Charred Oak & Liquid Glass Image */}
-              <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+            {/* Main Feature Card */}
+            <div className="col-span-1 md:col-span-8 glass-panel rounded-2xl p-6 md:p-12 relative overflow-hidden group min-h-[500px] flex flex-col justify-end">
+              <div className="absolute inset-0 z-0">
                 <img
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-60"
                   src="/images/verdant-oak-device.jpg"
-                  alt="Quelp Core Device"
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    opacity: 0.65,
-                    filter: 'contrast(1.1) brightness(0.8)',
-                    transition: 'transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)',
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'scale(1.04)'
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'scale(1)'
-                  }}
+                  alt="Charred Oak & Glass"
                 />
-                <div
-                  style={{
-                    position: 'absolute',
-                    inset: 0,
-                    background: 'linear-gradient(0deg, #121413 0%, rgba(18, 20, 19, 0.7) 45%, transparent 100%)',
-                  }}
-                />
+                <div className="absolute inset-0 bg-gradient-to-t from-surface-container-low to-transparent" />
               </div>
-
-              {/* Card Content */}
-              <div style={{ position: 'relative', zIndex: 10, maxWidth: '28rem' }}>
-                <h3
-                  style={{
-                    fontFamily: 'Hanken Grotesk, sans-serif',
-                    fontSize: '2rem',
-                    fontWeight: 600,
-                    color: '#e2e3e0',
-                    letterSpacing: '-0.02em',
-                    marginBottom: '0.65rem',
-                  }}
-                >
-                  Quelp Core Hub
-                </h3>
-                <p
-                  style={{
-                    fontFamily: 'Inter, sans-serif',
-                    color: '#c1c8c3',
-                    fontSize: '0.9375rem',
-                    lineHeight: 1.6,
-                    marginBottom: '1.5rem',
-                  }}
-                >
-                  The central hub of your support operations, carved from a resilient high-throughput architecture with Stalwart mail relay and grounded draft intelligence.
+              <div className="relative z-10">
+                <h3 className="font-headline-lg text-headline-lg text-on-surface mb-2">Quelp Core</h3>
+                <p className="font-body-md text-body-md text-on-surface-variant max-w-sm mb-6">
+                  The central support hub of your ecosystem, carved from high-speed mail relay and grounded AI.
                 </p>
-
                 <button
                   onClick={() => onNavigate && onNavigate('products')}
-                  style={{
-                    background: 'transparent',
-                    border: 'none',
-                    padding: 0,
-                    color: '#adcebd',
-                    fontFamily: 'Inter, sans-serif',
-                    fontSize: '0.9375rem',
-                    fontWeight: 600,
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '0.5rem',
-                    cursor: 'pointer',
-                    transition: 'color 0.2s ease',
-                  }}
-                  onMouseEnter={(e) => { e.currentTarget.style.color = '#c8ead8' }}
-                  onMouseLeave={(e) => { e.currentTarget.style.color = '#adcebd' }}
+                  className="inline-flex items-center text-primary font-body-md text-body-md hover:text-primary-fixed transition-colors bg-transparent border-0 p-0 cursor-pointer"
                 >
                   <span>Discover Quelp Core</span>
-                  <span style={{ fontSize: '1.1rem' }}>→</span>
+                  <span className="material-symbols-outlined ml-2 text-[16px]">arrow_forward</span>
                 </button>
               </div>
             </div>
 
-            {/* Col-4 Secondary Stack */}
-            <div style={{ gridColumn: 'span 4', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-              
-              {/* Ethical Sourcing / Zero Bloat Card */}
-              <div
-                className="glass-panel"
-                style={{
-                  flex: 1,
-                  borderRadius: '1.5rem',
-                  padding: '2rem',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'space-between',
-                  minHeight: '225px',
-                }}
-              >
-                <div
-                  style={{
-                    width: '3rem',
-                    height: '3rem',
-                    borderRadius: '50%',
-                    background: 'rgba(45, 75, 62, 0.35)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    border: '1px solid rgba(173, 206, 189, 0.25)',
-                    color: '#adcebd',
-                    fontSize: '1.25rem',
-                    marginBottom: '1.5rem',
-                  }}
-                >
-                  🌿
-                </div>
-
-                <div>
-                  <h4
-                    style={{
-                      fontFamily: 'Inter, sans-serif',
-                      fontSize: '1.125rem',
-                      fontWeight: 600,
-                      color: '#e2e3e0',
-                      marginBottom: '0.5rem',
-                    }}
-                  >
-                    Ethical Sourcing &amp; Zero Bloat
-                  </h4>
-                  <p
-                    style={{
-                      fontFamily: 'Inter, sans-serif',
-                      color: '#c1c8c3',
-                      fontSize: '0.875rem',
-                      lineHeight: 1.6,
-                    }}
-                  >
-                    Every routing protocol is traceable to zero-latency, privacy-first edge nodes with complete data sovereignty.
-                  </p>
+            {/* Secondary Cards */}
+            <div className="col-span-1 md:col-span-4 flex flex-col gap-gutter">
+              <div className="glass-panel rounded-2xl p-6 flex-1 relative overflow-hidden group">
+                <div className="absolute inset-0 z-0 bg-surface-container-highest/30" />
+                <div className="relative z-10 h-full flex flex-col justify-between">
+                  <div className="w-12 h-12 rounded-full bg-primary-container/30 flex items-center justify-center border border-primary/20 mb-8">
+                    <span className="material-symbols-outlined text-primary">eco</span>
+                  </div>
+                  <div>
+                    <h4 className="font-body-lg text-body-lg text-on-surface mb-2">Ethical Sourcing</h4>
+                    <p className="font-body-md text-body-md text-on-surface-variant text-sm">
+                      Every routing protocol is traceable to zero-latency, privacy-first edge nodes with complete data sovereignty.
+                    </p>
+                  </div>
                 </div>
               </div>
 
-              {/* Refractive Display Card */}
-              <div
-                className="glass-panel"
-                style={{
-                  flex: 1,
-                  borderRadius: '1.5rem',
-                  padding: '2rem',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'space-between',
-                  minHeight: '225px',
-                }}
-              >
-                <div
-                  style={{
-                    width: '3rem',
-                    height: '3rem',
-                    borderRadius: '50%',
-                    background: 'rgba(45, 75, 62, 0.35)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    border: '1px solid rgba(173, 206, 189, 0.25)',
-                    color: '#adcebd',
-                    fontSize: '1.25rem',
-                    marginBottom: '1.5rem',
-                  }}
-                >
-                  ✦
-                </div>
-
-                <div>
-                  <h4
-                    style={{
-                      fontFamily: 'Inter, sans-serif',
-                      fontSize: '1.125rem',
-                      fontWeight: 600,
-                      color: '#e2e3e0',
-                      marginBottom: '0.5rem',
-                    }}
-                  >
-                    Refractive Interface
-                  </h4>
-                  <p
-                    style={{
-                      fontFamily: 'Inter, sans-serif',
-                      color: '#c1c8c3',
-                      fontSize: '0.875rem',
-                      lineHeight: 1.6,
-                    }}
-                  >
-                    Our signature liquid glass technology blends seamlessly into your custom brand identity with zero third-party badges.
-                  </p>
+              <div className="glass-panel rounded-2xl p-6 flex-1 relative overflow-hidden group">
+                <div className="absolute inset-0 z-0 bg-surface-container-highest/30" />
+                <div className="relative z-10 h-full flex flex-col justify-between">
+                  <div className="w-12 h-12 rounded-full bg-primary-container/30 flex items-center justify-center border border-primary/20 mb-8">
+                    <span className="material-symbols-outlined text-primary">blur_on</span>
+                  </div>
+                  <div>
+                    <h4 className="font-body-lg text-body-lg text-on-surface mb-2">Refractive Display</h4>
+                    <p className="font-body-md text-body-md text-on-surface-variant text-sm">
+                      Our signature liquid glass technology blends seamlessly into your custom brand identity with zero bloat.
+                    </p>
+                  </div>
                 </div>
               </div>
-
             </div>
-
           </div>
         </div>
-
-        <style>{`
-          @media (max-width: 900px) {
-            .glass-panel[style*="grid-column: span 8"],
-            div[style*="grid-column: span 4"] {
-              grid-column: span 12 !important;
-            }
-          }
-        `}</style>
       </section>
 
-      {/* Breathe Statement Section */}
-      <section
-        style={{
-          width: '100%',
-          padding: '7rem 1.5rem',
-          background: '#0d0f0e',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          borderTop: '1px solid rgba(255, 255, 255, 0.05)',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
-        }}
-      >
-        <div style={{ maxWidth: '56rem', margin: '0 auto', textAlign: 'center' }}>
-          <h2
-            className="text-glow"
-            style={{
-              fontFamily: 'Hanken Grotesk, sans-serif',
-              fontSize: 'clamp(2.5rem, 6vw, 4.5rem)',
-              lineHeight: 1.15,
-              fontWeight: 400,
-              letterSpacing: '-0.03em',
-              color: '#e2e3e0',
-            }}
-          >
+      {/* Breathe Section */}
+      <section className="w-full py-stack-xl md:py-[200px] bg-surface-container-lowest flex items-center justify-center">
+        <div className="max-w-container-max mx-auto px-margin-mobile text-center">
+          <h2 className="font-headline-xl text-headline-xl md:text-[72px] md:leading-[80px] text-on-surface font-light tracking-tight text-glow">
             Leave no trace.<br />
-            <span style={{ color: '#8b928d' }}>Only impact.</span>
+            <span className="text-on-surface-variant">Only impact.</span>
           </h2>
         </div>
       </section>
     </>
   )
 }
+
 
 
 

@@ -1,18 +1,115 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="dark" lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Qolve | Luxury Eco-Tech Software</title>
+  <meta name="description" content="Precision white-label customer support software crafted with luxury eco-tech minimalism." />
+  
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Qolve - White Label Software | Luxury Eco-Tech</title>
-  <meta name="description" content="Qolve is a technical product lab building Quelp — a lower-cost, white-label customer support and helpdesk platform built with luxury eco-tech precision." />
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
 
-  <script type="module" crossorigin src="/assets/index-PzjaESL0.js"></script>
+  <!-- Tailwind CSS CDN with Obsidian Grove Configuration -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary-container": "#2d4b3e",
+            "surface-bright": "#383a38",
+            "surface-container-highest": "#333534",
+            "on-secondary-fixed-variant": "#454746",
+            "on-primary-container": "#99baa9",
+            "secondary": "#c6c7c5",
+            "tertiary-fixed-dim": "#c3c7c4",
+            "primary-fixed": "#c8ead8",
+            "on-secondary-container": "#b5b5b3",
+            "surface-container-low": "#1a1c1b",
+            "on-primary-fixed-variant": "#2f4d40",
+            "primary": "#adcebd",
+            "surface-variant": "#333534",
+            "on-tertiary-fixed-variant": "#434845",
+            "on-primary": "#18362a",
+            "tertiary": "#c3c7c4",
+            "outline-variant": "#424844",
+            "on-error": "#690005",
+            "inverse-on-surface": "#2f3130",
+            "on-background": "#e2e3e0",
+            "error": "#ffb4ab",
+            "tertiary-fixed": "#e0e3df",
+            "on-tertiary-fixed": "#181d1a",
+            "inverse-primary": "#466557",
+            "inverse-surface": "#e2e3e0",
+            "on-surface-variant": "#c1c8c3",
+            "secondary-fixed": "#e2e3e0",
+            "background": "#121413",
+            "surface-tint": "#adcebd",
+            "surface-container": "#1e201f",
+            "outline": "#8b928d",
+            "tertiary-container": "#414643",
+            "on-error-container": "#ffdad6",
+            "secondary-fixed-dim": "#c6c7c5",
+            "surface": "#121413",
+            "error-container": "#93000a",
+            "surface-container-lowest": "#0d0f0e",
+            "on-tertiary": "#2d312f",
+            "secondary-container": "#454746",
+            "surface-container-high": "#282a29",
+            "on-secondary-fixed": "#1a1c1b",
+            "on-secondary": "#2f3130",
+            "surface-dim": "#121413",
+            "on-tertiary-container": "#afb3b0",
+            "on-surface": "#e2e3e0",
+            "on-primary-fixed": "#012116",
+            "primary-fixed-dim": "#adcebd"
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "2xl": "1.5rem",
+            "full": "9999px"
+          },
+          spacing: {
+            "margin-mobile": "20px",
+            "stack-md": "64px",
+            "margin-desktop": "64px",
+            "unit": "8px",
+            "gutter": "24px",
+            "stack-xl": "120px",
+            "container-max": "1280px"
+          },
+          fontFamily: {
+            "body-md": ["Inter", "sans-serif"],
+            "headline-xl": ["Hanken Grotesk", "sans-serif"],
+            "headline-lg": ["Hanken Grotesk", "sans-serif"],
+            "body-lg": ["Inter", "sans-serif"],
+            "display-lg": ["Hanken Grotesk", "sans-serif"],
+            "label-sm": ["Inter", "sans-serif"],
+            "headline-lg-mobile": ["Hanken Grotesk", "sans-serif"]
+          },
+          fontSize: {
+            "body-md": ["16px", { "lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "headline-xl": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "500" }],
+            "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+            "body-lg": ["18px", { "lineHeight": "28px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "display-lg": ["64px", { "lineHeight": "72px", "letterSpacing": "-0.04em", "fontWeight": "600" }],
+            "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+            "headline-lg-mobile": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600" }]
+          }
+        }
+      }
+    }
+  </script>
+  <script type="module" crossorigin src="/assets/index-Of045hIB.js"></script>
   <link rel="stylesheet" crossorigin href="/assets/index-GDxEVX7y.css">
 </head>
-<body>
+<body class="bg-surface-container-lowest text-on-surface font-body-md antialiased overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container">
   <div id="root"></div>
 </body>
 </html>

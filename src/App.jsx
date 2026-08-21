@@ -1,16 +1,10 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Navbar from './components/Navbar'
 import HeroSection from './components/HeroSection'
-import LogoLoop from './components/LogoLoop'
 import AboutSection from './components/AboutSection'
 import ServicesSection from './components/ServicesSection'
-import ExpertiseSection from './components/ExpertiseSection'
-import RoadmapSection from './components/RoadmapSection'
 import InteractiveInboxDemo from './components/InteractiveInboxDemo'
 import PricingSection from './components/PricingSection'
-import TestimonialsSection from './components/TestimonialsSection'
-import BlogSection from './components/BlogSection'
-import CtaSection from './components/CtaSection'
 import Footer from './components/Footer'
 import TeamPage from './components/TeamPage'
 import ProductsPage from './components/ProductsPage'
@@ -30,42 +24,17 @@ function App() {
     }
   }
 
-  // Intersection Observer for scroll animations
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible')
-          }
-        })
-      },
-      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
-    )
-
-    const elements = document.querySelectorAll('[data-anim]')
-    elements.forEach((el) => observer.observe(el))
-
-    return () => observer.disconnect()
-  }, [activePage])
-
   return (
-    <div className="page-wrapper">
+    <div className="bg-surface-container-lowest text-on-surface font-body-md antialiased min-h-screen">
       <Navbar activePage={activePage} onNavigate={handleNavigate} />
-      <main className="main-wrapper">
+      <main>
         {activePage === 'home' && (
           <>
             <HeroSection onNavigate={handleNavigate} />
-            <LogoLoop />
-            <AboutSection />
-            <ServicesSection />
+            <AboutSection onNavigate={handleNavigate} />
+            <ServicesSection onNavigate={handleNavigate} />
             <InteractiveInboxDemo />
-            <ExpertiseSection />
-            <RoadmapSection />
             <PricingSection />
-            <TestimonialsSection />
-            <BlogSection />
-            <CtaSection />
           </>
         )}
 
@@ -79,4 +48,5 @@ function App() {
 }
 
 export default App
+
 
