@@ -1,4 +1,5 @@
 import React from 'react'
+import { motion, useScroll, useVelocity, useTransform, useSpring } from 'framer-motion'
 
 // Curated ASCII Star Assets derived from user terminal starscape specifications
 const STAR_BURST_1 = (
@@ -188,6 +189,20 @@ const SECTION_STAR_LAYOUTS = {
 export default function AsciiStarfield({ variant = 'about', opacity = 0.85 }) {
   const stars = SECTION_STAR_LAYOUTS[variant] || SECTION_STAR_LAYOUTS.about
 
+  // Track global scroll velocity for hyper-speed warp effect
+  const { scrollY } = useScroll()
+  const scrollVelocity = useVelocity(scrollY)
+  const smoothVelocity = useSpring(scrollVelocity, {
+    stiffness: 220,
+    damping: 28,
+    mass: 0.25,
+  })
+
+  // Hyperspace vertical shift: fast travel in direction of scroll
+  const warpY = useTransform(smoothVelocity, [-2500, 0, 2500], [220, 0, -220])
+  // Hyperspace vertical streak: stretches stars vertically under high speed
+  const warpScaleY = useTransform(smoothVelocity, [-2500, 0, 2500], [3.2, 1, 3.2])
+
   return (
     <div
       style={{
@@ -200,27 +215,35 @@ export default function AsciiStarfield({ variant = 'about', opacity = 0.85 }) {
         opacity: opacity,
       }}
     >
-      {stars.map((item, idx) => (
-        <div
-          key={idx}
-          style={{
-            position: 'absolute',
-            left: item.x,
-            top: item.y,
-            fontFamily: '"SF Mono", "Menlo", "Monaco", "Cascadia Code", "Courier New", monospace',
-            fontSize: item.size,
-            color: '#000000',
-            opacity: item.opacity,
-            WebkitFontSmoothing: 'none',
-            MozOsxFontSmoothing: 'unset',
-            lineHeight: 1,
-            whiteSpace: 'pre',
-            transform: 'translate(-50%, -50%)',
-          }}
-        >
-          {item.content}
-        </div>
-      ))}
+      {stars.map((item, idx) => {
+        // Multi-depth 3D parallax warping factor
+        const depth = 0.7 + ((idx * 7) % 8) * 0.18
+        const itemY = useTransform(warpY, (v) => v * depth)
+
+        return (
+          <motion.div
+            key={idx}
+            style={{
+              position: 'absolute',
+              left: item.x,
+              top: item.y,
+              fontFamily: '"SF Mono", "Menlo", "Monaco", "Cascadia Code", "Courier New", monospace',
+              fontSize: item.size,
+              color: '#000000',
+              opacity: item.opacity,
+              WebkitFontSmoothing: 'none',
+              MozOsxFontSmoothing: 'unset',
+              lineHeight: 1,
+              whiteSpace: 'pre',
+              y: itemY,
+              scaleY: warpScaleY,
+              transformOrigin: 'center center',
+            }}
+          >
+            {item.content}
+          </motion.div>
+        )
+      })}
     </div>
   )
 }
