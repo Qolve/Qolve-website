@@ -1,25 +1,21 @@
 import React, { useEffect, useRef } from 'react'
 
 /**
- * 3D ASCII Starfield based on classic terminal perspective projection
- * (inspired by asciiart.eu/animations/ascii-starfield)
+ * Ascii3DStarfield - Stationary when idle, Hyper-speed vertical travel on scroll
  *
  * Features:
- * - Pure text character buffer rendered via requestAnimationFrame (0 React re-renders)
- * - True 3D perspective projection (X/Z, Y/Z) with character density ramp
- * - Scroll-velocity warp drive: stars streak and accelerate during scroll
- * - Strict geometric exclusionary boundaries around Earth and Moon
+ * - Beautiful, uniform, non-clumping spatial distribution across the page
+ * - Fixed & stationary when the page is at rest
+ * - High-speed vertical travel with velocity light streaks (| : .) on scroll
+ * - Exact outskirts boundary clipping around Earth and Moon
  */
 
-const CHARSET_RAMP = ' .:-=+*#%@'
-const TRAIL_CHARS = '.·:`'
+const CHARS = ['*', '+', '.', "'", 'o', '*', '+', '.', "'", '.']
 
 export default function Ascii3DStarfield({
   variant = 'about',
-  opacity = 0.65,
+  opacity = 0.7,
   numStars = 160,
-  baseSpeed = 0.35,
-  fov = 45,
 }) {
   const preRef = useRef(null)
   const containerRef = useRef(null)
@@ -34,25 +30,40 @@ export default function Ascii3DStarfield({
     let width = container.clientWidth || window.innerWidth
     let height = container.clientHeight || window.innerHeight
 
-    // Measure character aspect ratio
     const charW = 7.8
     const charH = 13.5
     let cols = Math.max(20, Math.floor(width / charW))
     let rows = Math.max(15, Math.floor(height / charH))
 
-    // 2D Text buffer
     let buffer = Array.from({ length: rows }, () => new Array(cols).fill(' '))
 
-    // Initialize 3D Stars
-    const spawnStar = (randomZ = true) => {
-      return {
-        x: (Math.random() * 2 - 1) * 1.5,
-        y: (Math.random() * 2 - 1) * 0.9,
-        z: randomZ ? Math.random() * 3 + 0.2 : 3.0 + Math.random() * 0.5,
+    // Generate balanced, beautifully distributed stars across a grid
+    const createDistributedStars = () => {
+      const list = []
+      const gridX = 16
+      const gridY = 10
+
+      for (let gy = 0; gy < gridY; gy++) {
+        for (let gx = 0; gx < gridX; gx++) {
+          if (list.length >= numStars) break
+          // Organic jitter within grid cells to avoid alignment patterns
+          const u = (gx + 0.15 + Math.random() * 0.7) / gridX
+          const v = (gy + 0.15 + Math.random() * 0.7) / gridY
+          const depth = 0.6 + Math.random() * 1.4
+          const char = CHARS[Math.floor(Math.random() * CHARS.length)]
+          list.push({
+            baseU: u,
+            baseV: v,
+            currentV: v,
+            char,
+            depth,
+          })
+        }
       }
+      return list
     }
 
-    let stars = Array.from({ length: numStars }, () => spawnStar(true))
+    let stars = createDistributedStars()
 
     // Scroll Velocity Tracking
     let lastScrollY = window.scrollY
@@ -63,7 +74,7 @@ export default function Ascii3DStarfield({
       const currentY = window.scrollY
       const deltaY = currentY - lastScrollY
       lastScrollY = currentY
-      scrollVelocity += deltaY * 0.04
+      scrollVelocity += deltaY * 0.05
     }
 
     window.addEventListener('scroll', handleScroll, { passive: true })
@@ -83,7 +94,6 @@ export default function Ascii3DStarfield({
     const isExcluded = (col, row) => {
       const normX = col / cols
       const normY = row / rows
-      // Correct for viewport pixel aspect ratio so exclusion boundary is a perfect circle
       const aspect = (width / height) || 1.77
 
       if (variant === 'about') {
@@ -105,20 +115,18 @@ export default function Ascii3DStarfield({
       return false
     }
 
-    // Main 3D Animation Loop
+    // Animation Loop
     const renderLoop = (time) => {
       if (!isMounted) return
 
       const dt = Math.min(0.05, (time - lastTime) / 1000)
       lastTime = time
 
-      // Decay scroll velocity smoothly
-      scrollVelocity *= 0.92
+      // Smooth velocity decay
+      scrollVelocity *= 0.88
       if (Math.abs(scrollVelocity) < 0.001) scrollVelocity = 0
 
-      // Effective speed combines ambient drift + scroll velocity
-      // Check if actively scrolling
-      const isScrolling = Math.abs(scrollVelocity) > 0.08
+      const isScrolling = Math.abs(scrollVelocity) > 0.05
       const scrollDir = scrollVelocity > 0 ? 1 : -1
 
       // Clear buffer
@@ -126,50 +134,31 @@ export default function Ascii3DStarfield({
         buffer[r].fill(' ')
       }
 
-      const halfCols = cols / 2
-      const halfRows = rows / 2
-
-      // Update & render stars
       for (let i = 0; i < stars.length; i++) {
         const star = stars[i]
 
-        if (!isScrolling) {
-          // 1. IDLE STATE: Normal serene forward 3D drift
-          star.z -= dt * baseSpeed
-          if (star.z <= 0.15) {
-            stars[i] = spawnStar(false)
-            continue
-          }
+        if (isScrolling) {
+          // In motion: travel vertically with depth parallax
+          star.currentV -= scrollVelocity * dt * 0.45 * star.depth
+          if (star.currentV < 0) star.currentV += 1
+          if (star.currentV > 1) star.currentV -= 1
         } else {
-          // 2. SCROLLING STATE: Freeze Z expansion, move purely vertically (traveling up/down)
-          // Parallax vertical movement based on star depth
-          star.y -= scrollVelocity * dt * 0.8 * (0.8 / star.z)
-
-          // Wrap around vertical edges seamlessly
-          if (star.y > 1.2) star.y = -1.2
-          if (star.y < -1.2) star.y = 1.2
+          // Stationary: smoothly ease back to fixed balanced resting coordinate
+          star.currentV += (star.baseV - star.currentV) * 0.15
         }
 
-        // Perspective projection: screenX = halfCols + (X / Z) * fov
-        const screenX = Math.floor(halfCols + (star.x / star.z) * fov)
-        const screenY = Math.floor(halfRows + (star.y / star.z) * (fov * (rows / cols)))
-
-        // Character lookup based on depth (closer = denser/larger character)
-        const depthFactor = Math.max(0, Math.min(1, (3.2 - star.z) / 3.0))
-        const charIdx = Math.min(CHARSET_RAMP.length - 1, Math.floor(depthFactor * CHARSET_RAMP.length))
-        const starChar = CHARSET_RAMP[charIdx]
+        const screenX = Math.floor(star.baseU * cols)
+        const screenY = Math.floor(star.currentV * rows)
 
         if (screenX >= 0 && screenX < cols && screenY >= 0 && screenY < rows) {
           if (!isExcluded(screenX, screenY)) {
-            buffer[screenY][screenX] = starChar
+            buffer[screenY][screenX] = star.char
 
-            // Vertical hyperspace speed trails when traveling vertically
+            // Vertical hyperspace speed line trails during scroll
             if (isScrolling) {
-              const streakLength = Math.min(6, Math.floor(Math.abs(scrollVelocity) * 2.2))
-              const trailDir = scrollDir // trail stretches behind movement direction
-
+              const streakLength = Math.min(6, Math.floor(Math.abs(scrollVelocity) * 2.4 * star.depth))
               for (let s = 1; s <= streakLength; s++) {
-                const trailY = screenY + s * trailDir
+                const trailY = screenY + s * scrollDir
                 if (trailY >= 0 && trailY < rows && !isExcluded(screenX, trailY)) {
                   if (buffer[trailY][screenX] === ' ') {
                     buffer[trailY][screenX] = s === 1 ? '|' : s <= 3 ? ':' : '.'
@@ -181,7 +170,6 @@ export default function Ascii3DStarfield({
         }
       }
 
-      // Convert 2D buffer to string in a single assignment
       let output = ''
       for (let r = 0; r < rows; r++) {
         output += buffer[r].join('') + '\n'
@@ -199,7 +187,7 @@ export default function Ascii3DStarfield({
       window.removeEventListener('scroll', handleScroll)
       window.removeEventListener('resize', handleResize)
     }
-  }, [variant, numStars, baseSpeed, fov])
+  }, [variant, numStars])
 
   return (
     <div
