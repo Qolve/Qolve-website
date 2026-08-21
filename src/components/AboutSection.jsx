@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import SpotlightCard from './ui/SpotlightCard'
 import CountUpNumber from './ui/CountUpNumber'
 import AsciiEarth from './ui/AsciiEarth'
+import AsciiMoon from './ui/AsciiMoon'
 import GlisteningStars from './ui/GlisteningStars'
 
 const headingWords = [
@@ -37,9 +38,24 @@ export default function AboutSection() {
       }}
     >
       {/* Slow Glistening Stars */}
-      <GlisteningStars count={30} />
+      <GlisteningStars count={35} />
 
-      {/* Giant Ambient Background ASCII Earth - Color-Coordinated: Blue Oceans, Green Grass, Golden Deserts, White Ice */}
+      {/* Accurate ASCII Moon in Top Left Corner */}
+      <div
+        style={{
+          position: 'absolute',
+          left: '2.5vw',
+          top: '2.5vh',
+          zIndex: 2,
+          pointerEvents: 'none',
+          opacity: 0.85,
+          userSelect: 'none',
+        }}
+      >
+        <AsciiMoon size={22} speed={0.003} />
+      </div>
+
+      {/* Giant Ambient Background ASCII Earth - Black ASCII spinning on white background */}
       <div
         style={{
           position: 'absolute',

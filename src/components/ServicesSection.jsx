@@ -55,15 +55,15 @@ export default function ServicesSection() {
       <div
         style={{
           position: 'absolute',
-          left: '-8vw',
-          top: '-4vw',
-          zIndex: 1,
+          left: '2.5vw',
+          top: '2.5vh',
+          zIndex: 2,
           pointerEvents: 'none',
           opacity: 0.9,
           userSelect: 'none',
         }}
       >
-        <AsciiMoon size={36} speed={0.003} />
+        <AsciiMoon size={28} speed={0.003} />
       </div>
 
       <div className="padding-global" style={{ position: 'relative', zIndex: 5, width: '100%' }}>

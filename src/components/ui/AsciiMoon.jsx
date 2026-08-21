@@ -14,7 +14,7 @@ const LUNAR_MAP = [
   "        1111111111111111111111111111111111111111            ", // 5°S - Mare Cognitum / Mare Nectaris
   "        111111111111111111111111111111111111111             ", // 15°S - Mare Nubium
   "         111111111111111111111111111111111111               ", // 25°S - Mare Humorum
-  "          1111111111111111111111111111111                   ", // 35°S - South Maria border
+  "          11111111111111111111111111111111111               ", // 35°S - South Maria border
   "               2222           222222                        ", // 43°S - Tycho Crater Ray System
   "              222222         22222222                       ", // 55°S - Southern Cratered Highlands
   "                                                            ", // 70°S
@@ -53,10 +53,10 @@ export default function AsciiMoon({ size = 32, speed = 0.003, color = '#000000' 
           if (distSq <= 1.0) {
             const nz = Math.sqrt(Math.max(0, 1.0 - distSq))
 
-            // Lunar rotation
+            // Lunar orbital rotation around Y-axis
             const rx = nx * cosT + nz * sinT
             const ry = ny
-            const rz = -nx * sinT + tz * cosT || -nx * sinT + nz * cosT
+            const rz = -nx * sinT + nz * cosT
 
             const lat = Math.asin(Math.max(-1, Math.min(1, ry)))
             const lon = Math.atan2(rx, rz)
@@ -73,11 +73,11 @@ export default function AsciiMoon({ size = 32, speed = 0.003, color = '#000000' 
             const clampedLight = Math.max(0, Math.min(1, light))
 
             if (feature === '1') {
-              // Maria: darker terminal chars
+              // Lunar Maria: darker basalt
               const charIdx = Math.floor(clampedLight * 4)
               line += ['.', ':', '-', '='][charIdx] || ':'
             } else if (feature === '2') {
-              // Tycho rays
+              // Tycho crater high-albedo rays
               line += '@'
             } else {
               // Highlands
