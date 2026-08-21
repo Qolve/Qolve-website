@@ -3,7 +3,7 @@ import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
 import SpotlightCard from './ui/SpotlightCard'
 import { WordReveal } from './ui/TextReveal'
 import AsciiMoon from './ui/AsciiMoon'
-import AsciiStarfield from './ui/AsciiStarfield'
+import Ascii3DStarfield from './ui/Ascii3DStarfield'
 
 const ArrowIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -65,8 +65,8 @@ export default function ServicesSection() {
         background: '#ffffff',
       }}
     >
-      {/* Static Curated ASCII Starfield for Services */}
-      <AsciiStarfield variant="services" opacity={0.75} />
+      {/* Hypnotic 3D ASCII Starfield with Moon Exclusion Boundary */}
+      <Ascii3DStarfield variant="services" opacity={0.7} numStars={140} baseSpeed={0.35} />
 
       {/* Accurate ASCII Moon - Smooth pull-into-corner scroll animation */}
       <div

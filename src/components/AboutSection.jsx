@@ -3,7 +3,7 @@ import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
 import SpotlightCard from './ui/SpotlightCard'
 import CountUpNumber from './ui/CountUpNumber'
 import AsciiEarth from './ui/AsciiEarth'
-import AsciiStarfield from './ui/AsciiStarfield'
+import Ascii3DStarfield from './ui/Ascii3DStarfield'
 
 const headingWords = [
   { text: 'A', opacity: 1 },
@@ -50,8 +50,8 @@ export default function AboutSection() {
         background: '#ffffff',
       }}
     >
-      {/* Static Curated ASCII Starfield & Constellations */}
-      <AsciiStarfield variant="about" opacity={0.75} />
+      {/* Hypnotic 3D ASCII Starfield with Earth Exclusion Boundary */}
+      <Ascii3DStarfield variant="about" opacity={0.7} numStars={140} baseSpeed={0.35} />
 
       {/* Giant Ambient Background ASCII Earth - Smooth pull-into-side scroll animation */}
       <div
