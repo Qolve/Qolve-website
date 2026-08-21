@@ -14,6 +14,7 @@ import TeamPage from './components/TeamPage'
 import ProductsPage from './components/ProductsPage'
 import ScrollProgress from './components/ui/ScrollProgress'
 import StickyScrollLock from './components/ui/StickyScrollLock'
+import SmoothScrollProvider from './components/ui/SmoothScrollProvider'
 
 function App() {
   const [activePage, setActivePage] = useState('home')
@@ -50,32 +51,35 @@ function App() {
   }, [activePage])
 
   return (
-    <div className="page-wrapper">
-      <ScrollProgress />
-      <Navbar activePage={activePage} onNavigate={handleNavigate} />
-      <main className="main-wrapper">
-        {activePage === 'home' && (
-          <>
-            <HeroSection onNavigate={handleNavigate} />
-            <LogoLoop />
-            <AboutSection />
-            <ServicesSection />
-            <StickyScrollLock />
-            <ExpertiseSection />
-            <PricingSection />
-            <TestimonialsSection />
-            <BlogSection />
-            <CtaSection />
-          </>
-        )}
+    <SmoothScrollProvider>
+      <div className="page-wrapper">
+        <ScrollProgress />
+        <Navbar activePage={activePage} onNavigate={handleNavigate} />
+        <main className="main-wrapper">
+          {activePage === 'home' && (
+            <>
+              <HeroSection onNavigate={handleNavigate} />
+              <LogoLoop />
+              <AboutSection />
+              <ServicesSection />
+              <StickyScrollLock />
+              <ExpertiseSection />
+              <PricingSection />
+              <TestimonialsSection />
+              <BlogSection />
+              <CtaSection />
+            </>
+          )}
 
-        {activePage === 'team' && <TeamPage onNavigate={handleNavigate} />}
+          {activePage === 'team' && <TeamPage onNavigate={handleNavigate} />}
 
-        {activePage === 'products' && <ProductsPage onNavigate={handleNavigate} />}
-      </main>
-      <Footer onNavigate={handleNavigate} />
-    </div>
+          {activePage === 'products' && <ProductsPage onNavigate={handleNavigate} />}
+        </main>
+        <Footer onNavigate={handleNavigate} />
+      </div>
+    </SmoothScrollProvider>
   )
 }
 
 export default App
+
