@@ -35,7 +35,7 @@ export default function AboutSection() {
         background: '#ffffff',
       }}
     >
-      {/* Giant Ambient Background ASCII Earth / Moon - Pure Black ASCII spinning on white background */}
+      {/* Giant Ambient Background ASCII Earth - Color-Coordinated: Blue Oceans, Green Grass, Golden Deserts, White Ice */}
       <div
         style={{
           position: 'absolute',
@@ -44,11 +44,11 @@ export default function AboutSection() {
           transform: 'translateY(-50%)',
           zIndex: 1,
           pointerEvents: 'none',
-          opacity: 0.9,
+          opacity: 0.95,
           userSelect: 'none',
         }}
       >
-        <AsciiEarth size={48} speed={0.005} color="#000000" />
+        <AsciiEarth size={48} speed={0.005} />
       </div>
 
       <div className="padding-global" style={{ position: 'relative', zIndex: 5, width: '100%' }}>

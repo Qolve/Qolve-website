@@ -41,8 +41,8 @@ const WORLD_MAP = [
   "111111111111111111111111111111111111111111111111111111111111111111111111"  // 85°S - South Pole
 ]
 
-export default function AsciiEarth({ size = 44, speed = 0.005, color = '#000000' }) {
-  const [asciiFrame, setAsciiFrame] = useState('')
+export default function AsciiEarth({ size = 44, speed = 0.005 }) {
+  const [htmlFrame, setHtmlFrame] = useState('')
   const angleRef = useRef(0)
   const reqRef = useRef(null)
 
@@ -53,6 +53,7 @@ export default function AsciiEarth({ size = 44, speed = 0.005, color = '#000000'
     const mapW = WORLD_MAP[0].length
 
     const landChars = ' .:=+*#%@'
+    const oceanChars = ' ~-.:+~≈'
     const axialTilt = 0.41 // 23.5 degrees in radians
 
     const render = () => {
@@ -63,10 +64,25 @@ export default function AsciiEarth({ size = 44, speed = 0.005, color = '#000000'
       const cosTilt = Math.cos(axialTilt)
       const sinTilt = Math.sin(axialTilt)
 
-      let frame = ''
+      let frameHtml = ''
 
       for (let y = 0; y < height; y++) {
-        let line = ''
+        let currentSpanColor = null
+        let currentSpanText = ''
+        let lineHtml = ''
+
+        const push = (ch, col) => {
+          if (col !== currentSpanColor) {
+            if (currentSpanText) {
+              lineHtml += `<span style="color:${currentSpanColor}">${currentSpanText}</span>`
+            }
+            currentSpanColor = col
+            currentSpanText = ch
+          } else {
+            currentSpanText += ch
+          }
+        }
+
         const ny = (y - height / 2) / (height / 2)
 
         for (let x = 0; x < width; x++) {
@@ -96,30 +112,56 @@ export default function AsciiEarth({ size = 44, speed = 0.005, color = '#000000'
 
             const isLand = WORLD_MAP[mapY]?.[mapX] === '1'
 
+            // Directional sun illumination
             const light = (-0.35 * nx + 0.85 * nz - 0.3 * ny + 1.0) / 2.0
             const clampedLight = Math.max(0, Math.min(1, light))
 
             if (isLand) {
               const charIdx = Math.floor(clampedLight * (landChars.length - 1))
-              line += landChars[charIdx] || '#'
+              const ch = landChars[charIdx] || '#'
+
+              // Color classification:
+              // 1. Polar ice (Antarctica & Greenland North) -> Ice White
+              if (lat > 1.2 || lat < -1.1) {
+                push(ch, '#e0f2fe')
+              }
+              // 2. Desert / Sahara / Arabia -> Golden Sand
+              else if (lat > 0.25 && lat < 0.55 && lon > -0.25 && lon < 0.95) {
+                push(ch, '#eab308')
+              }
+              // 3. Australia Outback -> Ochre Sand
+              else if (lat > -0.55 && lat < -0.32 && lon > 2.0 && lon < 2.55) {
+                push(ch, '#f59e0b')
+              }
+              // 4. Lush Green Vegetation / Grassland
+              else {
+                push(ch, clampedLight > 0.4 ? '#16a34a' : '#15803d')
+              }
             } else {
-              const isGrid = Math.abs(lat) % (Math.PI / 6) < 0.05 || Math.abs(lon) % (Math.PI / 3) < 0.05
-              if (isGrid && clampedLight > 0.3) {
-                line += '+'
-              } else if (clampedLight > 0.5) {
-                line += '.'
+              // Ocean / Water -> Blue
+              const charIdx = Math.floor(clampedLight * (oceanChars.length - 1))
+              const ch = oceanChars[charIdx] || '~'
+
+              if (clampedLight > 0.65) {
+                push(ch, '#38bdf8') // Sunlit ocean shimmer
+              } else if (clampedLight > 0.35) {
+                push(ch, '#0284c7') // Mid ocean blue
               } else {
-                line += ' '
+                push(ch, '#0369a1') // Deep navy ocean
               }
             }
           } else {
-            line += ' '
+            push(' ', 'transparent')
           }
         }
-        frame += line + '\n'
+
+        if (currentSpanText) {
+          lineHtml += `<span style="color:${currentSpanColor}">${currentSpanText}</span>`
+        }
+        frameHtml += lineHtml + '\n'
       }
 
-      setAsciiFrame(frame)
+      setHtmlFrame(frameHtml)
       reqRef.current = requestAnimationFrame(render)
     }
 
@@ -137,17 +179,14 @@ export default function AsciiEarth({ size = 44, speed = 0.005, color = '#000000'
         fontFamily: 'Courier, "Courier New", monospace',
         fontSize: '0.92rem',
         lineHeight: '0.90rem',
-        fontWeight: 700,
-        color: color,
+        fontWeight: 800,
         letterSpacing: '0.035em',
         userSelect: 'none',
         pointerEvents: 'none',
-        textShadow: 'none',
         whiteSpace: 'pre',
         display: 'block',
       }}
-    >
-      {asciiFrame}
-    </pre>
+      dangerouslySetInnerHTML={{ __html: htmlFrame }}
+    />
   )
 }
