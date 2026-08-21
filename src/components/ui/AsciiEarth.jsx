@@ -143,14 +143,14 @@ export default function AsciiEarth({ size = 44, speed = 0.005, color = '#d6fd70'
         display: 'inline-block',
       }}
     >
-      {/* High-contrast ambient cosmic aura under sphere */}
+      {/* Tightened ambient contrast aura hugging the sphere */}
       <div
         style={{
           position: 'absolute',
-          inset: '-5%',
+          inset: '3%',
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(15, 15, 15, 0.88) 0%, rgba(15, 15, 15, 0.6) 45%, rgba(15, 15, 15, 0) 70%)',
-          filter: 'blur(25px)',
+          background: 'radial-gradient(circle, rgba(15, 15, 15, 0.8) 0%, rgba(15, 15, 15, 0.4) 40%, rgba(15, 15, 15, 0) 58%)',
+          filter: 'blur(8px)',
           zIndex: 0,
           pointerEvents: 'none',
         }}
@@ -168,7 +168,7 @@ export default function AsciiEarth({ size = 44, speed = 0.005, color = '#d6fd70'
           letterSpacing: '0.035em',
           userSelect: 'none',
           pointerEvents: 'none',
-          textShadow: '0 0 14px rgba(214, 253, 112, 0.9), 0 0 4px #d6fd70, 0 1px 2px rgba(0,0,0,0.8)',
+          textShadow: '0 0 5px rgba(214, 253, 112, 0.6), 0 1px 1.5px rgba(0,0,0,0.7)',
           whiteSpace: 'pre',
           display: 'block',
         }}
