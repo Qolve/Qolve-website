@@ -17,42 +17,56 @@ html {
 /* Ultra-wide & 4K UHD screens (2560px - 3840px+) */
 @media screen and (min-width: 2560px) {
   html {
-    font-size: clamp(19px, 0.82vw + 3px, 25px);
+    font-size: clamp(20px, 0.8vw + 4px, 26px);
   }
 }
 
 /* 2K QHD screens (1921px - 2559px) */
 @media screen and (min-width: 1921px) and (max-width: 2559px) {
   html {
-    font-size: clamp(16.5px, 0.78vw, 19.5px);
+    font-size: 18px;
   }
 }
 
 /* Standard Full HD 1080p screens (1600px - 1920px) */
 @media screen and (min-width: 1600px) and (max-width: 1920px) {
   html {
-    font-size: 15px;
+    font-size: 16px;
   }
 }
 
 /* Medium Desktop & MacBooks (1440px - 1599px) */
 @media screen and (min-width: 1440px) and (max-width: 1599px) {
   html {
-    font-size: 14.5px;
+    font-size: 15px;
   }
 }
 
-/* Standard Laptops (1280px - 1439px e.g. 1366x768) */
+/* Standard Laptops (1280px - 1439px e.g. 1366x768 / 1366x720) */
 @media screen and (min-width: 1280px) and (max-width: 1439px) {
   html {
-    font-size: 13.5px;
+    font-size: 14px;
   }
 }
 
 /* Small Laptops & Tablets Landscape (992px - 1279px) */
 @media screen and (min-width: 992px) and (max-width: 1279px) {
   html {
-    font-size: 12.75px;
+    font-size: 13px;
+  }
+}
+
+/* Short height screens (e.g. 720p / 768p displays) - ensure content fits comfortably */
+@media screen and (max-height: 820px) and (min-width: 992px) {
+  .padding-section-large {
+    padding-top: 3.25rem !important;
+    padding-bottom: 3.25rem !important;
+  }
+  .spacer-large {
+    height: 1.25rem !important;
+  }
+  .spacer-section-large {
+    height: 2rem !important;
   }
 }
 
@@ -772,25 +786,25 @@ p, .text-base {
 .about_layout {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
+  gap: clamp(0.65rem, 1.1vw, 1.15rem);
 }
 
 .card_about {
   background: #ffffff;
   border: 1px solid var(--border-light);
   border-radius: var(--radius-xl);
-  padding: 1.5rem;
+  padding: clamp(1.1rem, 1.4vw, 1.5rem);
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
-  min-height: 22rem;
+  gap: clamp(0.75rem, 1vw, 1.25rem);
+  min-height: clamp(18rem, 24vh, 22rem);
   overflow: hidden;
   position: relative;
 }
 
 .card_about .img {
   width: 100%;
-  height: 10rem;
+  height: clamp(7.5rem, 9.5vw, 10rem);
   object-fit: cover;
   border-radius: var(--radius-lg);
 }

@@ -58,7 +58,7 @@ export default function AboutSection() {
         className="ascii-earth-wrap"
         style={{
           position: 'absolute',
-          right: '-4vw',
+          right: '-8vw',
           top: '50%',
           transform: 'translateY(-50%)',
           zIndex: 1,
@@ -67,7 +67,7 @@ export default function AboutSection() {
         }}
       >
         <motion.div style={{ x: earthX, opacity: earthOpacity }}>
-          <AsciiEarth size={32} speed={0.005} />
+          <AsciiEarth size={40} speed={0.005} />
         </motion.div>
       </div>
 
