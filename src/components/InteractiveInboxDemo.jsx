@@ -58,7 +58,7 @@ export default function InteractiveInboxDemo() {
     setTimeout(() => {
       setReplyText(`Hi ${selectedTicket.sender.split('@')[0]},\n\nThank you for reaching out to Qolve Support. Our grounded AI system has analyzed your request regarding "${selectedTicket.subject}". We are verifying your configurations now and will confirm once live.`);
       setAiGenerating(false);
-    }, 500);
+    }, 450);
   };
 
   const handleSendReply = (e) => {
@@ -87,216 +87,248 @@ export default function InteractiveInboxDemo() {
             {/* Tag */}
             <div className="tag" data-anim>
               <div className="dot-square" />
-              <div>💧 Live Liquid Support Hub</div>
+              <div>macOS Glass Triage Console</div>
             </div>
 
             <div className="spacer-large" />
 
             <div className="max-width-medium is-41rem">
-              <h2 className="text-align-center" data-anim style={{ fontSize: 'clamp(2rem, 4.5vw, 3.25rem)', color: '#f8fafc', letterSpacing: '-0.02em', lineHeight: 1.15 }}>
-                Experience Fluid Customer Triage
+              <h2 className="text-align-center" data-anim style={{ fontSize: 'clamp(2rem, 4.5vw, 3.25rem)', color: '#ffffff', letterSpacing: '-0.03em', lineHeight: 1.15, fontWeight: 700 }}>
+                Calm, Intelligent Support Dispatch
               </h2>
             </div>
 
             <div className="spacer-medium" />
 
             <div className="max-width-medium">
-              <div className="text-base text-align-center" style={{ color: '#cbd5e1', fontSize: '1.0625rem' }} data-anim>
-                Interact with live AI auto-categorization, team dispatching, and grounded draft generation.
+              <div className="text-base text-align-center" style={{ color: '#94a3b8', fontSize: '1.0625rem' }} data-anim>
+                Experience automated ticket categorization, team dispatching, and grounded AI reply synthesis in a macOS-inspired liquid glass environment.
               </div>
             </div>
           </div>
 
           <div className="spacer-section-large" />
 
-          {/* Liquid Glass Interactive Shell */}
+          {/* macOS Liquid Glass Interactive Window */}
           <div
-            className="liquid-glass"
+            className="macos-glass"
             style={{
-              borderRadius: '2rem',
+              borderRadius: '1.5rem',
               overflow: 'hidden',
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-              boxShadow: '0 30px 80px rgba(0, 24, 12, 0.8), inset 0 1.5px 2px rgba(255, 255, 255, 0.65)',
+              boxShadow: '0 30px 60px -12px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.5)',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
             }}
           >
-            {/* Left Column: Tickets */}
-            <div style={{ borderRight: '1px solid rgba(255,255,255,0.14)', background: 'rgba(4, 20, 12, 0.65)', padding: '1.5rem', backdropFilter: 'blur(24px)' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem', paddingBottom: '0.85rem', borderBottom: '1px solid rgba(255,255,255,0.12)' }}>
-                <span style={{ fontSize: '0.875rem', fontWeight: 700, color: '#f8fafc', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <span>🌿</span> Inbound Mail Stream
-                </span>
-                <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#03150b', background: 'linear-gradient(135deg, #6ee7b7 0%, #10b981 100%)', padding: '0.25rem 0.65rem', borderRadius: '9999px', boxShadow: '0 0 12px rgba(52,211,153,0.4)' }}>
-                  {MOCK_TICKETS.length} Active
-                </span>
+            {/* macOS Window Titlebar */}
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                padding: '0.85rem 1.25rem',
+                borderBottom: '1px solid rgba(255, 255, 255, 0.12)',
+                background: 'rgba(255, 255, 255, 0.04)',
+                backdropFilter: 'blur(30px)',
+              }}
+            >
+              {/* Traffic Lights */}
+              <div className="macos-traffic-lights">
+                <div className="macos-dot is-red" />
+                <div className="macos-dot is-yellow" />
+                <div className="macos-dot is-green" />
               </div>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
-                {MOCK_TICKETS.map(ticket => (
-                  <button
-                    key={ticket.id}
-                    onClick={() => setSelectedTicket(ticket)}
-                    style={{
-                      textAlign: 'left',
-                      padding: '1.125rem',
-                      borderRadius: '1.25rem',
-                      background: selectedTicket.id === ticket.id 
-                        ? 'radial-gradient(120% 120% at 30% 0%, rgba(110,231,183,0.28) 0%, rgba(6,46,26,0.6) 100%)' 
-                        : 'rgba(255,255,255,0.04)',
-                      border: selectedTicket.id === ticket.id ? '1.5px solid rgba(110,231,183,0.7)' : '1px solid rgba(255,255,255,0.12)',
-                      boxShadow: selectedTicket.id === ticket.id ? '0 10px 25px rgba(0,25,12,0.5), inset 0 1px 1px rgba(255,255,255,0.5)' : 'none',
-                      cursor: 'pointer',
-                      transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
-                    }}
-                  >
-                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', color: '#6ee7b7', marginBottom: '0.35rem' }}>
-                      <span style={{ fontWeight: 700 }}>{ticket.id}</span>
-                      <span style={{ color: '#a7f3d0', opacity: 0.8 }}>{ticket.time}</span>
-                    </div>
-                    <div style={{ fontWeight: 700, color: '#f8fafc', fontSize: '0.9375rem', marginBottom: '0.35rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                      {ticket.subject}
-                    </div>
-                    <div style={{ fontSize: '0.8125rem', color: '#cbd5e1', marginBottom: '0.65rem' }}>
-                      {ticket.sender}
-                    </div>
-                    <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-                      <span style={{ fontSize: '0.7rem', fontWeight: 700, padding: '0.2rem 0.6rem', borderRadius: '9999px', background: ticket.priority === 'High' ? 'rgba(239,68,68,0.25)' : 'rgba(245,158,11,0.25)', color: ticket.priority === 'High' ? '#fca5a5' : '#fcd34d', border: `1px solid ${ticket.priority === 'High' ? 'rgba(239,68,68,0.5)' : 'rgba(245,158,11,0.5)'}` }}>
-                        {ticket.priority}
-                      </span>
-                      <span style={{ fontSize: '0.7rem', fontWeight: 600, padding: '0.2rem 0.6rem', borderRadius: '9999px', background: 'rgba(52,211,153,0.15)', color: '#6ee7b7', border: '1px solid rgba(52,211,153,0.3)' }}>
-                        {ticket.category}
-                      </span>
-                    </div>
-                  </button>
-                ))}
+              {/* Title */}
+              <div style={{ fontSize: '0.8125rem', fontWeight: 600, color: '#e2e8f0', letterSpacing: '-0.01em', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                <span>🌿</span>
+                <span>Quelp Support Workspace — Multi-Tenant Inbox</span>
+              </div>
+
+              {/* Status Indicator */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.75rem', color: '#34d399', fontWeight: 500 }}>
+                <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#34d399' }} />
+                <span>Live Relay</span>
               </div>
             </div>
 
-            {/* Right Column: Ticket Workspace */}
-            <div style={{ padding: '1.75rem', display: 'flex', flexDirection: 'column', gap: '1.25rem', background: 'rgba(3, 14, 8, 0.75)', backdropFilter: 'blur(28px)' }}>
-              {/* Header */}
-              <div style={{ paddingBottom: '1rem', borderBottom: '1px solid rgba(255,255,255,0.12)', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '0.75rem' }}>
-                <div>
-                  <div style={{ fontSize: '0.75rem', fontWeight: 600, color: '#34d399', marginBottom: '0.25rem' }}>
-                    {selectedTicket.id} • {selectedTicket.sender}
-                  </div>
-                  <h3 style={{ fontSize: '1.2rem', fontWeight: 700, color: '#f8fafc' }}>
-                    {selectedTicket.subject}
-                  </h3>
+            {/* Window Content Grid */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))' }}>
+              {/* Left Column: Tickets */}
+              <div style={{ borderRight: '1px solid rgba(255,255,255,0.12)', background: 'rgba(5, 16, 9, 0.5)', padding: '1.25rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', paddingBottom: '0.75rem', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+                  <span style={{ fontSize: '0.8125rem', fontWeight: 600, color: '#f8fafc' }}>
+                    Inbound Queue
+                  </span>
+                  <span style={{ fontSize: '0.6875rem', fontWeight: 600, color: '#34d399', background: 'rgba(52,211,153,0.12)', border: '1px solid rgba(52,211,153,0.3)', padding: '0.15rem 0.5rem', borderRadius: '9999px' }}>
+                    {MOCK_TICKETS.length} Active
+                  </span>
                 </div>
-                <div style={{ fontSize: '0.75rem', color: '#a7f3d0', background: 'rgba(52,211,153,0.12)', padding: '0.4rem 0.85rem', borderRadius: '9999px', border: '1px solid rgba(52,211,153,0.3)' }}>
-                  Assigned: <strong style={{ color: '#ffffff' }}>{selectedTicket.assignedTo}</strong>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
+                  {MOCK_TICKETS.map(ticket => (
+                    <button
+                      key={ticket.id}
+                      onClick={() => setSelectedTicket(ticket)}
+                      style={{
+                        textAlign: 'left',
+                        padding: '1rem',
+                        borderRadius: '1rem',
+                        background: selectedTicket.id === ticket.id 
+                          ? 'rgba(255, 255, 255, 0.1)' 
+                          : 'rgba(255, 255, 255, 0.025)',
+                        border: selectedTicket.id === ticket.id ? '1px solid rgba(255, 255, 255, 0.35)' : '1px solid rgba(255, 255, 255, 0.08)',
+                        boxShadow: selectedTicket.id === ticket.id ? '0 8px 20px -6px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.4)' : 'none',
+                        cursor: 'pointer',
+                        transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
+                      }}
+                    >
+                      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', color: '#34d399', marginBottom: '0.25rem' }}>
+                        <span style={{ fontWeight: 600 }}>{ticket.id}</span>
+                        <span style={{ color: '#94a3b8', fontWeight: 400 }}>{ticket.time}</span>
+                      </div>
+                      <div style={{ fontWeight: 600, color: '#f8fafc', fontSize: '0.875rem', marginBottom: '0.25rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        {ticket.subject}
+                      </div>
+                      <div style={{ fontSize: '0.78125rem', color: '#94a3b8', marginBottom: '0.5rem' }}>
+                        {ticket.sender}
+                      </div>
+                      <div style={{ display: 'flex', gap: '0.4rem', alignItems: 'center' }}>
+                        <span style={{ fontSize: '0.6875rem', fontWeight: 600, padding: '0.15rem 0.5rem', borderRadius: '9999px', background: ticket.priority === 'High' ? 'rgba(239,68,68,0.18)' : 'rgba(245,158,11,0.18)', color: ticket.priority === 'High' ? '#fca5a5' : '#fcd34d', border: `1px solid ${ticket.priority === 'High' ? 'rgba(239,68,68,0.4)' : 'rgba(245,158,11,0.4)'}` }}>
+                          {ticket.priority}
+                        </span>
+                        <span style={{ fontSize: '0.6875rem', fontWeight: 500, padding: '0.15rem 0.5rem', borderRadius: '9999px', background: 'rgba(255,255,255,0.06)', color: '#cbd5e1', border: '1px solid rgba(255,255,255,0.14)' }}>
+                          {ticket.category}
+                        </span>
+                      </div>
+                    </button>
+                  ))}
                 </div>
               </div>
 
-              {/* AI Auto-Triage Summary Card */}
-              <div style={{ padding: '1rem 1.25rem', borderRadius: '1.25rem', background: 'radial-gradient(120% 120% at 20% 0%, rgba(52,211,153,0.2) 0%, rgba(6,46,26,0.4) 100%)', border: '1px solid rgba(110,231,183,0.35)', boxShadow: '0 8px 20px rgba(0,25,12,0.4), inset 0 1px 1px rgba(255,255,255,0.4)' }}>
-                <div style={{ fontSize: '0.78125rem', fontWeight: 700, color: '#6ee7b7', marginBottom: '0.35rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <span>💧</span> Permafix AI Grounded Insight
-                </div>
-                <div style={{ fontSize: '0.875rem', color: '#f1f5f9', lineHeight: 1.55 }}>
-                  {selectedTicket.aiSummary}
-                </div>
-              </div>
-
-              {/* Thread Messages */}
-              <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.85rem', overflowY: 'auto', maxHeight: '240px', paddingRight: '0.5rem' }}>
-                {selectedTicket.messages.map((msg, idx) => (
-                  <div
-                    key={idx}
-                    style={{
-                      padding: '1rem',
-                      borderRadius: '1rem',
-                      background: msg.sender.includes('You') 
-                        ? 'radial-gradient(120% 120% at 30% 0%, rgba(16,185,129,0.25) 0%, rgba(6,40,24,0.4) 100%)' 
-                        : msg.sender.includes('AI') 
-                        ? 'rgba(56,189,248,0.12)' 
-                        : 'rgba(255,255,255,0.06)',
-                      border: msg.sender.includes('You') 
-                        ? '1px solid rgba(52,211,153,0.4)' 
-                        : msg.sender.includes('AI')
-                        ? '1px solid rgba(56,189,248,0.3)'
-                        : '1px solid rgba(255,255,255,0.12)',
-                      boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.3)',
-                    }}
-                  >
-                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', fontWeight: 700, color: '#f8fafc', marginBottom: '0.35rem' }}>
-                      <span>{msg.sender}</span>
-                      <span style={{ color: '#94a3b8', fontWeight: 400 }}>{msg.time}</span>
+              {/* Right Column: Ticket Workspace */}
+              <div style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem', background: 'rgba(4, 13, 8, 0.65)' }}>
+                {/* Header */}
+                <div style={{ paddingBottom: '0.85rem', borderBottom: '1px solid rgba(255,255,255,0.1)', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '0.75rem' }}>
+                  <div>
+                    <div style={{ fontSize: '0.75rem', fontWeight: 500, color: '#34d399', marginBottom: '0.2rem' }}>
+                      {selectedTicket.id} • {selectedTicket.sender}
                     </div>
-                    <div style={{ fontSize: '0.875rem', color: '#e2e8f0', lineHeight: 1.55 }}>
-                      {msg.body}
-                    </div>
+                    <h3 style={{ fontSize: '1.125rem', fontWeight: 600, color: '#ffffff', letterSpacing: '-0.02em' }}>
+                      {selectedTicket.subject}
+                    </h3>
                   </div>
-                ))}
+                  <div style={{ fontSize: '0.75rem', color: '#e2e8f0', background: 'rgba(255,255,255,0.08)', padding: '0.35rem 0.75rem', borderRadius: '9999px', border: '1px solid rgba(255,255,255,0.15)' }}>
+                    Assigned: <strong style={{ color: '#34d399' }}>{selectedTicket.assignedTo}</strong>
+                  </div>
+                </div>
+
+                {/* AI Auto-Triage Summary Card */}
+                <div style={{ padding: '0.85rem 1rem', borderRadius: '1rem', background: 'rgba(52,211,153,0.08)', border: '1px solid rgba(52,211,153,0.25)' }}>
+                  <div style={{ fontSize: '0.75rem', fontWeight: 600, color: '#34d399', marginBottom: '0.25rem', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                    <span>✨</span> Permafix AI Context Summary
+                  </div>
+                  <div style={{ fontSize: '0.8125rem', color: '#e2e8f0', lineHeight: 1.5 }}>
+                    {selectedTicket.aiSummary}
+                  </div>
+                </div>
+
+                {/* Thread Messages */}
+                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.75rem', overflowY: 'auto', maxHeight: '220px', paddingRight: '0.4rem' }}>
+                  {selectedTicket.messages.map((msg, idx) => (
+                    <div
+                      key={idx}
+                      style={{
+                        padding: '0.85rem 1rem',
+                        borderRadius: '0.875rem',
+                        background: msg.sender.includes('You') 
+                          ? 'rgba(52, 211, 153, 0.12)' 
+                          : msg.sender.includes('AI') 
+                          ? 'rgba(56, 189, 248, 0.08)' 
+                          : 'rgba(255, 255, 255, 0.04)',
+                        border: msg.sender.includes('You') 
+                          ? '1px solid rgba(52, 211, 153, 0.3)' 
+                          : msg.sender.includes('AI')
+                          ? '1px solid rgba(56, 189, 248, 0.2)'
+                          : '1px solid rgba(255, 255, 255, 0.1)',
+                      }}
+                    >
+                      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', fontWeight: 600, color: '#f8fafc', marginBottom: '0.25rem' }}>
+                        <span>{msg.sender}</span>
+                        <span style={{ color: '#64748b', fontWeight: 400 }}>{msg.time}</span>
+                      </div>
+                      <div style={{ fontSize: '0.8125rem', color: '#cbd5e1', lineHeight: 1.5 }}>
+                        {msg.body}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Reply Composer */}
+                <form onSubmit={handleSendReply} style={{ paddingTop: '0.85rem', borderTop: '1px solid rgba(255,255,255,0.1)', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ fontSize: '0.75rem', fontWeight: 500, color: '#94a3b8' }}>Agent Response</span>
+                    <button
+                      type="button"
+                      onClick={handleAiDraft}
+                      disabled={aiGenerating}
+                      style={{
+                        fontSize: '0.75rem',
+                        fontWeight: 600,
+                        color: '#ffffff',
+                        background: 'linear-gradient(180deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%)',
+                        border: '1px solid rgba(255,255,255,0.22)',
+                        padding: '0.35rem 0.85rem',
+                        borderRadius: '9999px',
+                        cursor: 'pointer',
+                        boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+                      }}
+                    >
+                      {aiGenerating ? 'Distilling Draft...' : '✨ Synthesize AI Reply'}
+                    </button>
+                  </div>
+
+                  <textarea
+                    rows={3}
+                    value={replyText}
+                    onChange={(e) => setReplyText(e.target.value)}
+                    placeholder="Compose support message or generate with AI..."
+                    style={{
+                      width: '100%',
+                      background: 'rgba(255, 255, 255, 0.04)',
+                      border: '1px solid rgba(255,255,255,0.15)',
+                      borderRadius: '0.75rem',
+                      padding: '0.75rem',
+                      color: '#f8fafc',
+                      fontSize: '0.8125rem',
+                      resize: 'none',
+                      outline: 'none',
+                      fontFamily: 'inherit',
+                    }}
+                  />
+
+                  <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <button
+                      type="submit"
+                      disabled={!replyText.trim()}
+                      className="button"
+                      style={{
+                        background: replyText.trim() 
+                          ? 'linear-gradient(180deg, rgba(52, 211, 153, 0.95) 0%, rgba(16, 185, 129, 0.9) 100%)' 
+                          : 'rgba(255,255,255,0.1)',
+                        color: '#021207',
+                        padding: '0.5rem 1.25rem',
+                        borderRadius: '9999px',
+                        fontWeight: 600,
+                        fontSize: '0.8125rem',
+                        border: '1px solid rgba(255,255,255,0.4)',
+                        cursor: replyText.trim() ? 'pointer' : 'not-allowed',
+                      }}
+                    >
+                      Dispatch Reply
+                    </button>
+                  </div>
+                </form>
               </div>
-
-              {/* Reply Composer */}
-              <form onSubmit={handleSendReply} style={{ paddingTop: '1rem', borderTop: '1px solid rgba(255,255,255,0.12)', display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontSize: '0.78125rem', fontWeight: 600, color: '#a7f3d0' }}>Liquid Support Composer</span>
-                  <button
-                    type="button"
-                    onClick={handleAiDraft}
-                    disabled={aiGenerating}
-                    style={{
-                      fontSize: '0.78125rem',
-                      fontWeight: 700,
-                      color: '#03150b',
-                      background: 'linear-gradient(135deg, #6ee7b7 0%, #10b981 100%)',
-                      border: '1px solid rgba(255,255,255,0.6)',
-                      padding: '0.45rem 0.95rem',
-                      borderRadius: '9999px',
-                      cursor: 'pointer',
-                      boxShadow: '0 4px 15px rgba(52,211,153,0.35), inset 0 1px 1px rgba(255,255,255,0.7)',
-                    }}
-                  >
-                    {aiGenerating ? '💧 Distilling Draft...' : '✨ Generate AI Response'}
-                  </button>
-                </div>
-
-                <textarea
-                  rows={3}
-                  value={replyText}
-                  onChange={(e) => setReplyText(e.target.value)}
-                  placeholder="Type support response or generate with AI..."
-                  style={{
-                    width: '100%',
-                    background: 'rgba(5, 22, 13, 0.75)',
-                    border: '1px solid rgba(255,255,255,0.2)',
-                    borderRadius: '1rem',
-                    padding: '0.85rem',
-                    color: '#f8fafc',
-                    fontSize: '0.875rem',
-                    resize: 'none',
-                    outline: 'none',
-                    boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.5)',
-                  }}
-                />
-
-                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                  <button
-                    type="submit"
-                    disabled={!replyText.trim()}
-                    className="button"
-                    style={{
-                      background: replyText.trim() 
-                        ? 'linear-gradient(135deg, #34d399 0%, #10b981 100%)' 
-                        : 'rgba(255,255,255,0.15)',
-                      color: '#03150b',
-                      padding: '0.65rem 1.5rem',
-                      borderRadius: '9999px',
-                      fontWeight: 700,
-                      fontSize: '0.875rem',
-                      border: '1px solid rgba(255,255,255,0.5)',
-                      cursor: replyText.trim() ? 'pointer' : 'not-allowed',
-                      boxShadow: replyText.trim() ? '0 10px 25px rgba(16,185,129,0.4)' : 'none',
-                    }}
-                  >
-                    Send Ticket Reply 🌿
-                  </button>
-                </div>
-              </form>
             </div>
           </div>
         </div>
@@ -304,5 +336,6 @@ export default function InteractiveInboxDemo() {
     </section>
   );
 }
+
 
 

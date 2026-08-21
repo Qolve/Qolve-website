@@ -5,7 +5,7 @@ export default function Navbar({ activePage, onNavigate }) {
   const [mobileOpen, setMobileOpen] = useState(false)
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20)
+    const handleScroll = () => setScrolled(window.scrollY > 15)
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
@@ -25,123 +25,189 @@ export default function Navbar({ activePage, onNavigate }) {
         top: 0,
         zIndex: 100,
         background: scrolled 
-          ? 'radial-gradient(120% 120% at 50% 0%, rgba(255,255,255,0.12) 0%, rgba(6, 26, 17, 0.85) 60%, rgba(3, 14, 8, 0.95) 100%)' 
-          : 'radial-gradient(120% 120% at 50% 0%, rgba(255,255,255,0.18) 0%, rgba(8, 32, 21, 0.65) 60%, rgba(4, 18, 11, 0.75) 100%)',
-        backdropFilter: 'blur(32px) saturate(210%)',
-        WebkitBackdropFilter: 'blur(32px) saturate(210%)',
-        borderBottom: '1px solid rgba(255,255,255,0.18)',
-        boxShadow: '0 15px 40px rgba(0,20,10,0.5), inset 0 1px 1.5px rgba(255,255,255,0.4)',
+          ? 'rgba(6, 17, 10, 0.8)' 
+          : 'rgba(6, 17, 10, 0.45)',
+        backdropFilter: 'blur(40px) saturate(190%) contrast(104%)',
+        WebkitBackdropFilter: 'blur(40px) saturate(190%) contrast(104%)',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.14)',
+        boxShadow: '0 8px 30px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25)',
         transition: 'all 0.3s ease',
+        padding: '0.75rem 0',
       }}
     >
       <div className="padding-global is-navbar">
         <div className="container-large">
-          <div className="navbar_content">
-            {/* Logo - Qolve Company & Liquid Ecosystem */}
+          <div className="navbar_content" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            {/* Logo - Qolve Minimalist macOS mark */}
             <button
               onClick={() => navTo('home')}
               style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', gap: '0.75rem' }}
             >
               <div style={{
-                width: '2.35rem',
-                height: '2.35rem',
-                borderRadius: '0.75rem',
-                background: 'radial-gradient(135deg, #6ee7b7 0%, #10b981 50%, #065f46 100%)',
-                border: '1.5px solid rgba(255,255,255,0.6)',
-                boxShadow: '0 0 20px rgba(52, 211, 153, 0.4), inset 0 1px 1px rgba(255,255,255,0.8)',
+                width: '2.1rem',
+                height: '2.1rem',
+                borderRadius: '0.625rem',
+                background: 'linear-gradient(180deg, rgba(52, 211, 153, 0.9) 0%, rgba(16, 185, 129, 0.8) 100%)',
+                border: '1px solid rgba(255, 255, 255, 0.5)',
+                boxShadow: '0 4px 14px rgba(16, 185, 129, 0.3), inset 0 1px 0.5px rgba(255, 255, 255, 0.8)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontWeight: 800,
-                color: '#03150b',
-                fontSize: '1.15rem'
+                fontWeight: 700,
+                color: '#021207',
+                fontSize: '1rem'
               }}>
                 🌿
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-                <span style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '1.3rem', fontWeight: 800, color: '#f8fafc', letterSpacing: '-0.02em', lineHeight: 1.1 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <span style={{ fontSize: '1.2rem', fontWeight: 700, color: '#ffffff', letterSpacing: '-0.03em' }}>
                   qolve
                 </span>
-                <span style={{ fontSize: '0.6875rem', fontWeight: 700, color: '#34d399', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
-                  Liquid Eco Systems
+                <span style={{ fontSize: '0.6875rem', fontWeight: 500, color: '#34d399', background: 'rgba(52, 211, 153, 0.12)', padding: '0.15rem 0.45rem', borderRadius: '9999px', border: '1px solid rgba(52, 211, 153, 0.25)' }}>
+                  quelp
                 </span>
               </div>
             </button>
 
-            {/* Desktop nav links */}
-            <div className="nav_wrap">
-              <nav className="nav_mobile">
-                <div className="navbar_list" style={{ gap: '1.75rem' }}>
-                  <button
-                    onClick={() => navTo('home')}
-                    className="nav_links"
-                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: activePage === 'home' ? '#34d399' : '#f8fafc', fontWeight: 600, transition: 'color 0.2s' }}
-                  >
-                    Home
-                  </button>
-                  <button
-                    onClick={() => navTo('products')}
-                    className="nav_links"
-                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: activePage === 'products' ? '#34d399' : '#cbd5e1', fontWeight: 600, transition: 'color 0.2s' }}
-                  >
-                    Quelp Platform
-                  </button>
-                  <button
-                    onClick={() => navTo('home', 'roadmap')}
-                    className="nav_links"
-                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#cbd5e1', fontWeight: 600, transition: 'color 0.2s' }}
-                  >
-                    Architecture
-                  </button>
-                  <button
-                    onClick={() => navTo('team')}
-                    className="nav_links"
-                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: activePage === 'team' ? '#34d399' : '#cbd5e1', fontWeight: 600, transition: 'color 0.2s' }}
-                  >
-                    Qolve Team
-                  </button>
-                  <button
-                    onClick={() => navTo('home', 'about')}
-                    className="nav_links"
-                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#cbd5e1', fontWeight: 600, transition: 'color 0.2s' }}
-                  >
-                    About Qolve
-                  </button>
-                  <button
-                    onClick={() => navTo('home', 'pricing')}
-                    className="nav_links"
-                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#cbd5e1', fontWeight: 600, transition: 'color 0.2s' }}
-                  >
-                    Pricing
-                  </button>
-                </div>
-              </nav>
-            </div>
-
-            {/* Right buttons */}
-            <div className="nav_buttons-wrap">
-              <div className="login-wrap">
+            {/* Desktop macOS Segmented Navigation pill */}
+            <div className="nav_wrap" style={{ display: 'flex', alignItems: 'center' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.35rem',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  padding: '0.3rem 0.4rem',
+                  borderRadius: '9999px',
+                  border: '1px solid rgba(255, 255, 255, 0.12)',
+                  backdropFilter: 'blur(20px)',
+                }}
+              >
                 <button
-                  onClick={() => navTo('products')}
-                  className="button"
+                  onClick={() => navTo('home')}
                   style={{
-                    padding: '0.625rem 1.35rem',
-                    fontSize: '0.875rem',
-                    background: 'linear-gradient(135deg, #6ee7b7 0%, #10b981 100%)',
-                    color: '#03150b',
-                    border: '1px solid rgba(255,255,255,0.6)',
+                    background: activePage === 'home' ? 'rgba(255, 255, 255, 0.12)' : 'transparent',
+                    border: 'none',
                     borderRadius: '9999px',
-                    fontWeight: 700,
+                    padding: '0.35rem 0.9rem',
                     cursor: 'pointer',
-                    boxShadow: '0 8px 25px rgba(16, 185, 129, 0.4), inset 0 1.5px 2px rgba(255,255,255,0.8)',
-                    transition: 'all 0.25s',
+                    color: activePage === 'home' ? '#ffffff' : '#94a3b8',
+                    fontWeight: 500,
+                    fontSize: '0.8125rem',
+                    letterSpacing: '-0.01em',
+                    transition: 'all 0.2s ease',
                   }}
                 >
-                  <div className="text-button-wrap">
-                    <div>Explore Quelp</div>
-                  </div>
+                  Home
+                </button>
+                <button
+                  onClick={() => navTo('products')}
+                  style={{
+                    background: activePage === 'products' ? 'rgba(255, 255, 255, 0.12)' : 'transparent',
+                    border: 'none',
+                    borderRadius: '9999px',
+                    padding: '0.35rem 0.9rem',
+                    cursor: 'pointer',
+                    color: activePage === 'products' ? '#ffffff' : '#94a3b8',
+                    fontWeight: 500,
+                    fontSize: '0.8125rem',
+                    letterSpacing: '-0.01em',
+                    transition: 'all 0.2s ease',
+                  }}
+                >
+                  Platform
+                </button>
+                <button
+                  onClick={() => navTo('home', 'roadmap')}
+                  style={{
+                    background: 'transparent',
+                    border: 'none',
+                    borderRadius: '9999px',
+                    padding: '0.35rem 0.9rem',
+                    cursor: 'pointer',
+                    color: '#94a3b8',
+                    fontWeight: 500,
+                    fontSize: '0.8125rem',
+                    letterSpacing: '-0.01em',
+                    transition: 'all 0.2s ease',
+                  }}
+                >
+                  Architecture
+                </button>
+                <button
+                  onClick={() => navTo('team')}
+                  style={{
+                    background: activePage === 'team' ? 'rgba(255, 255, 255, 0.12)' : 'transparent',
+                    border: 'none',
+                    borderRadius: '9999px',
+                    padding: '0.35rem 0.9rem',
+                    cursor: 'pointer',
+                    color: activePage === 'team' ? '#ffffff' : '#94a3b8',
+                    fontWeight: 500,
+                    fontSize: '0.8125rem',
+                    letterSpacing: '-0.01em',
+                    transition: 'all 0.2s ease',
+                  }}
+                >
+                  Team
+                </button>
+                <button
+                  onClick={() => navTo('home', 'about')}
+                  style={{
+                    background: 'transparent',
+                    border: 'none',
+                    borderRadius: '9999px',
+                    padding: '0.35rem 0.9rem',
+                    cursor: 'pointer',
+                    color: '#94a3b8',
+                    fontWeight: 500,
+                    fontSize: '0.8125rem',
+                    letterSpacing: '-0.01em',
+                    transition: 'all 0.2s ease',
+                  }}
+                >
+                  About
+                </button>
+                <button
+                  onClick={() => navTo('home', 'pricing')}
+                  style={{
+                    background: 'transparent',
+                    border: 'none',
+                    borderRadius: '9999px',
+                    padding: '0.35rem 0.9rem',
+                    cursor: 'pointer',
+                    color: '#94a3b8',
+                    fontWeight: 500,
+                    fontSize: '0.8125rem',
+                    letterSpacing: '-0.01em',
+                    transition: 'all 0.2s ease',
+                  }}
+                >
+                  Pricing
                 </button>
               </div>
+            </div>
+
+            {/* Right macOS Glass Action button & Mobile Toggle */}
+            <div className="nav_buttons-wrap" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <button
+                onClick={() => navTo('products')}
+                className="button"
+                style={{
+                  padding: '0.5rem 1.15rem',
+                  fontSize: '0.8125rem',
+                  background: 'linear-gradient(180deg, rgba(52, 211, 153, 0.95) 0%, rgba(16, 185, 129, 0.9) 100%)',
+                  color: '#021207',
+                  border: '1px solid rgba(255,255,255,0.45)',
+                  borderRadius: '9999px',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  boxShadow: '0 6px 18px rgba(16, 185, 129, 0.3), inset 0 1px 0.5px rgba(255,255,255,0.8)',
+                  transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
+                }}
+              >
+                Deploy Quelp
+              </button>
 
               {/* Hamburger (mobile) */}
               <button
@@ -200,5 +266,6 @@ export default function Navbar({ activePage, onNavigate }) {
     </nav>
   )
 }
+
 
 
