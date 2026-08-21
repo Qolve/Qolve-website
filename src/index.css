@@ -2624,16 +2624,16 @@ p, .text-base {
   width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block;
 }
 
-/* ==================== macOS LIQUID GLASS & ECO MINIMALISM ==================== */
+/* ==================== APPLE MINIMALISM: DARK OAK, FERNS & macOS LIQUID GLASS ==================== */
 
-/* Page Background & Serene Biophilic Atmosphere */
+/* Page Background & Dark Oak Canopy Atmosphere */
 .page-wrapper {
   background: 
-    radial-gradient(circle at 50% 0%, rgba(52, 211, 153, 0.12) 0%, transparent 60%),
-    radial-gradient(circle at 85% 20%, rgba(16, 185, 129, 0.08) 0%, transparent 50%),
-    radial-gradient(circle at 15% 70%, rgba(52, 211, 153, 0.07) 0%, transparent 50%),
-    linear-gradient(180deg, #06110a 0%, #0a1b12 25%, #07140d 60%, #040d07 100%);
-  color: #f8fafc;
+    radial-gradient(circle at 50% 0%, rgba(16, 50, 30, 0.2) 0%, transparent 60%),
+    radial-gradient(circle at 80% 25%, rgba(6, 30, 18, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 20% 75%, rgba(10, 35, 22, 0.12) 0%, transparent 50%),
+    linear-gradient(180deg, #020704 0%, #051209 25%, #040e07 60%, #020603 100%);
+  color: #f1f5f9;
   min-height: 100vh;
   position: relative;
   overflow-x: hidden;
@@ -2641,28 +2641,28 @@ p, .text-base {
   letter-spacing: -0.015em;
 }
 
-/* macOS Liquid Glass Surfaces: Ultra-Clear, Refractive, Precision-Beveled */
+/* macOS Liquid Glass Accent: Clean, Minimalist, Precision-Machined */
 .liquid-glass,
 .macos-glass,
 .eco-glass-card,
 .card_about,
 .service_card,
 .expertise_card {
-  background: rgba(255, 255, 255, 0.04) !important;
-  backdrop-filter: blur(40px) saturate(190%) contrast(104%) brightness(106%) !important;
-  -webkit-backdrop-filter: blur(40px) saturate(190%) contrast(104%) brightness(106%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  background: rgba(255, 255, 255, 0.025) !important;
+  backdrop-filter: blur(40px) saturate(180%) contrast(105%) brightness(104%) !important;
+  -webkit-backdrop-filter: blur(40px) saturate(180%) contrast(105%) brightness(104%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
   box-shadow: 
-    0 24px 48px -12px rgba(0, 0, 0, 0.5),
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.5),
-    inset 0 -1px 0 0 rgba(0, 0, 0, 0.3) !important;
-  border-radius: 1.5rem !important;
+    0 20px 40px -10px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.35),
+    inset 0 -1px 0 0 rgba(0, 0, 0, 0.4) !important;
+  border-radius: 1.25rem !important;
   position: relative !important;
   overflow: hidden !important;
   transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
-/* macOS Glass Top Specular Bevel */
+/* macOS Glass Top Specular Accent */
 .liquid-glass::before,
 .macos-glass::before,
 .eco-glass-card::before,
@@ -2674,9 +2674,9 @@ p, .text-base {
   top: 0;
   left: 0;
   right: 0;
-  height: 35%;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.02) 60%, transparent 100%);
-  border-radius: 1.5rem 1.5rem 0 0;
+  height: 30%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.01) 60%, transparent 100%);
+  border-radius: 1.25rem 1.25rem 0 0;
   pointer-events: none;
   z-index: 1;
 }
@@ -2688,80 +2688,76 @@ p, .text-base {
 .card_about:hover,
 .service_card:hover,
 .expertise_card:hover {
-  background: rgba(255, 255, 255, 0.065) !important;
-  border-color: rgba(255, 255, 255, 0.3) !important;
+  background: rgba(255, 255, 255, 0.045) !important;
+  border-color: rgba(255, 255, 255, 0.22) !important;
   box-shadow: 
-    0 32px 64px -12px rgba(0, 0, 0, 0.6),
-    0 0 30px rgba(52, 211, 153, 0.15),
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.7),
-    inset 0 -1px 0 0 rgba(0, 0, 0, 0.4) !important;
-  transform: translateY(-3px) !important;
+    0 28px 56px -12px rgba(0, 0, 0, 0.7),
+    0 0 25px rgba(16, 185, 129, 0.08),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.5),
+    inset 0 -1px 0 0 rgba(0, 0, 0, 0.5) !important;
+  transform: translateY(-2px) !important;
 }
 
-/* macOS Glass Variant Tints */
+/* Card Tints: Dark Forest, Obsidian, & Subtle Glass */
 .card_about.bg-green,
 .liquid-glass.is-emerald {
-  background: radial-gradient(140% 140% at 30% 0%, rgba(52, 211, 153, 0.18) 0%, rgba(16, 185, 129, 0.08) 50%, rgba(4, 25, 15, 0.4) 100%) !important;
-  border-color: rgba(110, 231, 183, 0.35) !important;
-  box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.5), 0 0 25px rgba(52, 211, 153, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
+  background: radial-gradient(140% 140% at 30% 0%, rgba(16, 50, 30, 0.35) 0%, rgba(8, 28, 16, 0.5) 50%, rgba(2, 10, 5, 0.7) 100%) !important;
+  border-color: rgba(52, 211, 153, 0.25) !important;
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
 }
 
 .card_about.bg-black,
 .liquid-glass.is-deep {
-  background: rgba(2, 12, 7, 0.6) !important;
-  border-color: rgba(255, 255, 255, 0.14) !important;
+  background: rgba(2, 8, 4, 0.7) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
 }
 
 .card_about.bg-subtle,
 .liquid-glass.is-subtle {
-  background: rgba(255, 255, 255, 0.035) !important;
-  border-color: rgba(255, 255, 255, 0.15) !important;
+  background: rgba(255, 255, 255, 0.02) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
 }
 
-/* macOS Floating Island Capsule Navigation */
+/* Floating Navigation */
 .navbar {
-  background: rgba(6, 17, 10, 0.65) !important;
-  backdrop-filter: blur(48px) saturate(190%) brightness(105%) !important;
-  -webkit-backdrop-filter: blur(48px) saturate(190%) brightness(105%) !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.14) !important;
-  box-shadow: 
-    0 12px 32px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+  background: rgba(3, 9, 5, 0.75) !important;
+  backdrop-filter: blur(40px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(40px) saturate(180%) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4) !important;
 }
 
-/* macOS Status Capsule Badges */
+/* Status Badges */
 .tag {
-  background: rgba(255, 255, 255, 0.06) !important;
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
-  backdrop-filter: blur(24px) !important;
-  -webkit-backdrop-filter: blur(24px) !important;
-  color: #a7f3d0 !important;
-  font-weight: 600;
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  color: #cbd5e1 !important;
+  font-weight: 500;
   font-size: 0.8125rem;
   border-radius: 9999px !important;
-  box-shadow: 
-    0 4px 12px rgba(0, 0, 0, 0.25),
-    inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
 }
 
 .dot-square {
   background-color: #34d399 !important;
   border-radius: 50% !important;
-  box-shadow: 0 0 8px #34d399;
+  box-shadow: 0 0 6px rgba(52, 211, 153, 0.8);
 }
 
-/* macOS Liquid Glass Action Buttons */
+/* Minimalist Liquid Glass Action Buttons */
 .button,
 .button-arrow {
-  background: linear-gradient(180deg, rgba(52, 211, 153, 0.95) 0%, rgba(16, 185, 129, 0.9) 100%) !important;
-  backdrop-filter: blur(24px) !important;
-  -webkit-backdrop-filter: blur(24px) !important;
-  color: #021207 !important;
-  border: 1px solid rgba(255, 255, 255, 0.45) !important;
+  background: linear-gradient(180deg, rgba(52, 211, 153, 0.9) 0%, rgba(16, 185, 129, 0.85) 100%) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  color: #020f06 !important;
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
   border-radius: 9999px !important;
   box-shadow: 
-    0 8px 24px rgba(16, 185, 129, 0.35),
-    inset 0 1px 1px rgba(255, 255, 255, 0.75),
+    0 6px 18px rgba(0, 0, 0, 0.4),
+    inset 0 1px 1px rgba(255, 255, 255, 0.6),
     inset 0 -1px 1px rgba(0, 0, 0, 0.2) !important;
   font-weight: 600 !important;
   font-size: 0.875rem !important;
@@ -2773,37 +2769,34 @@ p, .text-base {
 .button-arrow:hover {
   background: linear-gradient(180deg, #6ee7b7 0%, #34d399 100%) !important;
   box-shadow: 
-    0 12px 30px rgba(52, 211, 153, 0.45),
-    inset 0 1px 1px rgba(255, 255, 255, 0.9) !important;
-  transform: translateY(-1px) scale(1.01) !important;
+    0 8px 24px rgba(16, 185, 129, 0.35),
+    inset 0 1px 1px rgba(255, 255, 255, 0.8) !important;
+  transform: translateY(-1px) !important;
 }
 
 .button[data-variant="bg-black"],
 .button-arrow.is-black {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.04) 100%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
-  color: #f8fafc !important;
-  box-shadow: 
-    0 6px 18px rgba(0, 0, 0, 0.35),
-    inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  color: #f1f5f9 !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
 }
 
 .button[data-variant="bg-black"]:hover,
 .button-arrow.is-black:hover {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.07) 100%) !important;
-  border-color: rgba(255, 255, 255, 0.35) !important;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.04) 100%) !important;
+  border-color: rgba(255, 255, 255, 0.22) !important;
   color: #ffffff !important;
 }
 
 .button_container-arrow.is-black {
-  background: rgba(255, 255, 255, 0.15) !important;
-  border: 1px solid rgba(255, 255, 255, 0.25) !important;
-  color: #f8fafc !important;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  color: #f1f5f9 !important;
 }
 
 .button_container-arrow.is-black svg path {
-  fill: #f8fafc !important;
+  fill: #f1f5f9 !important;
 }
 
 /* macOS Window Traffic Lights */
@@ -2855,12 +2848,13 @@ p, .text-base {
 
 /* Footer Liquid Glass */
 .footer {
-  background: rgba(3, 12, 7, 0.8) !important;
-  backdrop-filter: blur(48px) saturate(190%) !important;
-  -webkit-backdrop-filter: blur(48px) saturate(190%) !important;
-  border-top: 1px solid rgba(255, 255, 255, 0.12) !important;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+  background: rgba(2, 6, 3, 0.9) !important;
+  backdrop-filter: blur(40px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(40px) saturate(180%) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
 }
+
 
 
 

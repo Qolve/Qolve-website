@@ -1,16 +1,16 @@
 import { useState, useRef, useEffect } from 'react'
 
-// macOS Liquid Glass & Botanical imagery curated for the 3D carousel
+// Curated Dark Forest, Dark Oak & Ferns imagery with macOS glass accents
 const CAROUSEL_IMAGES = [
+  '/images/dark-oak-ferns-hero.jpg',
+  '/images/dark-oak-ferns-glass.jpg',
   '/images/macos-liquid-glass-hero.jpg',
   '/images/macos-glass-pane.jpg',
   '/images/liquid-glass-dewdrop.jpg',
   '/images/eco-card-1.jpg',
   '/images/eco-card-2.jpg',
-  '/images/eco-card-3.jpg',
   '/images/helpdesk_inbox_ui_1784657456203.jpg',
   '/images/permafix_ai_ui_1784657484270.jpg',
-  '/images/whitelabel_branding_ui_1784657470405.jpg',
 ]
 
 function MerryGoRound() {
@@ -34,7 +34,7 @@ function MerryGoRound() {
     let animId
     const autoRotate = () => {
       if (!isDraggingRef.current && !isHoveredRef.current) {
-        setRotationY((prev) => (prev + 0.05) % 360)
+        setRotationY((prev) => (prev + 0.045) % 360)
       }
       animId = requestAnimationFrame(autoRotate)
     }
@@ -139,13 +139,13 @@ function MerryGoRound() {
                 top: 0,
                 transformStyle: 'preserve-3d',
                 transform: `rotateY(${itemAngle}deg) translateZ(${radius}px)`,
-                borderRadius: '1.25rem',
+                borderRadius: '1rem',
                 overflow: 'hidden',
-                background: 'rgba(255, 255, 255, 0.04)',
-                backdropFilter: 'blur(30px) saturate(180%)',
-                WebkitBackdropFilter: 'blur(30px) saturate(180%)',
-                border: '1px solid rgba(255, 255, 255, 0.22)',
-                boxShadow: '0 20px 40px -10px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.5)',
+                background: 'rgba(2, 8, 4, 0.6)',
+                backdropFilter: 'blur(30px)',
+                WebkitBackdropFilter: 'blur(30px)',
+                border: '1px solid rgba(255, 255, 255, 0.15)',
+                boxShadow: '0 20px 40px -10px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.4)',
                 backfaceVisibility: 'hidden',
                 WebkitBackfaceVisibility: 'hidden',
                 isolation: 'isolate',
@@ -165,7 +165,7 @@ function MerryGoRound() {
                   userSelect: 'none',
                   WebkitUserSelect: 'none',
                   WebkitUserDrag: 'none',
-                  borderRadius: '1.25rem',
+                  borderRadius: '1rem',
                 }}
               />
               {/* macOS subtle glass reflection */}
@@ -173,9 +173,9 @@ function MerryGoRound() {
                 style={{
                   position: 'absolute',
                   inset: 0,
-                  background: 'linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.02) 50%, transparent 100%)',
+                  background: 'linear-gradient(180deg, rgba(255,255,255,0.14) 0%, transparent 60%)',
                   pointerEvents: 'none',
-                  borderRadius: '1.25rem',
+                  borderRadius: '1rem',
                 }}
               />
             </div>
@@ -192,15 +192,15 @@ function MerryGoRound() {
           alignItems: 'center',
           justifyContent: 'center',
           gap: '0.5rem',
-          color: '#94a3b8',
+          color: '#64748b',
           fontSize: '0.8125rem',
           fontWeight: 500,
           letterSpacing: '-0.01em',
         }}
       >
-        <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: 'rgba(255,255,255,0.05)', padding: '0.35rem 0.85rem', borderRadius: '9999px', border: '1px solid rgba(255,255,255,0.12)' }}>
-          <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#34d399' }} />
-          {hasDragged ? 'Orbiting macOS glass stage' : 'Drag to rotate liquid glass carousel'}
+        <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: 'rgba(255,255,255,0.03)', padding: '0.35rem 0.85rem', borderRadius: '9999px', border: '1px solid rgba(255,255,255,0.08)' }}>
+          <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10b981' }} />
+          {hasDragged ? 'Orbiting forest stage' : 'Drag to rotate stage'}
         </span>
       </div>
     </div>
@@ -209,10 +209,10 @@ function MerryGoRound() {
 
 export default function HeroSection({ onNavigate }) {
   return (
-    <section className="section_hero" id="home" style={{ position: 'relative', overflow: 'hidden', minHeight: '92vh', paddingTop: '4rem' }}>
-      {/* Serene macOS Eco Liquid Glass Hero Backdrop */}
+    <section className="section_hero" id="home" style={{ position: 'relative', overflow: 'hidden', minHeight: '92vh', paddingTop: '4.5rem' }}>
+      {/* Moody Dark Oak, Ferns & Water Lillies Backdrop */}
       <img
-        src="/images/macos-liquid-glass-hero.jpg"
+        src="/images/dark-oak-ferns-hero.jpg"
         loading="lazy"
         alt=""
         className="img is-hero"
@@ -224,18 +224,18 @@ export default function HeroSection({ onNavigate }) {
           height: '100%',
           objectFit: 'cover',
           zIndex: 1,
-          opacity: 0.45,
+          opacity: 0.38,
           pointerEvents: 'none',
-          filter: 'saturate(1.1) brightness(0.9)',
+          filter: 'contrast(1.05) brightness(0.85)',
         }}
       />
 
-      {/* Clean atmospheric gradient overlay */}
+      {/* Dark atmospheric forest gradient vignette */}
       <div
         style={{
           position: 'absolute',
           inset: 0,
-          background: 'radial-gradient(ellipse at 50% 25%, rgba(6, 17, 10, 0.4) 0%, rgba(5, 14, 8, 0.85) 70%, #040d07 100%)',
+          background: 'radial-gradient(ellipse at 50% 20%, rgba(2, 10, 5, 0.4) 0%, rgba(2, 7, 4, 0.9) 70%, #020603 100%)',
           zIndex: 2,
           pointerEvents: 'none',
         }}
@@ -245,39 +245,39 @@ export default function HeroSection({ onNavigate }) {
       <div className="hero_wrap" style={{ position: 'relative', zIndex: 5 }}>
         <div className="padding-global is-hero" style={{ width: '100%' }}>
           <div className="vertical-center">
-            {/* macOS Liquid Glass Capsule Badge */}
+            {/* macOS Glass Capsule Badge */}
             <div
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '0.625rem',
-                padding: '0.4rem 1rem',
+                padding: '0.35rem 0.9rem',
                 borderRadius: '9999px',
-                background: 'rgba(255, 255, 255, 0.05)',
-                border: '1px solid rgba(255, 255, 255, 0.18)',
-                backdropFilter: 'blur(30px) saturate(180%)',
-                WebkitBackdropFilter: 'blur(30px) saturate(180%)',
-                color: '#e2e8f0',
+                background: 'rgba(255, 255, 255, 0.04)',
+                border: '1px solid rgba(255, 255, 255, 0.12)',
+                backdropFilter: 'blur(30px)',
+                WebkitBackdropFilter: 'blur(30px)',
+                color: '#cbd5e1',
                 fontSize: '0.8125rem',
                 fontWeight: 500,
                 letterSpacing: '-0.01em',
-                marginBottom: '1.5rem',
-                boxShadow: '0 8px 24px -6px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255,255,255,0.4)',
+                marginBottom: '1.75rem',
+                boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.25)',
               }}
             >
-              <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#34d399', boxShadow: '0 0 8px #34d399' }} />
-              <span>macOS Liquid Glass • Eco Minimalist Platform</span>
+              <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#34d399', boxShadow: '0 0 6px rgba(52,211,153,0.8)' }} />
+              <span>Dark Oak &amp; Ferns • macOS Glass Architecture</span>
             </div>
 
-            <h1 className="text-align-center" style={{ fontSize: 'clamp(2.5rem, 5.5vw, 4.5rem)', letterSpacing: '-0.035em', lineHeight: 1.08, color: '#ffffff', fontWeight: 700 }}>
-              The calm, white-label <br />
+            <h1 className="text-align-center" style={{ fontSize: 'clamp(2.5rem, 5.5vw, 4.5rem)', letterSpacing: '-0.035em', lineHeight: 1.06, color: '#ffffff', fontWeight: 700 }}>
+              The quiet, white-label <br />
               <span style={{
                 background: 'linear-gradient(180deg, #ffffff 0%, #cbd5e1 50%, #94a3b8 100%)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 display: 'inline-block'
               }}>
-                support ecosystem for modern teams
+                support platform for growing teams
               </span>
             </h1>
 
@@ -285,7 +285,7 @@ export default function HeroSection({ onNavigate }) {
 
             <div className="max-width-medium" style={{ maxWidth: '42rem' }}>
               <div className="text-base text-align-center" style={{ color: '#94a3b8', fontSize: '1.125rem', lineHeight: 1.6, fontWeight: 400 }}>
-                Quelp pairs crystal optical clarity with organic support infrastructure. Unified omnichannel inboxes, self-healing AI, and custom domain white-labeling built with pure minimalism.
+                Quelp unifies mail relay, real-time inboxes, and self-service knowledge in an organic, deeply reliable ecosystem engineered with Apple-level minimalism.
               </div>
             </div>
 
@@ -296,10 +296,10 @@ export default function HeroSection({ onNavigate }) {
                 onClick={() => onNavigate && onNavigate('products')}
                 className="button"
                 style={{
-                  background: 'linear-gradient(180deg, rgba(52, 211, 153, 0.95) 0%, rgba(16, 185, 129, 0.9) 100%)',
-                  color: '#021207',
-                  border: '1px solid rgba(255, 255, 255, 0.45)',
-                  padding: '0.8rem 1.75rem',
+                  background: 'linear-gradient(180deg, rgba(52, 211, 153, 0.9) 0%, rgba(16, 185, 129, 0.85) 100%)',
+                  color: '#020f06',
+                  border: '1px solid rgba(255, 255, 255, 0.35)',
+                  padding: '0.75rem 1.65rem',
                   borderRadius: '9999px',
                   fontWeight: 600,
                   fontSize: '0.9375rem',
@@ -307,7 +307,7 @@ export default function HeroSection({ onNavigate }) {
                   alignItems: 'center',
                   gap: '0.5rem',
                   cursor: 'pointer',
-                  boxShadow: '0 8px 24px rgba(16, 185, 129, 0.35), inset 0 1px 1px rgba(255,255,255,0.7)',
+                  boxShadow: '0 6px 18px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255,255,255,0.6)',
                   backdropFilter: 'blur(20px)',
                   transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
                 }}
@@ -319,18 +319,18 @@ export default function HeroSection({ onNavigate }) {
                 onClick={() => onNavigate && onNavigate('home', 'roadmap')}
                 className="button-arrow is-black"
                 style={{
-                  background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.04) 100%)',
-                  border: '1px solid rgba(255, 255, 255, 0.2)',
+                  background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%)',
+                  border: '1px solid rgba(255, 255, 255, 0.12)',
                   padding: '0.45rem 0.5rem 0.45rem 1.35rem',
                   borderRadius: '9999px',
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '0.75rem',
                   cursor: 'pointer',
-                  boxShadow: '0 6px 18px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.4)',
+                  boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.25)',
                 }}
               >
-                <span style={{ color: '#f8fafc', fontWeight: 500, fontSize: '0.9375rem' }}>
+                <span style={{ color: '#f1f5f9', fontWeight: 500, fontSize: '0.9375rem' }}>
                   Architecture
                 </span>
                 <div
@@ -345,7 +345,7 @@ export default function HeroSection({ onNavigate }) {
                   }}
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 20 20" fill="none">
-                    <path d="M13.0457 8.13128L5.8733 15.3037L4.69479 14.1252L11.8672 6.95277L5.54568 6.95277L5.54568 5.28636H14.7121V14.4528L13.0457 14.4528V8.13128Z" fill="#ffffff" />
+                    <path d="M13.0457 8.13128L5.8733 15.3037L4.69479 14.1252L11.8672 6.95277L5.54568 6.95277L5.54568 5.28636H14.7121V14.4528L13.0457 14.4528V8.13128Z" fill="#f1f5f9" />
                   </svg>
                 </div>
               </button>
@@ -362,12 +362,13 @@ export default function HeroSection({ onNavigate }) {
 
       {/* Rating badge */}
       <div className="rating" style={{ position: 'relative', margin: '1.5rem auto 2.5rem', zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <div style={{ color: '#94a3b8', fontSize: '0.8125rem', fontWeight: 500, display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-          <span style={{ color: '#34d399' }}>★ 4.9/5</span>
+        <div style={{ color: '#64748b', fontSize: '0.8125rem', fontWeight: 500, display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+          <span style={{ color: '#10b981' }}>★ 4.9/5</span>
           <span>satisfaction across 4,900+ growing teams</span>
         </div>
       </div>
     </section>
   )
 }
+
 
