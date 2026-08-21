@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion'
+import { useRef } from 'react'
+import { motion, useInView } from 'framer-motion'
 import SpotlightCard from './ui/SpotlightCard'
 import { WordReveal } from './ui/TextReveal'
 import AsciiMoon from './ui/AsciiMoon'
@@ -38,8 +39,12 @@ const services = [
 ]
 
 export default function ServicesSection() {
+  const sectionRef = useRef(null)
+  const isInView = useInView(sectionRef, { amount: 0.15 })
+
   return (
     <section
+      ref={sectionRef}
       className="section_services"
       id="services"
       style={{
@@ -52,11 +57,7 @@ export default function ServicesSection() {
       <AsciiStarfield variant="services" opacity={0.75} />
 
       {/* Accurate ASCII Moon - Smooth pull-into-corner scroll animation */}
-      <motion.div
-        initial={{ opacity: 0, x: -240, y: -120 }}
-        whileInView={{ opacity: 0.9, x: 0, y: 0 }}
-        viewport={{ amount: 0.3 }}
-        transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+      <div
         style={{
           position: 'absolute',
           left: '-8vw',
@@ -66,8 +67,17 @@ export default function ServicesSection() {
           userSelect: 'none',
         }}
       >
-        <AsciiMoon size={36} speed={0.003} />
-      </motion.div>
+        <motion.div
+          animate={{
+            opacity: isInView ? 0.9 : 0,
+            x: isInView ? 0 : -240,
+            y: isInView ? 0 : -120,
+          }}
+          transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <AsciiMoon size={36} speed={0.003} />
+        </motion.div>
+      </div>
 
       <div className="padding-global" style={{ position: 'relative', zIndex: 5, width: '100%' }}>
         <div className="container-large">

@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion'
+import { useRef } from 'react'
+import { motion, useInView } from 'framer-motion'
 import SpotlightCard from './ui/SpotlightCard'
 import CountUpNumber from './ui/CountUpNumber'
 import AsciiEarth from './ui/AsciiEarth'
@@ -26,8 +27,12 @@ const headingWords = [
 ]
 
 export default function AboutSection() {
+  const sectionRef = useRef(null)
+  const isInView = useInView(sectionRef, { amount: 0.15 })
+
   return (
     <section
+      ref={sectionRef}
       className="section_about"
       id="about"
       style={{
@@ -40,11 +45,7 @@ export default function AboutSection() {
       <AsciiStarfield variant="about" opacity={0.75} />
 
       {/* Giant Ambient Background ASCII Earth - Smooth pull-into-side scroll animation */}
-      <motion.div
-        initial={{ opacity: 0, x: 260 }}
-        whileInView={{ opacity: 0.95, x: 0 }}
-        viewport={{ amount: 0.3 }}
-        transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+      <div
         style={{
           position: 'absolute',
           right: '-18vw',
@@ -55,8 +56,16 @@ export default function AboutSection() {
           userSelect: 'none',
         }}
       >
-        <AsciiEarth size={48} speed={0.005} />
-      </motion.div>
+        <motion.div
+          animate={{
+            opacity: isInView ? 0.95 : 0,
+            x: isInView ? 0 : 260,
+          }}
+          transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <AsciiEarth size={48} speed={0.005} />
+        </motion.div>
+      </div>
 
       <div className="padding-global" style={{ position: 'relative', zIndex: 5, width: '100%' }}>
         <div className="container-large">
