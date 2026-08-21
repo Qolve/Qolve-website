@@ -26,109 +26,116 @@ const headingWords = [
 
 export default function AboutSection() {
   return (
-    <section className="section_about" id="about">
-      <div className="padding-global">
-        <div className="container-large">
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              gap: '2rem',
-              flexWrap: 'wrap',
-            }}
-          >
-            {/* Left-aligned Header & Tag */}
-            <div style={{ flex: '1 1 32rem', textAlign: 'left' }}>
+    <section
+      className="section_about"
+      id="about"
+      style={{
+        position: 'relative',
+        overflow: 'hidden',
+        background: '#0f0f0f',
+      }}
+    >
+      {/* Giant Ambient Background ASCII Earth - Slowly spinning from right edge under cards */}
+      <div
+        style={{
+          position: 'absolute',
+          right: '-20vw',
+          top: '50%',
+          transform: 'translateY(-50%)',
+          zIndex: 1,
+          pointerEvents: 'none',
+          opacity: 0.8,
+          userSelect: 'none',
+          maskImage: 'radial-gradient(ellipse 90% 90% at 75% 50%, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 95%)',
+          WebkitMaskImage: 'radial-gradient(ellipse 90% 90% at 75% 50%, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 95%)',
+        }}
+      >
+        <AsciiEarth size={48} speed={0.005} />
+      </div>
+
+      <div className="padding-global" style={{ position: 'relative', zIndex: 5, width: '100%' }}>
+        <div className="container-large" style={{ marginLeft: 0, maxWidth: '100%' }}>
+          {/* Left-aligned Header & Tag */}
+          <div style={{ maxWidth: '44rem', textAlign: 'left' }}>
+            <motion.div
+              initial={{ opacity: 0, x: -15 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4 }}
+              className="tag"
+              style={{ alignSelf: 'flex-start' }}
+            >
+              <div className="dot-square" />
+              <div>About Qolve</div>
+            </motion.div>
+
+            <div className="spacer-small" />
+
+            <div className="max-width-medium is-41rem">
               <motion.div
-                initial={{ opacity: 0, x: -15 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4 }}
-                className="tag"
-                style={{ alignSelf: 'flex-start' }}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: '-40px' }}
+                variants={{
+                  hidden: { opacity: 0 },
+                  visible: {
+                    opacity: 1,
+                    transition: { staggerChildren: 0.04, delayChildren: 0.05 },
+                  },
+                }}
+                className="title-wrap"
+                style={{ justifyContent: 'flex-start', textAlign: 'left' }}
               >
-                <div className="dot-square" />
-                <div>About Qolve</div>
-              </motion.div>
-
-              <div className="spacer-small" />
-
-              <div className="max-width-medium is-41rem">
-                <motion.div
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true, margin: '-40px' }}
-                  variants={{
-                    hidden: { opacity: 0 },
-                    visible: {
-                      opacity: 1,
-                      transition: { staggerChildren: 0.04, delayChildren: 0.05 },
-                    },
-                  }}
-                  className="title-wrap"
-                  style={{ justifyContent: 'flex-start', textAlign: 'left' }}
-                >
-                  {headingWords.map((item, idx) => {
-                    if (item.icon) {
-                      return (
-                        <motion.img
-                          key={idx}
-                          variants={{
-                            hidden: { opacity: 0, scale: 0.5, rotate: -20 },
-                            visible: { opacity: 1, scale: 1, rotate: 0, transition: { duration: 0.4 } },
-                          }}
-                          src={item.icon}
-                          loading="lazy"
-                          alt=""
-                          className="title-icon"
-                        />
-                      )
-                    }
+                {headingWords.map((item, idx) => {
+                  if (item.icon) {
                     return (
-                      <motion.h2
+                      <motion.img
                         key={idx}
                         variants={{
-                          hidden: { opacity: 0, y: 12, filter: 'blur(4px)' },
-                          visible: {
-                            opacity: item.opacity,
-                            y: 0,
-                            filter: 'blur(0px)',
-                            transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] },
-                          },
+                          hidden: { opacity: 0, scale: 0.5, rotate: -20 },
+                          visible: { opacity: 1, scale: 1, rotate: 0, transition: { duration: 0.4 } },
                         }}
-                        className={item.highlight ? 'text-shimmer-lime' : ''}
-                        style={{ opacity: item.opacity, display: 'inline-block' }}
-                      >
-                        {item.text}
-                      </motion.h2>
+                        src={item.icon}
+                        loading="lazy"
+                        alt=""
+                        className="title-icon"
+                      />
                     )
-                  })}
-                </motion.div>
-              </div>
+                  }
+                  return (
+                    <motion.h2
+                      key={idx}
+                      variants={{
+                        hidden: { opacity: 0, y: 12, filter: 'blur(4px)' },
+                        visible: {
+                          opacity: item.opacity,
+                          y: 0,
+                          filter: 'blur(0px)',
+                          transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] },
+                        },
+                      }}
+                      className={item.highlight ? 'text-shimmer-lime' : ''}
+                      style={{ opacity: item.opacity, display: 'inline-block' }}
+                    >
+                      {item.text}
+                    </motion.h2>
+                  )
+                })}
+              </motion.div>
             </div>
-
-            {/* Smooth Spinning ASCII Earth - Enriched & Large */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9, x: 20 }}
-              whileInView={{ opacity: 1, scale: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.15 }}
-              style={{ flexShrink: 0 }}
-            >
-              <AsciiEarth size={22} />
-            </motion.div>
           </div>
 
           <div className="spacer-medium" />
 
-          {/* Bento Cards with Spotlight Effect - Pushed 20% leftward */}
+          {/* Bento Cards pushed to the left, sitting over the glowing background Earth */}
           <div
             className="about_layout"
             style={{
-              marginLeft: '-10%',
-              width: '120%',
-              transition: 'all 0.3s ease',
+              maxWidth: '78%',
+              marginRight: 'auto',
+              marginLeft: '0',
+              position: 'relative',
+              zIndex: 6,
             }}
           >
             {/* Card 1 - Large with photo */}
