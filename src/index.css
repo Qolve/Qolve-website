@@ -2845,84 +2845,85 @@ pre,
 
 /* Floating Navigation */
 .navbar {
-  background: rgba(3, 9, 5, 0.75) !important;
-  backdrop-filter: blur(40px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(40px) saturate(180%) !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4) !important;
+  background: rgba(255, 255, 255, 0.03) !important;
+  backdrop-filter: blur(40px) !important;
+  -webkit-backdrop-filter: blur(40px) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
 }
 
-/* Status Badges */
+/* Status Badges & Chips */
 .tag {
-  background: rgba(255, 255, 255, 0.04) !important;
-  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  background: rgba(45, 75, 62, 0.25) !important;
+  border: 1px solid rgba(173, 206, 189, 0.2) !important;
   backdrop-filter: blur(20px) !important;
   -webkit-backdrop-filter: blur(20px) !important;
-  color: #cbd5e1 !important;
-  font-weight: 500;
-  font-size: 0.8125rem;
+  color: #adcebd !important;
+  font-family: var(--font-sans) !important;
+  font-weight: 600 !important;
+  font-size: 12px !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
   border-radius: 9999px !important;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
 }
 
 .dot-square {
-  background-color: #34d399 !important;
+  background-color: #adcebd !important;
   border-radius: 50% !important;
-  box-shadow: 0 0 6px rgba(52, 211, 153, 0.8);
+  box-shadow: 0 0 6px rgba(173, 206, 189, 0.8);
 }
 
-/* Minimalist Liquid Glass Action Buttons */
+/* Primary Action Button (DESIGN.md: Solid Forest Green #2D4B3E with Mist Text) */
 .button,
 .button-arrow {
-  background: linear-gradient(180deg, rgba(52, 211, 153, 0.9) 0%, rgba(16, 185, 129, 0.85) 100%) !important;
+  background: #2d4b3e !important;
   backdrop-filter: blur(20px) !important;
   -webkit-backdrop-filter: blur(20px) !important;
-  color: #020f06 !important;
-  border: 1px solid rgba(255, 255, 255, 0.35) !important;
-  border-radius: 9999px !important;
-  box-shadow: 
-    0 6px 18px rgba(0, 0, 0, 0.4),
-    inset 0 1px 1px rgba(255, 255, 255, 0.6),
-    inset 0 -1px 1px rgba(0, 0, 0, 0.2) !important;
-  font-weight: 600 !important;
-  font-size: 0.875rem !important;
-  letter-spacing: -0.01em;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  color: #e2e3e0 !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 0.5rem !important;
+  font-family: var(--font-sans) !important;
+  font-weight: 500 !important;
+  font-size: 14px !important;
+  letter-spacing: 0em !important;
+  transition: all 0.2s ease !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
 }
 
 .button:hover,
 .button-arrow:hover {
-  background: linear-gradient(180deg, #6ee7b7 0%, #34d399 100%) !important;
-  box-shadow: 
-    0 8px 24px rgba(16, 185, 129, 0.35),
-    inset 0 1px 1px rgba(255, 255, 255, 0.8) !important;
-  transform: translateY(-1px) !important;
+  background: #375d4d !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
+  color: #ffffff !important;
 }
 
+/* Ghost / Glass Button (DESIGN.md: Transparent background with 1px border) */
 .button[data-variant="bg-black"],
 .button-arrow.is-black {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.12) !important;
-  color: #f1f5f9 !important;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
+  background: rgba(255, 255, 255, 0.03) !important;
+  backdrop-filter: blur(40px) !important;
+  -webkit-backdrop-filter: blur(40px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: #e2e3e0 !important;
+  border-radius: 0.5rem !important;
 }
 
 .button[data-variant="bg-black"]:hover,
 .button-arrow.is-black:hover {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.04) 100%) !important;
-  border-color: rgba(255, 255, 255, 0.22) !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
   color: #ffffff !important;
 }
 
 .button_container-arrow.is-black {
-  background: rgba(255, 255, 255, 0.1) !important;
-  border: 1px solid rgba(255, 255, 255, 0.15) !important;
-  color: #f1f5f9 !important;
+  background: transparent !important;
+  border: none !important;
+  color: #e2e3e0 !important;
 }
 
 .button_container-arrow.is-black svg path {
-  fill: #f1f5f9 !important;
+  fill: #e2e3e0 !important;
 }
+
 
 /* macOS Window Traffic Lights */
 .macos-traffic-lights {
