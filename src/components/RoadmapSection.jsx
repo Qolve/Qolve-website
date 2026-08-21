@@ -81,39 +81,45 @@ const PLATFORM_PILLARS = [
 
 export default function RoadmapSection() {
   return (
-    <section className="section_about" id="roadmap" style={{ position: 'relative', overflow: 'hidden', padding: '6rem 0' }}>
+    <section className="section_about" id="roadmap" style={{ position: 'relative', overflow: 'hidden', padding: '6rem 0', background: '#121413' }}>
       <div className="padding-global">
-        <div className="container-large">
-          <div className="vertical-center">
+        <div className="container-large" style={{ maxWidth: '1280px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'left', marginBottom: '3.5rem', maxWidth: '44rem' }}>
             {/* Tag pill */}
-            <div className="tag" data-anim>
-              <div className="dot-square" />
-              <div>🌱 Organic Architecture Pillars</div>
+            <div
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                padding: '0.35rem 0.85rem',
+                borderRadius: '9999px',
+                background: 'rgba(45, 75, 62, 0.25)',
+                border: '1px solid rgba(173, 206, 189, 0.2)',
+                color: '#adcebd',
+                fontSize: '0.75rem',
+                fontWeight: 600,
+                letterSpacing: '0.1em',
+                textTransform: 'uppercase',
+                marginBottom: '1.25rem',
+              }}
+            >
+              <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#adcebd', boxShadow: '0 0 6px rgba(173,206,189,0.8)' }} />
+              <span>Organic Architecture Pillars</span>
             </div>
 
-            <div className="spacer-large" />
+            <h2 style={{ fontFamily: 'Hanken Grotesk, sans-serif', fontSize: 'clamp(2.25rem, 4.5vw, 3.5rem)', color: '#e2e3e0', letterSpacing: '-0.025em', lineHeight: 1.15, fontWeight: 600, marginBottom: '1rem' }}>
+              Core Pillars of the Qolve Ecosystem
+            </h2>
 
-            <div className="max-width-medium is-41rem">
-              <h2 className="text-align-center" data-anim style={{ fontSize: 'clamp(2rem, 4.5vw, 3.25rem)', color: '#f8fafc', letterSpacing: '-0.02em', lineHeight: 1.15 }}>
-                Core Pillars of the Qolve Ecosystem
-              </h2>
-            </div>
-
-            <div className="spacer-large" />
-
-            <div className="max-width-medium">
-              <div className="text-base text-align-center" style={{ color: '#cbd5e1', fontSize: '1.0625rem' }} data-anim>
-                Engineered by Qolve to deliver enterprise-level helpdesk performance, white-label branding, and grounded AI support automation.
-              </div>
-            </div>
+            <p style={{ color: '#c1c8c3', fontSize: '1.0625rem', lineHeight: 1.6 }}>
+              Engineered by Qolve to deliver enterprise-level helpdesk performance, white-label branding, and grounded AI support automation.
+            </p>
           </div>
-
-          <div className="spacer-section-large" />
 
           {/* Grid of Platform Pillars */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.75rem' }}>
             {PLATFORM_PILLARS.map((item, idx) => (
-              <div key={idx} className={item.cardBg} data-anim style={{ padding: '2.25rem', minHeight: '26rem', borderRadius: '1.75rem' }}>
+              <div key={idx} className="glass-panel" style={{ padding: '2.25rem', minHeight: '26rem', borderRadius: '1.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                 <div className="vertical-space-between" style={{ height: '100%', position: 'relative', zIndex: 2 }}>
                   <div>
                     {/* Header Row */}
@@ -121,12 +127,14 @@ export default function RoadmapSection() {
                       <span
                         style={{
                           fontSize: '0.75rem',
-                          fontWeight: 700,
+                          fontWeight: 600,
                           padding: '0.3rem 0.75rem',
                           borderRadius: '9999px',
-                          background: 'rgba(52, 211, 153, 0.2)',
-                          color: '#6ee7b7',
-                          border: '1px solid rgba(52, 211, 153, 0.4)',
+                          background: 'rgba(45, 75, 62, 0.3)',
+                          color: '#adcebd',
+                          border: '1px solid rgba(173, 206, 189, 0.25)',
+                          textTransform: 'uppercase',
+                          letterSpacing: '0.08em',
                         }}
                       >
                         {item.pillar}
@@ -135,13 +143,13 @@ export default function RoadmapSection() {
                     </div>
 
                     <h3
-                      style={{ fontSize: '1.35rem', fontWeight: 700, color: '#f8fafc', marginBottom: '0.75rem' }}
+                      style={{ fontFamily: 'Hanken Grotesk, sans-serif', fontSize: '1.35rem', fontWeight: 600, color: '#e2e3e0', marginBottom: '0.75rem', letterSpacing: '-0.015em' }}
                     >
                       {item.title}
                     </h3>
 
                     <p
-                      style={{ fontSize: '0.9rem', lineHeight: 1.6, color: '#cbd5e1', marginBottom: '1.25rem' }}
+                      style={{ fontSize: '0.9rem', lineHeight: 1.6, color: '#c1c8c3', marginBottom: '1.25rem' }}
                     >
                       {item.description}
                     </p>
@@ -150,9 +158,9 @@ export default function RoadmapSection() {
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
                       {item.capabilities.map((cap, cIdx) => (
                         <div key={cIdx} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.6rem' }}>
-                          <span style={{ color: '#34d399', fontSize: '0.875rem', lineHeight: 1.4 }}>✓</span>
+                          <span style={{ color: '#adcebd', fontSize: '0.875rem', lineHeight: 1.4 }}>✓</span>
                           <span
-                            style={{ fontSize: '0.85rem', lineHeight: 1.5, color: '#e2e8f0' }}
+                            style={{ fontSize: '0.85rem', lineHeight: 1.5, color: '#c1c8c3' }}
                           >
                             {cap}
                           </span>
@@ -161,9 +169,9 @@ export default function RoadmapSection() {
                     </div>
                   </div>
 
-                  <div style={{ marginTop: '2rem', paddingTop: '1rem', borderTop: '1px solid rgba(255,255,255,0.12)' }}>
-                    <span style={{ fontSize: '0.75rem', color: '#6ee7b7', fontWeight: 600 }}>
-                      🌿 Qolve Architecture Spec
+                  <div style={{ marginTop: '2rem', paddingTop: '1rem', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+                    <span style={{ fontSize: '0.75rem', color: '#adcebd', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                      Qolve Architecture Spec
                     </span>
                   </div>
                 </div>
@@ -175,6 +183,7 @@ export default function RoadmapSection() {
     </section>
   )
 }
+
 
 
 

@@ -80,34 +80,41 @@ export default function InteractiveInboxDemo() {
   };
 
   return (
-    <section className="section_about" id="demo" style={{ position: 'relative', overflow: 'hidden', padding: '6rem 0' }}>
+    <section className="section_about" id="demo" style={{ position: 'relative', overflow: 'hidden', padding: '6rem 0', background: '#0d0f0e' }}>
       <div className="padding-global">
-        <div className="container-large">
-          <div className="vertical-center">
+        <div className="container-large" style={{ maxWidth: '1280px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'left', marginBottom: '3.5rem', maxWidth: '44rem' }}>
             {/* Tag */}
-            <div className="tag" data-anim>
-              <div className="dot-square" />
-              <div>macOS Glass Triage Console</div>
+            <div
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                padding: '0.35rem 0.85rem',
+                borderRadius: '9999px',
+                background: 'rgba(45, 75, 62, 0.25)',
+                border: '1px solid rgba(173, 206, 189, 0.2)',
+                color: '#adcebd',
+                fontSize: '0.75rem',
+                fontWeight: 600,
+                letterSpacing: '0.1em',
+                textTransform: 'uppercase',
+                marginBottom: '1.25rem',
+              }}
+            >
+              <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#adcebd', boxShadow: '0 0 6px rgba(173,206,189,0.8)' }} />
+              <span>Interactive Triage Console</span>
             </div>
 
-            <div className="spacer-large" />
+            <h2 style={{ fontFamily: 'Hanken Grotesk, sans-serif', fontSize: 'clamp(2.25rem, 4.5vw, 3.5rem)', color: '#e2e3e0', letterSpacing: '-0.025em', lineHeight: 1.15, fontWeight: 600, marginBottom: '1rem' }}>
+              Calm, intelligent support dispatch
+            </h2>
 
-            <div className="max-width-medium is-41rem">
-              <h2 className="text-align-center" data-anim style={{ fontSize: 'clamp(2rem, 4.5vw, 3.25rem)', color: '#ffffff', letterSpacing: '-0.03em', lineHeight: 1.15, fontWeight: 700 }}>
-                Calm, Intelligent Support Dispatch
-              </h2>
-            </div>
-
-            <div className="spacer-medium" />
-
-            <div className="max-width-medium">
-              <div className="text-base text-align-center" style={{ color: '#94a3b8', fontSize: '1.0625rem' }} data-anim>
-                Experience automated ticket categorization, team dispatching, and grounded AI reply synthesis in a macOS-inspired liquid glass environment.
-              </div>
-            </div>
+            <p style={{ color: '#c1c8c3', fontSize: '1.0625rem', lineHeight: 1.6 }}>
+              Experience automated ticket categorization, team dispatching, and grounded AI reply synthesis in an organic, low-strain liquid glass environment.
+            </p>
           </div>
 
-          <div className="spacer-section-large" />
 
           {/* macOS Liquid Glass Interactive Window */}
           <div

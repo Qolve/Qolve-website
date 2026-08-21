@@ -1,198 +1,320 @@
 import { useEffect, useRef } from 'react'
 
-export default function AboutSection() {
-  const sectionRef = useRef(null)
-  const triggered = useRef(false)
-
-  useEffect(() => {
-    const counters = sectionRef.current?.querySelectorAll('[data-count]')
-    if (!counters?.length) return
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && !triggered.current) {
-            triggered.current = true
-            counters.forEach((el) => {
-              const end = parseInt(el.dataset.count)
-              const duration = parseInt(el.dataset.duration || 2000)
-              const startTime = performance.now()
-              const step = (currentTime) => {
-                const elapsed = currentTime - startTime
-                const progress = Math.min(elapsed / duration, 1)
-                const easeOut = 1 - Math.pow(1 - progress, 3)
-                el.textContent = Math.floor(easeOut * end).toLocaleString()
-                if (progress < 1) requestAnimationFrame(step)
-              }
-              requestAnimationFrame(step)
-            })
-          }
-        })
-      },
-      { threshold: 0.3 }
-    )
-
-    if (sectionRef.current) observer.observe(sectionRef.current)
-    return () => observer.disconnect()
-  }, [])
-
+export default function AboutSection({ onNavigate }) {
   return (
-    <section className="section_about" id="about" ref={sectionRef} style={{ position: 'relative', overflow: 'hidden', padding: '6rem 0' }}>
-      <div className="padding-global">
-        <div className="container-large">
-          {/* Asymmetric Editorial Header + Bento Layout */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: '2.5rem', alignItems: 'start' }}>
+    <>
+      {/* Series 01: The Oak Series / Quelp Core Architecture */}
+      <section className="relative w-full py-20 md:py-32 bg-[#121413] overflow-hidden" id="about">
+        <div className="container-large" style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 1.5rem' }}>
+          
+          {/* Header */}
+          <div style={{ marginBottom: '3.5rem', textAlign: 'left' }}>
+            <span
+              style={{
+                display: 'inline-block',
+                background: 'rgba(45, 75, 62, 0.25)',
+                color: '#adcebd',
+                padding: '0.35rem 0.9rem',
+                borderRadius: '9999px',
+                fontSize: '0.75rem',
+                fontWeight: 600,
+                letterSpacing: '0.12em',
+                textTransform: 'uppercase',
+                border: '1px solid rgba(173, 206, 189, 0.2)',
+                marginBottom: '1.25rem',
+              }}
+            >
+              Series 01 // Architecture
+            </span>
+
+            <h2
+              style={{
+                fontFamily: 'Hanken Grotesk, sans-serif',
+                fontSize: 'clamp(2.25rem, 4.5vw, 3.25rem)',
+                fontWeight: 600,
+                color: '#e2e3e0',
+                letterSpacing: '-0.025em',
+                lineHeight: 1.15,
+                marginBottom: '0.85rem',
+              }}
+            >
+              The Oak Series
+            </h2>
+
+            <p
+              style={{
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '1.0625rem',
+                color: '#c1c8c3',
+                maxWidth: '32rem',
+                lineHeight: 1.6,
+              }}
+            >
+              Solid charcoal oak architecture, machined to microscopic tolerances. Finished with a liquid glass interface.
+            </p>
+          </div>
+
+          {/* 12-Column Asymmetric Bento Grid */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: '1.5rem' }}>
             
-            {/* Left Column: Left-aligned Story & Live Metric (5 cols) */}
-            <div style={{ gridColumn: 'span 5', position: 'sticky', top: '6rem' }}>
-              <div
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                  padding: '0.35rem 0.85rem',
-                  borderRadius: '9999px',
-                  background: 'rgba(255, 255, 255, 0.04)',
-                  border: '1px solid rgba(255, 255, 255, 0.12)',
-                  backdropFilter: 'blur(20px)',
-                  color: '#cbd5e1',
-                  fontSize: '0.8125rem',
-                  fontWeight: 500,
-                  marginBottom: '1.5rem',
-                }}
-              >
-                <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#34d399', boxShadow: '0 0 6px rgba(52,211,153,0.8)' }} />
-                <span>Ecosystem Philosophy</span>
+            {/* Col-8 Main Feature Card */}
+            <div
+              className="glass-panel group"
+              style={{
+                gridColumn: 'span 8',
+                position: 'relative',
+                minHeight: '480px',
+                borderRadius: '1.5rem',
+                overflow: 'hidden',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'flex-end',
+                padding: '2.5rem',
+              }}
+            >
+              {/* Charred Oak & Liquid Glass Image */}
+              <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+                <img
+                  src="/images/verdant-oak-device.jpg"
+                  alt="Quelp Core Device"
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    opacity: 0.65,
+                    filter: 'contrast(1.1) brightness(0.8)',
+                    transition: 'transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'scale(1.04)'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'scale(1)'
+                  }}
+                />
+                <div
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    background: 'linear-gradient(0deg, #121413 0%, rgba(18, 20, 19, 0.7) 45%, transparent 100%)',
+                  }}
+                />
               </div>
 
-              <h2 style={{ fontSize: 'clamp(2.25rem, 4vw, 3.25rem)', color: '#ffffff', letterSpacing: '-0.035em', lineHeight: 1.1, fontWeight: 700, marginBottom: '1.25rem' }}>
-                Cultivating support software that feels <br />
-                <span className="text-serif-italic" style={{ color: '#6ee7b7', fontSize: '1.15em', fontWeight: 400 }}>
-                  quietly intelligent.
-                </span>
-              </h2>
+              {/* Card Content */}
+              <div style={{ position: 'relative', zIndex: 10, maxWidth: '28rem' }}>
+                <h3
+                  style={{
+                    fontFamily: 'Hanken Grotesk, sans-serif',
+                    fontSize: '2rem',
+                    fontWeight: 600,
+                    color: '#e2e3e0',
+                    letterSpacing: '-0.02em',
+                    marginBottom: '0.65rem',
+                  }}
+                >
+                  Quelp Core Hub
+                </h3>
+                <p
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    color: '#c1c8c3',
+                    fontSize: '0.9375rem',
+                    lineHeight: 1.6,
+                    marginBottom: '1.5rem',
+                  }}
+                >
+                  The central hub of your support operations, carved from a resilient high-throughput architecture with Stalwart mail relay and grounded draft intelligence.
+                </p>
 
-              <p style={{ color: '#94a3b8', fontSize: '1.0625rem', lineHeight: 1.65, marginBottom: '2rem' }}>
-                Qolve is a technical product lab dedicated to modern SaaS engineering. Our flagship platform, <strong>Quelp</strong>, replaces overcomplicated enterprise helpdesks with an organic, white-label architecture engineered for complete data sovereignty.
-              </p>
-
-              {/* Mini Stat Card */}
-              <div
-                className="macos-glass is-emerald"
-                style={{
-                  padding: '1.5rem',
-                  borderRadius: '1.25rem',
-                  border: '1px solid rgba(52, 211, 153, 0.25)',
-                  boxShadow: '0 20px 40px -10px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.4)',
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.25rem', color: '#ffffff', marginBottom: '0.25rem' }}>
-                  <span className="text-5xl" style={{ fontWeight: 800, letterSpacing: '-0.04em' }} data-count="100" data-duration="2000">0</span>
-                  <span className="text-5xl" style={{ fontWeight: 800, color: '#34d399' }}>%</span>
-                </div>
-                <div style={{ color: '#e2e8f0', fontSize: '0.9375rem', fontWeight: 500 }}>
-                  White-label autonomy with isolated DNS CNAME routing.
-                </div>
+                <button
+                  onClick={() => onNavigate && onNavigate('products')}
+                  style={{
+                    background: 'transparent',
+                    border: 'none',
+                    padding: 0,
+                    color: '#adcebd',
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '0.9375rem',
+                    fontWeight: 600,
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    cursor: 'pointer',
+                    transition: 'color 0.2s ease',
+                  }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = '#c8ead8' }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = '#adcebd' }}
+                >
+                  <span>Discover Quelp Core</span>
+                  <span style={{ fontSize: '1.1rem' }}>→</span>
+                </button>
               </div>
             </div>
 
-            {/* Right Column: 3-Card Asymmetric Bento Grid (7 cols) */}
-            <div style={{ gridColumn: 'span 7', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            {/* Col-4 Secondary Stack */}
+            <div style={{ gridColumn: 'span 4', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
               
-              {/* Top Wide Feature Card */}
+              {/* Ethical Sourcing / Zero Bloat Card */}
               <div
-                className="card_about macos-glass is-emerald"
+                className="glass-panel"
                 style={{
-                  padding: '2.25rem',
-                  minHeight: '18rem',
+                  flex: 1,
                   borderRadius: '1.5rem',
-                  border: '1px solid rgba(52, 211, 153, 0.25)',
+                  padding: '2rem',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  minHeight: '225px',
                 }}
               >
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                  <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#6ee7b7', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
-                    🌿 Resilient Mail Relay
-                  </span>
-                  <div style={{ width: '1.75rem', height: '1.75rem', borderRadius: '50%', background: 'rgba(52,211,153,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#34d399', fontSize: '0.85rem' }}>
-                    ✦
-                  </div>
+                <div
+                  style={{
+                    width: '3rem',
+                    height: '3rem',
+                    borderRadius: '50%',
+                    background: 'rgba(45, 75, 62, 0.35)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '1px solid rgba(173, 206, 189, 0.25)',
+                    color: '#adcebd',
+                    fontSize: '1.25rem',
+                    marginBottom: '1.5rem',
+                  }}
+                >
+                  🌿
                 </div>
 
-                <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.25rem', color: '#6ee7b7', marginBottom: '0.75rem' }}>
-                  <div className="text-4xl" style={{ fontWeight: 800 }} data-count="99" data-duration="2000">0</div>
-                  <div className="text-4xl" style={{ fontWeight: 800 }}>.9%</div>
-                  <span style={{ color: '#94a3b8', fontSize: '0.875rem', marginLeft: '0.5rem' }}>deliverability rate</span>
-                </div>
-
-                <div style={{ color: '#cbd5e1', fontSize: '0.9375rem', lineHeight: 1.6 }}>
-                  Integrated Stalwart mail server container paired with AWS SES outbound relay for SPF, DKIM, and DMARC verified email delivery under <code>qolve.systems</code>.
-                </div>
-
-                <div style={{ marginTop: '1.25rem', paddingTop: '1rem', borderTop: '1px solid rgba(255,255,255,0.1)', color: '#34d399', fontSize: '0.8125rem', fontWeight: 600 }}>
-                  ✓ Zero dropped support tickets
+                <div>
+                  <h4
+                    style={{
+                      fontFamily: 'Inter, sans-serif',
+                      fontSize: '1.125rem',
+                      fontWeight: 600,
+                      color: '#e2e3e0',
+                      marginBottom: '0.5rem',
+                    }}
+                  >
+                    Ethical Sourcing &amp; Zero Bloat
+                  </h4>
+                  <p
+                    style={{
+                      fontFamily: 'Inter, sans-serif',
+                      color: '#c1c8c3',
+                      fontSize: '0.875rem',
+                      lineHeight: 1.6,
+                    }}
+                  >
+                    Every routing protocol is traceable to zero-latency, privacy-first edge nodes with complete data sovereignty.
+                  </p>
                 </div>
               </div>
 
-              {/* Bottom 2-Card Row */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1.5rem' }}>
-                
-                {/* Omnichannel Card */}
+              {/* Refractive Display Card */}
+              <div
+                className="glass-panel"
+                style={{
+                  flex: 1,
+                  borderRadius: '1.5rem',
+                  padding: '2rem',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  minHeight: '225px',
+                }}
+              >
                 <div
-                  className="card_about macos-glass is-subtle"
                   style={{
-                    padding: '2rem',
-                    minHeight: '18rem',
-                    borderRadius: '1.5rem',
+                    width: '3rem',
+                    height: '3rem',
+                    borderRadius: '50%',
+                    background: 'rgba(45, 75, 62, 0.35)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '1px solid rgba(173, 206, 189, 0.25)',
+                    color: '#adcebd',
+                    fontSize: '1.25rem',
+                    marginBottom: '1.5rem',
                   }}
                 >
-                  <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#cbd5e1', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: '1rem' }}>
-                    🌱 Omnichannel Stream
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.35rem', color: '#ffffff', marginBottom: '0.75rem' }}>
-                    <div className="text-4xl" style={{ fontWeight: 800 }} data-count="4" data-duration="1500">0</div>
-                    <div className="text-4xl" style={{ fontWeight: 800 }}>In 1</div>
-                  </div>
-                  <div style={{ color: '#94a3b8', fontSize: '0.875rem', lineHeight: 1.6 }}>
-                    Email, live chat, knowledge base &amp; customer portal consolidated into one unified inbox.
-                  </div>
-                  <div style={{ marginTop: 'auto', paddingTop: '1rem', borderTop: '1px solid rgba(255,255,255,0.08)', color: '#cbd5e1', fontSize: '0.75rem', fontWeight: 600 }}>
-                    ● Real-time sync across channels
-                  </div>
+                  ✦
                 </div>
 
-                {/* Growth Horizon Card */}
-                <div
-                  className="card_about macos-glass is-deep"
-                  style={{
-                    padding: '2rem',
-                    minHeight: '18rem',
-                    borderRadius: '1.5rem',
-                  }}
-                >
-                  <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#34d399', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: '1rem' }}>
-                    🌲 Deployment Horizon
-                  </div>
-                  <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#ffffff', letterSpacing: '-0.02em', marginBottom: '0.75rem' }}>
-                    2026–2027
-                  </div>
-                  <div style={{ color: '#94a3b8', fontSize: '0.875rem', lineHeight: 1.6 }}>
-                    Commercial pilot rollouts across fast-growing B2B tech companies and platform teams.
-                  </div>
-                  <div style={{ marginTop: 'auto', paddingTop: '1rem', borderTop: '1px solid rgba(255,255,255,0.08)', color: '#34d399', fontSize: '0.75rem', fontWeight: 600 }}>
-                    ✦ Active Pilot Onboarding
-                  </div>
+                <div>
+                  <h4
+                    style={{
+                      fontFamily: 'Inter, sans-serif',
+                      fontSize: '1.125rem',
+                      fontWeight: 600,
+                      color: '#e2e3e0',
+                      marginBottom: '0.5rem',
+                    }}
+                  >
+                    Refractive Interface
+                  </h4>
+                  <p
+                    style={{
+                      fontFamily: 'Inter, sans-serif',
+                      color: '#c1c8c3',
+                      fontSize: '0.875rem',
+                      lineHeight: 1.6,
+                    }}
+                  >
+                    Our signature liquid glass technology blends seamlessly into your custom brand identity with zero third-party badges.
+                  </p>
                 </div>
-
               </div>
 
             </div>
 
           </div>
         </div>
-      </div>
-    </section>
-  )
 
+        <style>{`
+          @media (max-width: 900px) {
+            .glass-panel[style*="grid-column: span 8"],
+            div[style*="grid-column: span 4"] {
+              grid-column: span 12 !important;
+            }
+          }
+        `}</style>
+      </section>
+
+      {/* Breathe Statement Section */}
+      <section
+        style={{
+          width: '100%',
+          padding: '7rem 1.5rem',
+          background: '#0d0f0e',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          borderTop: '1px solid rgba(255, 255, 255, 0.05)',
+          borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
+        }}
+      >
+        <div style={{ maxWidth: '56rem', margin: '0 auto', textAlign: 'center' }}>
+          <h2
+            className="text-glow"
+            style={{
+              fontFamily: 'Hanken Grotesk, sans-serif',
+              fontSize: 'clamp(2.5rem, 6vw, 4.5rem)',
+              lineHeight: 1.15,
+              fontWeight: 400,
+              letterSpacing: '-0.03em',
+              color: '#e2e3e0',
+            }}
+          >
+            Leave no trace.<br />
+            <span style={{ color: '#8b928d' }}>Only impact.</span>
+          </h2>
+        </div>
+      </section>
+    </>
+  )
 }
+
 
 

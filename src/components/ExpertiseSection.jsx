@@ -1,32 +1,42 @@
 export default function ExpertiseSection() {
   return (
-    <section className="section_expertise" id="expertise" style={{ position: 'relative', overflow: 'hidden' }}>
-      <div className="padding-section-large" />
+    <section className="section_expertise" id="expertise" style={{ position: 'relative', overflow: 'hidden', padding: '6rem 0', background: '#0d0f0e' }}>
       <div className="padding-global">
-        <div className="container-large">
+        <div className="container-large" style={{ maxWidth: '1280px', margin: '0 auto' }}>
           {/* Header */}
-          <div className="vertical-center">
-            <div className="tag" data-anim>
-              <div className="dot-square" />
-              <div>🌿 Engineering Pods &amp; Deep Tech</div>
+          <div style={{ textAlign: 'left', marginBottom: '3.5rem', maxWidth: '44rem' }}>
+            <div
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                padding: '0.35rem 0.85rem',
+                borderRadius: '9999px',
+                background: 'rgba(45, 75, 62, 0.25)',
+                border: '1px solid rgba(173, 206, 189, 0.2)',
+                color: '#adcebd',
+                fontSize: '0.75rem',
+                fontWeight: 600,
+                letterSpacing: '0.1em',
+                textTransform: 'uppercase',
+                marginBottom: '1.25rem',
+              }}
+            >
+              <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#adcebd', boxShadow: '0 0 6px rgba(173,206,189,0.8)' }} />
+              <span>Engineering Pods &amp; Deep Tech</span>
             </div>
-            <div className="spacer-large" />
-            <div className="max-width-medium is-41rem">
-              <h2 className="text-align-center" data-anim style={{ fontSize: 'clamp(2rem, 4.5vw, 3.25rem)', color: '#f8fafc', letterSpacing: '-0.02em', lineHeight: 1.15 }}>
-                Where human craftsmanship meets liquid intelligence
-              </h2>
-            </div>
-            <div className="spacer-large" />
-            <div className="max-width-medium is-34rem">
-              <div className="text-base text-align-center" style={{ color: '#cbd5e1', fontSize: '1.0625rem' }} data-anim>
-                At Qolve, we build software designed not to replace support teams, but to empower them — combining grounded AI with resilient infrastructure and 100% white-label control.
-              </div>
-            </div>
+
+            <h2 style={{ fontFamily: 'Hanken Grotesk, sans-serif', fontSize: 'clamp(2.25rem, 4.5vw, 3.5rem)', color: '#e2e3e0', letterSpacing: '-0.025em', lineHeight: 1.15, fontWeight: 600, marginBottom: '1rem' }}>
+              Where human craftsmanship meets liquid intelligence
+            </h2>
+
+            <p style={{ color: '#c1c8c3', fontSize: '1.0625rem', lineHeight: 1.6 }}>
+              At Qolve, we build software designed not to replace support teams, but to empower them — combining grounded AI with resilient infrastructure and 100% white-label control.
+            </p>
           </div>
 
-          <div className="spacer-section-medium" />
-
           <div className="expertise_cards">
+
             {/* Card 1: Grounded Support Intelligence (Permafix AI) */}
             <div className="expertise_card liquid-glass" data-anim style={{ borderRadius: '1.75rem', overflow: 'hidden' }}>
               <div className="visual" style={{ background: 'rgba(4, 20, 12, 0.65)', padding: '1.75rem', display: 'flex', flexDirection: 'column', justifyContent: 'center', backdropFilter: 'blur(20px)' }}>

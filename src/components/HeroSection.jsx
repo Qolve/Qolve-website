@@ -209,166 +209,154 @@ function MerryGoRound() {
 
 export default function HeroSection({ onNavigate }) {
   return (
-    <section className="section_hero" id="home" style={{ position: 'relative', overflow: 'hidden', minHeight: '92vh', paddingTop: '4.5rem' }}>
-      {/* Moody Dark Oak, Ferns & Water Lillies Backdrop */}
-      <img
-        src="/images/dark-oak-ferns-hero.jpg"
-        loading="lazy"
-        alt=""
-        className="img is-hero"
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          objectFit: 'cover',
-          zIndex: 1,
-          opacity: 0.38,
-          pointerEvents: 'none',
-          filter: 'contrast(1.05) brightness(0.85)',
-        }}
-      />
-
-      {/* Dark atmospheric forest gradient vignette */}
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          background: 'radial-gradient(ellipse at 50% 20%, rgba(2, 10, 5, 0.4) 0%, rgba(2, 7, 4, 0.9) 70%, #020603 100%)',
-          zIndex: 2,
-          pointerEvents: 'none',
-        }}
-      />
-
-      {/* Hero text content */}
-      <div className="hero_wrap" style={{ position: 'relative', zIndex: 5 }}>
-        <div className="padding-global is-hero" style={{ width: '100%' }}>
-          <div className="vertical-center">
-            {/* macOS Glass Capsule Badge */}
-            <div
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.625rem',
-                padding: '0.35rem 0.9rem',
-                borderRadius: '9999px',
-                background: 'rgba(255, 255, 255, 0.04)',
-                border: '1px solid rgba(255, 255, 255, 0.12)',
-                backdropFilter: 'blur(30px)',
-                WebkitBackdropFilter: 'blur(30px)',
-                color: '#cbd5e1',
-                fontSize: '0.8125rem',
-                fontWeight: 500,
-                letterSpacing: '-0.01em',
-                marginBottom: '1.75rem',
-                boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.25)',
-              }}
-            >
-              <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#34d399', boxShadow: '0 0 6px rgba(52,211,153,0.8)' }} />
-              <span>Dark Oak &amp; Ferns • macOS Glass Architecture</span>
-            </div>
-
-            <h1 className="text-align-center" style={{ fontSize: 'clamp(2.5rem, 5.5vw, 4.5rem)', letterSpacing: '-0.035em', lineHeight: 1.06, color: '#ffffff', fontWeight: 700 }}>
-              The quiet, white-label <br />
-              <span style={{
-                background: 'linear-gradient(180deg, #ffffff 0%, #cbd5e1 50%, #94a3b8 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                display: 'inline-block'
-              }}>
-                support platform for growing teams
-              </span>
-            </h1>
-
-            <div className="spacer-medium" />
-
-            <div className="max-width-medium" style={{ maxWidth: '42rem' }}>
-              <div className="text-base text-align-center" style={{ color: '#94a3b8', fontSize: '1.125rem', lineHeight: 1.6, fontWeight: 400 }}>
-                Quelp unifies mail relay, real-time inboxes, and self-service knowledge in an organic, deeply reliable ecosystem engineered with Apple-level minimalism.
-              </div>
-            </div>
-
-            <div className="spacer-large" />
-
-            <div className="button_wrapper is-hero" style={{ display: 'flex', gap: '0.875rem', alignItems: 'center' }}>
-              <button
-                onClick={() => onNavigate && onNavigate('products')}
-                className="button"
-                style={{
-                  background: 'linear-gradient(180deg, rgba(52, 211, 153, 0.9) 0%, rgba(16, 185, 129, 0.85) 100%)',
-                  color: '#020f06',
-                  border: '1px solid rgba(255, 255, 255, 0.35)',
-                  padding: '0.75rem 1.65rem',
-                  borderRadius: '9999px',
-                  fontWeight: 600,
-                  fontSize: '0.9375rem',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                  cursor: 'pointer',
-                  boxShadow: '0 6px 18px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255,255,255,0.6)',
-                  backdropFilter: 'blur(20px)',
-                  transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
-                }}
-              >
-                Explore Quelp Platform
-              </button>
-
-              <button
-                onClick={() => onNavigate && onNavigate('home', 'roadmap')}
-                className="button-arrow is-black"
-                style={{
-                  background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%)',
-                  border: '1px solid rgba(255, 255, 255, 0.12)',
-                  padding: '0.45rem 0.5rem 0.45rem 1.35rem',
-                  borderRadius: '9999px',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '0.75rem',
-                  cursor: 'pointer',
-                  boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.25)',
-                }}
-              >
-                <span style={{ color: '#f1f5f9', fontWeight: 500, fontSize: '0.9375rem' }}>
-                  Architecture
-                </span>
-                <div
-                  className="button_container-arrow is-black"
-                  style={{
-                    width: '2.25rem',
-                    height: '2.25rem',
-                    borderRadius: '50%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 20 20" fill="none">
-                    <path d="M13.0457 8.13128L5.8733 15.3037L4.69479 14.1252L11.8672 6.95277L5.54568 6.95277L5.54568 5.28636H14.7121V14.4528L13.0457 14.4528V8.13128Z" fill="#f1f5f9" />
-                  </svg>
-                </div>
-              </button>
-            </div>
-          </div>
-        </div>
+    <header className="relative w-full min-h-[850px] flex flex-col items-center justify-center pt-24 pb-16 overflow-hidden" id="home">
+      {/* Cinematic Dark Pine Forest Background */}
+      <div className="absolute inset-0 z-0" style={{ pointerEvents: 'none' }}>
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'linear-gradient(180deg, rgba(13, 15, 14, 0.4) 0%, transparent 40%, rgba(13, 15, 14, 0.8) 80%, #0d0f0e 100%)',
+            zIndex: 1,
+          }}
+        />
+        <img
+          src="/images/verdant-forest-hero.jpg"
+          loading="lazy"
+          alt="Dark Pine Forest"
+          className="w-full h-full object-cover object-center filter brightness-50"
+          style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.42) contrast(1.1)' }}
+        />
       </div>
 
-      {/* Spacer */}
-      <div style={{ height: '1rem' }} />
+      {/* Floating Glass Hero Card */}
+      <div
+        className="relative z-20 w-[92%] md:w-[75%] max-w-[820px] glass-panel rounded-2xl p-8 md:p-16 text-center"
+        style={{
+          borderRadius: '1.5rem',
+          margin: '2rem auto 3rem',
+          background: 'rgba(255, 255, 255, 0.03)',
+          backdropFilter: 'blur(40px)',
+          WebkitBackdropFilter: 'blur(40px)',
+          border: '1px solid rgba(255, 255, 255, 0.1)',
+          boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 30px 60px rgba(0,0,0,0.5)',
+        }}
+      >
+        <div
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            padding: '0.3rem 0.85rem',
+            borderRadius: '9999px',
+            background: 'rgba(45, 75, 62, 0.35)',
+            border: '1px solid rgba(173, 206, 189, 0.25)',
+            color: '#adcebd',
+            fontSize: '0.75rem',
+            fontWeight: 600,
+            letterSpacing: '0.08em',
+            textTransform: 'uppercase',
+            marginBottom: '1.75rem',
+          }}
+        >
+          <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#adcebd', boxShadow: '0 0 8px rgba(173, 206, 189, 0.8)' }} />
+          <span>Architecture of Quiet Support</span>
+        </div>
+
+        <h1
+          className="text-glow"
+          style={{
+            fontFamily: 'Hanken Grotesk, sans-serif',
+            fontSize: 'clamp(2.5rem, 5.5vw, 4.25rem)',
+            fontWeight: 600,
+            lineHeight: 1.1,
+            letterSpacing: '-0.035em',
+            color: '#e2e3e0',
+            marginBottom: '1.5rem',
+          }}
+        >
+          The Architecture <br className="hidden sm:inline" />
+          of Quiet Support
+        </h1>
+
+        <p
+          style={{
+            fontFamily: 'Inter, sans-serif',
+            fontSize: 'clamp(1rem, 2vw, 1.125rem)',
+            fontWeight: 400,
+            lineHeight: 1.6,
+            color: '#c1c8c3',
+            maxWidth: '38rem',
+            margin: '0 auto 2.5rem',
+          }}
+        >
+          Precision engineering meets raw, untamed efficiency. Deliver high-trust white-label customer support that breathes with your brand.
+        </p>
+
+        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+          <button
+            onClick={() => onNavigate && onNavigate('products')}
+            style={{
+              background: '#2d4b3e',
+              color: '#e2e3e0',
+              border: '1px solid rgba(255, 255, 255, 0.15)',
+              padding: '0.9rem 2rem',
+              borderRadius: '0.5rem',
+              fontFamily: 'Inter, sans-serif',
+              fontSize: '0.9375rem',
+              fontWeight: 500,
+              cursor: 'pointer',
+              boxShadow: '0 10px 25px -5px rgba(0,0,0,0.4)',
+              transition: 'all 0.2s ease',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = '#375d4d'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = '#2d4b3e'
+            }}
+          >
+            Explore Quelp Platform
+          </button>
+
+          <button
+            onClick={() => onNavigate && onNavigate('home', 'roadmap')}
+            className="glass-panel"
+            style={{
+              padding: '0.9rem 1.8rem',
+              borderRadius: '0.5rem',
+              fontFamily: 'Inter, sans-serif',
+              fontSize: '0.9375rem',
+              fontWeight: 500,
+              color: '#e2e3e0',
+              cursor: 'pointer',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              transition: 'all 0.2s ease',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.03)'
+            }}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style={{ opacity: 0.85 }}>
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+            <span>View Architecture</span>
+          </button>
+        </div>
+      </div>
 
       {/* Interactive 3D Merry-Go-Round */}
-      <MerryGoRound />
-
-      {/* Rating badge */}
-      <div className="rating" style={{ position: 'relative', margin: '1.5rem auto 2.5rem', zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <div style={{ color: '#64748b', fontSize: '0.8125rem', fontWeight: 500, display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-          <span style={{ color: '#10b981' }}>★ 4.9/5</span>
-          <span>satisfaction across 4,900+ growing teams</span>
-        </div>
+      <div style={{ width: '100%', position: 'relative', zIndex: 15 }}>
+        <MerryGoRound />
       </div>
-    </section>
+    </header>
   )
 }
+
 
 
