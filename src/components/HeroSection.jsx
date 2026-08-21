@@ -29,7 +29,7 @@ function MerryGoRound() {
   const angleStep = 360 / numCards
   const radius = 340
 
-  // Continuous slow auto-rotation (pauses on hover or drag)
+  // Continuous slow auto-rotation + scroll-driven rotation
   useEffect(() => {
     let animId
     const autoRotate = () => {
@@ -39,7 +39,22 @@ function MerryGoRound() {
       animId = requestAnimationFrame(autoRotate)
     }
     animId = requestAnimationFrame(autoRotate)
-    return () => cancelAnimationFrame(animId)
+
+    let lastScrollY = window.scrollY
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY
+      const delta = currentScrollY - lastScrollY
+      lastScrollY = currentScrollY
+      if (!isDraggingRef.current) {
+        setRotationY((prev) => prev + delta * 0.15)
+      }
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+
+    return () => {
+      cancelAnimationFrame(animId)
+      window.removeEventListener('scroll', handleScroll)
+    }
   }, [])
 
   const handlePointerDown = (e) => {

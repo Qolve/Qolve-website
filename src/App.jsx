@@ -13,6 +13,7 @@ import Footer from './components/Footer'
 import TeamPage from './components/TeamPage'
 import ProductsPage from './components/ProductsPage'
 import ScrollProgress from './components/ui/ScrollProgress'
+import StickyScrollLock from './components/ui/StickyScrollLock'
 
 function App() {
   const [activePage, setActivePage] = useState('home')
@@ -59,6 +60,7 @@ function App() {
             <LogoLoop />
             <AboutSection />
             <ServicesSection />
+            <StickyScrollLock />
             <ExpertiseSection />
             <PricingSection />
             <TestimonialsSection />
