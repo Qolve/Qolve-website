@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import SpotlightCard from './ui/SpotlightCard'
 import CountUpNumber from './ui/CountUpNumber'
+import AsciiEarth from './ui/AsciiEarth'
 
 const headingWords = [
   { text: 'A', opacity: 1 },
@@ -28,77 +29,98 @@ export default function AboutSection() {
     <section className="section_about" id="about">
       <div className="padding-global">
         <div className="container-large">
-          <div className="vertical-center">
-            {/* Tag */}
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="tag"
-            >
-              <div className="dot-square" />
-              <div>About Qolve</div>
-            </motion.div>
-
-            <div className="spacer-large" />
-
-            {/* Animated heading with staggered word reveal on scroll */}
-            <div className="max-width-medium is-41rem">
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: '2rem',
+              flexWrap: 'wrap',
+            }}
+          >
+            {/* Left-aligned Header & Tag */}
+            <div style={{ flex: '1 1 32rem', textAlign: 'left' }}>
               <motion.div
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: '-40px' }}
-                variants={{
-                  hidden: { opacity: 0 },
-                  visible: {
-                    opacity: 1,
-                    transition: { staggerChildren: 0.05, delayChildren: 0.1 },
-                  },
-                }}
-                className="title-wrap"
-                style={{ justifyContent: 'center' }}
+                initial={{ opacity: 0, x: -15 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4 }}
+                className="tag"
+                style={{ alignSelf: 'flex-start' }}
               >
-                {headingWords.map((item, idx) => {
-                  if (item.icon) {
+                <div className="dot-square" />
+                <div>About Qolve</div>
+              </motion.div>
+
+              <div className="spacer-small" />
+
+              <div className="max-width-medium is-41rem">
+                <motion.div
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, margin: '-40px' }}
+                  variants={{
+                    hidden: { opacity: 0 },
+                    visible: {
+                      opacity: 1,
+                      transition: { staggerChildren: 0.04, delayChildren: 0.05 },
+                    },
+                  }}
+                  className="title-wrap"
+                  style={{ justifyContent: 'flex-start', textAlign: 'left' }}
+                >
+                  {headingWords.map((item, idx) => {
+                    if (item.icon) {
+                      return (
+                        <motion.img
+                          key={idx}
+                          variants={{
+                            hidden: { opacity: 0, scale: 0.5, rotate: -20 },
+                            visible: { opacity: 1, scale: 1, rotate: 0, transition: { duration: 0.4 } },
+                          }}
+                          src={item.icon}
+                          loading="lazy"
+                          alt=""
+                          className="title-icon"
+                        />
+                      )
+                    }
                     return (
-                      <motion.img
+                      <motion.h2
                         key={idx}
                         variants={{
-                          hidden: { opacity: 0, scale: 0.5, rotate: -20 },
-                          visible: { opacity: 1, scale: 1, rotate: 0, transition: { duration: 0.4 } },
+                          hidden: { opacity: 0, y: 12, filter: 'blur(4px)' },
+                          visible: {
+                            opacity: item.opacity,
+                            y: 0,
+                            filter: 'blur(0px)',
+                            transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] },
+                          },
                         }}
-                        src={item.icon}
-                        loading="lazy"
-                        alt=""
-                        className="title-icon"
-                      />
+                        className={item.highlight ? 'text-shimmer-lime' : ''}
+                        style={{ opacity: item.opacity, display: 'inline-block' }}
+                      >
+                        {item.text}
+                      </motion.h2>
                     )
-                  }
-                  return (
-                    <motion.h2
-                      key={idx}
-                      variants={{
-                        hidden: { opacity: 0, y: 16, filter: 'blur(4px)' },
-                        visible: {
-                          opacity: item.opacity,
-                          y: 0,
-                          filter: 'blur(0px)',
-                          transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1] },
-                        },
-                      }}
-                      className={item.highlight ? 'text-shimmer-lime' : ''}
-                      style={{ opacity: item.opacity, display: 'inline-block' }}
-                    >
-                      {item.text}
-                    </motion.h2>
-                  )
-                })}
-              </motion.div>
+                  })}
+                </motion.div>
+              </div>
             </div>
+
+            {/* Smooth Spinning ASCII Earth */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, x: 20 }}
+              whileInView={{ opacity: 1, scale: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.15 }}
+              style={{ flexShrink: 0 }}
+            >
+              <AsciiEarth size={16} />
+            </motion.div>
           </div>
 
-          <div className="spacer-section-large" />
+          <div className="spacer-medium" />
 
           {/* Bento Cards with Spotlight Effect & CountUp */}
           <div className="about_layout">
