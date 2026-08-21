@@ -32,10 +32,10 @@ export default function AboutSection() {
       style={{
         position: 'relative',
         overflow: 'hidden',
-        background: '#0f0f0f',
+        background: '#ffffff',
       }}
     >
-      {/* Giant Ambient Background ASCII Earth - Slowly spinning from right edge under cards */}
+      {/* Giant Ambient Background ASCII Earth / Moon - Black ASCII spinning on white background */}
       <div
         style={{
           position: 'absolute',
@@ -44,13 +44,13 @@ export default function AboutSection() {
           transform: 'translateY(-50%)',
           zIndex: 1,
           pointerEvents: 'none',
-          opacity: 0.8,
+          opacity: 0.85,
           userSelect: 'none',
           maskImage: 'radial-gradient(ellipse 90% 90% at 75% 50%, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 95%)',
           WebkitMaskImage: 'radial-gradient(ellipse 90% 90% at 75% 50%, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 95%)',
         }}
       >
-        <AsciiEarth size={48} speed={0.005} />
+        <AsciiEarth size={48} speed={0.005} color="#000000" />
       </div>
 
       <div className="padding-global" style={{ position: 'relative', zIndex: 5, width: '100%' }}>
