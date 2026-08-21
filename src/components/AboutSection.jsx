@@ -39,8 +39,12 @@ export default function AboutSection() {
       {/* Static Curated ASCII Starfield & Constellations */}
       <AsciiStarfield variant="about" opacity={0.75} />
 
-      {/* Giant Ambient Background ASCII Earth - Black ASCII spinning on white background */}
-      <div
+      {/* Giant Ambient Background ASCII Earth - Smooth pull-into-side scroll animation */}
+      <motion.div
+        initial={{ opacity: 0, x: 260 }}
+        whileInView={{ opacity: 0.95, x: 0 }}
+        viewport={{ amount: 0.3 }}
+        transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
         style={{
           position: 'absolute',
           right: '-18vw',
@@ -48,12 +52,11 @@ export default function AboutSection() {
           transform: 'translateY(-50%)',
           zIndex: 1,
           pointerEvents: 'none',
-          opacity: 0.95,
           userSelect: 'none',
         }}
       >
         <AsciiEarth size={48} speed={0.005} />
-      </div>
+      </motion.div>
 
       <div className="padding-global" style={{ position: 'relative', zIndex: 5, width: '100%' }}>
         <div className="container-large">

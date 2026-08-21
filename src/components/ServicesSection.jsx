@@ -51,20 +51,23 @@ export default function ServicesSection() {
       {/* Static Curated ASCII Starfield for Services */}
       <AsciiStarfield variant="services" opacity={0.75} />
 
-      {/* Accurate ASCII Moon in the Top Left Corner (Original Ambient Corner Position) */}
-      <div
+      {/* Accurate ASCII Moon - Smooth pull-into-corner scroll animation */}
+      <motion.div
+        initial={{ opacity: 0, x: -240, y: -120 }}
+        whileInView={{ opacity: 0.9, x: 0, y: 0 }}
+        viewport={{ amount: 0.3 }}
+        transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
         style={{
           position: 'absolute',
           left: '-8vw',
           top: '-4vw',
           zIndex: 1,
           pointerEvents: 'none',
-          opacity: 0.9,
           userSelect: 'none',
         }}
       >
         <AsciiMoon size={36} speed={0.003} />
-      </div>
+      </motion.div>
 
       <div className="padding-global" style={{ position: 'relative', zIndex: 5, width: '100%' }}>
         <div className="container-large">
