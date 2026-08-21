@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 
 const SECTIONS = [
   { id: 'home', label: 'Overview' },
@@ -15,38 +15,176 @@ const SECTIONS = [
 export default function SmoothScrollProvider({ children }) {
   const [activeSection, setActiveSection] = useState('home')
   const [isHoveredNav, setIsHoveredNav] = useState(false)
+  const currentIndexRef = useRef(0)
+  const isLockedRef = useRef(false)
+  const animFrameRef = useRef(null)
+  const touchStartYRef = useRef(0)
 
-  // Track active section via IntersectionObserver for completely natural, free scrolling
+  // Get live section DOM elements
+  const getSectionElements = useCallback(() => {
+    return SECTIONS.map((sec) => document.getElementById(sec.id)).filter(Boolean)
+  }, [])
+
+  // Find the currently closest section index
+  const getClosestSectionIndex = useCallback(() => {
+    const elements = getSectionElements()
+    if (!elements.length) return 0
+    const scrollY = window.scrollY
+    let closestIdx = 0
+    let minDiff = Infinity
+
+    elements.forEach((el, idx) => {
+      const diff = Math.abs(el.offsetTop - scrollY)
+      if (diff < minDiff) {
+        minDiff = diff
+        closestIdx = idx
+      }
+    })
+    return closestIdx
+  }, [getSectionElements])
+
+  // Smooth locked glide to target section
+  const lockGlideTo = useCallback((targetIndex) => {
+    const elements = getSectionElements()
+    if (!elements.length || targetIndex < 0 || targetIndex >= elements.length) return
+
+    const targetEl = elements[targetIndex]
+    if (!targetEl) return
+
+    isLockedRef.current = true
+    currentIndexRef.current = targetIndex
+    setActiveSection(SECTIONS[targetIndex]?.id || 'home')
+
+    if (animFrameRef.current) {
+      cancelAnimationFrame(animFrameRef.current)
+    }
+
+    const startY = window.scrollY
+    const endY = targetEl.offsetTop
+    const distance = endY - startY
+    const duration = 520 // Silky responsive transition
+    let startTime = null
+
+    // Smooth cubic bezier easing
+    const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3)
+
+    function animateScroll(currentTime) {
+      if (!startTime) startTime = currentTime
+      const elapsed = currentTime - startTime
+      const progress = Math.min(elapsed / duration, 1)
+      const ease = easeOutCubic(progress)
+
+      window.scrollTo(0, Math.round(startY + distance * ease))
+
+      if (progress < 1) {
+        animFrameRef.current = requestAnimationFrame(animateScroll)
+      } else {
+        window.scrollTo(0, endY)
+        // Keep lock active for brief cooldown to absorb trackpad momentum inertia
+        setTimeout(() => {
+          isLockedRef.current = false
+        }, 220)
+      }
+    }
+
+    animFrameRef.current = requestAnimationFrame(animateScroll)
+  }, [getSectionElements])
+
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollPos = window.scrollY + window.innerHeight * 0.35
-      for (let i = SECTIONS.length - 1; i >= 0; i--) {
-        const el = document.getElementById(SECTIONS[i].id)
-        if (el && el.offsetTop <= scrollPos) {
-          setActiveSection(SECTIONS[i].id)
-          break
+    // 1. Wheel Interceptor for Desktop Section Locking
+    const handleWheel = (e) => {
+      // Prevent default native loose scrolling
+      e.preventDefault()
+
+      if (isLockedRef.current) return
+      if (Math.abs(e.deltaY) < 15) return // Ignore sub-threshold jitter
+
+      const currentIdx = getClosestSectionIndex()
+
+      if (e.deltaY > 0 && currentIdx < SECTIONS.length - 1) {
+        lockGlideTo(currentIdx + 1)
+      } else if (e.deltaY < 0 && currentIdx > 0) {
+        lockGlideTo(currentIdx - 1)
+      }
+    }
+
+    // 2. Keyboard Navigation (Arrow keys, Space, PageUp, PageDown)
+    const handleKeyDown = (e) => {
+      if (isLockedRef.current) return
+      const currentIdx = getClosestSectionIndex()
+
+      if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
+        if (currentIdx < SECTIONS.length - 1) {
+          e.preventDefault()
+          lockGlideTo(currentIdx + 1)
+        }
+      } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+        if (currentIdx > 0) {
+          e.preventDefault()
+          lockGlideTo(currentIdx - 1)
         }
       }
     }
 
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    handleScroll()
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+    // 3. Touch Gestures for Tablets
+    const handleTouchStart = (e) => {
+      touchStartYRef.current = e.touches[0].clientY
+    }
+
+    const handleTouchEnd = (e) => {
+      if (isLockedRef.current) return
+      const touchEndY = e.changedTouches[0].clientY
+      const deltaY = touchStartYRef.current - touchEndY
+
+      if (Math.abs(deltaY) > 40) {
+        const currentIdx = getClosestSectionIndex()
+        if (deltaY > 0 && currentIdx < SECTIONS.length - 1) {
+          lockGlideTo(currentIdx + 1)
+        } else if (deltaY < 0 && currentIdx > 0) {
+          lockGlideTo(currentIdx - 1)
+        }
+      }
+    }
+
+    // 4. Window Resize Re-alignment
+    const handleResize = () => {
+      if (!isLockedRef.current) {
+        const currentIdx = currentIndexRef.current
+        const elements = getSectionElements()
+        if (elements[currentIdx]) {
+          window.scrollTo(0, elements[currentIdx].offsetTop)
+        }
+      }
+    }
+
+    window.addEventListener('wheel', handleWheel, { passive: false })
+    window.addEventListener('keydown', handleKeyDown)
+    window.addEventListener('touchstart', handleTouchStart, { passive: true })
+    window.addEventListener('touchend', handleTouchEnd, { passive: true })
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current)
+      window.removeEventListener('wheel', handleWheel)
+      window.removeEventListener('keydown', handleKeyDown)
+      window.removeEventListener('touchstart', handleTouchStart)
+      window.removeEventListener('touchend', handleTouchEnd)
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [getClosestSectionIndex, lockGlideTo, getSectionElements])
 
   const handleHudClick = useCallback((id) => {
-    const targetEl = document.getElementById(id)
-    if (targetEl) {
-      targetEl.scrollIntoView({ behavior: 'smooth' })
-      setActiveSection(id)
+    const index = SECTIONS.findIndex((s) => s.id === id)
+    if (index !== -1) {
+      lockGlideTo(index)
     }
-  }, [])
+  }, [lockGlideTo])
 
   return (
     <>
       {children}
 
-      {/* Floating Section Tracker HUD */}
+      {/* Floating Section Locked Indicator HUD */}
       <div
         className="fixed-section-hud"
         onMouseEnter={() => setIsHoveredNav(true)}
@@ -70,7 +208,7 @@ export default function SmoothScrollProvider({ children }) {
             <button
               key={sec.id}
               onClick={() => handleHudClick(sec.id)}
-              aria-label={`Scroll to ${sec.label}`}
+              aria-label={`Lock to ${sec.label}`}
               style={{
                 background: 'none',
                 border: 'none',
