@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 import SpotlightCard from './ui/SpotlightCard'
 import { WordReveal } from './ui/TextReveal'
 import AsciiMoon from './ui/AsciiMoon'
-import GlisteningStars from './ui/GlisteningStars'
+import AsciiStarscape from './ui/AsciiStarscape'
 
 const ArrowIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -48,8 +48,8 @@ export default function ServicesSection() {
         background: '#ffffff',
       }}
     >
-      {/* Glistening Stars in the background */}
-      <GlisteningStars count={35} />
+      {/* Authentic ASCII Terminal Starscape & Constellations */}
+      <AsciiStarscape opacity={0.55} />
 
       {/* Accurate ASCII Moon in the Top Left Corner */}
       <div

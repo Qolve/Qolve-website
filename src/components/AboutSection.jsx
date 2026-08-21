@@ -3,7 +3,7 @@ import SpotlightCard from './ui/SpotlightCard'
 import CountUpNumber from './ui/CountUpNumber'
 import AsciiEarth from './ui/AsciiEarth'
 import AsciiMoon from './ui/AsciiMoon'
-import GlisteningStars from './ui/GlisteningStars'
+import AsciiStarscape from './ui/AsciiStarscape'
 
 const headingWords = [
   { text: 'A', opacity: 1 },
@@ -37,8 +37,8 @@ export default function AboutSection() {
         background: '#ffffff',
       }}
     >
-      {/* Slow Glistening Stars */}
-      <GlisteningStars count={35} />
+      {/* Authentic ASCII Terminal Starscape & Constellations */}
+      <AsciiStarscape opacity={0.6} />
 
       {/* Accurate ASCII Moon in Top Left Corner */}
       <div
