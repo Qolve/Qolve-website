@@ -53,12 +53,12 @@ export default function AboutSection() {
       {/* Hypnotic 3D ASCII Starfield with Earth Exclusion Boundary */}
       <Ascii3DStarfield variant="about" opacity={0.7} numStars={160} baseSpeed={0.35} />
 
-      {/* Ambient Background ASCII Earth - Half Visible on the Right Side */}
+      {/* Ambient Background ASCII Earth - 60% Prominently Visible on the Right Side */}
       <div
         className="ascii-earth-wrap"
         style={{
           position: 'absolute',
-          right: '-18vw',
+          right: '-14vw',
           top: '50%',
           transform: 'translateY(-50%)',
           zIndex: 1,
