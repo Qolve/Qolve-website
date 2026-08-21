@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import { motion, useInView } from 'framer-motion'
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
 import SpotlightCard from './ui/SpotlightCard'
 import CountUpNumber from './ui/CountUpNumber'
 import AsciiEarth from './ui/AsciiEarth'
@@ -28,7 +28,16 @@ const headingWords = [
 
 export default function AboutSection() {
   const sectionRef = useRef(null)
-  const isInView = useInView(sectionRef, { amount: 0.15 })
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'end start'],
+  })
+
+  // Smooth scroll-driven animation: pulls into side and fades in real-time with scroll
+  const rawEarthX = useTransform(scrollYProgress, [0, 0.35, 0.65, 1], [340, 0, 0, 340])
+  const rawEarthOpacity = useTransform(scrollYProgress, [0, 0.28, 0.72, 1], [0, 0.95, 0.95, 0])
+  const earthX = useSpring(rawEarthX, { stiffness: 140, damping: 28, mass: 0.5 })
+  const earthOpacity = useSpring(rawEarthOpacity, { stiffness: 140, damping: 28, mass: 0.5 })
 
   return (
     <section
@@ -56,13 +65,7 @@ export default function AboutSection() {
           userSelect: 'none',
         }}
       >
-        <motion.div
-          animate={{
-            opacity: isInView ? 0.95 : 0,
-            x: isInView ? 0 : 260,
-          }}
-          transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
-        >
+        <motion.div style={{ x: earthX, opacity: earthOpacity }}>
           <AsciiEarth size={48} speed={0.005} />
         </motion.div>
       </div>

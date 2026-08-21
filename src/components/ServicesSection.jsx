@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import { motion, useInView } from 'framer-motion'
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
 import SpotlightCard from './ui/SpotlightCard'
 import { WordReveal } from './ui/TextReveal'
 import AsciiMoon from './ui/AsciiMoon'
@@ -40,7 +40,19 @@ const services = [
 
 export default function ServicesSection() {
   const sectionRef = useRef(null)
-  const isInView = useInView(sectionRef, { amount: 0.15 })
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'end start'],
+  })
+
+  // Smooth scroll-driven animation: pulls into corner and fades in real-time with scroll
+  const rawMoonX = useTransform(scrollYProgress, [0, 0.35, 0.65, 1], [-260, 0, 0, -260])
+  const rawMoonY = useTransform(scrollYProgress, [0, 0.35, 0.65, 1], [-130, 0, 0, -130])
+  const rawMoonOpacity = useTransform(scrollYProgress, [0, 0.28, 0.72, 1], [0, 0.9, 0.9, 0])
+
+  const moonX = useSpring(rawMoonX, { stiffness: 140, damping: 28, mass: 0.5 })
+  const moonY = useSpring(rawMoonY, { stiffness: 140, damping: 28, mass: 0.5 })
+  const moonOpacity = useSpring(rawMoonOpacity, { stiffness: 140, damping: 28, mass: 0.5 })
 
   return (
     <section
@@ -67,14 +79,7 @@ export default function ServicesSection() {
           userSelect: 'none',
         }}
       >
-        <motion.div
-          animate={{
-            opacity: isInView ? 0.9 : 0,
-            x: isInView ? 0 : -240,
-            y: isInView ? 0 : -120,
-          }}
-          transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
-        >
+        <motion.div style={{ x: moonX, y: moonY, opacity: moonOpacity }}>
           <AsciiMoon size={36} speed={0.003} />
         </motion.div>
       </div>
