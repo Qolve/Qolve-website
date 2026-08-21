@@ -60,7 +60,6 @@ export default function TestimonialsSection() {
 
   return (
     <section className="section_testimonials" id="testimonials">
-      <div className="padding-section-medium" />
       <div className="padding-global">
         <div className="container-large">
           <div>
@@ -75,11 +74,11 @@ export default function TestimonialsSection() {
               <div>Testimonials</div>
             </motion.div>
 
-            <div className="spacer-medium" />
+            <div className="spacer-small" />
 
             <WordReveal as="h2">What partners say about us</WordReveal>
 
-            <div className="spacer-medium" />
+            <div className="spacer-small" />
 
             <div className="testi_wrap">
               <motion.div
@@ -135,7 +134,7 @@ export default function TestimonialsSection() {
                     loading="lazy"
                     alt=""
                     className="img"
-                    style={{ width: '100%', height: '28rem', objectFit: 'cover' }}
+                    style={{ width: '100%', height: '16rem', objectFit: 'cover' }}
                   />
                   {/* Logo */}
                   <div className="testimonials_logo-container">
@@ -149,11 +148,11 @@ export default function TestimonialsSection() {
                       <div className="icon-1x1-large" style={{ color: '#d6fd70' }}>
                         <QuoteIcon />
                       </div>
-                      <div className="text-lg" style={{ display: '-webkit-box', overflow: 'hidden', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', lineHeight: 1.5 }}>
+                      <div className="text-base" style={{ display: '-webkit-box', overflow: 'hidden', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', lineHeight: 1.4 }}>
                         {t.quote}
                       </div>
-                      <div className="spacer-large" />
-                      <div className="text-align-right" style={{ fontWeight: 600, color: '#d6fd70' }}>{t.author}</div>
+                      <div className="spacer-small" />
+                      <div className="text-align-right" style={{ fontWeight: 600, color: '#d6fd70', fontSize: '0.8125rem' }}>{t.author}</div>
                     </div>
                   </div>
                 </div>

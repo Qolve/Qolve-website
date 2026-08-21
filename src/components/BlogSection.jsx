@@ -23,7 +23,6 @@ const blogPosts = [
 export default function BlogSection() {
   return (
     <section className="section_blog" id="blog">
-      <div className="padding-section-large" />
       <div className="padding-global">
         <div className="container-large">
           <div className="horizontal-bottom is-between">
@@ -39,11 +38,11 @@ export default function BlogSection() {
                 <div>Insights &amp; Articles</div>
               </motion.div>
 
-              <div className="spacer-medium" />
+              <div className="spacer-small" />
 
               <WordReveal as="h2">Latest insights and trends</WordReveal>
 
-              <div className="spacer-medium" />
+              <div className="spacer-small" />
 
               <motion.div
                 initial={{ opacity: 0, y: 12 }}
@@ -97,11 +96,11 @@ export default function BlogSection() {
                       loading="lazy"
                       alt=""
                       className="img"
-                      style={{ width: '100%', height: '20rem', objectFit: 'cover' }}
+                      style={{ width: '100%', height: '12.5rem', objectFit: 'cover' }}
                     />
                     <div className="blur-card" />
                     <div className="blog_card-content">
-                      <h3 className="text-xl text-color-on-primary relative">{post.title}</h3>
+                      <h3 className="text-lg text-color-on-primary relative" style={{ lineHeight: 1.3 }}>{post.title}</h3>
                     </div>
                   </a>
                 </SpotlightCard>
@@ -110,7 +109,6 @@ export default function BlogSection() {
           </div>
         </div>
       </div>
-      <div className="padding-section-large" />
     </section>
   )
 }

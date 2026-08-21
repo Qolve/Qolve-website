@@ -5,7 +5,6 @@ import { WordReveal } from './ui/TextReveal'
 export default function ExpertiseSection() {
   return (
     <section className="section_expertise" id="expertise">
-      <div className="padding-section-large" />
       <div className="padding-global">
         <div className="container-large">
           {/* Header */}
@@ -20,7 +19,7 @@ export default function ExpertiseSection() {
               <div className="dot-square" />
               <div>Core Expertise</div>
             </motion.div>
-            <div className="spacer-large" />
+            <div className="spacer-small" />
             <div className="max-width-medium is-41rem text-align-center">
               <WordReveal
                 className="text-align-center"
@@ -30,7 +29,7 @@ export default function ExpertiseSection() {
                 Where human insight meets intelligent technology
               </WordReveal>
             </div>
-            <div className="spacer-large" />
+            <div className="spacer-small" />
             <motion.div
               initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -353,7 +352,6 @@ export default function ExpertiseSection() {
           </div>
         </div>
       </div>
-      <div className="padding-section-large" />
     </section>
   )
 }

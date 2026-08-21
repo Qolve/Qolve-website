@@ -189,20 +189,50 @@ p, .text-base {
 }
 
 .padding-section-large {
-  height: 6rem;
+  height: 1.5rem;
 }
 
 .padding-section-medium {
-  height: 4rem;
+  height: 1rem;
 }
 
-.spacer-xsmall { height: 0.5rem; }
-.spacer-small { height: 0.75rem; }
-.spacer-medium { height: 1.5rem; }
-.spacer-large { height: 2rem; }
-.spacer-huge { height: 3rem; }
-.spacer-section-medium { height: 3rem; }
-.spacer-section-large { height: 4rem; }
+.spacer-xsmall { height: 0.35rem; }
+.spacer-small { height: 0.5rem; }
+.spacer-medium { height: 0.85rem; }
+.spacer-large { height: 1.25rem; }
+.spacer-huge { height: 1.75rem; }
+.spacer-section-medium { height: 1.5rem; }
+.spacer-section-large { height: 2rem; }
+
+/* Viewport screen-fitting for fixed snap sections */
+.section_hero,
+.section_about,
+.section_services,
+.section_expertise,
+.section_pricing,
+.section_testimonials,
+.section_blog,
+.section_cta {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2rem 0;
+  box-sizing: border-box;
+}
+
+@media (max-height: 800px) {
+  .section_hero,
+  .section_about,
+  .section_services,
+  .section_expertise,
+  .section_pricing,
+  .section_testimonials,
+  .section_blog,
+  .section_cta {
+    padding: 1.25rem 0;
+  }
+}
 
 .vertical-center {
   display: flex;
@@ -213,6 +243,7 @@ p, .text-base {
 .horizontal-left-center {
   display: flex;
   align-items: center;
+
 }
 .horizontal-left-center.is-small { gap: 0.625rem; }
 

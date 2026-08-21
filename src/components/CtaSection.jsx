@@ -60,13 +60,13 @@ export default function CtaSection() {
               </div>
             </motion.div>
 
-            <div className="spacer-huge" />
+            <div className="spacer-medium" />
 
             <WordReveal as="h2" style={{ color: '#ffffff' }}>
               We combine human insight with artificial intelligence
             </WordReveal>
 
-            <div className="spacer-medium" />
+            <div className="spacer-small" />
 
             <motion.div
               initial={{ opacity: 0, y: 15 }}
@@ -75,12 +75,12 @@ export default function CtaSection() {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="max-width-medium is-33rem"
             >
-              <div className="text-color-on-primary" style={{ opacity: 0.85, lineHeight: 1.7 }}>
+              <div className="text-color-on-primary" style={{ opacity: 0.85, lineHeight: 1.6, fontSize: '0.9375rem' }}>
                 Our engineering team bridges strategic thinking and advanced support technologies to help companies streamline customer inquiries, improve resolution velocity, and protect brand autonomy.
               </div>
             </motion.div>
 
-            <div className="spacer-huge" />
+            <div className="spacer-large" />
 
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}

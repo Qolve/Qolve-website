@@ -27,7 +27,7 @@ function MerryGoRound() {
 
   const numCards = CAROUSEL_IMAGES.length
   const angleStep = 360 / numCards
-  const radius = 340
+  const radius = 270
 
   // Continuous slow auto-rotation + scroll-driven rotation
   useEffect(() => {
@@ -113,7 +113,7 @@ function MerryGoRound() {
       style={{
         width: '100%',
         perspective: '1200px',
-        padding: '3rem 0',
+        padding: '1.25rem 0',
         position: 'relative',
         zIndex: 10,
         isolation: 'isolate',
@@ -133,8 +133,8 @@ function MerryGoRound() {
       <div
         style={{
           position: 'relative',
-          width: '220px',
-          height: '150px',
+          width: '185px',
+          height: '125px',
           margin: '0 auto',
           transformStyle: 'preserve-3d',
           transform: `rotateX(-6deg) rotateY(${rotationY}deg)`,
@@ -148,16 +148,16 @@ function MerryGoRound() {
               key={i}
               style={{
                 position: 'absolute',
-                width: '220px',
-                height: '150px',
+                width: '185px',
+                height: '125px',
                 left: 0,
                 top: 0,
                 transformStyle: 'preserve-3d',
                 transform: `rotateY(${itemAngle}deg) translateZ(${radius}px)`,
-                borderRadius: '0.875rem',
+                borderRadius: '0.75rem',
                 overflow: 'hidden',
                 backgroundColor: '#141414',
-                boxShadow: '0 16px 40px rgba(0,0,0,0.85), 0 0 0 1px rgba(255,255,255,0.18)',
+                boxShadow: '0 12px 30px rgba(0,0,0,0.85), 0 0 0 1px rgba(255,255,255,0.18)',
                 backfaceVisibility: 'hidden',
                 WebkitBackfaceVisibility: 'hidden',
                 isolation: 'isolate',
@@ -177,7 +177,7 @@ function MerryGoRound() {
                   userSelect: 'none',
                   WebkitUserSelect: 'none',
                   WebkitUserDrag: 'none',
-                  borderRadius: '0.875rem',
+                  borderRadius: '0.75rem',
                   opacity: 1,
                 }}
               />
@@ -190,13 +190,13 @@ function MerryGoRound() {
       <div
         style={{
           textAlign: 'center',
-          marginTop: '2.5rem',
+          marginTop: '1.25rem',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           gap: '0.5rem',
           color: 'rgba(255,255,255,0.7)',
-          fontSize: '0.8125rem',
+          fontSize: '0.75rem',
           fontWeight: 500,
           letterSpacing: '0.02em',
           textShadow: '0 2px 8px rgba(0,0,0,0.8)',

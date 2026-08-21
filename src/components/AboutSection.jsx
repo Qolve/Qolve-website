@@ -26,7 +26,6 @@ const headingWords = [
 export default function AboutSection() {
   return (
     <section className="section_about" id="about">
-      <div className="padding-section-large" />
       <div className="padding-global">
         <div className="container-large">
           <div className="vertical-center">
@@ -218,7 +217,6 @@ export default function AboutSection() {
           </div>
         </div>
       </div>
-      <div className="padding-section-large" />
     </section>
   )
 }

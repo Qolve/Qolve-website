@@ -81,7 +81,6 @@ export default function PricingSection() {
 
   return (
     <section className="section_pricing" id="pricing">
-      <div className="padding-section-medium" />
       <div className="padding-global">
         <div className="container-large">
           <div className="vertical-center">
@@ -96,7 +95,7 @@ export default function PricingSection() {
               <div>Transparent Qolve Pricing</div>
             </motion.div>
 
-            <div className="spacer-medium" />
+            <div className="spacer-small" />
 
             <div className="max-width-medium text-align-center">
               <WordReveal
@@ -108,7 +107,7 @@ export default function PricingSection() {
               </WordReveal>
             </div>
 
-            <div className="spacer-medium" />
+            <div className="spacer-small" />
 
             <motion.div
               initial={{ opacity: 0, y: 15 }}
@@ -122,7 +121,7 @@ export default function PricingSection() {
               </div>
             </motion.div>
 
-            <div className="spacer-medium" />
+            <div className="spacer-small" />
 
             {/* Interactive Billing Toggle */}
             <motion.div
@@ -135,9 +134,9 @@ export default function PricingSection() {
                 alignItems: 'center',
                 background: '#141414',
                 border: '1px solid rgba(255, 255, 255, 0.1)',
-                padding: '0.35rem',
+                padding: '0.25rem',
                 borderRadius: '9999px',
-                gap: '0.5rem',
+                gap: '0.35rem',
               }}
             >
               <button
@@ -147,9 +146,9 @@ export default function PricingSection() {
                   color: !isAnnual ? '#0f0f0f' : '#888888',
                   border: 'none',
                   borderRadius: '9999px',
-                  padding: '0.5rem 1.25rem',
+                  padding: '0.35rem 1rem',
                   fontWeight: 600,
-                  fontSize: '0.875rem',
+                  fontSize: '0.8125rem',
                   cursor: 'pointer',
                   transition: 'all 0.2s ease',
                 }}
@@ -163,9 +162,9 @@ export default function PricingSection() {
                   color: isAnnual ? '#0f0f0f' : '#888888',
                   border: 'none',
                   borderRadius: '9999px',
-                  padding: '0.5rem 1.25rem',
+                  padding: '0.35rem 1rem',
                   fontWeight: 600,
-                  fontSize: '0.875rem',
+                  fontSize: '0.8125rem',
                   cursor: 'pointer',
                   display: 'inline-flex',
                   alignItems: 'center',
@@ -178,8 +177,8 @@ export default function PricingSection() {
                   style={{
                     background: isAnnual ? '#0f0f0f' : 'rgba(214, 253, 112, 0.15)',
                     color: isAnnual ? '#d6fd70' : '#d6fd70',
-                    fontSize: '0.7rem',
-                    padding: '0.15rem 0.45rem',
+                    fontSize: '0.65rem',
+                    padding: '0.1rem 0.4rem',
                     borderRadius: '9999px',
                     fontWeight: 700,
                   }}
@@ -190,7 +189,7 @@ export default function PricingSection() {
             </motion.div>
           </div>
 
-          <div className="spacer-section-medium" />
+          <div className="spacer-medium" />
 
           {/* Pricing cards with Spotlight and price flip */}
           <div className="pricing_cards">
@@ -207,13 +206,13 @@ export default function PricingSection() {
                   <SpotlightCard
                     className={`pricing_card ${plan.isTop ? 'is-top' : ''}`}
                     spotlightColor={plan.isTop ? 'rgba(214, 253, 112, 0.2)' : 'rgba(0, 0, 0, 0.05)'}
-                    style={{ height: '100%' }}
+                    style={{ height: '100%', padding: '1.5rem', borderRadius: '1.25rem' }}
                   >
                     <div className="horizontal-left-center is-small">
-                      <div className={`container-icon ${plan.iconBg}`}>
+                      <div className={`container-icon ${plan.iconBg}`} style={{ width: '2rem', height: '2rem' }}>
                         {plan.icon}
                       </div>
-                      <div className="geistmono text-style-nowrap" style={{ fontWeight: 700 }}>
+                      <div className="geistmono text-style-nowrap" style={{ fontWeight: 700, fontSize: '0.875rem' }}>
                         {plan.name}
                       </div>
                       {plan.isTop && (
@@ -222,9 +221,9 @@ export default function PricingSection() {
                             marginLeft: 'auto',
                             background: '#d6fd70',
                             color: '#0f0f0f',
-                            fontSize: '0.7rem',
+                            fontSize: '0.65rem',
                             fontWeight: 700,
-                            padding: '0.2rem 0.6rem',
+                            padding: '0.15rem 0.5rem',
                             borderRadius: '9999px',
                             textTransform: 'uppercase',
                             letterSpacing: '0.05em',
@@ -235,7 +234,7 @@ export default function PricingSection() {
                       )}
                     </div>
 
-                    <div className="text-base text-color-secondary">{plan.description}</div>
+                    <div className="text-sm text-color-secondary" style={{ lineHeight: 1.4 }}>{plan.description}</div>
 
                     <div className="horizontal-left-center is-small">
                       <AnimatePresence mode="wait">
@@ -246,28 +245,28 @@ export default function PricingSection() {
                           exit={{ opacity: 0, y: 10 }}
                           transition={{ duration: 0.2 }}
                           className="text-4xl"
-                          style={{ fontWeight: 800 }}
+                          style={{ fontWeight: 800, fontSize: '2rem' }}
                         >
                           ${currentPrice}
                         </motion.div>
                       </AnimatePresence>
-                      <div className="text-base text-color-secondary">
-                        /month {isAnnual && <span style={{ fontSize: '0.75rem' }}>(billed annually)</span>}
+                      <div className="text-sm text-color-secondary">
+                        /mo {isAnnual && <span style={{ fontSize: '0.7rem' }}>(annual)</span>}
                       </div>
                     </div>
 
-                    <div className="gap-xsmall" style={{ margin: '1rem 0' }}>
+                    <div className="gap-xsmall" style={{ margin: '0.75rem 0' }}>
                       {plan.features.map((feat, j) => (
                         <div key={j}>
                           <div className="horizontal-left-center is-small">
-                            <div className="icon-1x1-medium" style={{ color: plan.isTop ? '#d6fd70' : '#16a34a' }}>
+                            <div className="icon-1x1-medium" style={{ color: plan.isTop ? '#d6fd70' : '#16a34a', width: '1.1rem', height: '1.1rem' }}>
                               <CheckIcon />
                             </div>
-                            <div className="text-color-secondary" style={{ fontSize: '0.9375rem' }}>
+                            <div className="text-color-secondary" style={{ fontSize: '0.8125rem', lineHeight: 1.3 }}>
                               {feat}
                             </div>
                           </div>
-                          {j < plan.features.length - 1 && <div className="spacer-medium" />}
+                          {j < plan.features.length - 1 && <div className="spacer-xsmall" />}
                         </div>
                       ))}
                     </div>
@@ -282,11 +281,13 @@ export default function PricingSection() {
                         background: plan.isTop ? '#d6fd70' : '#0f0f0f',
                         color: plan.isTop ? '#0f0f0f' : '#ffffff',
                         fontWeight: 700,
+                        padding: '0.6rem 1rem',
+                        fontSize: '0.875rem',
                         boxShadow: plan.isTop ? '0 0 20px rgba(214, 253, 112, 0.3)' : 'none',
                       }}
                     >
                       <div className="text-button-wrap">
-                        <div>Get Started with {plan.name.split(' ')[0]}</div>
+                        <div>Get Started</div>
                       </div>
                     </a>
                   </SpotlightCard>
@@ -296,7 +297,6 @@ export default function PricingSection() {
           </div>
         </div>
       </div>
-      <div className="padding-section-medium" />
     </section>
   )
 }

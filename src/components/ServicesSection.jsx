@@ -38,7 +38,6 @@ const services = [
 export default function ServicesSection() {
   return (
     <section className="section_services" id="services">
-      <div className="padding-section-large" />
       <div className="padding-global">
         <div className="container-large">
           <div className="vertical-center">
@@ -53,7 +52,7 @@ export default function ServicesSection() {
               <div>Services &amp; Capabilities</div>
             </motion.div>
 
-            <div className="spacer-large" />
+            <div className="spacer-small" />
 
             <div className="max-width-medium is-41rem text-align-center">
               <WordReveal
@@ -65,7 +64,7 @@ export default function ServicesSection() {
               </WordReveal>
             </div>
 
-            <div className="spacer-large" />
+            <div className="spacer-small" />
 
             <motion.div
               initial={{ opacity: 0, y: 15 }}
@@ -79,7 +78,7 @@ export default function ServicesSection() {
               </div>
             </motion.div>
 
-            <div className="spacer-large" />
+            <div className="spacer-medium" />
 
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
@@ -131,7 +130,7 @@ export default function ServicesSection() {
                       </div>
                     </div>
                     <div className={`service_img ${service.imgClass}`}>
-                      <img src={service.imgSrc} loading="lazy" alt={service.title} className="img" />
+                      <img src={service.imgSrc} loading="lazy" alt={service.title} className="img" style={{ maxHeight: '11rem', objectFit: 'cover' }} />
                     </div>
                   </a>
                 </SpotlightCard>
@@ -140,7 +139,6 @@ export default function ServicesSection() {
           </div>
         </div>
       </div>
-      <div className="padding-section-large" />
     </section>
   )
 }
