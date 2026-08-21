@@ -1,13 +1,13 @@
 import React, { useEffect, useRef } from 'react'
 
 /**
- * Ascii3DStarfield - Multi-Color & Shape Glistening Starfield
+ * Ascii3DStarfield - Ultra-Slow Celestial Breathing & Gradient Glisten
  *
  * Features:
- * - Much slower, graceful glistening cycles (8–14 seconds per cycle)
- * - Randomized glistening behaviors: Shape-morphing, Color-gradient morphing, Dual morphing, or Solid
- * - Beautiful cosmic color palettes (Monochrome, Solar Gold, Cyber Lime, Ice Cyan, Nebula Violet)
- * - Stationary in balanced distribution when page is at rest
+ * - Ultra-slow, serene glistening cycles (~35–60 seconds per period)
+ * - Continuous smooth RGB color gradient interpolation
+ * - Randomized behaviors: Shape-morphing, continuous Color blending, Dual morphing, or Solid
+ * - Stationary in balanced grid distribution when page is at rest
  * - Hyperspace vertical travel streaks on scroll
  * - Exact outskirts boundary clipping around Earth and Moon
  */
@@ -20,13 +20,34 @@ const COLOR_PALETTES = [
   ['#000000', '#334155', '#64748b', '#94a3b8', '#64748b', '#334155', '#000000'],
   // 2. Solar Gold / Amber shimmer
   ['#000000', '#78350f', '#d97706', '#fbbf24', '#d97706', '#78350f', '#000000'],
-  // 3. Cyber Lime / Emerald shimmer (matching Qolve brand accents)
+  // 3. Cyber Lime / Emerald shimmer
   ['#000000', '#14532d', '#65a30d', '#a3e635', '#65a30d', '#14532d', '#000000'],
   // 4. Deep Ice Cyan shimmer
   ['#000000', '#0c4a6e', '#0284c7', '#38bdf8', '#0284c7', '#0c4a6e', '#000000'],
   // 5. Nebula Violet shimmer
   ['#000000', '#581c87', '#9333ea', '#c084fc', '#9333ea', '#581c87', '#000000'],
 ]
+
+function hexToRgb(hex) {
+  const c = parseInt(hex.replace('#', ''), 16)
+  return [(c >> 16) & 255, (c >> 8) & 255, c & 255]
+}
+
+function interpolatePalette(palette, norm) {
+  const count = palette.length - 1
+  const scaled = norm * count
+  const index = Math.min(count - 1, Math.floor(scaled))
+  const frac = scaled - index
+
+  const [r1, g1, b1] = hexToRgb(palette[index])
+  const [r2, g2, b2] = hexToRgb(palette[index + 1])
+
+  const r = Math.round(r1 + (r2 - r1) * frac)
+  const g = Math.round(g1 + (g2 - g1) * frac)
+  const b = Math.round(b1 + (b2 - b1) * frac)
+
+  return `rgb(${r}, ${g}, ${b})`
+}
 
 export default function Ascii3DStarfield({
   variant = 'about',
@@ -70,12 +91,11 @@ export default function Ascii3DStarfield({
           const depth = 0.6 + Math.random() * 1.4
           const baseChar = BASE_CHARS[Math.floor(Math.random() * BASE_CHARS.length)]
 
-          // Randomize behavior per star
           const behavior = behaviors[Math.floor(Math.random() * behaviors.length)]
           const palette = COLOR_PALETTES[Math.floor(Math.random() * COLOR_PALETTES.length)]
 
-          // Much slower glistening: 0.3 to 0.7 rad/sec (8-14s period)
-          const glistenSpeed = 0.35 + Math.random() * 0.45
+          // Ultra-slow celestial breathing: ~35–60 seconds per cycle (0.06 to 0.16 rad/sec)
+          const glistenSpeed = 0.06 + Math.random() * 0.10
           const glistenPhase = Math.random() * Math.PI * 2
 
           list.push({
@@ -188,7 +208,7 @@ export default function Ascii3DStarfield({
           const posX = normX * width
           const posY = normY * height
 
-          // Calculate slow glisten phase [0..1]
+          // Calculate ultra-slow glisten phase [0..1]
           const phase = (time * 0.001 * star.glistenSpeed + star.glistenPhase) % (Math.PI * 2)
           const norm = (Math.sin(phase) + 1) / 2
 
@@ -196,15 +216,14 @@ export default function Ascii3DStarfield({
           let color = '#000000'
 
           if (!isScrolling) {
-            // Apply randomized behavior
+            // Apply randomized behavior with smooth continuous interpolation
             if (star.behavior === 'shape' || star.behavior === 'both') {
               const shapeIdx = Math.min(GLISTEN_SHAPES.length - 1, Math.floor(norm * GLISTEN_SHAPES.length))
               char = GLISTEN_SHAPES[shapeIdx]
             }
 
             if (star.behavior === 'color' || star.behavior === 'both') {
-              const colorIdx = Math.min(star.palette.length - 1, Math.floor(norm * star.palette.length))
-              color = star.palette[colorIdx]
+              color = interpolatePalette(star.palette, norm)
             }
           }
 
