@@ -5,6 +5,8 @@ import LogoLoop from './components/LogoLoop'
 import AboutSection from './components/AboutSection'
 import ServicesSection from './components/ServicesSection'
 import ExpertiseSection from './components/ExpertiseSection'
+import RoadmapSection from './components/RoadmapSection'
+import InteractiveInboxDemo from './components/InteractiveInboxDemo'
 import PricingSection from './components/PricingSection'
 import TestimonialsSection from './components/TestimonialsSection'
 import BlogSection from './components/BlogSection'
@@ -57,7 +59,9 @@ function App() {
             <LogoLoop />
             <AboutSection />
             <ServicesSection />
+            <InteractiveInboxDemo />
             <ExpertiseSection />
+            <RoadmapSection />
             <PricingSection />
             <TestimonialsSection />
             <BlogSection />
@@ -75,3 +79,4 @@ function App() {
 }
 
 export default App
+
