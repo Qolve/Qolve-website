@@ -45,9 +45,9 @@ export default function ServicesSection() {
     offset: ['start end', 'end start'],
   })
 
-  // Silky scroll-driven retraction: 25% gentler velocity curve and wider viewing threshold
-  const rawMoonX = useTransform(scrollYProgress, [0.08, 0.32, 0.68, 0.92], [-380, 0, 0, -380])
-  const rawMoonY = useTransform(scrollYProgress, [0.08, 0.32, 0.68, 0.92], [-190, 0, 0, -190])
+  // Silky scroll-driven retraction: gentler velocity curve and wider viewing threshold
+  const rawMoonX = useTransform(scrollYProgress, [0.08, 0.32, 0.68, 0.92], [-160, 0, 0, -160])
+  const rawMoonY = useTransform(scrollYProgress, [0.08, 0.32, 0.68, 0.92], [-80, 0, 0, -80])
   const rawMoonOpacity = useTransform(scrollYProgress, [0.08, 0.28, 0.72, 0.92], [0, 0.9, 0.9, 0])
 
   const moonX = useSpring(rawMoonX, { stiffness: 105, damping: 24, mass: 0.55 })
@@ -68,20 +68,20 @@ export default function ServicesSection() {
       {/* Hypnotic 3D ASCII Starfield with Moon Exclusion Boundary */}
       <Ascii3DStarfield variant="services" opacity={0.7} numStars={160} baseSpeed={0.35} />
 
-      {/* Accurate ASCII Moon - Smooth pull-into-corner scroll animation */}
+      {/* Accurate ASCII Moon - Proportional Corner Celestial Sphere */}
       <div
         className="ascii-moon-wrap"
         style={{
           position: 'absolute',
-          left: '-8vw',
-          top: '-4vw',
+          left: '-3vw',
+          top: '-1vw',
           zIndex: 1,
           pointerEvents: 'none',
           userSelect: 'none',
         }}
       >
         <motion.div style={{ x: moonX, y: moonY, opacity: moonOpacity }}>
-          <AsciiMoon size={36} speed={0.003} />
+          <AsciiMoon size={26} speed={0.003} />
         </motion.div>
       </div>
 

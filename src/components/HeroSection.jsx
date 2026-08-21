@@ -30,16 +30,22 @@ function MerryGoRound() {
   const numCards = CAROUSEL_IMAGES.length
   const angleStep = 360 / numCards
 
+  const [winWidth, setWinWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1440)
+
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 640)
-    checkMobile()
-    window.addEventListener('resize', checkMobile)
-    return () => window.removeEventListener('resize', checkMobile)
+    const handleResize = () => {
+      setWinWidth(window.innerWidth)
+      setIsMobile(window.innerWidth < 640)
+    }
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
   }, [])
 
-  const radius = isMobile ? 160 : 270
-  const cardWidth = isMobile ? 130 : 185
-  const cardHeight = isMobile ? 90 : 125
+  // Proportional 3D Carousel scaling across laptops, 1080p, 2K, and 4K
+  const radius = winWidth < 640 ? 160 : winWidth < 1280 ? 220 : winWidth < 1920 ? 260 : winWidth < 2560 ? 300 : 380
+  const cardWidth = winWidth < 640 ? 130 : winWidth < 1280 ? 150 : winWidth < 1920 ? 175 : winWidth < 2560 ? 210 : 260
+  const cardHeight = winWidth < 640 ? 90 : winWidth < 1280 ? 102 : winWidth < 1920 ? 118 : winWidth < 2560 ? 142 : 176
 
   // Continuous slow auto-rotation + scroll-driven rotation
   useEffect(() => {

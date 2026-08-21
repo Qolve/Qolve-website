@@ -547,7 +547,7 @@ export default function MobileView({ activePage, onNavigate }) {
               filter: 'drop-shadow(0 0 25px rgba(0, 0, 0, 0.15))',
             }}
           >
-            <AsciiEarth size={27} speed={0.007} />
+            <AsciiEarth size={27} speed={0.007} fontSize="7px" lineHeight="6.5px" />
           </div>
 
           <div style={{ position: 'relative', zIndex: 2 }}>
@@ -658,7 +658,7 @@ export default function MobileView({ activePage, onNavigate }) {
               opacity: 0.65,
             }}
           >
-            <AsciiMoon size={11} speed={0.005} />
+            <AsciiMoon size={11} speed={0.005} fontSize="6px" lineHeight="5.5px" />
           </div>
 
           <div style={{ position: 'relative', zIndex: 2 }}>

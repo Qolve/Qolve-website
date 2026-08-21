@@ -23,7 +23,14 @@ const LUNAR_MAP = [
 
 const TERMINAL_RAMP = " .:-=+*#%@"
 
-export default function AsciiMoon({ size = 32, speed = 0.003, color = '#000000' }) {
+export default function AsciiMoon({
+  size = 26,
+  speed = 0.003,
+  color = '#000000',
+  fontSize = 'clamp(4px, 0.42vw, 10.5px)',
+  lineHeight = 'clamp(4px, 0.39vw, 9.8px)',
+  style = {},
+}) {
   const [asciiFrame, setAsciiFrame] = useState('')
   const angleRef = useRef(0)
   const reqRef = useRef(null)
@@ -107,8 +114,8 @@ export default function AsciiMoon({ size = 32, speed = 0.003, color = '#000000' 
       style={{
         margin: 0,
         fontFamily: '"SF Mono", "Menlo", "Monaco", "Cascadia Code", "Courier New", monospace',
-        fontSize: '0.85rem',
-        lineHeight: '0.78rem',
+        fontSize,
+        lineHeight,
         fontWeight: 700,
         color: color,
         letterSpacing: '0.04em',
@@ -119,6 +126,7 @@ export default function AsciiMoon({ size = 32, speed = 0.003, color = '#000000' 
         textShadow: 'none',
         whiteSpace: 'pre',
         display: 'block',
+        ...style,
       }}
     >
       {asciiFrame}

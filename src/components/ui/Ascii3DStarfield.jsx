@@ -210,9 +210,10 @@ export default function Ascii3DStarfield({
         const posX = normX * width
         const posY = normY * height
 
-        // Font calculation
-        const baseFontSize = 13 + (star.depth - 1) * 3 + star.sizeOffset
-        const fontSize = Math.max(9, Math.min(18, Math.round(baseFontSize)))
+        // Responsive resolution-aware font calculation
+        const resScale = Math.max(0.6, Math.min(2.2, width / 1920))
+        const baseFontSize = (9.5 + (star.depth - 1) * 2.2 + star.sizeOffset) * resScale
+        const fontSize = Math.max(6, Math.min(22, Math.round(baseFontSize)))
         ctx.font = `${fontSize}px "Space Mono", monospace, monospace`
 
         if (star.behavior === 'static') {

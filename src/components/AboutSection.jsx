@@ -34,7 +34,7 @@ export default function AboutSection() {
   })
 
   // Fast, responsive scroll-driven retraction: completely pulled off-screen before reaching adjacent pages
-  const rawEarthX = useTransform(scrollYProgress, [0.15, 0.4, 0.6, 0.85], [520, 0, 0, 520])
+  const rawEarthX = useTransform(scrollYProgress, [0.15, 0.38, 0.62, 0.85], [260, 0, 0, 260])
   const rawEarthOpacity = useTransform(scrollYProgress, [0.15, 0.35, 0.65, 0.85], [0, 0.95, 0.95, 0])
   const earthX = useSpring(rawEarthX, { stiffness: 170, damping: 26, mass: 0.4 })
   const earthOpacity = useSpring(rawEarthOpacity, { stiffness: 170, damping: 26, mass: 0.4 })
@@ -53,12 +53,12 @@ export default function AboutSection() {
       {/* Hypnotic 3D ASCII Starfield with Earth Exclusion Boundary */}
       <Ascii3DStarfield variant="about" opacity={0.7} numStars={160} baseSpeed={0.35} />
 
-      {/* Giant Ambient Background ASCII Earth - Smooth pull-into-side scroll animation */}
+      {/* Ambient Background ASCII Earth - Proportional, Responsive Celestial Globe */}
       <div
         className="ascii-earth-wrap"
         style={{
           position: 'absolute',
-          right: '-18vw',
+          right: '-4vw',
           top: '50%',
           transform: 'translateY(-50%)',
           zIndex: 1,
@@ -67,7 +67,7 @@ export default function AboutSection() {
         }}
       >
         <motion.div style={{ x: earthX, opacity: earthOpacity }}>
-          <AsciiEarth size={48} speed={0.005} />
+          <AsciiEarth size={32} speed={0.005} />
         </motion.div>
       </div>
 

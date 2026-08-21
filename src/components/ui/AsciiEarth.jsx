@@ -11,7 +11,7 @@ const WORLD_MAP = [
   "   1111111111111111111111  11111      11111111111111111111111111111111  ", // 65°N - Alaska / Canada / Iceland / Norway / Russia
   "   11111111111111111111111            11111111111111111111111111111111  ", // 60°N - Canada / Baltic / Russia / Kamchatka
   "   1111111111111111111111         1   111111111111111111111111111111111 ", // 55°N - Canada / UK / Central Europe / Russia / Sakhalin
-  "    11111111111111111111         111 1111111111111111111111111111111111 ", // 50°N - USA / UK / France / Germany / Kazakhstan / Russia
+  "    11111111111111111111         111 11111111111111111111111111111111111 ", // 50°N - USA / UK / France / Germany / Kazakhstan / Russia
   "    11111111111111111111          111111111111111111111111111111111111  ", // 45°N - USA / Mediterranean / Black Sea / Mongolia / N. China / Japan
   "     1111111111111111111           11111111111111111111111111111111111  ", // 40°N - USA / Spain / Italy / Turkey / China / Japan / Korea
   "     111111111111111111            1111111111111111111111111111111111   ", // 35°N - S. USA / Mediterranean / Iran / China / Japan
@@ -44,7 +44,14 @@ const WORLD_MAP = [
 // Authentic UNIX Terminal Density Gradient (7-bit ASCII standard)
 const TERMINAL_RAMP = " .:-=+*#%@"
 
-export default function AsciiEarth({ size = 44, speed = 0.005, color = '#000000' }) {
+export default function AsciiEarth({
+  size = 34,
+  speed = 0.005,
+  color = '#000000',
+  fontSize = 'clamp(4px, 0.44vw, 11px)',
+  lineHeight = 'clamp(4px, 0.41vw, 10.5px)',
+  style = {},
+}) {
   const [asciiFrame, setAsciiFrame] = useState('')
   const angleRef = useRef(0)
   const reqRef = useRef(null)
@@ -139,8 +146,8 @@ export default function AsciiEarth({ size = 44, speed = 0.005, color = '#000000'
       style={{
         margin: 0,
         fontFamily: '"SF Mono", "Menlo", "Monaco", "Cascadia Code", "Courier New", monospace',
-        fontSize: '0.88rem',
-        lineHeight: '0.82rem',
+        fontSize,
+        lineHeight,
         fontWeight: 700,
         color: color,
         letterSpacing: '0.04em',
@@ -151,6 +158,7 @@ export default function AsciiEarth({ size = 44, speed = 0.005, color = '#000000'
         textShadow: 'none',
         whiteSpace: 'pre',
         display: 'block',
+        ...style,
       }}
     >
       {asciiFrame}
