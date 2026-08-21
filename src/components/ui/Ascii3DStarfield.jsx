@@ -17,8 +17,8 @@ const TRAIL_CHARS = '.·:`'
 export default function Ascii3DStarfield({
   variant = 'about',
   opacity = 0.65,
-  numStars = 120,
-  baseSpeed = 0.4,
+  numStars = 160,
+  baseSpeed = 0.35,
   fov = 45,
 }) {
   const preRef = useRef(null)

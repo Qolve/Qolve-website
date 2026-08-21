@@ -66,7 +66,7 @@ export default function ServicesSection() {
       }}
     >
       {/* Hypnotic 3D ASCII Starfield with Moon Exclusion Boundary */}
-      <Ascii3DStarfield variant="services" opacity={0.7} numStars={140} baseSpeed={0.35} />
+      <Ascii3DStarfield variant="services" opacity={0.7} numStars={160} baseSpeed={0.35} />
 
       {/* Accurate ASCII Moon - Smooth pull-into-corner scroll animation */}
       <div

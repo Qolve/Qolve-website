@@ -51,7 +51,7 @@ export default function AboutSection() {
       }}
     >
       {/* Hypnotic 3D ASCII Starfield with Earth Exclusion Boundary */}
-      <Ascii3DStarfield variant="about" opacity={0.7} numStars={140} baseSpeed={0.35} />
+      <Ascii3DStarfield variant="about" opacity={0.7} numStars={160} baseSpeed={0.35} />
 
       {/* Giant Ambient Background ASCII Earth - Smooth pull-into-side scroll animation */}
       <div
