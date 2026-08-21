@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import Ascii3DStarfield from './ui/Ascii3DStarfield'
 
 const ArrowIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -60,9 +61,10 @@ export default function TeamPage({ onNavigate }) {
   }, [])
 
   return (
-    <section className="section_about" id="team" style={{ background: '#ffffff', minHeight: '100vh' }}>
+    <section className="section_about" id="team" style={{ background: '#ffffff', minHeight: '100vh', position: 'relative', overflow: 'hidden' }}>
+      <Ascii3DStarfield variant="team" opacity={0.7} numStars={160} />
       <div className="padding-section-large" />
-      <div className="padding-global">
+      <div className="padding-global" style={{ position: 'relative', zIndex: 2 }}>
         <div className="container-large">
           <div className="vertical-center">
             {/* Tag pill */}

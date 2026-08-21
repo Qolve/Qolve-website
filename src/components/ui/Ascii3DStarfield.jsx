@@ -10,22 +10,27 @@ import React, { useEffect, useRef } from 'react'
  * - Stationary in balanced grid distribution when page is at rest
  * - Hyperspace vertical travel streaks on scroll
  * - Exact outskirts boundary clipping around Earth and Moon
+ * - Universal desktop support across all pages & sections (Hero, About, Services, Expertise, Pricing, Testimonials, Blog, CTA, Team, Products)
  */
 
 const BASE_CHARS = ['*', '+', '.', "'", 'o', '*', '+', '.', "'", '.']
 const GLISTEN_SHAPES = ['.', "'", '+', '*', '+', "'", '.']
 
-const COLOR_PALETTES = [
-  // 1. Silver & Slate Shimmer
+// Light theme palettes (dark greys, silvers, slate, charcoal against light background)
+const LIGHT_PALETTES = [
   ['#000000', '#334155', '#64748b', '#94a3b8', '#64748b', '#334155', '#000000'],
-  // 2. Bright Platinum & Mercury Shimmer
   ['#000000', '#4b5563', '#9ca3af', '#cbd5e1', '#9ca3af', '#4b5563', '#000000'],
-  // 3. Deep Charcoal & Graphite
   ['#000000', '#18181b', '#27272a', '#52525b', '#27272a', '#18181b', '#000000'],
-  // 4. Cool Slate Grey
   ['#000000', '#1e293b', '#475569', '#64748b', '#475569', '#1e293b', '#000000'],
-  // 5. Neutral Ash & Pearl
   ['#000000', '#262626', '#525252', '#737373', '#525252', '#262626', '#000000'],
+]
+
+// Dark theme palettes (gleaming silver, platinum, slate, and white against dark background)
+const DARK_PALETTES = [
+  ['#475569', '#94a3b8', '#cbd5e1', '#f8fafc', '#ffffff', '#cbd5e1', '#475569'],
+  ['#52525b', '#a1a1aa', '#e4e4e7', '#f4f4f5', '#ffffff', '#e4e4e7', '#52525b'],
+  ['#334155', '#64748b', '#cbd5e1', '#f1f5f9', '#ffffff', '#f1f5f9', '#64748b'],
+  ['#3f3f46', '#71717a', '#a1a1aa', '#d4d4d8', '#ffffff', '#d4d4d8', '#3f3f46'],
 ]
 
 function hexToRgb(hex) {
@@ -51,11 +56,15 @@ function interpolatePalette(palette, norm) {
 
 export default function Ascii3DStarfield({
   variant = 'about',
+  theme = 'auto', // 'auto', 'light', 'dark'
   opacity = 0.85,
   numStars = 160,
 }) {
   const canvasRef = useRef(null)
   const containerRef = useRef(null)
+
+  const isDark =
+    theme === 'dark' || (theme === 'auto' && (variant === 'hero' || variant === 'cta'))
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -76,6 +85,8 @@ export default function Ascii3DStarfield({
     canvas.style.width = `${width}px`
     canvas.style.height = `${height}px`
 
+    const selectedPalettes = isDark ? DARK_PALETTES : LIGHT_PALETTES
+
     // Generate balanced, randomized stars with distinct behaviors
     const createDistributedStars = () => {
       const list = []
@@ -92,31 +103,30 @@ export default function Ascii3DStarfield({
           const baseChar = BASE_CHARS[Math.floor(Math.random() * BASE_CHARS.length)]
 
           const behavior = behaviors[Math.floor(Math.random() * behaviors.length)]
-          const palette = COLOR_PALETTES[Math.floor(Math.random() * COLOR_PALETTES.length)]
+          const palette = selectedPalettes[Math.floor(Math.random() * selectedPalettes.length)]
 
           // Ultra-slow celestial breathing: ~35–60 seconds per cycle (0.06 to 0.16 rad/sec)
           const glistenSpeed = 0.06 + Math.random() * 0.10
           const glistenPhase = Math.random() * Math.PI * 2
 
           list.push({
-            baseU: u,
-            baseV: v,
-            currentV: v,
-            baseChar,
+            origU: u,
+            origV: v,
             depth,
+            baseChar,
             behavior,
             palette,
             glistenSpeed,
             glistenPhase,
+            sizeOffset: (Math.random() - 0.5) * 2,
           })
         }
       }
       return list
     }
 
-    let stars = createDistributedStars()
+    const stars = createDistributedStars()
 
-    // Scroll Velocity Tracking
     let lastScrollY = window.scrollY
     let scrollVelocity = 0
     let lastTime = performance.now()
@@ -178,54 +188,53 @@ export default function Ascii3DStarfield({
       if (Math.abs(scrollVelocity) < 0.001) scrollVelocity = 0
 
       const isScrolling = Math.abs(scrollVelocity) > 0.05
-      const scrollDir = scrollVelocity > 0 ? 1 : -1
+      const scrollDir = Math.sign(scrollVelocity)
 
-      ctx.clearRect(0, 0, canvas.width, canvas.height)
       ctx.save()
       ctx.scale(dpr, dpr)
+      ctx.clearRect(0, 0, width, height)
 
-      const fontSize = 12
-      ctx.font = `600 ${fontSize}px "SF Mono", "Menlo", "Monaco", "Cascadia Code", monospace`
       ctx.textAlign = 'center'
       ctx.textBaseline = 'middle'
 
+      const sec = time / 1000
+
       for (let i = 0; i < stars.length; i++) {
         const star = stars[i]
+        const normX = star.origU
+        const normY = star.origV
 
-        if (isScrolling) {
-          // Hyper-speed vertical travel with depth parallax
-          star.currentV -= scrollVelocity * dt * 0.45 * star.depth
-          if (star.currentV < 0) star.currentV += 1
-          if (star.currentV > 1) star.currentV -= 1
+        // Skip rendering if inside planet exclusions
+        if (isExcluded(normX, normY)) continue
+
+        const posX = normX * width
+        const posY = normY * height
+
+        // Font calculation
+        const baseFontSize = 13 + (star.depth - 1) * 3 + star.sizeOffset
+        const fontSize = Math.max(9, Math.min(18, Math.round(baseFontSize)))
+        ctx.font = `${fontSize}px "Space Mono", monospace, monospace`
+
+        if (star.behavior === 'static') {
+          // Stationary solid star
+          ctx.fillStyle = star.palette[Math.floor(star.palette.length / 2)]
+          ctx.fillText(star.baseChar, posX, posY)
         } else {
-          // Stationary resting return
-          star.currentV += (star.baseV - star.currentV) * 0.15
-        }
-
-        const normX = star.baseU
-        const normY = star.currentV
-
-        if (!isExcluded(normX, normY)) {
-          const posX = normX * width
-          const posY = normY * height
-
-          // Calculate ultra-slow glisten phase [0..1]
-          const phase = (time * 0.001 * star.glistenSpeed + star.glistenPhase) % (Math.PI * 2)
-          const norm = (Math.sin(phase) + 1) / 2
+          // Continuous ultra-slow sine breathing (0 to 1)
+          const rawWave = Math.sin(sec * star.glistenSpeed + star.glistenPhase)
+          const norm = (rawWave + 1) / 2
 
           let char = star.baseChar
-          let color = '#000000'
+          let color = star.palette[0]
 
-          if (!isScrolling) {
-            // Apply randomized behavior with smooth continuous interpolation
-            if (star.behavior === 'shape' || star.behavior === 'both') {
-              const shapeIdx = Math.min(GLISTEN_SHAPES.length - 1, Math.floor(norm * GLISTEN_SHAPES.length))
-              char = GLISTEN_SHAPES[shapeIdx]
-            }
+          // Apply randomized behavior with smooth continuous interpolation
+          if (star.behavior === 'shape' || star.behavior === 'both') {
+            const shapeIdx = Math.min(GLISTEN_SHAPES.length - 1, Math.floor(norm * GLISTEN_SHAPES.length))
+            char = GLISTEN_SHAPES[shapeIdx]
+          }
 
-            if (star.behavior === 'color' || star.behavior === 'both') {
-              color = interpolatePalette(star.palette, norm)
-            }
+          if (star.behavior === 'color' || star.behavior === 'both') {
+            color = interpolatePalette(star.palette, norm)
           }
 
           // Draw main star glyph
@@ -242,7 +251,7 @@ export default function Ascii3DStarfield({
               const trailNormY = trailY / height
               if (!isExcluded(normX, trailNormY) && trailY >= 0 && trailY <= height) {
                 const trailChar = s === 1 ? '|' : s <= 3 ? ':' : '.'
-                ctx.fillStyle = 'rgba(0, 0, 0, 0.45)'
+                ctx.fillStyle = isDark ? 'rgba(255, 255, 255, 0.45)' : 'rgba(0, 0, 0, 0.45)'
                 ctx.fillText(trailChar, posX, trailY)
               }
             }
@@ -262,7 +271,7 @@ export default function Ascii3DStarfield({
       window.removeEventListener('scroll', handleScroll)
       window.removeEventListener('resize', handleResize)
     }
-  }, [variant, numStars])
+  }, [variant, numStars, isDark])
 
   return (
     <div

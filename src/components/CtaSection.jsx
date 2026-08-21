@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import { WordReveal } from './ui/TextReveal'
-import AsciiStarfield from './ui/AsciiStarfield'
+import Ascii3DStarfield from './ui/Ascii3DStarfield'
 
 const ArrowIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -17,7 +17,7 @@ const avatars = [
 export default function CtaSection() {
   return (
     <section className="section_cta" id="contact" style={{ position: 'relative', overflow: 'hidden' }}>
-      <AsciiStarfield variant="cta" opacity={0.65} />
+      <Ascii3DStarfield variant="cta" theme="dark" opacity={0.75} numStars={160} />
       <div className="padding-global is-cta">
         <div className="cta-wrap" style={{ position: 'relative', overflow: 'hidden', boxShadow: '0 24px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.08)' }}>
           {/* Subtle ambient corner light */}

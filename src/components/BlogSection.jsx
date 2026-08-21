@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import { WordReveal } from './ui/TextReveal'
 import SpotlightCard from './ui/SpotlightCard'
-import AsciiStarfield from './ui/AsciiStarfield'
+import Ascii3DStarfield from './ui/Ascii3DStarfield'
 
 const blogPosts = [
   {
@@ -24,7 +24,7 @@ const blogPosts = [
 export default function BlogSection() {
   return (
     <section className="section_blog" id="blog" style={{ position: 'relative', overflow: 'hidden' }}>
-      <AsciiStarfield variant="blog" opacity={0.65} />
+      <Ascii3DStarfield variant="blog" opacity={0.7} numStars={150} />
       <div className="padding-global">
         <div className="container-large">
           <div className="horizontal-bottom is-between">

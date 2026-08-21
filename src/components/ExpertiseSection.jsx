@@ -1,12 +1,12 @@
 import { motion } from 'framer-motion'
 import SpotlightCard from './ui/SpotlightCard'
 import { WordReveal } from './ui/TextReveal'
-import AsciiStarfield from './ui/AsciiStarfield'
+import Ascii3DStarfield from './ui/Ascii3DStarfield'
 
 export default function ExpertiseSection() {
   return (
     <section className="section_expertise" id="expertise" style={{ position: 'relative', overflow: 'hidden' }}>
-      <AsciiStarfield variant="expertise" opacity={0.65} />
+      <Ascii3DStarfield variant="expertise" opacity={0.7} numStars={150} />
       <div className="padding-global">
         <div className="container-large">
           {/* Header */}
