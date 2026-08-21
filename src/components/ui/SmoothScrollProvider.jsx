@@ -1,6 +1,4 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
-import Lenis from 'lenis'
-import 'lenis/dist/lenis.css'
 
 const SECTIONS = [
   { id: 'home', label: 'Overview' },
@@ -15,122 +13,98 @@ const SECTIONS = [
 ]
 
 export default function SmoothScrollProvider({ children }) {
-  const lenisRef = useRef(null)
   const [activeSection, setActiveSection] = useState('home')
   const [isHoveredNav, setIsHoveredNav] = useState(false)
   const isTransitioningRef = useRef(false)
+  const activeIndexRef = useRef(0)
   const touchStartYRef = useRef(0)
-  const lastWheelTimeRef = useRef(0)
-
-  // Smooth Quartic Easing curve: ultra-smooth acceleration and cushioned landing
-  const easeQuartic = (t) => 1 - Math.pow(1 - t, 4)
+  const animFrameIdRef = useRef(null)
 
   const getSectionElements = useCallback(() => {
     return SECTIONS.map((sec) => document.getElementById(sec.id)).filter(Boolean)
   }, [])
 
-  const getActiveIndex = useCallback(() => {
+  const getClosestIndex = useCallback(() => {
     const sections = getSectionElements()
     if (!sections.length) return 0
-    const scrollY = window.scrollY + window.innerHeight * 0.35
+    const scrollY = window.scrollY
+    let closestIndex = 0
+    let minDistance = Infinity
 
-    for (let i = sections.length - 1; i >= 0; i--) {
-      const top = sections[i].offsetTop
-      if (scrollY >= top) {
-        return i
+    sections.forEach((sec, idx) => {
+      const distance = Math.abs(sec.offsetTop - scrollY)
+      if (distance < minDistance) {
+        minDistance = distance
+        closestIndex = idx
       }
-    }
-    return 0
+    })
+    return closestIndex
   }, [getSectionElements])
 
-  const scrollToSectionIndex = useCallback((targetIndex) => {
+  const smoothGlideTo = useCallback((targetIndex) => {
     const sections = getSectionElements()
     if (!sections.length || targetIndex < 0 || targetIndex >= sections.length) return
 
     const targetEl = sections[targetIndex]
-    if (!targetEl || !lenisRef.current) return
+    if (!targetEl) return
 
     isTransitioningRef.current = true
+    activeIndexRef.current = targetIndex
     setActiveSection(SECTIONS[targetIndex]?.id || 'home')
 
-    lenisRef.current.scrollTo(targetEl, {
-      offset: 0,
-      duration: 1.0,
-      easing: easeQuartic,
-      onComplete: () => {
+    if (animFrameIdRef.current) {
+      cancelAnimationFrame(animFrameIdRef.current)
+    }
+
+    const startY = window.scrollY
+    const endY = targetEl.offsetTop
+    const distance = endY - startY
+    const duration = 850 // Smooth 850ms glide duration
+    let startTime = null
+
+    // Quartic Ease-Out curve for ultra-smooth momentum and landing
+    const easeOutQuart = (x) => 1 - Math.pow(1 - x, 4)
+
+    function step(currentTime) {
+      if (!startTime) startTime = currentTime
+      const elapsed = currentTime - startTime
+      const progress = Math.min(elapsed / duration, 1)
+      const ease = easeOutQuart(progress)
+
+      window.scrollTo(0, startY + distance * ease)
+
+      if (progress < 1) {
+        animFrameIdRef.current = requestAnimationFrame(step)
+      } else {
+        window.scrollTo(0, endY)
+        // Brief cooldown to prevent accidental over-scrolls
         setTimeout(() => {
           isTransitioningRef.current = false
-        }, 150)
-      },
-    })
+        }, 180)
+      }
+    }
+
+    animFrameIdRef.current = requestAnimationFrame(step)
   }, [getSectionElements])
 
   useEffect(() => {
-    // 1. Initialize Lenis with smooth lerp physics
-    const lenis = new Lenis({
-      duration: 1.1,
-      easing: easeQuartic,
-      smoothWheel: true,
-      wheelMultiplier: 0.9,
-      touchMultiplier: 1.2,
-      infinite: false,
-    })
-    lenisRef.current = lenis
-
-    let rafId
-    function raf(time) {
-      lenis.raf(time)
-      rafId = requestAnimationFrame(raf)
-    }
-    rafId = requestAnimationFrame(raf)
-
-    // 2. Controlled Wheel Glider: smoothly transitions between fixed sections without stutter
+    // 1. Instant Wheel Interceptor: prevents partial micro-adjustments and glides smoothly
     const handleWheel = (e) => {
-      const now = Date.now()
-      const delta = e.deltaY
+      e.preventDefault()
 
-      // Ignore micro-scrolls and active transitions
-      if (Math.abs(delta) < 25) return
-      if (isTransitioningRef.current) {
-        e.preventDefault()
-        return
-      }
+      if (isTransitioningRef.current) return
+      if (Math.abs(e.deltaY) < 3) return
 
-      // Debounce rapid wheel events
-      if (now - lastWheelTimeRef.current < 800) {
-        e.preventDefault()
-        return
-      }
+      const currentIndex = getClosestIndex()
 
-      const currentIndex = getActiveIndex()
-      const sections = getSectionElements()
-      const currentEl = sections[currentIndex]
-
-      if (currentEl) {
-        const rect = currentEl.getBoundingClientRect()
-        // If current section is taller than viewport and user is scrolling within it
-        if (delta > 0 && rect.bottom > window.innerHeight + 100) {
-          // Allow natural scroll within tall section
-          return
-        }
-        if (delta < 0 && rect.top < -100) {
-          // Allow natural scroll up within tall section
-          return
-        }
-      }
-
-      if (delta > 0 && currentIndex < sections.length - 1) {
-        e.preventDefault()
-        lastWheelTimeRef.current = now
-        scrollToSectionIndex(currentIndex + 1)
-      } else if (delta < 0 && currentIndex > 0) {
-        e.preventDefault()
-        lastWheelTimeRef.current = now
-        scrollToSectionIndex(currentIndex - 1)
+      if (e.deltaY > 0 && currentIndex < SECTIONS.length - 1) {
+        smoothGlideTo(currentIndex + 1)
+      } else if (e.deltaY < 0 && currentIndex > 0) {
+        smoothGlideTo(currentIndex - 1)
       }
     }
 
-    // 3. Touch support for mobile / trackpads
+    // 2. Touch Navigation for mobile/touchpads
     const handleTouchStart = (e) => {
       touchStartYRef.current = e.touches[0].clientY
     }
@@ -140,40 +114,38 @@ export default function SmoothScrollProvider({ children }) {
       const touchEndY = e.changedTouches[0].clientY
       const deltaY = touchStartYRef.current - touchEndY
 
-      if (Math.abs(deltaY) > 60) {
-        const currentIndex = getActiveIndex()
-        const sections = getSectionElements()
-        if (deltaY > 0 && currentIndex < sections.length - 1) {
-          scrollToSectionIndex(currentIndex + 1)
+      if (Math.abs(deltaY) > 40) {
+        const currentIndex = getClosestIndex()
+        if (deltaY > 0 && currentIndex < SECTIONS.length - 1) {
+          smoothGlideTo(currentIndex + 1)
         } else if (deltaY < 0 && currentIndex > 0) {
-          scrollToSectionIndex(currentIndex - 1)
+          smoothGlideTo(currentIndex - 1)
         }
       }
     }
 
-    // 4. Keyboard navigation (ArrowDown, ArrowUp, PageDown, PageUp)
+    // 3. Keyboard Arrow & Page Navigation
     const handleKeyDown = (e) => {
       if (isTransitioningRef.current) return
-      const currentIndex = getActiveIndex()
-      const sections = getSectionElements()
+      const currentIndex = getClosestIndex()
 
       if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
-        if (currentIndex < sections.length - 1) {
+        if (currentIndex < SECTIONS.length - 1) {
           e.preventDefault()
-          scrollToSectionIndex(currentIndex + 1)
+          smoothGlideTo(currentIndex + 1)
         }
       } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
         if (currentIndex > 0) {
           e.preventDefault()
-          scrollToSectionIndex(currentIndex - 1)
+          smoothGlideTo(currentIndex - 1)
         }
       }
     }
 
-    // 5. Scroll listener to update active indicator
+    // 4. Track active section when scrolling finishes
     const handleScroll = () => {
       if (!isTransitioningRef.current) {
-        const currentIndex = getActiveIndex()
+        const currentIndex = getClosestIndex()
         setActiveSection(SECTIONS[currentIndex]?.id || 'home')
       }
     }
@@ -185,20 +157,19 @@ export default function SmoothScrollProvider({ children }) {
     window.addEventListener('scroll', handleScroll, { passive: true })
 
     return () => {
-      cancelAnimationFrame(rafId)
+      if (animFrameIdRef.current) cancelAnimationFrame(animFrameIdRef.current)
       window.removeEventListener('wheel', handleWheel)
       window.removeEventListener('touchstart', handleTouchStart)
       window.removeEventListener('touchend', handleTouchEnd)
       window.removeEventListener('keydown', handleKeyDown)
       window.removeEventListener('scroll', handleScroll)
-      lenis.destroy()
     }
-  }, [getActiveIndex, getSectionElements, scrollToSectionIndex])
+  }, [getClosestIndex, smoothGlideTo])
 
   const handleHudClick = (id) => {
     const index = SECTIONS.findIndex((s) => s.id === id)
     if (index !== -1) {
-      scrollToSectionIndex(index)
+      smoothGlideTo(index)
     }
   }
 
@@ -290,4 +261,3 @@ export default function SmoothScrollProvider({ children }) {
     </>
   )
 }
-

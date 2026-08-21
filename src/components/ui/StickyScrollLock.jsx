@@ -51,50 +51,41 @@ const STEPS = [
 ]
 
 export default function StickyScrollLock() {
-  const containerRef = useRef(null)
   const [activeStep, setActiveStep] = useState(0)
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start start', 'end end'],
-  })
-
+  // Auto-cycle through capabilities every 5 seconds if idle
   useEffect(() => {
-    const unsubscribe = scrollYProgress.on('change', (val) => {
-      if (val < 0.33) {
-        setActiveStep(0)
-      } else if (val < 0.66) {
-        setActiveStep(1)
-      } else {
-        setActiveStep(2)
-      }
-    })
-    return () => unsubscribe()
-  }, [scrollYProgress])
+    const timer = setInterval(() => {
+      setActiveStep((prev) => (prev + 1) % 3)
+    }, 6000)
+    return () => clearInterval(timer)
+  }, [])
 
   const stepData = STEPS[activeStep]
 
   return (
-    <div
+    <section
       id="capabilities"
-      ref={containerRef}
-      className="sticky-scroll-lock-container"
+      className="section_capabilities"
       style={{
         position: 'relative',
-        height: '280vh',
+        minHeight: '100vh',
+        height: '100vh',
+        display: 'flex',
+        alignItems: 'center',
         background: '#0f0f0f',
+        overflow: 'hidden',
+        boxSizing: 'border-box',
+        padding: '2rem 0',
       }}
     >
-      {/* Pinned Sticky Viewport */}
+      {/* Pinned Viewport Frame */}
       <div
-        className="sticky-scroll-lock-viewport"
         style={{
-          position: 'sticky',
-          top: 0,
-          height: '100vh',
+          width: '100%',
           display: 'flex',
           alignItems: 'center',
-          overflow: 'hidden',
+          position: 'relative',
           zIndex: 10,
         }}
       >
@@ -473,11 +464,7 @@ export default function StickyScrollLock() {
 
       <style>{`
         @media (max-width: 991px) {
-          .sticky-scroll-lock-container {
-            height: auto !important;
-          }
-          .sticky-scroll-lock-viewport {
-            position: relative !important;
+          .section_capabilities {
             height: auto !important;
             padding: 4rem 0 !important;
           }
@@ -487,6 +474,6 @@ export default function StickyScrollLock() {
           }
         }
       `}</style>
-    </div>
+    </section>
   )
 }
