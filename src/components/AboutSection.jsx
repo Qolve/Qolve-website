@@ -33,11 +33,11 @@ export default function AboutSection() {
     offset: ['start end', 'end start'],
   })
 
-  // Smooth scroll-driven animation: pulls into side and fades in real-time with scroll
-  const rawEarthX = useTransform(scrollYProgress, [0, 0.35, 0.65, 1], [340, 0, 0, 340])
-  const rawEarthOpacity = useTransform(scrollYProgress, [0, 0.28, 0.72, 1], [0, 0.95, 0.95, 0])
-  const earthX = useSpring(rawEarthX, { stiffness: 140, damping: 28, mass: 0.5 })
-  const earthOpacity = useSpring(rawEarthOpacity, { stiffness: 140, damping: 28, mass: 0.5 })
+  // Fast, responsive scroll-driven retraction: completely pulled off-screen before reaching adjacent pages
+  const rawEarthX = useTransform(scrollYProgress, [0.15, 0.4, 0.6, 0.85], [520, 0, 0, 520])
+  const rawEarthOpacity = useTransform(scrollYProgress, [0.15, 0.35, 0.65, 0.85], [0, 0.95, 0.95, 0])
+  const earthX = useSpring(rawEarthX, { stiffness: 170, damping: 26, mass: 0.4 })
+  const earthOpacity = useSpring(rawEarthOpacity, { stiffness: 170, damping: 26, mass: 0.4 })
 
   return (
     <section
