@@ -117,9 +117,9 @@ export default function Ascii3DStarfield({
       if (Math.abs(scrollVelocity) < 0.001) scrollVelocity = 0
 
       // Effective speed combines ambient drift + scroll velocity
-      const currentSpeed = baseSpeed + Math.abs(scrollVelocity) * 3.5
-      const direction = scrollVelocity >= 0 ? 1 : -1
-      const isWarping = Math.abs(scrollVelocity) > 0.25
+      // Check if actively scrolling
+      const isScrolling = Math.abs(scrollVelocity) > 0.08
+      const scrollDir = scrollVelocity > 0 ? 1 : -1
 
       // Clear buffer
       for (let r = 0; r < rows; r++) {
@@ -133,15 +133,21 @@ export default function Ascii3DStarfield({
       for (let i = 0; i < stars.length; i++) {
         const star = stars[i]
 
-        // Advance Z coordinate
-        star.z -= dt * currentSpeed * direction
+        if (!isScrolling) {
+          // 1. IDLE STATE: Normal serene forward 3D drift
+          star.z -= dt * baseSpeed
+          if (star.z <= 0.15) {
+            stars[i] = spawnStar(false)
+            continue
+          }
+        } else {
+          // 2. SCROLLING STATE: Freeze Z expansion, move purely vertically (traveling up/down)
+          // Parallax vertical movement based on star depth
+          star.y -= scrollVelocity * dt * 0.8 * (0.8 / star.z)
 
-        // Recycle star when out of bounds
-        if (star.z <= 0.15) {
-          stars[i] = spawnStar(false)
-          continue
-        } else if (star.z >= 3.4) {
-          star.z = 0.2 + Math.random() * 0.3
+          // Wrap around vertical edges seamlessly
+          if (star.y > 1.2) star.y = -1.2
+          if (star.y < -1.2) star.y = 1.2
         }
 
         // Perspective projection: screenX = halfCols + (X / Z) * fov
@@ -157,23 +163,16 @@ export default function Ascii3DStarfield({
           if (!isExcluded(screenX, screenY)) {
             buffer[screenY][screenX] = starChar
 
-            // Hyperspace streak trails during high speed
-            if (isWarping && star.z < 2.2) {
-              for (let t = 1; t <= 3; t++) {
-                const trailZ = star.z + t * 0.06 * direction
-                if (trailZ > 0.15 && trailZ < 3.2) {
-                  const trailX = Math.floor(halfCols + (star.x / trailZ) * fov)
-                  const trailY = Math.floor(halfRows + (star.y / trailZ) * (fov * (rows / cols)))
-                  if (
-                    trailX >= 0 &&
-                    trailX < cols &&
-                    trailY >= 0 &&
-                    trailY < rows &&
-                    !isExcluded(trailX, trailY)
-                  ) {
-                    if (buffer[trailY][trailX] === ' ') {
-                      buffer[trailY][trailX] = '.'
-                    }
+            // Vertical hyperspace speed trails when traveling vertically
+            if (isScrolling) {
+              const streakLength = Math.min(6, Math.floor(Math.abs(scrollVelocity) * 2.2))
+              const trailDir = scrollDir // trail stretches behind movement direction
+
+              for (let s = 1; s <= streakLength; s++) {
+                const trailY = screenY + s * trailDir
+                if (trailY >= 0 && trailY < rows && !isExcluded(screenX, trailY)) {
+                  if (buffer[trailY][screenX] === ' ') {
+                    buffer[trailY][screenX] = s === 1 ? '|' : s <= 3 ? ':' : '.'
                   }
                 }
               }
