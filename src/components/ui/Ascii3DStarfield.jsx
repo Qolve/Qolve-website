@@ -16,16 +16,16 @@ const BASE_CHARS = ['*', '+', '.', "'", 'o', '*', '+', '.', "'", '.']
 const GLISTEN_SHAPES = ['.', "'", '+', '*', '+', "'", '.']
 
 const COLOR_PALETTES = [
-  // 1. Deep Monochrome / Silver shimmer
+  // 1. Silver & Slate Shimmer
   ['#000000', '#334155', '#64748b', '#94a3b8', '#64748b', '#334155', '#000000'],
-  // 2. Solar Gold / Amber shimmer
-  ['#000000', '#78350f', '#d97706', '#fbbf24', '#d97706', '#78350f', '#000000'],
-  // 3. Cyber Lime / Emerald shimmer
-  ['#000000', '#14532d', '#65a30d', '#a3e635', '#65a30d', '#14532d', '#000000'],
-  // 4. Deep Ice Cyan shimmer
-  ['#000000', '#0c4a6e', '#0284c7', '#38bdf8', '#0284c7', '#0c4a6e', '#000000'],
-  // 5. Nebula Violet shimmer
-  ['#000000', '#581c87', '#9333ea', '#c084fc', '#9333ea', '#581c87', '#000000'],
+  // 2. Bright Platinum & Mercury Shimmer
+  ['#000000', '#4b5563', '#9ca3af', '#cbd5e1', '#9ca3af', '#4b5563', '#000000'],
+  // 3. Deep Charcoal & Graphite
+  ['#000000', '#18181b', '#27272a', '#52525b', '#27272a', '#18181b', '#000000'],
+  // 4. Cool Slate Grey
+  ['#000000', '#1e293b', '#475569', '#64748b', '#475569', '#1e293b', '#000000'],
+  // 5. Neutral Ash & Pearl
+  ['#000000', '#262626', '#525252', '#737373', '#525252', '#262626', '#000000'],
 ]
 
 function hexToRgb(hex) {
