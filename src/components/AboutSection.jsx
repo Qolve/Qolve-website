@@ -53,12 +53,12 @@ export default function AboutSection() {
       {/* Hypnotic 3D ASCII Starfield with Earth Exclusion Boundary */}
       <Ascii3DStarfield variant="about" opacity={0.7} numStars={160} baseSpeed={0.35} />
 
-      {/* Ambient Background ASCII Earth - Shifted Right by 5% */}
+      {/* Ambient Background ASCII Earth - 12% Larger, Anchored into Wall (right: -20vw) */}
       <div
         className="ascii-earth-wrap"
         style={{
           position: 'absolute',
-          right: '-18vw',
+          right: '-20vw',
           top: '50%',
           transform: 'translateY(-50%)',
           zIndex: 1,
@@ -67,7 +67,7 @@ export default function AboutSection() {
         }}
       >
         <motion.div style={{ x: earthX, opacity: earthOpacity }}>
-          <AsciiEarth size={42} speed={0.005} />
+          <AsciiEarth size={47} speed={0.005} />
         </motion.div>
       </div>
 

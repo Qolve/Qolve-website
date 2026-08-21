@@ -47,8 +47,9 @@ export default function ExpertiseSection() {
 
           <div className="spacer-section-medium" />
 
+          {/* Redesigned 3 Core Expertise Cards */}
           <div className="expertise_cards">
-            {/* Card 1: Automation & optimization */}
+            {/* Card 1: Intelligent Workflow Automation */}
             <motion.div
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -56,85 +57,81 @@ export default function ExpertiseSection() {
               transition={{ duration: 0.5, delay: 0.05 }}
               className="expertise_card"
             >
-              <SpotlightCard spotlightColor="rgba(214, 253, 112, 0.08)" style={{ borderRadius: '1.5rem', height: '100%' }}>
-                <div className="visual">
-                  <div className="visual_wrap-first">
-                    {/* vcard - transaction list */}
-                    <div className="vcard">
-                      <div className="vcard_inner">
-                        <div className="vcard_section">
-                          <div className="vcard_text-group">
-                            <p className="vcard_text-label text-weight-medium">Monthly efficiency</p>
-                            <div className="vcard_amount-wrap">
-                              <div className="text-wrap">
-                                <div className="vcard_text-amount">$</div>
-                                <div className="vcard_text-amount">4,900</div>
-                              </div>
-                              <p className="vcard_text-amount-muted text-weight-medium">/ $10,000</p>
-                            </div>
-                          </div>
-                          <div className="vcard_progress-bg">
-                            <motion.div
-                              initial={{ width: 0 }}
-                              whileInView={{ width: '49%' }}
-                              viewport={{ once: true }}
-                              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
-                              className="vcard_progress-fill"
-                            />
-                          </div>
-                        </div>
-                        <div className="vcard_section-list">
-                          {[1, 2, 3].map((i) => (
-                            <div key={i} className="vcard_row">
-                              <div className="vcard_row-left">
-                                <div className="vcard_row-icon" style={{ width: '1rem', height: '1rem', background: '#d6fd70', borderRadius: '50%', flexShrink: 0 }} />
-                                <div className="vcard_row-info">
-                                  <p className="vcard_text-label text-weight-medium">Qolve Relay Node {i}</p>
-                                  <p className="vcard_text-date text-weight-medium">Verified Active</p>
-                                </div>
-                              </div>
-                              <p className="vcard_text-price text-weight-medium" style={{ color: '#16a34a' }}>99.9%</p>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
+              <SpotlightCard
+                spotlightColor="rgba(214, 253, 112, 0.12)"
+                style={{
+                  borderRadius: '1.5rem',
+                  height: '100%',
+                  background: '#ffffff',
+                  border: '1px solid var(--border-light)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  padding: '1.25rem',
+                  boxShadow: '0 8px 30px rgba(0,0,0,0.03)',
+                }}
+              >
+                {/* Visual Pipeline Interface */}
+                <div
+                  style={{
+                    background: '#0d0d0f',
+                    borderRadius: '1rem',
+                    padding: '1.1rem',
+                    color: '#ffffff',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '0.75rem',
+                    border: '1px solid rgba(255,255,255,0.08)',
+                    boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.1)',
+                  }}
+                >
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
+                      <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#d6fd70', boxShadow: '0 0 8px #d6fd70' }} />
+                      <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'rgba(255,255,255,0.7)', letterSpacing: '0.04em' }}>AUTOMATION ENGINE</span>
                     </div>
-                    {/* pcard - performance */}
-                    <div className="pcard">
-                      <div className="pcard_inner">
-                        <div className="pcard_header">
-                          <div className="pcard_header-text">
-                            <p className="pcard_text-title">Performance</p>
-                            <p className="pcard_text-muted">In the past 7 days</p>
-                          </div>
-                          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" className="pcard_icon">
-                            <path d="M4.20065 17.7827L9.50065 12.4827L12.7506 15.7327C13.1606 16.1427 13.8206 16.1227 14.2006 15.6927L21.3706 7.62274C21.7206 7.23274 21.7006 6.63274 21.3306 6.25274C21.2345 6.15693 21.1199 6.08169 20.9938 6.03158C20.8677 5.98148 20.7327 5.95758 20.5971 5.96132C20.4614 5.96506 20.3279 5.99637 20.2048 6.05335C20.0816 6.11033 19.9713 6.19178 19.8806 6.29274L13.4906 13.4727L10.2006 10.1827C10.1081 10.09 9.99824 10.0165 9.87727 9.96631C9.7563 9.91613 9.62662 9.8903 9.49565 9.8903C9.36468 9.8903 9.235 9.91613 9.11402 9.96631C8.99305 10.0165 8.88316 10.09 8.79065 10.1827L2.70065 16.2827C2.60794 16.3753 2.5344 16.4851 2.48421 16.6061C2.43403 16.7271 2.4082 16.8568 2.4082 16.9877C2.4082 17.1187 2.43403 17.2484 2.48421 17.3694C2.5344 17.4903 2.60794 17.6002 2.70065 17.6927L2.79065 17.7827C3.18065 18.1727 3.82065 18.1727 4.20065 17.7827Z" fill="#4ade80" />
-                          </svg>
+                    <span style={{ fontSize: '0.75rem', color: '#4ade80', background: 'rgba(74,222,128,0.12)', padding: '0.15rem 0.5rem', borderRadius: '9999px', fontWeight: 600 }}>0.38s Latency</span>
+                  </div>
+
+                  {/* Flow Steps */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                    {[
+                      { step: '01', title: 'Inbound Request Triaged', tag: 'Trigger', color: 'rgba(255,255,255,0.1)' },
+                      { step: '02', title: 'AI Context Routing', tag: 'Active', color: 'rgba(214,253,112,0.18)', active: true },
+                      { step: '03', title: 'Zero-Loss Dispatch to SLA', tag: 'Resolved', color: 'rgba(74,222,128,0.15)' },
+                    ].map((item, idx) => (
+                      <div
+                        key={idx}
+                        style={{
+                          background: item.active ? 'rgba(214,253,112,0.08)' : 'rgba(255,255,255,0.03)',
+                          border: item.active ? '1px solid rgba(214,253,112,0.3)' : '1px solid rgba(255,255,255,0.05)',
+                          borderRadius: '0.6rem',
+                          padding: '0.45rem 0.65rem',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                        }}
+                      >
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                          <span style={{ fontSize: '0.68rem', color: 'rgba(255,255,255,0.4)', fontWeight: 600 }}>{item.step}</span>
+                          <span style={{ fontSize: '0.78rem', color: item.active ? '#ffffff' : 'rgba(255,255,255,0.8)', fontWeight: 500 }}>{item.title}</span>
                         </div>
-                        <div className="pcard_body">
-                          <div className="text-wrap">
-                            <div className="pcard_text-value">50</div>
-                            <div className="pcard_text-value">+</div>
-                          </div>
-                          <p className="pcard_text-muted">Tickets deflected</p>
-                        </div>
+                        <span style={{ fontSize: '0.65rem', padding: '0.1rem 0.4rem', borderRadius: '4px', background: item.color, color: item.active ? '#d6fd70' : 'rgba(255,255,255,0.6)', fontWeight: 600 }}>{item.tag}</span>
                       </div>
-                    </div>
+                    ))}
                   </div>
                 </div>
-                <div className="card-padding-medium">
-                  <div className="vertical-center">
-                    <h3 className="text-xl text-align-center">Automation &amp; optimization</h3>
-                    <div className="spacer-xsmall" />
-                    <div className="text-base text-align-center text-color-secondary">
-                      Streamline your operations through intelligent workflow automation that saves time, reduces errors, and boosts productivity.
-                    </div>
-                  </div>
+
+                <div style={{ marginTop: '1rem' }}>
+                  <h3 className="heading-style-h3" style={{ fontSize: '1.2rem', fontWeight: 700 }}>Automation &amp; Optimization</h3>
+                  <div className="spacer-xsmall" />
+                  <p className="text-base text-color-secondary" style={{ fontSize: '0.9rem', lineHeight: 1.45 }}>
+                    Streamline operations through intelligent workflow pipelines that eliminate friction, prevent errors, and scale effortlessly.
+                  </p>
                 </div>
               </SpotlightCard>
             </motion.div>
 
-            {/* Card 2: Data analytics */}
+            {/* Card 2: Telemetry & Predictive Analytics */}
             <motion.div
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -142,68 +139,80 @@ export default function ExpertiseSection() {
               transition={{ duration: 0.5, delay: 0.15 }}
               className="expertise_card"
             >
-              <SpotlightCard spotlightColor="rgba(214, 253, 112, 0.08)" style={{ borderRadius: '1.5rem', height: '100%' }}>
-                <div className="visual">
-                  <div className="visual_wrap-second">
-                    {/* bcard - bar chart */}
-                    <div className="bcard">
-                      <div className="bcard_inner">
-                        <p className="bcard_text-title">Intelligence in Every Decision</p>
-                        <div className="bcard_chart">
-                          {[
-                            { year: '2021', cls: 'is-h2', delay: 0.1 },
-                            { year: '2022', cls: 'is-h3', delay: 0.2 },
-                            { year: '2023', cls: 'is-h4', delay: 0.3 },
-                            { year: '2024', cls: 'is-fill', delay: 0.4 },
-                            { year: '2025', cls: 'is-active is-h5', delay: 0.5 },
-                          ].map((b) => (
-                            <div key={b.year} className="bcard_chart-col">
-                              <motion.div
-                                initial={{ scaleY: 0 }}
-                                whileInView={{ scaleY: 1 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.7, delay: b.delay, ease: 'easeOut' }}
-                                style={{ transformOrigin: 'bottom' }}
-                                className={`bcard_bar ${b.cls}`}
-                              />
-                              <p className="bcard_text-year">{b.year}</p>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
+              <SpotlightCard
+                spotlightColor="rgba(214, 253, 112, 0.12)"
+                style={{
+                  borderRadius: '1.5rem',
+                  height: '100%',
+                  background: '#ffffff',
+                  border: '1px solid var(--border-light)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  padding: '1.25rem',
+                  boxShadow: '0 8px 30px rgba(0,0,0,0.03)',
+                }}
+              >
+                {/* Visual Chart Card */}
+                <div
+                  style={{
+                    background: '#0d0d0f',
+                    borderRadius: '1rem',
+                    padding: '1.1rem',
+                    color: '#ffffff',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '0.75rem',
+                    border: '1px solid rgba(255,255,255,0.08)',
+                    boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.1)',
+                  }}
+                >
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
+                      <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#4ade80', boxShadow: '0 0 8px #4ade80' }} />
+                      <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'rgba(255,255,255,0.7)', letterSpacing: '0.04em' }}>TELEMETRY STREAM</span>
                     </div>
-                    {/* ecard - expertise text */}
-                    <div className="ecard">
-                      <div className="ecard_inner">
-                        <p className="ecard_text">Expertise</p>
-                        <div className="ecard_badge">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none" className="ecard_badge-icon">
-                            <rect width="16.9398" height="16.9398" rx="8.46988" fill="#ffffff" fillOpacity="0.1" />
-                            <path d="M8.47 4.94C7.82 4.94 7.19 5.2 6.72 5.66C6.26 6.12 6 6.75 6 7.41C6 8.25 6.42 8.99 7.06 9.43V10.23C7.06 10.32 7.1 10.41 7.16 10.48C7.23 10.55 7.32 10.58 7.41 10.58H9.53C9.62 10.58 9.71 10.55 9.78 10.48C9.84 10.41 9.88 10.32 9.88 10.23V9.43C10.52 8.99 10.94 8.25 10.94 7.41C10.94 6.75 10.68 6.12 10.22 5.66C9.75 5.2 9.12 4.94 8.47 4.94ZM7.41 11.64C7.41 11.74 7.45 11.83 7.52 11.89C7.58 11.96 7.67 11.99 7.76 11.99H9.18C9.27 11.99 9.36 11.96 9.43 11.89C9.49 11.83 9.53 11.74 9.53 11.64V11.29H7.41V11.64Z" fill="white" />
-                          </svg>
-                        </div>
-                        <p className="text-muted-40">that</p>
-                        <p className="text-muted-40">Combines</p>
-                        <p className="text-muted-40">Strategy,</p>
-                        <p className="ecard_text">Data,</p>
-                        <p className="text-muted-40">and AI</p>
+                    <span style={{ fontSize: '0.75rem', color: '#d6fd70', fontWeight: 700 }}>+99.4% Efficiency</span>
+                  </div>
+
+                  {/* Animated Bar Graph */}
+                  <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', height: '5.2rem', padding: '0.35rem 0.5rem', background: 'rgba(255,255,255,0.02)', borderRadius: '0.5rem' }}>
+                    {[
+                      { h: '38%', val: '24k', active: false },
+                      { h: '55%', val: '68k', active: false },
+                      { h: '72%', val: '142k', active: false },
+                      { h: '88%', val: '280k', active: false },
+                      { h: '100%', val: '519k', active: true },
+                    ].map((bar, i) => (
+                      <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.35rem', flex: 1 }}>
+                        <motion.div
+                          initial={{ height: 0 }}
+                          whileInView={{ height: bar.h }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 0.8, delay: i * 0.12, ease: [0.16, 1, 0.3, 1] }}
+                          style={{
+                            width: '65%',
+                            background: bar.active ? 'linear-gradient(180deg, #d6fd70 0%, #4ade80 100%)' : 'rgba(255,255,255,0.15)',
+                            borderRadius: '4px 4px 0 0',
+                            boxShadow: bar.active ? '0 0 12px rgba(214,253,112,0.4)' : 'none',
+                          }}
+                        />
+                        <span style={{ fontSize: '0.62rem', color: bar.active ? '#d6fd70' : 'rgba(255,255,255,0.4)', fontWeight: bar.active ? 700 : 500 }}>{bar.val}</span>
                       </div>
-                    </div>
+                    ))}
                   </div>
                 </div>
-                <div className="card-padding-medium">
-                  <div className="vertical-center">
-                    <h3 className="text-xl text-align-center">Data analytics &amp; insights</h3>
-                    <div className="spacer-xsmall" />
-                    <div className="text-base text-align-center text-color-secondary">
-                      Transform raw data into strategic insight using advanced analytics, dashboards, and predictive modeling.
-                    </div>
-                  </div>
+
+                <div style={{ marginTop: '1rem' }}>
+                  <h3 className="heading-style-h3" style={{ fontSize: '1.2rem', fontWeight: 700 }}>Data Analytics &amp; Insights</h3>
+                  <div className="spacer-xsmall" />
+                  <p className="text-base text-color-secondary" style={{ fontSize: '0.9rem', lineHeight: 1.45 }}>
+                    Transform raw multi-channel operational data into actionable intelligence, predictive analytics, and executive clarity.
+                  </p>
                 </div>
               </SpotlightCard>
             </motion.div>
 
-            {/* Card 3: Digital transformation */}
+            {/* Card 3: Global Edge & SLA Architecture */}
             <motion.div
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -211,143 +220,76 @@ export default function ExpertiseSection() {
               transition={{ duration: 0.5, delay: 0.25 }}
               className="expertise_card"
             >
-              <SpotlightCard spotlightColor="rgba(214, 253, 112, 0.08)" style={{ borderRadius: '1.5rem', height: '100%' }}>
-                <div className="visual">
-                  <div className="visual_wrap-third">
-                    {/* gcard - growth stats + tags */}
-                    <div className="gcard">
-                      <div className="gcard_inner">
-                        <div className="gcard_dark-block">
-                          <div className="pcard_header">
-                            <div className="pcard_header-text">
-                              <p className="pcard_text-title" style={{ color: '#fff' }}>Platform Uptime</p>
-                              <p className="pcard_text-muted">Global SLA Guarantee</p>
-                            </div>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" className="pcard_icon">
-                              <path d="M4.20065 17.7827L9.50065 12.4827L12.7506 15.7327C13.1606 16.1427 13.8206 16.1227 14.2006 15.6927L21.3706 7.62274C21.7206 7.23274 21.7006 6.63274 21.3306 6.25274C21.2345 6.15693 21.1199 6.08169 20.9938 6.03158C20.8677 5.98148 20.7327 5.95758 20.5971 5.96132C20.4614 5.96506 20.3279 5.99637 20.2048 6.05335C20.0816 6.11033 19.9713 6.19178 19.8806 6.29274L13.4906 13.4727L10.2006 10.1827C10.1081 10.09 9.99824 10.0165 9.87727 9.96631C9.7563 9.91613 9.62662 9.8903 9.49565 9.8903C9.36468 9.8903 9.235 9.91613 9.11402 9.96631C8.99305 10.0165 8.88316 10.09 8.79065 10.1827L2.70065 16.2827C2.60794 16.3753 2.5344 16.4851 2.48421 16.6061C2.43403 16.7271 2.4082 16.8568 2.4082 16.9877C2.4082 17.1187 2.43403 17.2484 2.48421 17.3694C2.5344 17.4903 2.60794 17.6002 2.70065 17.6927L2.79065 17.7827C3.18065 18.1727 3.82065 18.1727 4.20065 17.7827Z" fill="#4ade80" />
-                            </svg>
-                          </div>
-                        </div>
-                        <div className="gcard_stats">
-                          <div className="gcard_value-row">
-                            <div className="text-wrap">
-                              <div className="pcard_text-value">99.9</div>
-                              <div className="pcard_text-value">%</div>
-                            </div>
-                            <div className="gcard_badge"><p>Live</p></div>
-                          </div>
-                          <p className="gcard_text-sub">Continuous availability</p>
-                        </div>
-                        <div className="gcard_tags">
-                          <div className="gcard_tags-row">
-                            {['Reliable', 'Zero-Loss', 'SES Relay', 'Stalwart', 'Reliable', 'Zero-Loss', 'SES Relay', 'Stalwart'].map((t, i) => (
-                              <div key={i} className="gcard_tag"><p>{t}</p></div>
-                            ))}
-                          </div>
-                          <div className="gcard_tags-row">
-                            {['Fast', 'Automated', 'SLA Enforced', 'Custom DNS', 'Fast', 'Automated', 'SLA Enforced', 'Custom DNS'].map((t, i) => (
-                              <div key={i} className="gcard_tag"><p>{t}</p></div>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
+              <SpotlightCard
+                spotlightColor="rgba(214, 253, 112, 0.12)"
+                style={{
+                  borderRadius: '1.5rem',
+                  height: '100%',
+                  background: '#ffffff',
+                  border: '1px solid var(--border-light)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  padding: '1.25rem',
+                  boxShadow: '0 8px 30px rgba(0,0,0,0.03)',
+                }}
+              >
+                {/* Visual Region Grid */}
+                <div
+                  style={{
+                    background: '#0d0d0f',
+                    borderRadius: '1rem',
+                    padding: '1.1rem',
+                    color: '#ffffff',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '0.75rem',
+                    border: '1px solid rgba(255,255,255,0.08)',
+                    boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.1)',
+                  }}
+                >
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
+                      <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#38bdf8', boxShadow: '0 0 8px #38bdf8' }} />
+                      <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'rgba(255,255,255,0.7)', letterSpacing: '0.04em' }}>GLOBAL RELIABILITY</span>
                     </div>
-                    {/* scard - testimonial mini */}
-                    <div className="scard">
-                      <div className="scard_inner">
-                        <div className="scard_top-bar">
-                          <div className="scard_avatars">
-                            {[
-                              'https://cdn.prod.website-files.com/6929c116366a14507fc8424d/69a75e5565c3bf792b02b457_profile.avif',
-                              'https://cdn.prod.website-files.com/6929c116366a14507fc8424d/69a75e550a52d15c30221b24_profile-1.avif',
-                              'https://cdn.prod.website-files.com/6929c116366a14507fc8424d/69a75e55f95a0278fc6041e4_profile-2.avif',
-                            ].map((src, i) => (
-                              <div key={i} className="scard_avatar">
-                                <img loading="lazy" src={src} alt="" className="img" />
-                              </div>
-                            ))}
-                          </div>
-                          <p className="pcard_text-muted">+5,000 users</p>
-                        </div>
-                        <div className="scard_text-wrap">
-                          <p className="text-muted-40" style={{ color: 'rgba(0,0,0,0.28)' }}>Smart.</p>
-                          <p className="text-muted-40" style={{ color: 'rgba(0,0,0,0.28)' }}>Simple.</p>
-                          <p className="ecard_text" style={{ color: '#0f0f0f' }}>Bespoke.</p>
-                        </div>
-                      </div>
-                    </div>
+                    <span style={{ fontSize: '0.75rem', color: '#38bdf8', fontWeight: 700 }}>99.99% Uptime</span>
                   </div>
-                </div>
-                <div className="card-padding-medium">
-                  <div className="vertical-center">
-                    <h3 className="text-xl text-align-center">Digital transformation</h3>
-                    <div className="spacer-xsmall" />
-                    <div className="text-base text-align-center text-color-secondary">
-                      We guide organizations through full-scale digital evolution — modernizing systems, processes, and decision-making frameworks.
-                    </div>
-                  </div>
-                </div>
-              </SpotlightCard>
-            </motion.div>
 
-            {/* Card 4: Experience intelligence */}
-            <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-40px' }}
-              transition={{ duration: 0.5, delay: 0.35 }}
-              className="expertise_card"
-            >
-              <SpotlightCard spotlightColor="rgba(214, 253, 112, 0.08)" style={{ borderRadius: '1.5rem', height: '100%' }}>
-                <div className="visual">
-                  <div className="visual_wrap-fouth">
-                    {/* ocard - orbit rings + pills */}
-                    <div className="ocard">
-                      <div className="ocard_ring">
-                        <div className="ocard_ring">
-                          <div className="ocard_ring is-inner">
-                            <div className="ocard_center">
-                              <div className="ocard_logo-wrap">
-                                <img
-                                  loading="lazy"
-                                  src="https://cdn.prod.website-files.com/6929c116366a14507fc8424d/69a76463bf217fd7cf33872b_Logo.svg"
-                                  alt=""
-                                  className="img"
-                                />
-                              </div>
-                            </div>
-                          </div>
+                  {/* Node Status Rows */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem' }}>
+                    {[
+                      { region: 'AWS us-east-1', ping: '12ms', status: 'Optimal' },
+                      { region: 'Cloudflare Edge (280+ POPs)', ping: '4ms', status: 'Synchronized' },
+                      { region: 'EU Frankfurt Core', ping: '18ms', status: 'Protected' },
+                    ].map((node, i) => (
+                      <div
+                        key={i}
+                        style={{
+                          background: 'rgba(255,255,255,0.03)',
+                          border: '1px solid rgba(255,255,255,0.05)',
+                          borderRadius: '0.5rem',
+                          padding: '0.4rem 0.6rem',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                        }}
+                      >
+                        <span style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.85)', fontWeight: 500 }}>{node.region}</span>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                          <span style={{ fontSize: '0.65rem', color: '#4ade80', fontWeight: 600 }}>{node.ping}</span>
+                          <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#4ade80' }} />
                         </div>
                       </div>
-
-                      {[
-                        { pos: 'is-pos-1', avatar: 'https://cdn.prod.website-files.com/6929c116366a14507fc8424d/69a75e55f95a0278fc6041e4_profile-2.avif', name: 'Ann Stanton', badge: '+2.5%' },
-                        { pos: 'is-pos-2', avatar: 'https://cdn.prod.website-files.com/6929c116366a14507fc8424d/69a75e5565c3bf792b02b457_profile.avif', name: 'Livia Curtis', badge: '+6%' },
-                        { pos: 'is-pos-3', avatar: 'https://cdn.prod.website-files.com/6929c116366a14507fc8424d/69a75e550a52d15c30221b24_profile-1.avif', name: 'Lindsey Press', badge: '+5%' },
-                      ].map((pill) => (
-                        <div key={pill.pos} className={`ocard_pill ${pill.pos}`}>
-                          <div className="ocard_pill-inner">
-                            <div className="ocard_pill-user">
-                              <div className="ocard_pill-avatar">
-                                <img loading="lazy" src={pill.avatar} alt="" className="img" />
-                              </div>
-                              <p className="ocard_pill-name">{pill.name}</p>
-                            </div>
-                            <div className="gcard_badge"><p>{pill.badge}</p></div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
+                    ))}
                   </div>
                 </div>
-                <div className="card-padding-medium">
-                  <div className="vertical-center">
-                    <h3 className="text-xl text-align-center">Experience intelligence</h3>
-                    <div className="spacer-xsmall" />
-                    <div className="text-base text-align-center text-color-secondary">
-                      Combine data and design to deliver smarter, more personalized digital experiences that connect with users.
-                    </div>
-                  </div>
+
+                <div style={{ marginTop: '1rem' }}>
+                  <h3 className="heading-style-h3" style={{ fontSize: '1.2rem', fontWeight: 700 }}>Enterprise SLA &amp; Infrastructure</h3>
+                  <div className="spacer-xsmall" />
+                  <p className="text-base text-color-secondary" style={{ fontSize: '0.9rem', lineHeight: 1.45 }}>
+                    High-availability distributed architectures backed by strict SLA guarantees, custom DNS routing, and resilient cloud infrastructure.
+                  </p>
                 </div>
               </SpotlightCard>
             </motion.div>
@@ -357,4 +299,3 @@ export default function ExpertiseSection() {
     </section>
   )
 }
-
