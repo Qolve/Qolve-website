@@ -38,36 +38,35 @@ export default function Navbar({ activePage, onNavigate }) {
       <div className="padding-global is-navbar">
         <div className="container-large">
           <div className="navbar_content" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            {/* Logo - Qolve Minimalist macOS mark */}
+            {/* Logo - Qolve Original Brand Mark */}
             <button
               onClick={() => navTo('home')}
-              style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', gap: '0.75rem' }}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', gap: '0.625rem' }}
             >
               <div style={{
-                width: '2.1rem',
-                height: '2.1rem',
-                borderRadius: '0.625rem',
-                background: 'linear-gradient(180deg, rgba(52, 211, 153, 0.9) 0%, rgba(16, 185, 129, 0.8) 100%)',
-                border: '1px solid rgba(255, 255, 255, 0.5)',
-                boxShadow: '0 4px 14px rgba(16, 185, 129, 0.3), inset 0 1px 0.5px rgba(255, 255, 255, 0.8)',
+                width: '2.25rem',
+                height: '2.25rem',
+                borderRadius: '0.5rem',
+                background: '#d6fd70',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontWeight: 700,
-                color: '#021207',
-                fontSize: '1rem'
+                fontWeight: 800,
+                color: '#0f0f0f',
+                fontSize: '1.25rem'
               }}>
-                🌿
+                Q
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <span style={{ fontSize: '1.2rem', fontWeight: 700, color: '#ffffff', letterSpacing: '-0.03em' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+                <span style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '1.25rem', fontWeight: 800, color: '#ffffff', letterSpacing: '-0.02em', lineHeight: 1.1 }}>
                   qolve
                 </span>
-                <span style={{ fontSize: '0.6875rem', fontWeight: 500, color: '#34d399', background: 'rgba(52, 211, 153, 0.12)', padding: '0.15rem 0.45rem', borderRadius: '9999px', border: '1px solid rgba(52, 211, 153, 0.25)' }}>
-                  quelp
+                <span style={{ fontSize: '0.7rem', fontWeight: 600, color: '#d6fd70', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+                  Whitelabel Solutions
                 </span>
               </div>
             </button>
+
 
             {/* Desktop macOS Segmented Navigation pill */}
             <div className="nav_wrap" style={{ display: 'flex', alignItems: 'center' }}>

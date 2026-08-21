@@ -35,31 +35,32 @@ export default function Footer({ onNavigate }) {
                 <div className="footer_content-wrap">
                   <button
                     onClick={() => navTo('home')}
-                    style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', gap: '0.75rem' }}
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', gap: '0.625rem' }}
                   >
                     <div style={{
-                      width: '2.5rem',
-                      height: '2.5rem',
-                      borderRadius: '0.75rem',
-                      background: 'radial-gradient(135deg, #6ee7b7 0%, #10b981 50%, #065f46 100%)',
-                      border: '1.5px solid rgba(255,255,255,0.6)',
-                      boxShadow: '0 0 20px rgba(52, 211, 153, 0.4), inset 0 1px 1px rgba(255,255,255,0.8)',
+                      width: '2.25rem',
+                      height: '2.25rem',
+                      borderRadius: '0.5rem',
+                      background: '#d6fd70',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
+                      fontWeight: 800,
+                      color: '#0f0f0f',
                       fontSize: '1.25rem'
                     }}>
-                      🌿
+                      Q
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-                      <span style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '1.35rem', fontWeight: 800, color: '#f8fafc', letterSpacing: '-0.02em', lineHeight: 1.1 }}>
+                      <span style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '1.25rem', fontWeight: 800, color: '#ffffff', letterSpacing: '-0.02em', lineHeight: 1.1 }}>
                         qolve
                       </span>
-                      <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#34d399', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
-                        Liquid Eco Systems
+                      <span style={{ fontSize: '0.7rem', fontWeight: 600, color: '#d6fd70', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+                        Whitelabel Solutions
                       </span>
                     </div>
                   </button>
+
                   <div style={{ color: '#cbd5e1', fontSize: '0.9375rem', lineHeight: 1.6 }}>
                     Qolve is a technical product lab cultivating <strong>Quelp</strong> — a sustainable, white-label customer support &amp; helpdesk ecosystem built for modern growing teams.
                   </div>
