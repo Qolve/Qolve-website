@@ -41,18 +41,19 @@ const WORLD_MAP = [
   "111111111111111111111111111111111111111111111111111111111111111111111111"  // 85°S - South Pole
 ]
 
+// Authentic UNIX Terminal Density Gradient (7-bit ASCII standard)
+const TERMINAL_RAMP = " .:-=+*#%@"
+
 export default function AsciiEarth({ size = 44, speed = 0.005, color = '#000000' }) {
   const [asciiFrame, setAsciiFrame] = useState('')
   const angleRef = useRef(0)
   const reqRef = useRef(null)
 
   useEffect(() => {
-    const width = Math.round(size * 2.1)
+    const width = Math.round(size * 2.05)
     const height = size
     const mapH = WORLD_MAP.length
     const mapW = WORLD_MAP[0].length
-
-    const landChars = ' .:=+*#%@'
     const axialTilt = 0.41 // 23.5 degrees in radians
 
     const render = () => {
@@ -70,7 +71,7 @@ export default function AsciiEarth({ size = 44, speed = 0.005, color = '#000000'
         const ny = (y - height / 2) / (height / 2)
 
         for (let x = 0; x < width; x++) {
-          const nx = ((x - width / 2) / (width / 2)) * 1.15
+          const nx = ((x - width / 2) / (width / 2)) * 1.18
           const distSq = nx * nx + ny * ny
 
           if (distSq <= 1.0) {
@@ -96,15 +97,18 @@ export default function AsciiEarth({ size = 44, speed = 0.005, color = '#000000'
 
             const isLand = WORLD_MAP[mapY]?.[mapX] === '1'
 
+            // Directional sun illumination
             const light = (-0.35 * nx + 0.85 * nz - 0.3 * ny + 1.0) / 2.0
             const clampedLight = Math.max(0, Math.min(1, light))
 
             if (isLand) {
-              const charIdx = Math.floor(clampedLight * (landChars.length - 1))
-              line += landChars[charIdx] || '#'
+              // Terminal land representation using density ramp
+              const charIdx = Math.floor(clampedLight * (TERMINAL_RAMP.length - 1))
+              line += TERMINAL_RAMP[charIdx] || '#'
             } else {
+              // Terminal ocean grid / latitude-longitude lines
               const isGrid = Math.abs(lat) % (Math.PI / 6) < 0.05 || Math.abs(lon) % (Math.PI / 3) < 0.05
-              if (isGrid && clampedLight > 0.3) {
+              if (isGrid && clampedLight > 0.25) {
                 line += '+'
               } else if (clampedLight > 0.5) {
                 line += '.'
@@ -134,14 +138,16 @@ export default function AsciiEarth({ size = 44, speed = 0.005, color = '#000000'
     <pre
       style={{
         margin: 0,
-        fontFamily: 'Courier, "Courier New", monospace',
-        fontSize: '0.92rem',
-        lineHeight: '0.90rem',
+        fontFamily: '"SF Mono", "Menlo", "Monaco", "Cascadia Code", "Courier New", monospace',
+        fontSize: '0.88rem',
+        lineHeight: '0.82rem',
         fontWeight: 700,
         color: color,
-        letterSpacing: '0.035em',
+        letterSpacing: '0.04em',
         userSelect: 'none',
         pointerEvents: 'none',
+        WebkitFontSmoothing: 'none',
+        MozOsxFontSmoothing: 'unset',
         textShadow: 'none',
         whiteSpace: 'pre',
         display: 'block',

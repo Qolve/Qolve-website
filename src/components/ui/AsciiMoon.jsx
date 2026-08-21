@@ -1,9 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 
 // Accurate 60x30 Lunar Surface Matrix (Nearside & Farside Maria/Basalt Plains)
-// '1' = Lunar Maria (Dark Basalt Plains: Oceanus Procellarum, Mare Imbrium, Tranquillitatis, etc.)
-// '2' = High-albedo Impact Craters (Tycho, Copernicus, Kepler rays)
-// ' ' = Anorthositic Lunar Highlands (Light Silver/Gray)
 const LUNAR_MAP = [
   "                                                            ", // 90°N Polar Highlands
   "                        11111111111                         ", // 75°N
@@ -24,19 +21,18 @@ const LUNAR_MAP = [
   "                                                            "  // 85°S - South Pole
 ]
 
-export default function AsciiMoon({ size = 32, speed = 0.003 }) {
-  const [htmlFrame, setHtmlFrame] = useState('')
+const TERMINAL_RAMP = " .:-=+*#%@"
+
+export default function AsciiMoon({ size = 32, speed = 0.003, color = '#000000' }) {
+  const [asciiFrame, setAsciiFrame] = useState('')
   const angleRef = useRef(0)
   const reqRef = useRef(null)
 
   useEffect(() => {
-    const width = Math.round(size * 2.1)
+    const width = Math.round(size * 2.05)
     const height = size
     const mapH = LUNAR_MAP.length
     const mapW = LUNAR_MAP[0].length
-
-    const craterChars = ' .:=+*#%@'
-    const mariaChars = ' :.-=+*#'
 
     const render = () => {
       angleRef.current += speed
@@ -44,38 +40,23 @@ export default function AsciiMoon({ size = 32, speed = 0.003 }) {
       const cosT = Math.cos(theta)
       const sinT = Math.sin(theta)
 
-      let frameHtml = ''
+      let frame = ''
 
       for (let y = 0; y < height; y++) {
-        let currentSpanColor = null
-        let currentSpanText = ''
-        let lineHtml = ''
-
-        const push = (ch, col) => {
-          if (col !== currentSpanColor) {
-            if (currentSpanText) {
-              lineHtml += `<span style="color:${currentSpanColor}">${currentSpanText}</span>`
-            }
-            currentSpanColor = col
-            currentSpanText = ch
-          } else {
-            currentSpanText += ch
-          }
-        }
-
+        let line = ''
         const ny = (y - height / 2) / (height / 2)
 
         for (let x = 0; x < width; x++) {
-          const nx = ((x - width / 2) / (width / 2)) * 1.15
+          const nx = ((x - width / 2) / (width / 2)) * 1.18
           const distSq = nx * nx + ny * ny
 
           if (distSq <= 1.0) {
             const nz = Math.sqrt(Math.max(0, 1.0 - distSq))
 
-            // Lunar orbital rotation around Y-axis with 1.54° axial tilt
+            // Lunar rotation
             const rx = nx * cosT + nz * sinT
             const ry = ny
-            const rz = -nx * sinT + nz * cosT
+            const rz = -nx * sinT + tz * cosT || -nx * sinT + nz * cosT
 
             const lat = Math.asin(Math.max(-1, Math.min(1, ry)))
             const lon = Math.atan2(rx, rz)
@@ -88,42 +69,29 @@ export default function AsciiMoon({ size = 32, speed = 0.003 }) {
 
             const feature = LUNAR_MAP[mapY]?.[mapX]
 
-            // Directional sun illumination (sunlit crater relief from top-left)
             const light = (-0.45 * nx + 0.8 * nz - 0.3 * ny + 1.0) / 2.0
             const clampedLight = Math.max(0, Math.min(1, light))
 
             if (feature === '1') {
-              // Lunar Maria: Dark volcanic basalt
-              const charIdx = Math.floor(clampedLight * (mariaChars.length - 1))
-              const ch = mariaChars[charIdx] || ':'
-              push(ch, clampedLight > 0.45 ? '#475569' : '#1e293b')
+              // Maria: darker terminal chars
+              const charIdx = Math.floor(clampedLight * 4)
+              line += ['.', ':', '-', '='][charIdx] || ':'
             } else if (feature === '2') {
-              // Tycho / Copernicus Crater Rays: High-albedo bright white
-              push('@', '#ffffff')
+              // Tycho rays
+              line += '@'
             } else {
-              // Lunar Highlands: Bright silvery anorthosite rock
-              const charIdx = Math.floor(clampedLight * (craterChars.length - 1))
-              const ch = craterChars[charIdx] || '#'
-              if (clampedLight > 0.65) {
-                push(ch, '#f8fafc') // Brilliant sunlit rim
-              } else if (clampedLight > 0.35) {
-                push(ch, '#cbd5e1') // Silver highland
-              } else {
-                push(ch, '#64748b') // Shadowed slope
-              }
+              // Highlands
+              const charIdx = Math.floor(clampedLight * (TERMINAL_RAMP.length - 1))
+              line += TERMINAL_RAMP[charIdx] || '#'
             }
           } else {
-            push(' ', 'transparent')
+            line += ' '
           }
         }
-
-        if (currentSpanText) {
-          lineHtml += `<span style="color:${currentSpanColor}">${currentSpanText}</span>`
-        }
-        frameHtml += lineHtml + '\n'
+        frame += line + '\n'
       }
 
-      setHtmlFrame(frameHtml)
+      setAsciiFrame(frame)
       reqRef.current = requestAnimationFrame(render)
     }
 
@@ -138,17 +106,22 @@ export default function AsciiMoon({ size = 32, speed = 0.003 }) {
     <pre
       style={{
         margin: 0,
-        fontFamily: 'Courier, "Courier New", monospace',
+        fontFamily: '"SF Mono", "Menlo", "Monaco", "Cascadia Code", "Courier New", monospace',
         fontSize: '0.85rem',
-        lineHeight: '0.82rem',
-        fontWeight: 800,
-        letterSpacing: '0.035em',
+        lineHeight: '0.78rem',
+        fontWeight: 700,
+        color: color,
+        letterSpacing: '0.04em',
         userSelect: 'none',
         pointerEvents: 'none',
+        WebkitFontSmoothing: 'none',
+        MozOsxFontSmoothing: 'unset',
+        textShadow: 'none',
         whiteSpace: 'pre',
         display: 'block',
       }}
-      dangerouslySetInnerHTML={{ __html: htmlFrame }}
-    />
+    >
+      {asciiFrame}
+    </pre>
   )
 }
