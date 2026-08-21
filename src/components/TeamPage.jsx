@@ -75,75 +75,87 @@ export default function TeamPage({ onNavigate }) {
   }, [])
 
   return (
-    <section className="section_about" id="team" style={{ background: '#ffffff', minHeight: '100vh' }}>
-      <div className="padding-section-large" />
+    <section className="section_about" id="team" style={{ background: 'transparent', minHeight: '100vh', padding: '6rem 0' }}>
       <div className="padding-global">
         <div className="container-large">
           <div className="vertical-center">
             {/* Tag pill */}
-            <div className="tag" data-anim>
-              <div className="dot-square" />
-              <div>The Qolve Team</div>
+            <div
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                padding: '0.35rem 0.85rem',
+                borderRadius: '9999px',
+                background: 'rgba(255, 255, 255, 0.04)',
+                border: '1px solid rgba(255, 255, 255, 0.12)',
+                backdropFilter: 'blur(20px)',
+                color: '#cbd5e1',
+                fontSize: '0.8125rem',
+                fontWeight: 500,
+                marginBottom: '1.25rem',
+              }}
+            >
+              <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#34d399', boxShadow: '0 0 6px rgba(52,211,153,0.8)' }} />
+              <span>Engineering Team</span>
             </div>
-
-            <div className="spacer-large" />
 
             {/* Header Title */}
             <div className="max-width-medium is-41rem">
-              <h2 className="text-align-center" data-anim>
+              <h2 style={{ fontSize: 'clamp(2.25rem, 4.5vw, 3.5rem)', color: '#ffffff', letterSpacing: '-0.035em', lineHeight: 1.1, fontWeight: 700, textAlign: 'center', marginBottom: '1rem' }}>
                 The engineers behind Qolve &amp; Quelp
               </h2>
             </div>
 
-            <div className="spacer-large" />
-
             <div className="max-width-medium">
-              <div className="text-base text-align-center text-color-secondary" data-anim>
+              <div style={{ color: '#94a3b8', fontSize: '1.0625rem', lineHeight: 1.6, textAlign: 'center', maxWidth: '38rem', marginBottom: '2rem' }}>
                 A dedicated team of systems architects, software engineers, and product builders developing a simpler, smarter, and fully white-labeled support experience.
               </div>
             </div>
-
-            <div className="spacer-large" />
 
             <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
               <button
                 onClick={() => onNavigate && onNavigate('home')}
                 className="button"
-                data-variant="bg-black"
-                style={{ cursor: 'pointer' }}
+                style={{
+                  background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.03) 100%)',
+                  border: '1px solid rgba(255, 255, 255, 0.18)',
+                  color: '#f8fafc',
+                  padding: '0.65rem 1.4rem',
+                  borderRadius: '9999px',
+                  cursor: 'pointer',
+                  boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.25)',
+                }}
               >
-                <div className="text-button-wrap">
-                  <div>← Back to Home</div>
-                </div>
+                ← Back to Home
               </button>
               <button
                 onClick={() => onNavigate && onNavigate('products')}
-                className="button-arrow is-black"
-                style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+                className="button"
+                style={{
+                  background: 'linear-gradient(180deg, rgba(52, 211, 153, 0.9) 0%, rgba(16, 185, 129, 0.85) 100%)',
+                  color: '#020f06',
+                  border: '1px solid rgba(255, 255, 255, 0.35)',
+                  padding: '0.65rem 1.4rem',
+                  borderRadius: '9999px',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                }}
               >
-                <div className="button-arrow_wrap">
-                  <div className="button-arrow_text">
-                    <div className="text_button">Explore Quelp Platform</div>
-                  </div>
-                  <div className="button_container-arrow is-black">
-                    <div className="icon-1x1-main">
-                      <ArrowIcon />
-                    </div>
-                  </div>
-                </div>
+                Explore Quelp Platform
               </button>
             </div>
           </div>
 
           <div className="spacer-section-large" />
 
-          {/* Team Cards Grid - Native Aeline Bento Card System */}
-          <div className="about_layout" data-anim style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
+          {/* Team Cards Grid */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.75rem' }}>
             {teamMembers.map((member, i) => (
-              <div key={i} className={member.cardClass} data-anim style={{ minHeight: '22rem' }}>
-                <div className="vertical-space-between" style={{ height: '100%' }}>
+              <div key={i} className="card_about macos-glass" style={{ minHeight: '22rem', padding: '2.25rem', borderRadius: '1.75rem', border: '1px solid rgba(255, 255, 255, 0.12)' }}>
+                <div className="vertical-space-between" style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                   <div>
-                    <div className="card_1-top" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
                       <span
                         className="geistmono"
                         style={{
@@ -151,8 +163,9 @@ export default function TeamPage({ onNavigate }) {
                           fontWeight: 600,
                           padding: '0.25rem 0.625rem',
                           borderRadius: '9999px',
-                          background: member.cardClass.includes('bg-black') ? 'rgba(214,253,112,0.15)' : 'rgba(0,0,0,0.06)',
-                          color: member.cardClass.includes('bg-black') ? '#d6fd70' : '#0f0f0f',
+                          background: 'rgba(52, 211, 153, 0.12)',
+                          color: '#34d399',
+                          border: '1px solid rgba(52, 211, 153, 0.25)',
                         }}
                       >
                         {member.tag}
@@ -162,32 +175,32 @@ export default function TeamPage({ onNavigate }) {
                           width: '0.5rem',
                           height: '0.5rem',
                           borderRadius: '50%',
-                          background: member.cardClass.includes('bg-green') ? '#0f0f0f' : '#d6fd70',
+                          background: '#34d399',
+                          boxShadow: '0 0 6px rgba(52,211,153,0.8)',
                         }}
                       />
                     </div>
 
-                    <h3 className={`text-2xl ${member.textColor}`} style={{ fontSize: '1.5rem', fontWeight: 700 }}>
+                    <h3 style={{ fontSize: '1.4rem', fontWeight: 700, color: '#ffffff', letterSpacing: '-0.02em', marginBottom: '0.35rem' }}>
                       {member.name}
                     </h3>
-                    <div className="spacer-xsmall" />
                     <div
                       style={{
-                        fontSize: '0.9375rem',
+                        fontSize: '0.875rem',
                         fontWeight: 600,
-                        color: member.cardClass.includes('bg-black') ? '#d6fd70' : '#555555',
+                        color: '#6ee7b7',
+                        marginBottom: '1rem',
                       }}
                     >
                       {member.role}
                     </div>
-                    <div className="spacer-medium" />
-                    <div className={`text-base ${member.textColor}`} style={{ opacity: 0.85, lineHeight: 1.6 }}>
+                    <div style={{ color: '#94a3b8', fontSize: '0.9rem', lineHeight: 1.6 }}>
                       {member.bio}
                     </div>
                   </div>
 
-                  <div style={{ marginTop: '1.5rem', paddingTop: '1rem', borderTop: member.cardClass.includes('bg-black') ? '1px solid rgba(255,255,255,0.12)' : '1px solid rgba(0,0,0,0.08)' }}>
-                    <code style={{ fontSize: '0.8125rem', color: member.cardClass.includes('bg-black') ? '#d6fd70' : '#444444' }}>
+                  <div style={{ marginTop: '1.5rem', paddingTop: '1rem', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+                    <code style={{ fontSize: '0.8125rem', color: '#cbd5e1' }}>
                       {member.email}
                     </code>
                   </div>
@@ -197,8 +210,8 @@ export default function TeamPage({ onNavigate }) {
           </div>
         </div>
       </div>
-      <div className="padding-section-large" />
     </section>
   )
 }
+
 

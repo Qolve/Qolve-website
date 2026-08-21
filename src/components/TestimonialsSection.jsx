@@ -61,21 +61,33 @@ export default function TestimonialsSection() {
       <div className="padding-section-medium" />
       <div className="padding-global">
         <div className="container-large">
-          <div>
-            <div className="tag" data-anim>
-              <div className="dot-square" />
-              <div>Testimonials</div>
+            <div
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                padding: '0.35rem 0.85rem',
+                borderRadius: '9999px',
+                background: 'rgba(255, 255, 255, 0.04)',
+                border: '1px solid rgba(255, 255, 255, 0.12)',
+                backdropFilter: 'blur(20px)',
+                color: '#cbd5e1',
+                fontSize: '0.8125rem',
+                fontWeight: 500,
+                marginBottom: '1.25rem',
+              }}
+            >
+              <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#34d399', boxShadow: '0 0 6px rgba(52,211,153,0.8)' }} />
+              <span>Customer Stories</span>
             </div>
 
-            <div className="spacer-medium" />
-
-            <h2 data-anim>What they say about us?</h2>
-
-            <div className="spacer-medium" />
+            <h2 style={{ fontSize: 'clamp(2.25rem, 4.5vw, 3.5rem)', color: '#ffffff', letterSpacing: '-0.035em', lineHeight: 1.1, fontWeight: 700, marginBottom: '1rem' }}>
+              Cultivated for high-trust support teams
+            </h2>
 
             <div className="testi_wrap">
-              <div className="text-color-secondary" data-anim>
-                Here's what they shared about their experience working with our team.
+              <div style={{ color: '#94a3b8', fontSize: '1.0625rem', lineHeight: 1.6 }}>
+                Discover how technical leaders deliver responsive, branded support without enterprise overhead.
               </div>
 
               <div className="arrows_wrap is-testimonals">
@@ -83,7 +95,7 @@ export default function TestimonialsSection() {
                   className="arrow_container slide_prev"
                   onClick={slidePrev}
                   disabled={currentIndex === 0}
-                  style={{ opacity: currentIndex === 0 ? 0.4 : 1 }}
+                  style={{ opacity: currentIndex === 0 ? 0.3 : 1, background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.15)', color: '#f1f5f9' }}
                 >
                   <div className="icon-1x1-medium">
                     <PrevIcon />
@@ -93,7 +105,7 @@ export default function TestimonialsSection() {
                   className="arrow_container slide_next"
                   onClick={slideNext}
                   disabled={currentIndex >= testimonials.length - 3}
-                  style={{ opacity: currentIndex >= testimonials.length - 3 ? 0.4 : 1 }}
+                  style={{ opacity: currentIndex >= testimonials.length - 3 ? 0.3 : 1, background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.15)', color: '#f1f5f9' }}
                 >
                   <div className="icon-1x1-medium">
                     <NextIcon />
@@ -101,9 +113,9 @@ export default function TestimonialsSection() {
                 </button>
               </div>
             </div>
-          </div>
 
           <div className="spacer-section-medium" />
+
 
           {/* Testimonial slider */}
           <div className="testi_swiper">
@@ -114,37 +126,38 @@ export default function TestimonialsSection() {
               }}
             >
               {testimonials.map((t, i) => (
-                <div key={i} className="testimonials_card">
+                <div key={i} className="testimonials_card macos-glass" style={{ border: '1px solid rgba(255, 255, 255, 0.1)' }}>
                   <img
                     src={t.img}
                     loading="lazy"
                     alt=""
                     className="img"
-                    style={{ width: '100%', height: '28rem', objectFit: 'cover' }}
+                    style={{ width: '100%', height: '28rem', objectFit: 'cover', filter: 'brightness(0.65) contrast(1.1)' }}
                   />
                   {/* Logo */}
                   <div className="testimonials_logo-container">
-                    <img src={t.logo} loading="lazy" alt="" className="testimonials-logo" />
+                    <img src={t.logo} loading="lazy" alt="" className="testimonials-logo" style={{ filter: 'brightness(0) invert(1)', opacity: 0.8 }} />
                   </div>
                   {/* Gradient */}
-                  <div className="blur-card" />
+                  <div className="blur-card" style={{ background: 'linear-gradient(180deg, transparent 20%, rgba(2, 8, 4, 0.95) 100%)' }} />
                   {/* Content */}
                   <div className="testimonial_card-container">
                     <div className="relative text-color-on-primary">
-                      <div className="icon-1x1-large">
+                      <div className="icon-1x1-large" style={{ color: '#34d399' }}>
                         <QuoteIcon />
                       </div>
-                      <div className="text-lg" style={{ display: '-webkit-box', overflow: 'hidden', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical' }}>
+                      <div className="text-lg" style={{ display: '-webkit-box', overflow: 'hidden', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', color: '#f8fafc' }}>
                         {t.quote}
                       </div>
                       <div className="spacer-large" />
-                      <div className="text-align-right">{t.author}</div>
+                      <div className="text-align-right" style={{ color: '#6ee7b7', fontWeight: 600 }}>{t.author}</div>
                     </div>
                   </div>
                 </div>
               ))}
             </div>
           </div>
+
 
           {/* Mobile arrows */}
           <div className="arrows_wrap is-testimonals-phone">
@@ -171,7 +184,8 @@ export default function TestimonialsSection() {
           </div>
         </div>
       </div>
-      <div className="padding-section-medium" />
     </section>
   )
 }
+
+
