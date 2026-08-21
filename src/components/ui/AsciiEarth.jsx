@@ -137,22 +137,44 @@ export default function AsciiEarth({ size = 44, speed = 0.005, color = '#d6fd70'
   }, [size, speed])
 
   return (
-    <pre
+    <div
       style={{
-        margin: 0,
-        fontFamily: 'Courier, monospace',
-        fontSize: '0.9rem',
-        lineHeight: '0.88rem',
-        color: color,
-        letterSpacing: '0.03em',
-        userSelect: 'none',
-        pointerEvents: 'none',
-        textShadow: color === '#d6fd70' ? '0 0 16px rgba(214, 253, 112, 0.7), 0 0 4px rgba(0,0,0,0.5)' : 'none',
-        whiteSpace: 'pre',
-        display: 'block',
+        position: 'relative',
+        display: 'inline-block',
       }}
     >
-      {asciiFrame}
-    </pre>
+      {/* High-contrast ambient cosmic aura under sphere */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: '-5%',
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(15, 15, 15, 0.88) 0%, rgba(15, 15, 15, 0.6) 45%, rgba(15, 15, 15, 0) 70%)',
+          filter: 'blur(25px)',
+          zIndex: 0,
+          pointerEvents: 'none',
+        }}
+      />
+      <pre
+        style={{
+          position: 'relative',
+          zIndex: 1,
+          margin: 0,
+          fontFamily: 'Courier, "Courier New", monospace',
+          fontSize: '0.92rem',
+          lineHeight: '0.90rem',
+          fontWeight: 900,
+          color: color,
+          letterSpacing: '0.035em',
+          userSelect: 'none',
+          pointerEvents: 'none',
+          textShadow: '0 0 14px rgba(214, 253, 112, 0.9), 0 0 4px #d6fd70, 0 1px 2px rgba(0,0,0,0.8)',
+          whiteSpace: 'pre',
+          display: 'block',
+        }}
+      >
+        {asciiFrame}
+      </pre>
+    </div>
   )
 }
