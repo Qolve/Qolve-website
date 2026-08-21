@@ -18,75 +18,58 @@ const blogPosts = [
 
 export default function BlogSection() {
   return (
-    <section className="section_blog" id="blog" style={{ position: 'relative', overflow: 'hidden', padding: '6rem 0' }}>
+    <section className="section_blog" id="blog">
+      <div className="padding-section-large" />
       <div className="padding-global">
         <div className="container-large">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '2rem', marginBottom: '3.5rem' }}>
-            <div style={{ maxWidth: '42rem' }}>
-              <div
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                  padding: '0.35rem 0.85rem',
-                  borderRadius: '9999px',
-                  background: 'rgba(255, 255, 255, 0.04)',
-                  border: '1px solid rgba(255, 255, 255, 0.12)',
-                  backdropFilter: 'blur(20px)',
-                  color: '#cbd5e1',
-                  fontSize: '0.8125rem',
-                  fontWeight: 500,
-                  marginBottom: '1.25rem',
-                }}
-              >
-                <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#34d399', boxShadow: '0 0 6px rgba(52,211,153,0.8)' }} />
-                <span>Lab Research &amp; Insights</span>
+          <div className="horizontal-bottom is-between">
+            <div>
+              <div className="tag" data-anim>
+                <div className="dot-square" />
+                <div>Blog and articles</div>
               </div>
 
-              <h2 style={{ fontSize: 'clamp(2.25rem, 4.5vw, 3.5rem)', color: '#ffffff', letterSpacing: '-0.035em', lineHeight: 1.1, fontWeight: 700, marginBottom: '1rem' }}>
-                Latest engineering dispatches
-              </h2>
+              <div className="spacer-medium" />
 
-              <p style={{ color: '#94a3b8', fontSize: '1.0625rem', lineHeight: 1.6 }}>
-                Technical deep-dives into mail deliverability, self-healing support AI, and sustainable SaaS architecture.
-              </p>
+              <h2 data-anim>Latest insights and trends</h2>
+
+              <div className="spacer-medium" />
+
+              <div className="text-color-secondary" data-anim>
+                Whether you're optimizing today or building for tomorrow we help you move faster with confidence.
+              </div>
             </div>
 
-            <div className="button_portrait">
+            <div className="button_portrait" data-anim>
               <a
                 href="#blog"
                 className="button"
-                style={{
-                  background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.03) 100%)',
-                  border: '1px solid rgba(255, 255, 255, 0.18)',
-                  color: '#f8fafc',
-                  padding: '0.65rem 1.4rem',
-                  borderRadius: '9999px',
-                  boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.25)',
-                }}
+                data-variant="bg-black"
+                style={{ background: '#0f0f0f', color: '#ffffff' }}
               >
-                View All Articles
+                <div className="text-button-wrap">
+                  <div>View All</div>
+                </div>
               </a>
             </div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem' }}>
+          <div className="spacer-section-medium" />
+
+          <div className="blog_cards">
             {blogPosts.map((post, i) => (
-              <div key={i}>
-                <a href={`#${post.slug}`} className="blog_card macos-glass" style={{ display: 'block', textDecoration: 'none', position: 'relative', overflow: 'hidden', borderRadius: '1.75rem', border: '1px solid rgba(255, 255, 255, 0.12)' }}>
+              <div key={i} data-anim>
+                <a href={`#${post.slug}`} className="blog_card">
                   <img
                     src={post.img}
                     loading="lazy"
                     alt=""
                     className="img"
-                    style={{ width: '100%', height: '20rem', objectFit: 'cover', filter: 'brightness(0.7) contrast(1.05)' }}
+                    style={{ width: '100%', height: '20rem', objectFit: 'cover' }}
                   />
-                  <div className="blur-card" style={{ background: 'linear-gradient(180deg, transparent 30%, rgba(2, 8, 4, 0.95) 100%)' }} />
-                  <div className="blog_card-content" style={{ position: 'absolute', bottom: '1.75rem', left: '1.75rem', right: '1.75rem', zIndex: 2 }}>
-                    <span style={{ fontSize: '0.75rem', color: '#6ee7b7', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.35rem', display: 'inline-block' }}>
-                      Engineering Note
-                    </span>
-                    <h3 className="text-xl" style={{ color: '#ffffff', fontWeight: 700, letterSpacing: '-0.02em', lineHeight: 1.3 }}>{post.title}</h3>
+                  <div className="blur-card" />
+                  <div className="blog_card-content">
+                    <h3 className="text-xl text-color-on-primary relative">{post.title}</h3>
                   </div>
                 </a>
               </div>
@@ -94,7 +77,7 @@ export default function BlogSection() {
           </div>
         </div>
       </div>
+      <div className="padding-section-large" />
     </section>
   )
 }
-

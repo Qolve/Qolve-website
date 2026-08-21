@@ -8,64 +8,49 @@ const ArrowIcon = () => (
 
 const teamMembers = [
   {
-    name: 'Gabriel',
-    role: 'Systems & Infrastructure Lead',
-    email: 'gabriel@qolve.systems',
-    tag: 'Mail & SES Architect',
-    bio: 'Architected the Stalwart mail server container and AWS SES outbound relay integration for SPF, DKIM, and DMARC verified mail delivery under qolve.systems.',
+    name: 'Liam Haines',
+    role: 'Chief Executive Officer (CEO)',
+    tag: 'Executive',
+    bio: 'Guiding Quelp’s strategic vision and product direction to deliver a fully branded, lower-cost support platform.',
     cardClass: 'card_about bg-black',
     textColor: 'text-color-on-primary',
     tagBg: 'bg-green',
   },
   {
     name: 'Freddie H',
-    role: 'Product Manager & Full-Stack Developer',
-    email: 'fred@qolve.systems',
+    role: 'Project Manager & Software Developer',
     tag: 'Product & Tech',
-    bio: 'Orchestrating product delivery, sprint execution, component design, and full-stack integration across the Quelp platform.',
+    bio: 'Orchestrating product delivery, sprint execution, and full-stack development across the Quelp platform.',
     cardClass: 'card_about bg-subtle',
-    textColor: 'text-color-primary',
-    tagBg: 'bg-black',
-  },
-  {
-    name: 'Liam Haines',
-    role: 'Product Strategy & Lead Engineer',
-    email: 'liam@qolve.systems',
-    tag: 'Strategy & Core',
-    bio: 'Guiding Qolve’s product direction to build a white-label, lower-cost customer support platform for growing SMBs.',
-    cardClass: 'card_about bg-green',
     textColor: 'text-color-primary',
     tagBg: 'bg-black',
   },
   {
     name: 'Vilius',
-    role: 'Database Engineer & Frontend Systems',
-    email: 'vilius@qolve.systems',
-    tag: 'Database & UI',
-    bio: 'Designing multi-tenant database schemas with strict tenant isolation and building fluid, responsive user interface workflows.',
+    role: 'Database Engineer & Frontend Developer',
+    tag: 'Engineering',
+    bio: 'Building high-performance tenant database schemas and responsive, fluid user interfaces.',
     cardClass: 'card_about bg-subtle',
     textColor: 'text-color-primary',
     tagBg: 'bg-black',
   },
   {
-    name: 'Aurimas',
-    role: 'Backend Infrastructure & Security',
-    email: 'aurimas@qolve.systems',
-    tag: 'Security & Backend',
-    bio: 'Implementing secure multi-tenant access control, OAuth authentication mechanisms, and API payload integrity.',
-    cardClass: 'card_about bg-subtle',
+    name: 'heo',
+    role: 'Lead Data & Automation Engineer',
+    tag: 'Operations & Data',
+    bio: 'Architecting scalable backend automation, ticket classification engines, and data pipeline workflows.',
+    cardClass: 'card_about bg-green',
     textColor: 'text-color-primary',
     tagBg: 'bg-black',
   },
   {
-    name: 'Seb',
-    role: 'DevOps & Cloud Infrastructure',
-    email: 'seb@qolve.systems',
-    tag: 'DevOps & Mesh',
-    bio: 'Managing cloud container networking, Tailscale secure mesh configuration, TLS certificates, and CI/CD deployment pipelines.',
-    cardClass: 'card_about bg-black',
-    textColor: 'text-color-on-primary',
-    tagBg: 'bg-green',
+    name: 'Oreo',
+    role: 'Sales & Business Development',
+    tag: 'Growth',
+    bio: 'Connecting with pilot partners and customer success teams to align Quelp’s capabilities with real-world needs.',
+    cardClass: 'card_about bg-subtle',
+    textColor: 'text-color-primary',
+    tagBg: 'bg-black',
   },
 ]
 
@@ -75,134 +60,115 @@ export default function TeamPage({ onNavigate }) {
   }, [])
 
   return (
-    <section className="section_about" id="team" style={{ background: 'transparent', minHeight: '100vh', padding: '6rem 0' }}>
+    <section className="section_about" id="team" style={{ background: '#ffffff', minHeight: '100vh' }}>
+      <div className="padding-section-large" />
       <div className="padding-global">
         <div className="container-large">
           <div className="vertical-center">
             {/* Tag pill */}
-            <div
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                padding: '0.35rem 0.85rem',
-                borderRadius: '9999px',
-                background: 'rgba(255, 255, 255, 0.04)',
-                border: '1px solid rgba(255, 255, 255, 0.12)',
-                backdropFilter: 'blur(20px)',
-                color: '#cbd5e1',
-                fontSize: '0.8125rem',
-                fontWeight: 500,
-                marginBottom: '1.25rem',
-              }}
-            >
-              <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#34d399', boxShadow: '0 0 6px rgba(52,211,153,0.8)' }} />
-              <span>Engineering Team</span>
+            <div className="tag" data-anim>
+              <div className="dot-square" />
+              <div>The Team</div>
             </div>
+
+            <div className="spacer-large" />
 
             {/* Header Title */}
             <div className="max-width-medium is-41rem">
-              <h2 style={{ fontSize: 'clamp(2.25rem, 4.5vw, 3.5rem)', color: '#ffffff', letterSpacing: '-0.035em', lineHeight: 1.1, fontWeight: 700, textAlign: 'center', marginBottom: '1rem' }}>
-                The engineers behind Qolve &amp; Quelp
+              <h2 className="text-align-center" data-anim>
+                Meet the minds building Quelp
               </h2>
             </div>
 
+            <div className="spacer-large" />
+
             <div className="max-width-medium">
-              <div style={{ color: '#94a3b8', fontSize: '1.0625rem', lineHeight: 1.6, textAlign: 'center', maxWidth: '38rem', marginBottom: '2rem' }}>
-                A dedicated team of systems architects, software engineers, and product builders developing a simpler, smarter, and fully white-labeled support experience.
+              <div className="text-base text-align-center text-color-secondary" data-anim>
+                A dedicated team of engineers, strategists, and operations leaders building a simpler, smarter, and fully branded customer support experience.
               </div>
             </div>
+
+            <div className="spacer-large" />
 
             <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
               <button
                 onClick={() => onNavigate && onNavigate('home')}
                 className="button"
-                style={{
-                  background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.03) 100%)',
-                  border: '1px solid rgba(255, 255, 255, 0.18)',
-                  color: '#f8fafc',
-                  padding: '0.65rem 1.4rem',
-                  borderRadius: '9999px',
-                  cursor: 'pointer',
-                  boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.25)',
-                }}
+                data-variant="bg-black"
+                style={{ cursor: 'pointer' }}
               >
-                ← Back to Home
+                <div className="text-button-wrap">
+                  <div>← Back to Home</div>
+                </div>
               </button>
               <button
                 onClick={() => onNavigate && onNavigate('products')}
-                className="button"
-                style={{
-                  background: 'linear-gradient(180deg, rgba(52, 211, 153, 0.9) 0%, rgba(16, 185, 129, 0.85) 100%)',
-                  color: '#020f06',
-                  border: '1px solid rgba(255, 255, 255, 0.35)',
-                  padding: '0.65rem 1.4rem',
-                  borderRadius: '9999px',
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                }}
+                className="button-arrow is-black"
+                style={{ background: 'none', border: 'none', cursor: 'pointer' }}
               >
-                Explore Quelp Platform
+                <div className="button-arrow_wrap">
+                  <div className="button-arrow_text">
+                    <div className="text_button">Explore Products</div>
+                  </div>
+                  <div className="button_container-arrow is-black">
+                    <div className="icon-1x1-main">
+                      <ArrowIcon />
+                    </div>
+                  </div>
+                </div>
               </button>
             </div>
           </div>
 
           <div className="spacer-section-large" />
 
-          {/* Team Cards Grid */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.75rem' }}>
+          {/* Team Cards Grid - Native Aeline Bento Card System */}
+          <div className="about_layout" data-anim style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
             {teamMembers.map((member, i) => (
-              <div key={i} className="card_about macos-glass" style={{ minHeight: '22rem', padding: '2.25rem', borderRadius: '1.75rem', border: '1px solid rgba(255, 255, 255, 0.12)' }}>
-                <div className="vertical-space-between" style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                  <div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
-                      <span
-                        className="geistmono"
-                        style={{
-                          fontSize: '0.75rem',
-                          fontWeight: 600,
-                          padding: '0.25rem 0.625rem',
-                          borderRadius: '9999px',
-                          background: 'rgba(52, 211, 153, 0.12)',
-                          color: '#34d399',
-                          border: '1px solid rgba(52, 211, 153, 0.25)',
-                        }}
-                      >
-                        {member.tag}
-                      </span>
-                      <div
-                        style={{
-                          width: '0.5rem',
-                          height: '0.5rem',
-                          borderRadius: '50%',
-                          background: '#34d399',
-                          boxShadow: '0 0 6px rgba(52,211,153,0.8)',
-                        }}
-                      />
-                    </div>
-
-                    <h3 style={{ fontSize: '1.4rem', fontWeight: 700, color: '#ffffff', letterSpacing: '-0.02em', marginBottom: '0.35rem' }}>
-                      {member.name}
-                    </h3>
+              <div key={i} className={member.cardClass} data-anim style={{ minHeight: '22rem' }}>
+                <div className="vertical-space-between">
+                  <div className="card_1-top" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span
+                      className="geistmono"
+                      style={{
+                        fontSize: '0.75rem',
+                        fontWeight: 600,
+                        padding: '0.25rem 0.625rem',
+                        borderRadius: '9999px',
+                        background: member.cardClass.includes('bg-black') ? 'rgba(214,253,112,0.15)' : 'rgba(0,0,0,0.06)',
+                        color: member.cardClass.includes('bg-black') ? '#d6fd70' : '#0f0f0f',
+                      }}
+                    >
+                      {member.tag}
+                    </span>
                     <div
                       style={{
-                        fontSize: '0.875rem',
+                        width: '0.5rem',
+                        height: '0.5rem',
+                        borderRadius: '50%',
+                        background: member.cardClass.includes('bg-green') ? '#0f0f0f' : '#d6fd70',
+                      }}
+                    />
+                  </div>
+
+                  <div className="about_card-float">
+                    <h3 className={`text-2xl ${member.textColor}`} style={{ fontSize: '1.5rem', fontWeight: 700 }}>
+                      {member.name}
+                    </h3>
+                    <div className="spacer-small" />
+                    <div
+                      style={{
+                        fontSize: '0.9375rem',
                         fontWeight: 600,
-                        color: '#6ee7b7',
-                        marginBottom: '1rem',
+                        color: member.cardClass.includes('bg-black') ? '#d6fd70' : '#555555',
                       }}
                     >
                       {member.role}
                     </div>
-                    <div style={{ color: '#94a3b8', fontSize: '0.9rem', lineHeight: 1.6 }}>
+                    <div className="spacer-medium" />
+                    <div className={`text-base ${member.textColor}`} style={{ opacity: 0.85, lineHeight: 1.6 }}>
                       {member.bio}
                     </div>
-                  </div>
-
-                  <div style={{ marginTop: '1.5rem', paddingTop: '1rem', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
-                    <code style={{ fontSize: '0.8125rem', color: '#cbd5e1' }}>
-                      {member.email}
-                    </code>
                   </div>
                 </div>
               </div>
@@ -210,8 +176,7 @@ export default function TeamPage({ onNavigate }) {
           </div>
         </div>
       </div>
+      <div className="padding-section-large" />
     </section>
   )
 }
-
-

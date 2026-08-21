@@ -5,108 +5,175 @@ export default function Navbar({ activePage, onNavigate }) {
   const [mobileOpen, setMobileOpen] = useState(false)
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 40)
-    }
-    window.addEventListener('scroll', handleScroll)
+    const handleScroll = () => setScrolled(window.scrollY > 20)
+    window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
   const navTo = (page, sectionId) => {
+    setMobileOpen(false)
     if (onNavigate) {
       onNavigate(page, sectionId)
     }
-    setMobileOpen(false)
   }
 
   return (
-    <nav className={`fixed top-0 left-0 w-full z-50 backdrop-blur-[40px] border-b border-white/10 shadow-none transition-all duration-300 ${scrolled ? 'bg-surface-container-lowest/90' : 'bg-white/5'}`}>
-      <div className="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 max-w-container-max mx-auto">
-        {/* Brand */}
-        <button
-          onClick={() => navTo('home')}
-          className="flex items-center gap-3 bg-transparent border-0 cursor-pointer p-0 text-left"
-        >
-          <div className="w-8 h-8 rounded-lg bg-[#d6fd70] flex items-center justify-center font-extrabold text-[#0f0f0f] text-lg">
-            Q
+    <nav
+      className="navbar"
+      style={{
+        background: scrolled ? 'rgba(15,15,15,0.97)' : 'rgba(15,15,15,0.85)',
+      }}
+    >
+      <div className="padding-global is-navbar">
+        <div className="container-large">
+          <div className="navbar_content">
+            {/* Logo - Qolve Company & Quelp Product */}
+            <button
+              onClick={() => navTo('home')}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', gap: '0.625rem' }}
+            >
+              <div style={{
+                width: '2.25rem',
+                height: '2.25rem',
+                borderRadius: '0.5rem',
+                background: '#d6fd70',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontWeight: 800,
+                color: '#0f0f0f',
+                fontSize: '1.25rem'
+              }}>
+                Q
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+                <span style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '1.25rem', fontWeight: 800, color: '#ffffff', letterSpacing: '-0.02em', lineHeight: 1.1 }}>
+                  qolve
+                </span>
+                <span style={{ fontSize: '0.7rem', fontWeight: 600, color: '#d6fd70', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+                  Whitelabel Solutions
+                </span>
+              </div>
+            </button>
+
+            {/* Desktop nav links */}
+            <div className="nav_wrap">
+              <nav className="nav_mobile">
+                <div className="navbar_list">
+                  <button
+                    onClick={() => navTo('home')}
+                    className="nav_links"
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: activePage === 'home' ? '#d6fd70' : '#ffffff' }}
+                  >
+                    Home
+                  </button>
+                  <button
+                    onClick={() => navTo('products')}
+                    className="nav_links"
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: activePage === 'products' ? '#d6fd70' : '#ffffff' }}
+                  >
+                    Quelp Platform
+                  </button>
+                  <button
+                    onClick={() => navTo('home', 'roadmap')}
+                    className="nav_links"
+                    style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+                  >
+                    Architecture
+                  </button>
+                  <button
+                    onClick={() => navTo('team')}
+                    className="nav_links"
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: activePage === 'team' ? '#d6fd70' : '#ffffff' }}
+                  >
+                    Qolve Team
+                  </button>
+                  <button
+                    onClick={() => navTo('home', 'about')}
+                    className="nav_links"
+                    style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+                  >
+                    About Qolve
+                  </button>
+                  <button
+                    onClick={() => navTo('home', 'pricing')}
+                    className="nav_links"
+                    style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+                  >
+                    Pricing
+                  </button>
+                </div>
+              </nav>
+            </div>
+
+            {/* Right buttons */}
+            <div className="nav_buttons-wrap">
+              <div className="login-wrap">
+                <button
+                  onClick={() => navTo('products')}
+                  className="button"
+                  style={{ padding: '0.625rem 1.25rem', fontSize: '0.875rem', background: '#d6fd70', color: '#0f0f0f', border: 'none', borderRadius: '9999px', fontWeight: 600, cursor: 'pointer' }}
+                >
+                  <div className="text-button-wrap">
+                    <div>Explore Quelp Platform</div>
+                  </div>
+                </button>
+              </div>
+
+              {/* Hamburger (mobile) */}
+              <button
+                className="menu-button"
+                onClick={() => setMobileOpen(!mobileOpen)}
+                style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'none' }}
+              >
+                <div className="nav-button_component">
+                  <div className="nav-button_line is-first" style={{ transform: mobileOpen ? 'rotate(45deg) translate(5px, 5px)' : 'none' }} />
+                  <div className="nav-button_line is-second" style={{ opacity: mobileOpen ? 0 : 1 }} />
+                  <div className="nav-button_line is-third" style={{ transform: mobileOpen ? 'rotate(-45deg) translate(5px, -5px)' : 'none' }} />
+                </div>
+              </button>
+            </div>
           </div>
-          <div className="flex flex-col">
-            <span className="font-display-lg text-[22px] tracking-tight text-on-surface leading-none font-semibold">
-              qolve
-            </span>
-            <span className="text-[9px] font-semibold text-primary tracking-widest uppercase mt-0.5">
-              Whitelabel Solutions
-            </span>
-          </div>
-        </button>
-
-        {/* Desktop Navigation Links */}
-        <div className="hidden md:flex space-x-gutter items-center">
-          <button
-            onClick={() => navTo('products')}
-            className={`font-body-md text-body-md text-on-surface-variant hover:text-on-surface transition-colors hover:bg-white/10 hover:backdrop-blur-md transition-all duration-300 px-4 py-2 rounded bg-transparent border-0 cursor-pointer scale-[0.99] active:scale-95 transition-transform ${activePage === 'products' ? 'text-on-surface bg-white/10' : ''}`}
-          >
-            Platform
-          </button>
-          <button
-            onClick={() => navTo('home', 'architecture')}
-            className="font-body-md text-body-md text-on-surface-variant hover:text-on-surface transition-colors hover:bg-white/10 hover:backdrop-blur-md transition-all duration-300 px-4 py-2 rounded bg-transparent border-0 cursor-pointer scale-[0.99] active:scale-95 transition-transform"
-          >
-            Architecture
-          </button>
-          <button
-            onClick={() => navTo('home', 'series01')}
-            className="font-body-md text-body-md text-on-surface-variant hover:text-on-surface transition-colors hover:bg-white/10 hover:backdrop-blur-md transition-all duration-300 px-4 py-2 rounded bg-transparent border-0 cursor-pointer scale-[0.99] active:scale-95 transition-transform"
-          >
-            Series 01
-          </button>
-          <button
-            onClick={() => navTo('team')}
-            className={`font-body-md text-body-md text-on-surface-variant hover:text-on-surface transition-colors hover:bg-white/10 hover:backdrop-blur-md transition-all duration-300 px-4 py-2 rounded bg-transparent border-0 cursor-pointer scale-[0.99] active:scale-95 transition-transform ${activePage === 'team' ? 'text-on-surface bg-white/10' : ''}`}
-          >
-            Team
-          </button>
-          <button
-            onClick={() => navTo('home', 'pricing')}
-            className="font-body-md text-body-md text-on-surface-variant hover:text-on-surface transition-colors hover:bg-white/10 hover:backdrop-blur-md transition-all duration-300 px-4 py-2 rounded bg-transparent border-0 cursor-pointer scale-[0.99] active:scale-95 transition-transform"
-          >
-            Pricing
-          </button>
-        </div>
-
-        {/* Right Inquire CTA Button */}
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => navTo('home', 'contact')}
-            className="bg-primary-container text-primary font-body-md text-body-md px-6 py-2 rounded-full border border-white/10 hover:bg-white/10 hover:backdrop-blur-md transition-all duration-300 scale-[0.99] active:scale-95 transition-transform cursor-pointer"
-          >
-            Inquire
-          </button>
-
-          {/* Mobile hamburger */}
-          <button
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="md:hidden text-on-surface p-2 bg-transparent border-0 cursor-pointer"
-          >
-            <span className="material-symbols-outlined">{mobileOpen ? 'close' : 'menu'}</span>
-          </button>
         </div>
       </div>
 
-      {/* Mobile Drawer */}
+      {/* Mobile menu */}
       {mobileOpen && (
-        <div className="md:hidden glass-panel border-t border-white/10 px-6 py-6 flex flex-col gap-4 bg-surface-container-lowest/95 backdrop-blur-3xl">
-          <button onClick={() => navTo('products')} className="text-left text-on-surface font-body-md py-2 border-0 bg-transparent cursor-pointer">Platform</button>
-          <button onClick={() => navTo('home', 'architecture')} className="text-left text-on-surface font-body-md py-2 border-0 bg-transparent cursor-pointer">Architecture</button>
-          <button onClick={() => navTo('home', 'series01')} className="text-left text-on-surface font-body-md py-2 border-0 bg-transparent cursor-pointer">Series 01</button>
-          <button onClick={() => navTo('team')} className="text-left text-on-surface font-body-md py-2 border-0 bg-transparent cursor-pointer">Team</button>
-          <button onClick={() => navTo('home', 'pricing')} className="text-left text-on-surface font-body-md py-2 border-0 bg-transparent cursor-pointer">Pricing</button>
+        <div style={{
+          background: 'rgba(15,15,15,0.99)',
+          padding: '1rem 2.5rem 1.5rem',
+          borderBottom: '1px solid rgba(255,255,255,0.08)',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '0.25rem',
+        }}>
+          {[
+            { label: 'Home', action: () => navTo('home') },
+            { label: 'Quelp Platform', action: () => navTo('products') },
+            { label: 'Architecture', action: () => navTo('home', 'roadmap') },
+            { label: 'Qolve Team', action: () => navTo('team') },
+            { label: 'About Qolve', action: () => navTo('home', 'about') },
+            { label: 'Pricing', action: () => navTo('home', 'pricing') },
+          ].map((item, idx) => (
+            <button
+              key={idx}
+              onClick={item.action}
+              className="nav_links"
+              style={{ display: 'block', padding: '0.75rem 0.5rem', textAlign: 'left', background: 'none', border: 'none', width: '100%', cursor: 'pointer' }}
+            >
+              {item.label}
+            </button>
+          ))}
         </div>
       )}
+
+      <style>{`
+        @media (max-width: 991px) {
+          .nav_wrap { display: none !important; }
+          .menu-button { display: block !important; }
+        }
+      `}</style>
     </nav>
   )
 }
-
-
-
 

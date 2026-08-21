@@ -1,10 +1,14 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Navbar from './components/Navbar'
 import HeroSection from './components/HeroSection'
+import LogoLoop from './components/LogoLoop'
 import AboutSection from './components/AboutSection'
 import ServicesSection from './components/ServicesSection'
-import InteractiveInboxDemo from './components/InteractiveInboxDemo'
+import ExpertiseSection from './components/ExpertiseSection'
 import PricingSection from './components/PricingSection'
+import TestimonialsSection from './components/TestimonialsSection'
+import BlogSection from './components/BlogSection'
+import CtaSection from './components/CtaSection'
 import Footer from './components/Footer'
 import TeamPage from './components/TeamPage'
 import ProductsPage from './components/ProductsPage'
@@ -24,17 +28,40 @@ function App() {
     }
   }
 
+  // Intersection Observer for scroll animations
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible')
+          }
+        })
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+    )
+
+    const elements = document.querySelectorAll('[data-anim]')
+    elements.forEach((el) => observer.observe(el))
+
+    return () => observer.disconnect()
+  }, [activePage])
+
   return (
-    <div className="bg-surface-container-lowest text-on-surface font-body-md antialiased min-h-screen">
+    <div className="page-wrapper">
       <Navbar activePage={activePage} onNavigate={handleNavigate} />
-      <main>
+      <main className="main-wrapper">
         {activePage === 'home' && (
           <>
             <HeroSection onNavigate={handleNavigate} />
-            <AboutSection onNavigate={handleNavigate} />
-            <ServicesSection onNavigate={handleNavigate} />
-            <InteractiveInboxDemo />
+            <LogoLoop />
+            <AboutSection />
+            <ServicesSection />
+            <ExpertiseSection />
             <PricingSection />
+            <TestimonialsSection />
+            <BlogSection />
+            <CtaSection />
           </>
         )}
 
@@ -48,5 +75,3 @@ function App() {
 }
 
 export default App
-
-

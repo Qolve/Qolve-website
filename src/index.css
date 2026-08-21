@@ -1,5 +1,5 @@
-/* === APPLE MINIMALIST TYPOGRAPHY & LIQUID GLASS SYSTEM === */
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+/* === AELINE DESIGN SYSTEM - EXACT MATCH === */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
 
 /* ==================== RESET ==================== */
 *, *::before, *::after {
@@ -12,106 +12,62 @@ html {
   scroll-behavior: smooth;
 }
 
-/* ==================== ROOT TOKENS: OBSIDIAN GROVE / LUXURY ECO-TECH ==================== */
+/* ==================== ROOT TOKENS ==================== */
 :root {
-  /* Obsidian Grove Palette */
-  --surface: #121413;
-  --surface-dim: #121413;
-  --surface-bright: #383a38;
-  --surface-container-lowest: #0d0f0e;
-  --surface-container-low: #1a1c1b;
-  --surface-container: #1e201f;
-  --surface-container-high: #282a29;
-  --surface-container-highest: #333534;
-  
-  --on-surface: #e2e3e0;
-  --on-surface-variant: #c1c8c3;
-  --outline: #8b928d;
-  --outline-variant: #424844;
-  
-  --primary: #adcebd;
-  --on-primary: #18362a;
-  --primary-container: #2d4b3e;
-  --on-primary-container: #99baa9;
-  --primary-fixed: #c8ead8;
-  --primary-fixed-dim: #adcebd;
-  
-  --secondary: #c6c7c5;
-  --on-secondary: #2f3130;
-  --secondary-container: #454746;
-  --on-secondary-container: #b5b5b3;
+  /* Colors */
+  --bg-primary: #0f0f0f;
+  --bg-subtle: #f5f5f5;
+  --bg-black: #141414;
+  --bg-green: #d6fd70;
+  --color-primary: #0f0f0f;
+  --color-on-primary: #ffffff;
+  --color-secondary: #808080;
+  --color-on-secondary: #c0c0c0;
+  --color-green: #d6fd70;
+  --border-color: rgba(255,255,255,0.1);
+  --border-light: rgba(0,0,0,0.08);
 
-  /* Legacy & Semantic Bindings */
-  --bg-primary: #0d0f0e;
-  --bg-subtle: #1a1c1b;
-  --bg-black: #121413;
-  --bg-green: #adcebd;
-  --color-primary: #e2e3e0;
-  --color-on-primary: #e2e3e0;
-  --color-secondary: #c1c8c3;
-  --color-on-secondary: #e2e3e0;
-  --color-green: #adcebd;
-  --border-color: rgba(255, 255, 255, 0.1);
-  --border-light: rgba(173, 206, 189, 0.2);
-
-  /* Typography Hierarchy */
-  --font-display: 'Hanken Grotesk', -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
-  --font-body: 'Inter', sans-serif;
-  --font-serif: 'Instrument Serif', Georgia, serif;
-  --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+  /* Typography */
+  --font-sans: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  --font-mono: 'Geist Mono', 'Courier New', monospace;
 
   /* Spacing */
-  --spacing-unit: 8px;
-  --container-max: 1280px;
-  --gutter: 24px;
-  --margin-desktop: 64px;
-  --margin-mobile: 20px;
-  --stack-xl: 120px;
-  --stack-md: 64px;
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+  --spacing-3xl: 4rem;
+  --spacing-4xl: 6rem;
+  --spacing-5xl: 8rem;
+
+  /* Border radius */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-2xl: 2rem;
+  --radius-full: 9999px;
+
+  /* Container widths */
+  --container-large: 80rem;
+  --container-medium: 60rem;
+  --container-small: 40rem;
 }
 
-/* Base Body */
+/* ==================== BASE ==================== */
 body {
   font-family: var(--font-sans);
-  font-size: 16px;
-  line-height: 24px;
-  color: var(--on-surface);
-  background-color: var(--surface-container-lowest);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-primary);
+  background-color: var(--bg-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
 }
-
-.page-wrapper {
-  background-color: var(--surface-container-lowest) !important;
-  color: var(--on-surface) !important;
-  min-height: 100vh;
-  position: relative;
-}
-
-/* Obsidian Grove Glass Panels */
-.glass-panel,
-.macos-glass,
-.liquid-glass {
-  background: rgba(255, 255, 255, 0.03) !important;
-  backdrop-filter: blur(40px) !important;
-  -webkit-backdrop-filter: blur(40px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
-}
-
-.glass-panel:hover,
-.macos-glass:hover,
-.liquid-glass:hover {
-  border-color: rgba(255, 255, 255, 0.18) !important;
-}
-
-.text-glow {
-  text-shadow: 0 0 40px rgba(173, 206, 189, 0.25) !important;
-}
-
 
 img {
   display: block;
@@ -125,55 +81,39 @@ a {
 
 /* ==================== TYPOGRAPHY ==================== */
 h1 {
-  font-family: var(--font-display);
   font-size: clamp(2.5rem, 7vw, 5.5rem);
   font-weight: 700;
   line-height: 1.05;
-  letter-spacing: -0.035em;
+  letter-spacing: -0.03em;
   color: var(--color-on-primary);
 }
 
 h2 {
-  font-family: var(--font-display);
   font-size: clamp(2rem, 4vw, 3.25rem);
   font-weight: 700;
   line-height: 1.1;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.02em;
   color: var(--color-primary);
 }
 
 h3 {
-  font-family: var(--font-display);
   font-size: clamp(1.1rem, 2vw, 1.375rem);
   font-weight: 600;
   line-height: 1.3;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.01em;
   color: var(--color-primary);
 }
 
-h4, h5, h6 {
-  font-family: var(--font-display);
-  letter-spacing: -0.015em;
-}
-
 p, .text-base {
-  font-family: var(--font-sans);
   font-size: 1rem;
   line-height: 1.6;
 }
 
-.text-serif-italic {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-weight: 400;
-  letter-spacing: normal;
-}
-
 .text-sm { font-size: 0.875rem; }
 .text-lg { font-size: 1.25rem; line-height: 1.5; }
-.text-xl { font-size: 1.375rem; font-weight: 600; line-height: 1.3; font-family: var(--font-display); }
-.text-4xl { font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; line-height: 1; letter-spacing: -0.03em; font-family: var(--font-display); }
-.text-5xl { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 700; line-height: 1; letter-spacing: -0.04em; font-family: var(--font-display); }
+.text-xl { font-size: 1.375rem; font-weight: 600; line-height: 1.3; }
+.text-4xl { font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; line-height: 1; letter-spacing: -0.03em; }
+.text-5xl { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 700; line-height: 1; letter-spacing: -0.04em; }
 
 .text-weight-medium { font-weight: 500; }
 .text-weight-semibold { font-weight: 600; }
@@ -192,16 +132,11 @@ p, .text-base {
 .opacity-73 { opacity: 0.73; }
 .opacity-50 { opacity: 0.5; }
 
-.geistmono,
-code,
-pre,
-.text-mono {
+.geistmono {
   font-family: var(--font-mono);
   font-size: 0.875rem;
-  letter-spacing: -0.01em;
-  font-feature-settings: "tnum" 1;
+  letter-spacing: 0.02em;
 }
-
 
 /* ==================== LAYOUT ==================== */
 .page-wrapper {
@@ -712,19 +647,17 @@ pre,
 
 /* ==================== ABOUT SECTION ==================== */
 .section_about {
-  background: transparent;
-  color: var(--color-on-primary);
+  background: #ffffff;
 }
 
 .section_about h2 {
-  color: #ffffff;
+  color: var(--color-primary);
 }
 
 .section_about .tag {
-  border-color: rgba(255, 255, 255, 0.12);
-  color: #cbd5e1;
+  border-color: var(--border-light);
+  color: var(--color-secondary);
 }
-
 
 /* About title wrap - inline words with icons */
 .title-wrap {
@@ -2150,215 +2083,137 @@ pre,
   filter: grayscale(1);
 }
 
-/* Seamless Dark Forest Eco Sections */
-.section_about,
-.section_services,
-.section_expertise,
-.section_pricing,
-.section_testimonials,
-.section_blog {
-  background: transparent !important;
-  color: #f1f5f9 !important;
-  position: relative;
-}
+/* About section white background */
+.section_about { background: #ffffff; }
+.section_services { background: #f5f5f5; }
+.section_expertise { background: #ffffff; }
+.section_pricing { background: #f5f5f5; }
+.section_testimonials { background: #ffffff; overflow: hidden; }
+.section_blog { background: #f5f5f5; }
 
-/* About Layout: Asymmetric Apple Bento Grid */
+/* about_layout 2-col on right */
 .about_layout {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1.25rem;
+  gap: 1rem;
   align-items: stretch;
 }
-
 .card_about {
   border-radius: 1.25rem;
-  padding: 1.75rem;
+  padding: 1.5rem;
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
-  background: rgba(255, 255, 255, 0.025);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(40px) saturate(180%);
-  -webkit-backdrop-filter: blur(40px) saturate(180%);
-  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.35);
-  min-height: 22rem;
+  border: 1px solid rgba(0,0,0,0.07);
+  background: #ffffff;
+  min-height: 20rem;
   overflow: hidden;
-  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.card_about.bg-subtle { background: #f5f5f5; }
+.card_about.bg-green { background: #d6fd70; }
+.card_about.bg-black { background: #141414; }
+
+/* Make card_about image full width */
+.card_about > img.img {
+  width: 100%;
+  height: 9rem;
+  object-fit: cover;
+  border-radius: 0.75rem;
+  flex-shrink: 0;
 }
 
-.card_about:hover {
-  transform: translateY(-4px);
-  border-color: rgba(255, 255, 255, 0.22);
-  background: rgba(255, 255, 255, 0.045);
-  box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.5);
-}
-
-/* Services Grid */
+/* Services grid */
 .services_cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
+  gap: 1rem;
 }
-
 .service_card {
-  background: rgba(255, 255, 255, 0.025);
-  backdrop-filter: blur(40px) saturate(180%);
-  -webkit-backdrop-filter: blur(40px) saturate(180%);
-  border-radius: 1.5rem;
+  background: #ffffff;
+  border-radius: 1.25rem;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.35);
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s ease;
+  border: 1px solid rgba(0,0,0,0.07);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-
 .service_card:hover {
-  transform: translateY(-6px);
-  border-color: rgba(52, 211, 153, 0.35);
-  background: rgba(255, 255, 255, 0.045);
-  box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.75), 0 0 25px rgba(52, 211, 153, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.09);
 }
-
 .service_container {
   display: flex;
   flex-direction: column;
   height: 100%;
   text-decoration: none;
 }
-
 .service_content {
-  padding: 2rem;
+  padding: 1.75rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
-
 .service_img .img {
   width: 100%;
   height: 13rem;
   object-fit: cover;
   display: block;
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.4s ease;
 }
-
-.service_card:hover .service_img .img {
-  transform: scale(1.05);
-}
-
+.service_card:hover .service_img .img { transform: scale(1.03); }
 .container-icon {
   width: 2.75rem;
   height: 2.75rem;
-  border-radius: 0.75rem;
+  border-radius: 0.625rem;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  border: 1px solid rgba(255, 255, 255, 0.2);
 }
+.container-icon.bg-green { background: #d6fd70; color: #0f0f0f; }
+.container-icon.bg-black { background: #141414; color: #ffffff; }
 
-.container-icon.bg-green {
-  background: linear-gradient(180deg, rgba(52, 211, 153, 0.9) 0%, rgba(16, 185, 129, 0.85) 100%);
-  color: #020f06;
-}
-
-.container-icon.bg-black {
-  background: rgba(255, 255, 255, 0.08);
-  color: #f1f5f9;
-}
-
-/* Expertise Grid */
+/* Expertise */
 .expertise_cards {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1.25rem;
+  gap: 1rem;
 }
-
 .expertise_card {
-  background: rgba(255, 255, 255, 0.025);
-  backdrop-filter: blur(40px) saturate(180%);
-  -webkit-backdrop-filter: blur(40px) saturate(180%);
-  border-radius: 1.5rem;
+  background: #f5f5f5;
+  border-radius: 1.25rem;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(0,0,0,0.07);
   display: flex;
   flex-direction: column;
-  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.35);
-  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
-
-.expertise_card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(255, 255, 255, 0.22);
-  background: rgba(255, 255, 255, 0.045);
-  box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.5);
-}
-
 .visual {
-  padding: 1.5rem;
+  padding: 1.25rem;
   flex: 1;
   display: flex;
   align-items: stretch;
-  min-height: 18rem;
-  background: rgba(2, 10, 5, 0.5);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  min-height: 20rem;
 }
-
+.visual_wrap-first, .visual_wrap-second,
+.visual_wrap-third, .visual_wrap-fouth {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
 .card-padding-medium {
-  padding: 1.5rem 1.75rem 2rem;
-  background: transparent;
+  padding: 1.25rem 1.5rem 1.75rem;
+  background: #ffffff;
+  border-top: 1px solid rgba(0,0,0,0.07);
 }
 
-/* Animations & Micro-Interactions */
-@keyframes floatSlow {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-6px); }
-}
-
-@keyframes pulseGlow {
-  0%, 100% { opacity: 0.6; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.08); }
-}
-
-@keyframes sheenPass {
-  0% { transform: translateX(-100%) rotate(25deg); }
-  100% { transform: translateX(200%) rotate(25deg); }
-}
-
-.animate-float {
-  animation: floatSlow 6s ease-in-out infinite;
-}
-
-.animate-pulse-glow {
-  animation: pulseGlow 3s ease-in-out infinite;
-}
-
-/* Testimonials Dark Glass Cards */
-.testimonials_card {
-  background: rgba(255, 255, 255, 0.03) !important;
-  backdrop-filter: blur(40px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(40px) saturate(180%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.12) !important;
-  border-radius: 1.75rem !important;
+/* vcard */
+.vcard {
+  background: #ffffff;
+  border-radius: 0.875rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+  flex: 1;
   overflow: hidden;
-  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
 }
-
-/* Blog Dark Glass Cards */
-.blog_card {
-  background: rgba(255, 255, 255, 0.03) !important;
-  backdrop-filter: blur(40px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(40px) saturate(180%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.12) !important;
-  border-radius: 1.5rem !important;
-  overflow: hidden;
-  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s ease !important;
-}
-
-.blog_card:hover {
-  transform: translateY(-4px) !important;
-  border-color: rgba(52, 211, 153, 0.3) !important;
-}
-
+.vcard_inner { padding: 1rem; display: flex; flex-direction: column; gap: 1rem; }
 
 /* pcard */
 .pcard {
@@ -2749,239 +2604,6 @@ pre,
   width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block;
 }
 
-/* ==================== APPLE MINIMALISM: DARK OAK, FERNS & macOS LIQUID GLASS ==================== */
-
-/* Page Background & Dark Oak Canopy Atmosphere */
-.page-wrapper {
-  background: 
-    radial-gradient(circle at 50% 0%, rgba(16, 50, 30, 0.2) 0%, transparent 60%),
-    radial-gradient(circle at 80% 25%, rgba(6, 30, 18, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 20% 75%, rgba(10, 35, 22, 0.12) 0%, transparent 50%),
-    linear-gradient(180deg, #020704 0%, #051209 25%, #040e07 60%, #020603 100%);
-  color: #f1f5f9;
-  min-height: 100vh;
-  position: relative;
-  overflow-x: hidden;
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Plus Jakarta Sans", sans-serif;
-  letter-spacing: -0.015em;
-}
-
-/* macOS Liquid Glass Accent: Clean, Minimalist, Precision-Machined */
-.liquid-glass,
-.macos-glass,
-.eco-glass-card,
-.card_about,
-.service_card,
-.expertise_card {
-  background: rgba(255, 255, 255, 0.025) !important;
-  backdrop-filter: blur(40px) saturate(180%) contrast(105%) brightness(104%) !important;
-  -webkit-backdrop-filter: blur(40px) saturate(180%) contrast(105%) brightness(104%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  box-shadow: 
-    0 20px 40px -10px rgba(0, 0, 0, 0.6),
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.35),
-    inset 0 -1px 0 0 rgba(0, 0, 0, 0.4) !important;
-  border-radius: 1.25rem !important;
-  position: relative !important;
-  overflow: hidden !important;
-  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
-}
-
-/* macOS Glass Top Specular Accent */
-.liquid-glass::before,
-.macos-glass::before,
-.eco-glass-card::before,
-.card_about::before,
-.service_card::before,
-.expertise_card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 30%;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.01) 60%, transparent 100%);
-  border-radius: 1.25rem 1.25rem 0 0;
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* macOS Glass Smooth Hover */
-.liquid-glass:hover,
-.macos-glass:hover,
-.eco-glass-card:hover,
-.card_about:hover,
-.service_card:hover,
-.expertise_card:hover {
-  background: rgba(255, 255, 255, 0.045) !important;
-  border-color: rgba(255, 255, 255, 0.22) !important;
-  box-shadow: 
-    0 28px 56px -12px rgba(0, 0, 0, 0.7),
-    0 0 25px rgba(16, 185, 129, 0.08),
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.5),
-    inset 0 -1px 0 0 rgba(0, 0, 0, 0.5) !important;
-  transform: translateY(-2px) !important;
-}
-
-/* Card Tints: Dark Forest, Obsidian, & Subtle Glass */
-.card_about.bg-green,
-.liquid-glass.is-emerald {
-  background: radial-gradient(140% 140% at 30% 0%, rgba(16, 50, 30, 0.35) 0%, rgba(8, 28, 16, 0.5) 50%, rgba(2, 10, 5, 0.7) 100%) !important;
-  border-color: rgba(52, 211, 153, 0.25) !important;
-  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
-}
-
-.card_about.bg-black,
-.liquid-glass.is-deep {
-  background: rgba(2, 8, 4, 0.7) !important;
-  border-color: rgba(255, 255, 255, 0.08) !important;
-}
-
-.card_about.bg-subtle,
-.liquid-glass.is-subtle {
-  background: rgba(255, 255, 255, 0.02) !important;
-  border-color: rgba(255, 255, 255, 0.08) !important;
-}
-
-/* Floating Navigation */
-.navbar {
-  background: rgba(255, 255, 255, 0.03) !important;
-  backdrop-filter: blur(40px) !important;
-  -webkit-backdrop-filter: blur(40px) !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
-}
-
-/* Status Badges & Chips */
-.tag {
-  background: rgba(45, 75, 62, 0.25) !important;
-  border: 1px solid rgba(173, 206, 189, 0.2) !important;
-  backdrop-filter: blur(20px) !important;
-  -webkit-backdrop-filter: blur(20px) !important;
-  color: #adcebd !important;
-  font-family: var(--font-sans) !important;
-  font-weight: 600 !important;
-  font-size: 12px !important;
-  letter-spacing: 0.08em !important;
-  text-transform: uppercase !important;
-  border-radius: 9999px !important;
-}
-
-.dot-square {
-  background-color: #adcebd !important;
-  border-radius: 50% !important;
-  box-shadow: 0 0 6px rgba(173, 206, 189, 0.8);
-}
-
-/* Primary Action Button (DESIGN.md: Solid Forest Green #2D4B3E with Mist Text) */
-.button,
-.button-arrow {
-  background: #2d4b3e !important;
-  backdrop-filter: blur(20px) !important;
-  -webkit-backdrop-filter: blur(20px) !important;
-  color: #e2e3e0 !important;
-  border: 1px solid rgba(255, 255, 255, 0.15) !important;
-  border-radius: 0.5rem !important;
-  font-family: var(--font-sans) !important;
-  font-weight: 500 !important;
-  font-size: 14px !important;
-  letter-spacing: 0em !important;
-  transition: all 0.2s ease !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
-}
-
-.button:hover,
-.button-arrow:hover {
-  background: #375d4d !important;
-  border-color: rgba(255, 255, 255, 0.25) !important;
-  color: #ffffff !important;
-}
-
-/* Ghost / Glass Button (DESIGN.md: Transparent background with 1px border) */
-.button[data-variant="bg-black"],
-.button-arrow.is-black {
-  background: rgba(255, 255, 255, 0.03) !important;
-  backdrop-filter: blur(40px) !important;
-  -webkit-backdrop-filter: blur(40px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  color: #e2e3e0 !important;
-  border-radius: 0.5rem !important;
-}
-
-.button[data-variant="bg-black"]:hover,
-.button-arrow.is-black:hover {
-  background: rgba(255, 255, 255, 0.1) !important;
-  border-color: rgba(255, 255, 255, 0.2) !important;
-  color: #ffffff !important;
-}
-
-.button_container-arrow.is-black {
-  background: transparent !important;
-  border: none !important;
-  color: #e2e3e0 !important;
-}
-
-.button_container-arrow.is-black svg path {
-  fill: #e2e3e0 !important;
-}
-
-
-/* macOS Window Traffic Lights */
-.macos-traffic-lights {
-  display: inline-flex;
-  gap: 0.45rem;
-  align-items: center;
-}
-
-.macos-dot {
-  width: 0.65rem;
-  height: 0.65rem;
-  border-radius: 50%;
-}
-
-.macos-dot.is-red { background: #ff5f56; border: 0.5px solid rgba(0,0,0,0.2); }
-.macos-dot.is-yellow { background: #ffbd2e; border: 0.5px solid rgba(0,0,0,0.2); }
-.macos-dot.is-green { background: #27c93f; border: 0.5px solid rgba(0,0,0,0.2); }
-
-/* Typography & Contrast */
-.section_about h2,
-.section_services h2,
-.section_expertise h2,
-.section_about h3,
-.section_services h3,
-.section_expertise h3,
-#pricing h2,
-#pricing h3,
-#testimonials h2,
-#blog h2,
-#cta h2 {
-  color: #ffffff !important;
-  font-weight: 700;
-  letter-spacing: -0.03em;
-}
-
-.text-color-primary {
-  color: #ffffff !important;
-}
-
-.text-color-secondary {
-  color: #94a3b8 !important;
-  font-weight: 400;
-}
-
-.text-color-on-primary {
-  color: #ffffff !important;
-}
-
-/* Footer Liquid Glass */
-.footer {
-  background: rgba(2, 6, 3, 0.9) !important;
-  backdrop-filter: blur(40px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(40px) saturate(180%) !important;
-  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
-}
-
-
-
-
+/* Stars yellow */
+.stars-wrap { display: flex; gap: 0.25rem; }
 

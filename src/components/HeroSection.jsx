@@ -1,16 +1,16 @@
 import { useState, useRef, useEffect } from 'react'
 
-// Curated Dark Forest, Dark Oak & Ferns imagery with macOS glass accents
+// Original card images from Aeline template
 const CAROUSEL_IMAGES = [
-  '/images/dark-oak-ferns-hero.jpg',
-  '/images/dark-oak-ferns-glass.jpg',
-  '/images/macos-liquid-glass-hero.jpg',
-  '/images/macos-glass-pane.jpg',
-  '/images/liquid-glass-dewdrop.jpg',
-  '/images/eco-card-1.jpg',
-  '/images/eco-card-2.jpg',
-  '/images/helpdesk_inbox_ui_1784657456203.jpg',
-  '/images/permafix_ai_ui_1784657484270.jpg',
+  'https://cdn.prod.website-files.com/6929c116366a14507fc8424d/69a5007e9793bec9aef0bae6_card.avif',
+  'https://cdn.prod.website-files.com/6929c116366a14507fc8424d/69a5007db9ab99a268357410_card-3.avif',
+  'https://cdn.prod.website-files.com/6929c116366a14507fc8424d/69a5007d21f950db130e28c9_card-6.avif',
+  'https://cdn.prod.website-files.com/6929c116366a14507fc8424d/69a5007eb87553c5aa32934f_card-1.avif',
+  'https://cdn.prod.website-files.com/6929c116366a14507fc8424d/69a5007e27ef20e6e3edd02e_card-4.avif',
+  'https://cdn.prod.website-files.com/6929c116366a14507fc8424d/69a5007e9468539ba66cdd61_card-7.avif',
+  'https://cdn.prod.website-files.com/6929c116366a14507fc8424d/69a5007dd38878bbefc784aa_card-8.avif',
+  'https://cdn.prod.website-files.com/6929c116366a14507fc8424d/69a5007d920bdd6882dc8eb7_card-2.avif',
+  'https://cdn.prod.website-files.com/6929c116366a14507fc8424d/69a5007d1354bb8698409c38_card-5.avif',
 ]
 
 function MerryGoRound() {
@@ -27,14 +27,14 @@ function MerryGoRound() {
 
   const numCards = CAROUSEL_IMAGES.length
   const angleStep = 360 / numCards
-  const radius = 360
+  const radius = 340
 
   // Continuous slow auto-rotation (pauses on hover or drag)
   useEffect(() => {
     let animId
     const autoRotate = () => {
       if (!isDraggingRef.current && !isHoveredRef.current) {
-        setRotationY((prev) => (prev + 0.045) % 360)
+        setRotationY((prev) => (prev + 0.05) % 360)
       }
       animId = requestAnimationFrame(autoRotate)
     }
@@ -75,7 +75,7 @@ function MerryGoRound() {
     const decay = () => {
       if (Math.abs(currentVel) > 0.05) {
         currentRot += currentVel
-        currentVel *= 0.93
+        currentVel *= 0.92
         setRotationY(currentRot)
         animFrameRef.current = requestAnimationFrame(decay)
       }
@@ -97,8 +97,8 @@ function MerryGoRound() {
     <div
       style={{
         width: '100%',
-        perspective: '1400px',
-        padding: '2.5rem 0',
+        perspective: '1200px',
+        padding: '3rem 0',
         position: 'relative',
         zIndex: 10,
         isolation: 'isolate',
@@ -118,11 +118,11 @@ function MerryGoRound() {
       <div
         style={{
           position: 'relative',
-          width: '250px',
-          height: '165px',
+          width: '220px',
+          height: '150px',
           margin: '0 auto',
           transformStyle: 'preserve-3d',
-          transform: `rotateX(-4deg) rotateY(${rotationY}deg)`,
+          transform: `rotateX(-6deg) rotateY(${rotationY}deg)`,
           transition: isDragging ? 'none' : 'transform 0.05s ease-out',
         }}
       >
@@ -133,19 +133,16 @@ function MerryGoRound() {
               key={i}
               style={{
                 position: 'absolute',
-                width: '250px',
-                height: '165px',
+                width: '220px',
+                height: '150px',
                 left: 0,
                 top: 0,
                 transformStyle: 'preserve-3d',
                 transform: `rotateY(${itemAngle}deg) translateZ(${radius}px)`,
-                borderRadius: '1rem',
+                borderRadius: '0.875rem',
                 overflow: 'hidden',
-                background: 'rgba(2, 8, 4, 0.6)',
-                backdropFilter: 'blur(30px)',
-                WebkitBackdropFilter: 'blur(30px)',
-                border: '1px solid rgba(255, 255, 255, 0.15)',
-                boxShadow: '0 20px 40px -10px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.4)',
+                backgroundColor: '#141414',
+                boxShadow: '0 16px 40px rgba(0,0,0,0.85), 0 0 0 1px rgba(255,255,255,0.18)',
                 backfaceVisibility: 'hidden',
                 WebkitBackfaceVisibility: 'hidden',
                 isolation: 'isolate',
@@ -165,17 +162,8 @@ function MerryGoRound() {
                   userSelect: 'none',
                   WebkitUserSelect: 'none',
                   WebkitUserDrag: 'none',
-                  borderRadius: '1rem',
-                }}
-              />
-              {/* macOS subtle glass reflection */}
-              <div
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  background: 'linear-gradient(180deg, rgba(255,255,255,0.14) 0%, transparent 60%)',
-                  pointerEvents: 'none',
-                  borderRadius: '1rem',
+                  borderRadius: '0.875rem',
+                  opacity: 1,
                 }}
               />
             </div>
@@ -192,171 +180,158 @@ function MerryGoRound() {
           alignItems: 'center',
           justifyContent: 'center',
           gap: '0.5rem',
-          color: '#64748b',
+          color: 'rgba(255,255,255,0.7)',
           fontSize: '0.8125rem',
           fontWeight: 500,
-          letterSpacing: '-0.01em',
+          letterSpacing: '0.02em',
+          textShadow: '0 2px 8px rgba(0,0,0,0.8)',
         }}
       >
-        <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: 'rgba(255,255,255,0.03)', padding: '0.35rem 0.85rem', borderRadius: '9999px', border: '1px solid rgba(255,255,255,0.08)' }}>
-          <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10b981' }} />
-          {hasDragged ? 'Orbiting forest stage' : 'Drag to rotate stage'}
-        </span>
+        <span>{hasDragged ? 'Click & drag sideways to spin' : '✨ Click & drag sideways to spin merry-go-round'}</span>
       </div>
     </div>
   )
 }
 
+
 export default function HeroSection({ onNavigate }) {
   return (
-    <header className="relative w-full min-h-[850px] flex flex-col items-center justify-center pt-24 pb-16 overflow-hidden" id="home">
-      {/* Cinematic Dark Pine Forest Background */}
-      <div className="absolute inset-0 z-0" style={{ pointerEvents: 'none' }}>
-        <div
-          style={{
-            position: 'absolute',
-            inset: 0,
-            background: 'linear-gradient(180deg, rgba(13, 15, 14, 0.4) 0%, transparent 40%, rgba(13, 15, 14, 0.8) 80%, #0d0f0e 100%)',
-            zIndex: 1,
-          }}
-        />
-        <img
-          src="/images/verdant-forest-hero.jpg"
-          loading="lazy"
-          alt="Dark Pine Forest"
-          className="w-full h-full object-cover object-center filter brightness-50"
-          style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.42) contrast(1.1)' }}
-        />
-      </div>
-
-      {/* Floating Glass Hero Card */}
-      <div
-        className="relative z-20 w-[92%] md:w-[75%] max-w-[820px] glass-panel rounded-2xl p-8 md:p-16 text-center"
+    <section className="section_hero" id="home">
+      {/* Original Aeline Blue Hero Background Image */}
+      <img
+        src="https://cdn.prod.website-files.com/6929c116366a14507fc8424d/6929d3408e9ff6a515b9eee8_ai-hero%20(1).avif"
+        loading="lazy"
+        alt=""
+        className="img is-hero"
         style={{
-          borderRadius: '1.5rem',
-          margin: '2rem auto 3rem',
-          background: 'rgba(255, 255, 255, 0.03)',
-          backdropFilter: 'blur(40px)',
-          WebkitBackdropFilter: 'blur(40px)',
-          border: '1px solid rgba(255, 255, 255, 0.1)',
-          boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 30px 60px rgba(0,0,0,0.5)',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          zIndex: 1,
+          opacity: 0.65,
+          pointerEvents: 'none',
+          filter: 'none',
+          mixBlendMode: 'normal',
         }}
-      >
-        <div
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '0.5rem',
-            padding: '0.3rem 0.85rem',
-            borderRadius: '9999px',
-            background: 'rgba(45, 75, 62, 0.35)',
-            border: '1px solid rgba(173, 206, 189, 0.25)',
-            color: '#adcebd',
-            fontSize: '0.75rem',
-            fontWeight: 600,
-            letterSpacing: '0.08em',
-            textTransform: 'uppercase',
-            marginBottom: '1.75rem',
-          }}
-        >
-          <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#adcebd', boxShadow: '0 0 8px rgba(173, 206, 189, 0.8)' }} />
-          <span>Architecture of Quiet Support</span>
-        </div>
+      />
 
-        <h1
-          className="text-glow"
-          style={{
-            fontFamily: 'Hanken Grotesk, sans-serif',
-            fontSize: 'clamp(2.5rem, 5.5vw, 4.25rem)',
-            fontWeight: 600,
-            lineHeight: 1.1,
-            letterSpacing: '-0.035em',
-            color: '#e2e3e0',
-            marginBottom: '1.5rem',
-          }}
-        >
-          The Architecture <br className="hidden sm:inline" />
-          of Quiet Support
-        </h1>
+      {/* Hero text content - Tailored specifically for Qolve */}
+      <div className="hero_wrap">
+        <div className="padding-global is-hero" style={{ width: '100%' }}>
+          <div className="vertical-center">
+            {/* Startup Brand Pill */}
+            <div
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                padding: '0.375rem 0.875rem',
+                borderRadius: '9999px',
+                background: 'rgba(214, 253, 112, 0.12)',
+                border: '1px solid rgba(214, 253, 112, 0.3)',
+                color: '#d6fd70',
+                fontSize: '0.8125rem',
+                fontWeight: 600,
+                marginBottom: '1.25rem',
+              }}
+            >
+              <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#d6fd70' }} />
+              Welcome to Qolve
+            </div>
 
-        <p
-          style={{
-            fontFamily: 'Inter, sans-serif',
-            fontSize: 'clamp(1rem, 2vw, 1.125rem)',
-            fontWeight: 400,
-            lineHeight: 1.6,
-            color: '#c1c8c3',
-            maxWidth: '38rem',
-            margin: '0 auto 2.5rem',
-          }}
-        >
-          Precision engineering meets raw, untamed efficiency. Deliver high-trust white-label customer support that breathes with your brand.
-        </p>
+            <h1 className="text-align-center">
+              Reinventing Customer Support with <br />
+              <span className="opacity-73">Qolve &amp; Intelligent Automation</span>
+            </h1>
 
-        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
-          <button
-            onClick={() => onNavigate && onNavigate('products')}
-            style={{
-              background: '#2d4b3e',
-              color: '#e2e3e0',
-              border: '1px solid rgba(255, 255, 255, 0.15)',
-              padding: '0.9rem 2rem',
-              borderRadius: '0.5rem',
-              fontFamily: 'Inter, sans-serif',
-              fontSize: '0.9375rem',
-              fontWeight: 500,
-              cursor: 'pointer',
-              boxShadow: '0 10px 25px -5px rgba(0,0,0,0.4)',
-              transition: 'all 0.2s ease',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = '#375d4d'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = '#2d4b3e'
-            }}
-          >
-            Explore Quelp Platform
-          </button>
+            <div className="spacer-medium" />
 
-          <button
-            onClick={() => onNavigate && onNavigate('home', 'roadmap')}
-            className="glass-panel"
-            style={{
-              padding: '0.9rem 1.8rem',
-              borderRadius: '0.5rem',
-              fontFamily: 'Inter, sans-serif',
-              fontSize: '0.9375rem',
-              fontWeight: 500,
-              color: '#e2e3e0',
-              cursor: 'pointer',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.5rem',
-              transition: 'all 0.2s ease',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.03)'
-            }}
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style={{ opacity: 0.85 }}>
-              <path d="M8 5v14l11-7z"/>
-            </svg>
-            <span>View Architecture</span>
-          </button>
+            <div className="max-width-medium">
+              <div className="text-base text-color-on-primary text-align-center">
+                Quelp is a fully branded, lower-cost customer support platform for growing businesses. Unify email, chat, and knowledge base in one intelligent, seamlessly styled platform.
+              </div>
+            </div>
+
+            <div className="spacer-huge" />
+
+            <div className="button_wrapper is-hero">
+              <button
+                onClick={() => onNavigate && onNavigate('products')}
+                className="button"
+                style={{
+                  background: 'transparent',
+                  color: '#fff',
+                  border: '1.5px solid rgba(255,255,255,0.35)',
+                  padding: '0.75rem 1.5rem',
+                  borderRadius: '9999px',
+                  fontWeight: 600,
+                  fontSize: '0.9375rem',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s',
+                }}
+              >
+                <div className="text-button-wrap">
+                  <div>Explore Products</div>
+                </div>
+              </button>
+
+              <a
+                href="#contact"
+                className="button-arrow"
+                style={{ display: 'inline-flex', alignItems: 'center', textDecoration: 'none', cursor: 'pointer' }}
+              >
+                <div className="button-arrow_wrap">
+                  <div className="button-arrow_text">
+                    <div className="text_button" style={{ color: '#ffffff', fontWeight: 600, fontSize: '0.9375rem' }}>
+                      Get Started
+                    </div>
+                  </div>
+                  <div
+                    className="button_container-arrow"
+                    style={{ width: '2.75rem', height: '2.75rem', borderRadius: '50%', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#0f0f0f', flexShrink: 0 }}
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                      <path d="M13.0457 8.13128L5.8733 15.3037L4.69479 14.1252L11.8672 6.95277L5.54568 6.95277L5.54568 5.28636H14.7121V14.4528L13.0457 14.4528V8.13128Z" fill="currentColor" />
+                    </svg>
+                  </div>
+                  <div className="button-arrow_bg" />
+                </div>
+              </a>
+            </div>
+          </div>
         </div>
       </div>
+
+      {/* Spacer between text and Merry-Go-Round */}
+      <div style={{ height: '1.5rem' }} />
 
       {/* Interactive 3D Merry-Go-Round */}
-      <div style={{ width: '100%', position: 'relative', zIndex: 15 }}>
-        <MerryGoRound />
+      <MerryGoRound />
+
+      <div className="_3d_spacer" />
+
+      {/* Rating badge */}
+      <div className="rating" style={{ position: 'relative', bottom: 'auto', marginBottom: '2rem', transform: 'none', left: 'auto', zIndex: 10 }}>
+        <div className="text-color-on-primary" style={{ fontSize: '0.875rem' }}>
+          Rated 4.9/5 by 4.900+ clients
+        </div>
+        <div className="spacer-xsmall" />
+        <div className="stars-wrap">
+          {[...Array(5)].map((_, i) => (
+            <div key={i} className="icon-1x1-small">
+              <svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 16 16" fill="none">
+                <path d="M3.88203 13.9987L4.96536 9.31536L1.33203 6.16536L6.13203 5.7487L7.9987 1.33203L9.86536 5.7487L14.6654 6.16536L11.032 9.31536L12.1154 13.9987L7.9987 11.5154L3.88203 13.9987Z" fill="#F1EE46" />
+              </svg>
+            </div>
+          ))}
+        </div>
       </div>
-    </header>
+    </section>
   )
 }
-
-
-
