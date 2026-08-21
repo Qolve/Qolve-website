@@ -155,11 +155,12 @@ export default function Ascii3DStarfield({
       }
 
       if (variant === 'services') {
-        // Moon outskirts silhouette at R = 0.185
+        // Moon region: ensure the Moon's entire background is purely clean white
+        if (normX < 0.28 && normY < 0.35) return true
         const dx = (normX - 0.04) * aspect
         const dy = normY - 0.05
         const dist = Math.sqrt(dx * dx + dy * dy)
-        if (dist < 0.185) return true
+        if (dist < 0.28) return true
       }
 
       return false
