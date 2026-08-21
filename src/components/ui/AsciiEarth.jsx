@@ -48,8 +48,8 @@ export default function AsciiEarth({
   size = 42,
   speed = 0.005,
   color = '#000000',
-  fontSize = 'clamp(6.5px, 0.68vw, 16px)',
-  lineHeight = 'clamp(6px, 0.63vw, 15px)',
+  fontSize = '0.62vw',
+  lineHeight = '0.56vw',
   style = {},
 }) {
   const [asciiFrame, setAsciiFrame] = useState('')

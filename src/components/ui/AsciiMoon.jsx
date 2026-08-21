@@ -27,8 +27,8 @@ export default function AsciiMoon({
   size = 38,
   speed = 0.003,
   color = '#000000',
-  fontSize = 'clamp(6px, 0.65vw, 15px)',
-  lineHeight = 'clamp(5.5px, 0.60vw, 14px)',
+  fontSize = '0.58vw',
+  lineHeight = '0.52vw',
   style = {},
 }) {
   const [asciiFrame, setAsciiFrame] = useState('')
