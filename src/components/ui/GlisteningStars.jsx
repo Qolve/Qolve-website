@@ -1,25 +1,22 @@
 import { useEffect, useState } from 'react'
 
-// Pure ASCII Glistening Stars Engine
-export default function GlisteningStars({ count = 35 }) {
-  const [stars, setStars] = useState([])
+// Retro Terminal Phosphor Pixel Starfield (Square bitmap pixels, stepped terminal clock ticks)
+export default function GlisteningStars({ count = 45 }) {
+  const [pixels, setPixels] = useState([])
 
   useEffect(() => {
-    // Pure ASCII star and cosmic dust characters
-    const asciiStars = ['*', '+', '.', ':', '^', 'x', '`', '\'', '#']
-    const colors = ['#000000', '#1e293b', '#334155', '#475569', '#64748b']
+    const shades = ['#000000', '#18181b', '#27272a', '#3f3f46', '#52525b']
 
     const generated = Array.from({ length: count }, (_, i) => ({
       id: i,
       x: Math.random() * 100,
       y: Math.random() * 100,
-      size: 0.65 + Math.random() * 0.6,
-      symbol: asciiStars[Math.floor(Math.random() * asciiStars.length)],
-      color: colors[Math.floor(Math.random() * colors.length)],
-      duration: 3 + Math.random() * 4.5,
-      delay: Math.random() * 4,
+      size: [2, 2.5, 3, 3.5, 4][Math.floor(Math.random() * 5)],
+      color: shades[Math.floor(Math.random() * shades.length)],
+      duration: 2.5 + Math.random() * 4,
+      delay: Math.random() * 3,
     }))
-    setStars(generated)
+    setPixels(generated)
   }, [count])
 
   return (
@@ -33,37 +30,35 @@ export default function GlisteningStars({ count = 35 }) {
         userSelect: 'none',
       }}
     >
-      {stars.map((star) => (
-        <span
-          key={star.id}
+      {pixels.map((pixel) => (
+        <div
+          key={pixel.id}
           style={{
             position: 'absolute',
-            left: `${star.x}%`,
-            top: `${star.y}%`,
-            fontSize: `${star.size}rem`,
-            fontWeight: 800,
-            color: star.color,
-            animation: `asciiGlisten ${star.duration}s ease-in-out ${star.delay}s infinite alternate`,
-            fontFamily: 'Courier, "Courier New", monospace',
-            display: 'inline-block',
+            left: `${pixel.x}%`,
+            top: `${pixel.y}%`,
+            width: `${pixel.size}px`,
+            height: `${pixel.size}px`,
+            backgroundColor: pixel.color,
+            borderRadius: '0px', // Exact square terminal bitmap pixel
+            imageRendering: 'pixelated',
+            animation: `terminalPixelTick ${pixel.duration}s steps(3, start) ${pixel.delay}s infinite alternate`,
           }}
-        >
-          {star.symbol}
-        </span>
+        />
       ))}
       <style>{`
-        @keyframes asciiGlisten {
+        @keyframes terminalPixelTick {
           0% {
-            opacity: 0.08;
-            transform: scale(0.65);
+            opacity: 0;
+            transform: scale(0.6);
           }
           50% {
-            opacity: 0.8;
-            transform: scale(1.2);
+            opacity: 0.85;
+            transform: scale(1);
           }
           100% {
-            opacity: 0.12;
-            transform: scale(0.75);
+            opacity: 0.15;
+            transform: scale(0.8);
           }
         }
       `}</style>
