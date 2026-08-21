@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 
 const SECTIONS = [
   { id: 'home', label: 'Overview' },
@@ -15,166 +15,38 @@ const SECTIONS = [
 export default function SmoothScrollProvider({ children }) {
   const [activeSection, setActiveSection] = useState('home')
   const [isHoveredNav, setIsHoveredNav] = useState(false)
-  const isTransitioningRef = useRef(false)
-  const activeIndexRef = useRef(0)
-  const touchStartYRef = useRef(0)
-  const animFrameIdRef = useRef(null)
 
-  const getSectionElements = useCallback(() => {
-    return SECTIONS.map((sec) => document.getElementById(sec.id)).filter(Boolean)
+  // Track active section via IntersectionObserver for completely natural, free scrolling
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPos = window.scrollY + window.innerHeight * 0.35
+      for (let i = SECTIONS.length - 1; i >= 0; i--) {
+        const el = document.getElementById(SECTIONS[i].id)
+        if (el && el.offsetTop <= scrollPos) {
+          setActiveSection(SECTIONS[i].id)
+          break
+        }
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    handleScroll()
+    return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const getClosestIndex = useCallback(() => {
-    const sections = getSectionElements()
-    if (!sections.length) return 0
-    const scrollY = window.scrollY
-    let closestIndex = 0
-    let minDistance = Infinity
-
-    sections.forEach((sec, idx) => {
-      const distance = Math.abs(sec.offsetTop - scrollY)
-      if (distance < minDistance) {
-        minDistance = distance
-        closestIndex = idx
-      }
-    })
-    return closestIndex
-  }, [getSectionElements])
-
-  const smoothGlideTo = useCallback((targetIndex) => {
-    const sections = getSectionElements()
-    if (!sections.length || targetIndex < 0 || targetIndex >= sections.length) return
-
-    const targetEl = sections[targetIndex]
-    if (!targetEl) return
-
-    isTransitioningRef.current = true
-    activeIndexRef.current = targetIndex
-    setActiveSection(SECTIONS[targetIndex]?.id || 'home')
-
-    if (animFrameIdRef.current) {
-      cancelAnimationFrame(animFrameIdRef.current)
+  const handleHudClick = useCallback((id) => {
+    const targetEl = document.getElementById(id)
+    if (targetEl) {
+      targetEl.scrollIntoView({ behavior: 'smooth' })
+      setActiveSection(id)
     }
-
-    const startY = window.scrollY
-    const endY = targetEl.offsetTop
-    const distance = endY - startY
-    const duration = 420
-    let startTime = null
-
-    const easeOutCubic = (x) => 1 - Math.pow(1 - x, 3)
-
-    function step(currentTime) {
-      if (!startTime) startTime = currentTime
-      const elapsed = currentTime - startTime
-      const progress = Math.min(elapsed / duration, 1)
-      const ease = easeOutCubic(progress)
-
-      window.scrollTo(0, startY + distance * ease)
-
-      if (progress < 1) {
-        animFrameIdRef.current = requestAnimationFrame(step)
-      } else {
-        window.scrollTo(0, endY)
-        isTransitioningRef.current = false
-      }
-    }
-
-    animFrameIdRef.current = requestAnimationFrame(step)
-  }, [getSectionElements])
-
-  useEffect(() => {
-    const handleWheel = (e) => {
-      e.preventDefault()
-
-      if (isTransitioningRef.current) return
-      if (Math.abs(e.deltaY) < 1) return
-
-      const currentIndex = getClosestIndex()
-
-      if (e.deltaY > 0 && currentIndex < SECTIONS.length - 1) {
-        smoothGlideTo(currentIndex + 1)
-      } else if (e.deltaY < 0 && currentIndex > 0) {
-        smoothGlideTo(currentIndex - 1)
-      }
-    }
-
-    // 2. Touch Navigation for mobile/touchpads
-    const handleTouchStart = (e) => {
-      if (window.innerWidth <= 768) return // Keep native fluid scrolling on phones
-      touchStartYRef.current = e.touches[0].clientY
-    }
-
-    const handleTouchEnd = (e) => {
-      if (window.innerWidth <= 768) return // Keep native fluid scrolling on phones
-      if (isTransitioningRef.current) return
-      const touchEndY = e.changedTouches[0].clientY
-      const deltaY = touchStartYRef.current - touchEndY
-
-      if (Math.abs(deltaY) > 50) {
-        const currentIndex = getClosestIndex()
-        if (deltaY > 0 && currentIndex < SECTIONS.length - 1) {
-          smoothGlideTo(currentIndex + 1)
-        } else if (deltaY < 0 && currentIndex > 0) {
-          smoothGlideTo(currentIndex - 1)
-        }
-      }
-    }
-
-    // 3. Keyboard Arrow & Page Navigation
-    const handleKeyDown = (e) => {
-      if (isTransitioningRef.current) return
-      const currentIndex = getClosestIndex()
-
-      if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
-        if (currentIndex < SECTIONS.length - 1) {
-          e.preventDefault()
-          smoothGlideTo(currentIndex + 1)
-        }
-      } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
-        if (currentIndex > 0) {
-          e.preventDefault()
-          smoothGlideTo(currentIndex - 1)
-        }
-      }
-    }
-
-    // 4. Track active section when scrolling finishes
-    const handleScroll = () => {
-      if (!isTransitioningRef.current) {
-        const currentIndex = getClosestIndex()
-        setActiveSection(SECTIONS[currentIndex]?.id || 'home')
-      }
-    }
-
-    window.addEventListener('wheel', handleWheel, { passive: false })
-    window.addEventListener('touchstart', handleTouchStart, { passive: true })
-    window.addEventListener('touchend', handleTouchEnd, { passive: true })
-    window.addEventListener('keydown', handleKeyDown)
-    window.addEventListener('scroll', handleScroll, { passive: true })
-
-    return () => {
-      if (animFrameIdRef.current) cancelAnimationFrame(animFrameIdRef.current)
-      window.removeEventListener('wheel', handleWheel)
-      window.removeEventListener('touchstart', handleTouchStart)
-      window.removeEventListener('touchend', handleTouchEnd)
-      window.removeEventListener('keydown', handleKeyDown)
-      window.removeEventListener('scroll', handleScroll)
-    }
-  }, [getClosestIndex, smoothGlideTo])
-
-  const handleHudClick = (id) => {
-    const index = SECTIONS.findIndex((s) => s.id === id)
-    if (index !== -1) {
-      smoothGlideTo(index)
-    }
-  }
+  }, [])
 
   return (
     <>
       {children}
 
-      {/* Floating Section Snap HUD */}
+      {/* Floating Section Tracker HUD */}
       <div
         className="fixed-section-hud"
         onMouseEnter={() => setIsHoveredNav(true)}

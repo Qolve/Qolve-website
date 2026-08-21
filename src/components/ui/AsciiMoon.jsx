@@ -24,11 +24,11 @@ const LUNAR_MAP = [
 const TERMINAL_RAMP = " .:-=+*#%@"
 
 export default function AsciiMoon({
-  size = 28,
+  size = 38,
   speed = 0.003,
   color = '#000000',
-  fontSize = 'clamp(5px, 0.44vw, 11px)',
-  lineHeight = 'clamp(4.5px, 0.40vw, 10px)',
+  fontSize = 'clamp(6px, 0.65vw, 15px)',
+  lineHeight = 'clamp(5.5px, 0.60vw, 14px)',
   style = {},
 }) {
   const [asciiFrame, setAsciiFrame] = useState('')
