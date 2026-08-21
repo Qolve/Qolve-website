@@ -70,6 +70,7 @@ export default function ServicesSection() {
 
       {/* Accurate ASCII Moon - Smooth pull-into-corner scroll animation */}
       <div
+        className="ascii-moon-wrap"
         style={{
           position: 'absolute',
           left: '-8vw',

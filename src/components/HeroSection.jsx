@@ -18,6 +18,7 @@ function MerryGoRound() {
   const [rotationY, setRotationY] = useState(0)
   const [isDragging, setIsDragging] = useState(false)
   const [hasDragged, setHasDragged] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
   const isDraggingRef = useRef(false)
   const isHoveredRef = useRef(false)
   const startXRef = useRef(0)
@@ -28,7 +29,17 @@ function MerryGoRound() {
 
   const numCards = CAROUSEL_IMAGES.length
   const angleStep = 360 / numCards
-  const radius = 270
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 640)
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
+  const radius = isMobile ? 160 : 270
+  const cardWidth = isMobile ? 130 : 185
+  const cardHeight = isMobile ? 90 : 125
 
   // Continuous slow auto-rotation + scroll-driven rotation
   useEffect(() => {
@@ -59,7 +70,6 @@ function MerryGoRound() {
   }, [])
 
   const handlePointerDown = (e) => {
-    e.preventDefault()
     setIsDragging(true)
     setHasDragged(true)
     isDraggingRef.current = true
@@ -88,15 +98,16 @@ function MerryGoRound() {
 
     let currentVel = velocityRef.current
     let currentRot = rotationY
-    const decay = () => {
+
+    const applyInertia = () => {
       if (Math.abs(currentVel) > 0.05) {
         currentRot += currentVel
-        currentVel *= 0.92
+        currentVel *= 0.95
         setRotationY(currentRot)
-        animFrameRef.current = requestAnimationFrame(decay)
+        animFrameRef.current = requestAnimationFrame(applyInertia)
       }
     }
-    animFrameRef.current = requestAnimationFrame(decay)
+    animFrameRef.current = requestAnimationFrame(applyInertia)
   }
 
   useEffect(() => {
@@ -134,8 +145,8 @@ function MerryGoRound() {
       <div
         style={{
           position: 'relative',
-          width: '185px',
-          height: '125px',
+          width: `${cardWidth}px`,
+          height: `${cardHeight}px`,
           margin: '0 auto',
           transformStyle: 'preserve-3d',
           transform: `rotateX(-6deg) rotateY(${rotationY}deg)`,
@@ -149,8 +160,8 @@ function MerryGoRound() {
               key={i}
               style={{
                 position: 'absolute',
-                width: '185px',
-                height: '125px',
+                width: `${cardWidth}px`,
+                height: `${cardHeight}px`,
                 left: 0,
                 top: 0,
                 transformStyle: 'preserve-3d',

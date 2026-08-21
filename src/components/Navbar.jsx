@@ -176,20 +176,21 @@ export default function Navbar({ activePage, onNavigate }) {
                   </div>
                 </button>
               </div>
-
-              {/* Hamburger (mobile) */}
-              <button
-                className="menu-button"
-                onClick={() => setMobileOpen(!mobileOpen)}
-                style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'none' }}
-              >
-                <div className="nav-button_component">
-                  <div className="nav-button_line is-first" style={{ transform: mobileOpen ? 'rotate(45deg) translate(5px, 5px)' : 'none' }} />
-                  <div className="nav-button_line is-second" style={{ opacity: mobileOpen ? 0 : 1 }} />
-                  <div className="nav-button_line is-third" style={{ transform: mobileOpen ? 'rotate(-45deg) translate(5px, -5px)' : 'none' }} />
-                </div>
-              </button>
             </div>
+
+            {/* Hamburger (mobile) */}
+            <button
+              className="menu-button"
+              onClick={() => setMobileOpen(!mobileOpen)}
+              aria-label="Toggle navigation menu"
+              style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'none', padding: '0.5rem' }}
+            >
+              <div className="nav-button_component">
+                <div className="nav-button_line is-first" style={{ transform: mobileOpen ? 'rotate(45deg) translate(5px, 5px)' : 'none' }} />
+                <div className="nav-button_line is-second" style={{ opacity: mobileOpen ? 0 : 1 }} />
+                <div className="nav-button_line is-third" style={{ transform: mobileOpen ? 'rotate(-45deg) translate(5px, -5px)' : 'none' }} />
+              </div>
+            </button>
           </div>
         </div>
       </div>
@@ -198,25 +199,26 @@ export default function Navbar({ activePage, onNavigate }) {
       {mobileOpen && (
         <div style={{
           background: 'rgba(15,15,15,0.99)',
-          padding: '1rem 2.5rem 1.5rem',
+          padding: '1.25rem 2rem 1.5rem',
           borderBottom: '1px solid rgba(255,255,255,0.08)',
           display: 'flex',
           flexDirection: 'column',
-          gap: '0.25rem',
+          gap: '0.5rem',
         }}>
           {[
             { label: 'Home', action: () => navTo('home') },
             { label: 'Quelp Platform', action: () => navTo('products') },
-            { label: 'Architecture', action: () => navTo('home', 'roadmap') },
-            { label: 'Qolve Team', action: () => navTo('team') },
             { label: 'About Qolve', action: () => navTo('home', 'about') },
+            { label: 'Services', action: () => navTo('home', 'services') },
+            { label: 'Capabilities', action: () => navTo('home', 'capabilities') },
+            { label: 'Qolve Team', action: () => navTo('team') },
             { label: 'Pricing', action: () => navTo('home', 'pricing') },
           ].map((item, idx) => (
             <button
               key={idx}
               onClick={item.action}
               className="nav_links"
-              style={{ display: 'block', padding: '0.75rem 0.5rem', textAlign: 'left', background: 'none', border: 'none', width: '100%', cursor: 'pointer' }}
+              style={{ display: 'block', padding: '0.75rem 0.5rem', textAlign: 'left', background: 'none', border: 'none', width: '100%', cursor: 'pointer', fontSize: '1rem', color: '#ffffff' }}
             >
               {item.label}
             </button>

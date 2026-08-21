@@ -55,6 +55,7 @@ export default function AboutSection() {
 
       {/* Giant Ambient Background ASCII Earth - Smooth pull-into-side scroll animation */}
       <div
+        className="ascii-earth-wrap"
         style={{
           position: 'absolute',
           right: '-18vw',
@@ -149,12 +150,10 @@ export default function AboutSection() {
 
           <div className="spacer-medium" />
 
-          {/* Bento Cards shifted 15% over, layered above background Earth */}
+          {/* Bento Cards shifted over on desktop, 100% on mobile */}
           <div
             className="about_layout"
             style={{
-              width: '115%',
-              marginLeft: '-7.5%',
               position: 'relative',
               zIndex: 6,
               transition: 'all 0.3s ease',

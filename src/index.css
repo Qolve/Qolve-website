@@ -1893,7 +1893,28 @@ p, .text-base {
   }
 
   .about_layout {
-    grid-template-columns: 1fr;
+    width: 100% !important;
+    margin-left: 0 !important;
+    grid-template-columns: 1fr !important;
+    gap: 1.25rem !important;
+  }
+
+  .ascii-earth-wrap {
+    right: -32vw !important;
+    transform: translateY(-50%) scale(0.55) !important;
+    opacity: 0.28 !important;
+  }
+
+  .ascii-moon-wrap {
+    left: -22vw !important;
+    top: -12vw !important;
+    transform: scale(0.52) !important;
+    opacity: 0.28 !important;
+  }
+
+  .sticky-scroll-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
   }
 
   .blog_cards {

@@ -101,15 +101,17 @@ export default function SmoothScrollProvider({ children }) {
 
     // 2. Touch Navigation for mobile/touchpads
     const handleTouchStart = (e) => {
+      if (window.innerWidth <= 768) return // Keep native fluid scrolling on phones
       touchStartYRef.current = e.touches[0].clientY
     }
 
     const handleTouchEnd = (e) => {
+      if (window.innerWidth <= 768) return // Keep native fluid scrolling on phones
       if (isTransitioningRef.current) return
       const touchEndY = e.changedTouches[0].clientY
       const deltaY = touchStartYRef.current - touchEndY
 
-      if (Math.abs(deltaY) > 40) {
+      if (Math.abs(deltaY) > 50) {
         const currentIndex = getClosestIndex()
         if (deltaY > 0 && currentIndex < SECTIONS.length - 1) {
           smoothGlideTo(currentIndex + 1)
