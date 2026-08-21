@@ -68,13 +68,13 @@ export default function ServicesSection() {
       {/* Hypnotic 3D ASCII Starfield with Moon Exclusion Boundary */}
       <Ascii3DStarfield variant="services" opacity={0.7} numStars={160} baseSpeed={0.35} />
 
-      {/* Accurate ASCII Moon - Bold, Proportional Corner Celestial Sphere */}
+      {/* Accurate ASCII Moon - Tucked into the Top-Left Corner */}
       <div
         className="ascii-moon-wrap"
         style={{
           position: 'absolute',
-          left: '-4vw',
-          top: '-2.5vw',
+          left: '-10vw',
+          top: '-5vw',
           zIndex: 1,
           pointerEvents: 'none',
           userSelect: 'none',

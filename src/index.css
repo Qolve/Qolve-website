@@ -8,52 +8,51 @@
   padding: 0;
 }
 
-/* ==================== FLUID PROPORTIONAL RESOLUTION ENGINE ==================== */
+/* ==================== FLUID DESIGN SYSTEM ==================== */
 html {
   scroll-behavior: smooth;
-  font-size: 14px;
+  font-size: clamp(13px, 0.9vw + 4px, 16px);
 }
 
-/* 4K UHD screens (2560px - 3840px+) */
-@media screen and (min-width: 2560px) {
-  html {
-    font-size: 17px;
-  }
+body {
+  overflow-x: hidden;
+  color: var(--color-primary);
+  background-color: var(--bg-primary);
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* 2K QHD screens (1921px - 2559px) */
-@media screen and (min-width: 1921px) and (max-width: 2559px) {
-  html {
-    font-size: 15.5px;
-  }
+img, video, canvas, svg {
+  max-width: 100%;
+  display: block;
 }
 
-/* Standard Full HD 1080p screens (1600px - 1920px) */
-@media screen and (min-width: 1600px) and (max-width: 1920px) {
-  html {
-    font-size: 14.5px;
-  }
+/* Fluid Typography */
+.heading-style-h1 {
+  font-size: clamp(2.25rem, 5vw, 4.5rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
 }
 
-/* Medium Desktop & MacBooks (1440px - 1599px) */
-@media screen and (min-width: 1440px) and (max-width: 1599px) {
-  html {
-    font-size: 14px;
-  }
+.heading-style-h2 {
+  font-size: clamp(1.65rem, 3.2vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
 }
 
-/* Standard Laptops (1280px - 1439px e.g. 1366x768 / 1366x720) */
-@media screen and (min-width: 1280px) and (max-width: 1439px) {
-  html {
-    font-size: 13.5px;
-  }
+.heading-style-h3 {
+  font-size: clamp(1.15rem, 1.8vw, 1.5rem);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
 }
 
-/* Small Laptops & Tablets Landscape (992px - 1279px) */
-@media screen and (min-width: 992px) and (max-width: 1279px) {
-  html {
-    font-size: 13px;
-  }
+section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
 }
 
 /* Short height screens (e.g. 720p / 768p displays) - ensure content fits comfortably */
@@ -203,7 +202,7 @@ p, .text-base {
 }
 
 .main-wrapper {
-  overflow: hidden;
+  overflow: clip;
 }
 
 .container-large {

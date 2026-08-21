@@ -53,12 +53,12 @@ export default function AboutSection() {
       {/* Hypnotic 3D ASCII Starfield with Earth Exclusion Boundary */}
       <Ascii3DStarfield variant="about" opacity={0.7} numStars={160} baseSpeed={0.35} />
 
-      {/* Ambient Background ASCII Earth - Proportional, Responsive Celestial Globe */}
+      {/* Ambient Background ASCII Earth - Half Visible on the Right Side */}
       <div
         className="ascii-earth-wrap"
         style={{
           position: 'absolute',
-          right: '-6vw',
+          right: '-18vw',
           top: '50%',
           transform: 'translateY(-50%)',
           zIndex: 1,
@@ -170,31 +170,16 @@ export default function AboutSection() {
                 loading="lazy"
                 alt="Qolve Team Collaboration"
                 className="img"
-                style={{ width: '100%', height: '10rem', objectFit: 'cover', borderRadius: '0.75rem' }}
+                style={{ width: '100%', height: '5.5rem', objectFit: 'cover', borderRadius: '0.75rem' }}
               />
-              <div className="vertical-space-between" style={{ marginTop: '1.25rem' }}>
-                <div className="card_1-top">
-                  <img
-                    src="https://cdn.prod.website-files.com/6929c116366a14507fc8424d/692a148227a37705feded0ce_ipsum-logo.svg"
-                    loading="lazy"
-                    alt=""
-                    style={{ height: '1.25rem', width: 'auto' }}
-                  />
-                  <div className="container-svg">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
-                      <path d="M16 20V13H20V20H16ZM10 20V4H14V20H10ZM4 20V9H8V20H4Z" fill="currentColor" />
-                    </svg>
+              <div className="about_card-float" style={{ marginTop: 'auto' }}>
+                <div className="text-wrap">
+                  <div className="text-4xl" style={{ fontWeight: 800 }}>
+                    <CountUpNumber value={120} duration={2} suffix="+" />
                   </div>
                 </div>
-                <div className="about_card-float">
-                  <div className="text-wrap">
-                    <div className="text-5xl" style={{ fontWeight: 800 }}>
-                      <CountUpNumber value={120} duration={2} suffix="+" />
-                    </div>
-                  </div>
-                  <div className="spacer-small" />
-                  <div className="text-weight-medium">Collaborating with leading AI and cloud technology providers.</div>
-                </div>
+                <div className="spacer-small" />
+                <div className="text-weight-medium text-sm">Collaborating with leading AI and cloud technology providers.</div>
               </div>
             </SpotlightCard>
 
