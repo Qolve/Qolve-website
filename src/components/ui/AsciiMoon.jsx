@@ -1,24 +1,27 @@
 import { useEffect, useRef, useState } from 'react'
 
-// Accurate 60x30 Lunar Surface Matrix (Nearside & Farside Maria/Basalt Plains)
+// High-Detail Lunar Surface Map (Maria '1', Bright Crater Rims '2', Crater Centers '3', Rugged Highlands '4')
 const LUNAR_MAP = [
-  "                                                            ", // 90°N Polar Highlands
-  "                        11111111111                         ", // 75°N
-  "                   111111111111111111111                    ", // 65°N - Mare Frigoris
-  "            111111111111111111111111111111                  ", // 55°N - Mare Imbrium North
-  "          1111111111111111111111111111111111                ", // 45°N - Mare Imbrium / Serenitatis
-  "         1111111111111111111111111111111111111    11111     ", // 35°N - Oceanus Procellarum / Mare Crisium
-  "        111111111111111111111111111111111111111  1111111    ", // 25°N - Procellarum / Mare Tranquillitatis / Crisium
-  "       11111111111111111111111111111111111111111 1111111    ", // 15°N - Copernicus Crater / Tranquillitatis
-  "       11111111111111111111111111111111111111111  11111     ", // 5°N - Equator
-  "        1111111111111111111111111111111111111111            ", // 5°S - Mare Cognitum / Mare Nectaris
-  "        111111111111111111111111111111111111111             ", // 15°S - Mare Nubium
-  "         111111111111111111111111111111111111               ", // 25°S - Mare Humorum
-  "          11111111111111111111111111111111111               ", // 35°S - South Maria border
-  "               2222           222222                        ", // 43°S - Tycho Crater Ray System
-  "              222222         22222222                       ", // 55°S - Southern Cratered Highlands
-  "                                                            ", // 70°S
-  "                                                            "  // 85°S - South Pole
+  "   444444444444444444444444444444444444444444444444444444   ", // 90°N North Polar Highlands
+  "  44444444444444444444444444444444444444444444444444444444  ", // 80°N
+  " 444444444444444444444444444444444444444444444444444444444 ", // 75°N
+  "4444444444444441111111111111111444444444444444444444444444", // 65°N - Mare Frigoris & Plato Crater
+  "44444444111111111111111111111111111111444444444444444444444", // 55°N - Mare Imbrium North & Sinus Iridum
+  "44444411111111111111111111111111111111111444423244444444444", // 45°N - Archimedes / Aristillus
+  "44444111111111111111111111111111111111111144444444444444444", // 35°N - Mare Serenitatis / Oceanus Procellarum
+  "44441111111111111111111111111111111111111111444411111144444", // 25°N - Mare Crisium & Mare Tranquillitatis
+  "44441111111111111111111111111111111111111111144111111114444", // 15°N - Copernicus Crater System (232)
+  "44441111111111111232111111111111111111111111144111111114444", // 5°N  - Copernicus / Kepler Crater Rims
+  "44444111111111111111111111111111111111111111144411111144444", // 0°   - Equator & Sinus Medii
+  "44444111111111111111111111111111111111111111444444444444444", // 5°S  - Mare Cognitum
+  "44444411111111111111111111111111111111111144444444444444444", // 15°S - Mare Nubium & Mare Nectaris
+  "44444441111111111111111111111111111111144444444444444444444", // 25°S - Mare Humorum & Bullialdus
+  "44444444444444444444444444444444444444444444444444444444444", // 35°S - Deslandres & Pitatus
+  "44444444444444444222332224444444444444444444444444444444444", // 43°S - Tycho Crater & Massive Ray System
+  "44444444444444442222222222444444444444444444444444444444444", // 55°S - Clavius Crater Basin
+  "44444444444444444444444444444444444444444444444444444444444", // 70°S - Southern Highlands
+  " 444444444444444444444444444444444444444444444444444444444 ", // 80°S
+  "  44444444444444444444444444444444444444444444444444444444  "  // 90°S South Pole
 ]
 
 const TERMINAL_RAMP = " .:-=+*#%@"
@@ -76,18 +79,26 @@ export default function AsciiMoon({
 
             const feature = LUNAR_MAP[mapY]?.[mapX]
 
-            const light = (-0.45 * nx + 0.8 * nz - 0.3 * ny + 1.0) / 2.0
+            // Pseudo-procedural micro-crater noise based on spherical coordinates
+            const microCrater = Math.sin(lat * 18 + lon * 14) * Math.cos(lat * 12 - lon * 16)
+            const craterPerturb = microCrater * 0.18
+
+            // 3D Directional Sunlight with Crater Rim highlights
+            const light = (-0.45 * nx + 0.8 * nz - 0.3 * ny + 1.0) / 2.0 + craterPerturb
             const clampedLight = Math.max(0, Math.min(1, light))
 
-            if (feature === '1') {
-              // Lunar Maria: darker basalt
-              const charIdx = Math.floor(clampedLight * 4)
-              line += ['.', ':', '-', '='][charIdx] || ':'
-            } else if (feature === '2') {
-              // Tycho crater high-albedo rays
-              line += '@'
+            if (feature === '2') {
+              // Bright impact crater rim (Tycho / Copernicus ejecta rays)
+              line += ['#', '%', '@', '*'][Math.floor(clampedLight * 3.99)]
+            } else if (feature === '3') {
+              // Deep crater central shadow/hollow
+              line += ['.', ':', '-'][Math.floor(clampedLight * 2.99)] || '.'
+            } else if (feature === '1') {
+              // Dark Basaltic Lunar Maria (Sea of Tranquility / Ocean of Storms)
+              const charIdx = Math.floor(clampedLight * 5)
+              line += ['.', ':', '-', '=', '+'][charIdx] || ':'
             } else {
-              // Highlands
+              // Rugged Highlands with dense crater topography
               const charIdx = Math.floor(clampedLight * (TERMINAL_RAMP.length - 1))
               line += TERMINAL_RAMP[charIdx] || '#'
             }
