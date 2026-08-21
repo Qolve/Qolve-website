@@ -189,19 +189,21 @@ const SECTION_STAR_LAYOUTS = {
 export default function AsciiStarfield({ variant = 'about', opacity = 0.85 }) {
   const stars = SECTION_STAR_LAYOUTS[variant] || SECTION_STAR_LAYOUTS.about
 
-  // Track global scroll velocity for hyper-speed warp effect
+  // Track global scroll velocity for authentic hyper-speed warp effect
   const { scrollY } = useScroll()
   const scrollVelocity = useVelocity(scrollY)
   const smoothVelocity = useSpring(scrollVelocity, {
-    stiffness: 220,
-    damping: 28,
-    mass: 0.25,
+    stiffness: 180,
+    damping: 25,
+    mass: 0.2,
   })
 
   // Hyperspace vertical shift: fast travel in direction of scroll
-  const warpY = useTransform(smoothVelocity, [-2500, 0, 2500], [220, 0, -220])
+  const warpY = useTransform(smoothVelocity, [-2200, 0, 2200], [300, 0, -300])
   // Hyperspace vertical streak: stretches stars vertically under high speed
-  const warpScaleY = useTransform(smoothVelocity, [-2500, 0, 2500], [3.2, 1, 3.2])
+  const warpScaleY = useTransform(smoothVelocity, [-2200, 0, 2200], [3.8, 1, 3.8])
+  // Optical narrowing along the perpendicular axis during warp stretch
+  const warpScaleX = useTransform(smoothVelocity, [-2200, 0, 2200], [0.82, 1, 0.82])
 
   return (
     <div
@@ -217,7 +219,7 @@ export default function AsciiStarfield({ variant = 'about', opacity = 0.85 }) {
     >
       {stars.map((item, idx) => {
         // Multi-depth 3D parallax warping factor
-        const depth = 0.7 + ((idx * 7) % 8) * 0.18
+        const depth = 0.75 + ((idx * 7) % 8) * 0.2
         const itemY = useTransform(warpY, (v) => v * depth)
 
         return (
@@ -237,6 +239,7 @@ export default function AsciiStarfield({ variant = 'about', opacity = 0.85 }) {
               whiteSpace: 'pre',
               y: itemY,
               scaleY: warpScaleY,
+              scaleX: warpScaleX,
               transformOrigin: 'center center',
             }}
           >

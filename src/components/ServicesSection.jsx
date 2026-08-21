@@ -45,14 +45,14 @@ export default function ServicesSection() {
     offset: ['start end', 'end start'],
   })
 
-  // Fast, responsive scroll-driven retraction: completely pulled off-screen before reaching adjacent pages
-  const rawMoonX = useTransform(scrollYProgress, [0.15, 0.4, 0.6, 0.85], [-440, 0, 0, -440])
-  const rawMoonY = useTransform(scrollYProgress, [0.15, 0.4, 0.6, 0.85], [-220, 0, 0, -220])
-  const rawMoonOpacity = useTransform(scrollYProgress, [0.15, 0.35, 0.65, 0.85], [0, 0.9, 0.9, 0])
+  // Silky scroll-driven retraction: 25% gentler velocity curve and wider viewing threshold
+  const rawMoonX = useTransform(scrollYProgress, [0.08, 0.32, 0.68, 0.92], [-380, 0, 0, -380])
+  const rawMoonY = useTransform(scrollYProgress, [0.08, 0.32, 0.68, 0.92], [-190, 0, 0, -190])
+  const rawMoonOpacity = useTransform(scrollYProgress, [0.08, 0.28, 0.72, 0.92], [0, 0.9, 0.9, 0])
 
-  const moonX = useSpring(rawMoonX, { stiffness: 170, damping: 26, mass: 0.4 })
-  const moonY = useSpring(rawMoonY, { stiffness: 170, damping: 26, mass: 0.4 })
-  const moonOpacity = useSpring(rawMoonOpacity, { stiffness: 170, damping: 26, mass: 0.4 })
+  const moonX = useSpring(rawMoonX, { stiffness: 105, damping: 24, mass: 0.55 })
+  const moonY = useSpring(rawMoonY, { stiffness: 105, damping: 24, mass: 0.55 })
+  const moonOpacity = useSpring(rawMoonOpacity, { stiffness: 105, damping: 24, mass: 0.55 })
 
   return (
     <section
