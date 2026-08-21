@@ -51,19 +51,19 @@ export default function ServicesSection() {
       {/* Authentic ASCII Terminal Starscape & Constellations */}
       <AsciiStarscape opacity={0.55} />
 
-      {/* Accurate ASCII Moon in the Top Left Corner */}
+      {/* Accurate ASCII Moon in the Top Left Corner (Original Ambient Corner Position) */}
       <div
         style={{
           position: 'absolute',
-          left: '2.5vw',
-          top: '2.5vh',
-          zIndex: 2,
+          left: '-8vw',
+          top: '-4vw',
+          zIndex: 1,
           pointerEvents: 'none',
           opacity: 0.9,
           userSelect: 'none',
         }}
       >
-        <AsciiMoon size={28} speed={0.003} />
+        <AsciiMoon size={36} speed={0.003} />
       </div>
 
       <div className="padding-global" style={{ position: 'relative', zIndex: 5, width: '100%' }}>

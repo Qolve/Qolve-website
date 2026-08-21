@@ -2,7 +2,6 @@ import { motion } from 'framer-motion'
 import SpotlightCard from './ui/SpotlightCard'
 import CountUpNumber from './ui/CountUpNumber'
 import AsciiEarth from './ui/AsciiEarth'
-import AsciiMoon from './ui/AsciiMoon'
 import AsciiStarscape from './ui/AsciiStarscape'
 
 const headingWords = [
@@ -39,21 +38,6 @@ export default function AboutSection() {
     >
       {/* Authentic ASCII Terminal Starscape & Constellations */}
       <AsciiStarscape opacity={0.6} />
-
-      {/* Accurate ASCII Moon in Top Left Corner */}
-      <div
-        style={{
-          position: 'absolute',
-          left: '2.5vw',
-          top: '2.5vh',
-          zIndex: 2,
-          pointerEvents: 'none',
-          opacity: 0.85,
-          userSelect: 'none',
-        }}
-      >
-        <AsciiMoon size={22} speed={0.003} />
-      </div>
 
       {/* Giant Ambient Background ASCII Earth - Black ASCII spinning on white background */}
       <div
