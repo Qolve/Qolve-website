@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 import SpotlightCard from './ui/SpotlightCard'
 import CountUpNumber from './ui/CountUpNumber'
 import AsciiEarth from './ui/AsciiEarth'
-import AsciiStarscape from './ui/AsciiStarscape'
+import AsciiStarfield from './ui/AsciiStarfield'
 
 const headingWords = [
   { text: 'A', opacity: 1 },
@@ -36,8 +36,8 @@ export default function AboutSection() {
         background: '#ffffff',
       }}
     >
-      {/* Authentic ASCII Terminal Starscape & Constellations */}
-      <AsciiStarscape opacity={0.6} />
+      {/* Static Curated ASCII Starfield & Constellations */}
+      <AsciiStarfield variant="about" opacity={0.75} />
 
       {/* Giant Ambient Background ASCII Earth - Black ASCII spinning on white background */}
       <div

@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
+import AsciiStarfield from './ui/AsciiStarfield'
 
 // Original card images from Aeline template
 const CAROUSEL_IMAGES = [
@@ -236,8 +237,9 @@ export default function HeroSection({ onNavigate }) {
         }}
       />
 
-      {/* Ambient background glow */}
+      {/* Ambient background glow & Static Curated ASCII Starfield */}
       <div className="ambient-hero-glow" />
+      <AsciiStarfield variant="hero" opacity={0.65} />
 
       {/* Hero text content - Tailored specifically for Qolve */}
       <div className="hero_wrap" style={{ position: 'relative', zIndex: 5 }}>

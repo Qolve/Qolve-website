@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { WordReveal } from './ui/TextReveal'
+import AsciiStarfield from './ui/AsciiStarfield'
 
 const QuoteIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
@@ -59,7 +60,8 @@ export default function TestimonialsSection() {
   }
 
   return (
-    <section className="section_testimonials" id="testimonials">
+    <section className="section_testimonials" id="testimonials" style={{ position: 'relative', overflow: 'hidden' }}>
+      <AsciiStarfield variant="testimonials" opacity={0.65} />
       <div className="padding-global">
         <div className="container-large">
           <div>

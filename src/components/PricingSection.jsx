@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import SpotlightCard from './ui/SpotlightCard'
 import { WordReveal } from './ui/TextReveal'
+import AsciiStarfield from './ui/AsciiStarfield'
 
 const CheckIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -80,7 +81,8 @@ export default function PricingSection() {
   const [isAnnual, setIsAnnual] = useState(false)
 
   return (
-    <section className="section_pricing" id="pricing">
+    <section className="section_pricing" id="pricing" style={{ position: 'relative', overflow: 'hidden' }}>
+      <AsciiStarfield variant="pricing" opacity={0.65} />
       <div className="padding-global">
         <div className="container-large">
           <div className="vertical-center">
