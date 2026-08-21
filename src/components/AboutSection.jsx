@@ -54,16 +54,15 @@ export default function AboutSection() {
       </div>
 
       <div className="padding-global" style={{ position: 'relative', zIndex: 5, width: '100%' }}>
-        <div className="container-large" style={{ marginLeft: 0, maxWidth: '100%' }}>
-          {/* Left-aligned Header & Tag */}
-          <div style={{ maxWidth: '44rem', textAlign: 'left' }}>
+        <div className="container-large">
+          <div className="vertical-center">
+            {/* Centered Tag */}
             <motion.div
-              initial={{ opacity: 0, x: -15 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4 }}
               className="tag"
-              style={{ alignSelf: 'flex-start' }}
             >
               <div className="dot-square" />
               <div>About Qolve</div>
@@ -71,6 +70,7 @@ export default function AboutSection() {
 
             <div className="spacer-small" />
 
+            {/* Centered Animated Heading */}
             <div className="max-width-medium is-41rem">
               <motion.div
                 initial="hidden"
@@ -84,7 +84,7 @@ export default function AboutSection() {
                   },
                 }}
                 className="title-wrap"
-                style={{ justifyContent: 'flex-start', textAlign: 'left' }}
+                style={{ justifyContent: 'center', textAlign: 'center' }}
               >
                 {headingWords.map((item, idx) => {
                   if (item.icon) {
@@ -127,13 +127,12 @@ export default function AboutSection() {
 
           <div className="spacer-medium" />
 
-          {/* Bento Cards pushed to the left, sitting over the glowing background Earth */}
+          {/* Bento Cards centered, layered above background Earth */}
           <div
             className="about_layout"
             style={{
-              maxWidth: '78%',
-              marginRight: 'auto',
-              marginLeft: '0',
+              width: '100%',
+              margin: '0 auto',
               position: 'relative',
               zIndex: 6,
             }}
