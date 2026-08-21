@@ -37,6 +37,8 @@ export default function Ascii3DStarfield({
 
     let buffer = Array.from({ length: rows }, () => new Array(cols).fill(' '))
 
+    const GLISTEN_RAMP = ['.', "'", '+', '*', '+', "'", '.']
+
     // Generate balanced, beautifully distributed stars across a grid
     const createDistributedStars = () => {
       const list = []
@@ -51,12 +53,19 @@ export default function Ascii3DStarfield({
           const v = (gy + 0.15 + Math.random() * 0.7) / gridY
           const depth = 0.6 + Math.random() * 1.4
           const char = CHARS[Math.floor(Math.random() * CHARS.length)]
+          const isGlistening = Math.random() < 0.35
+          const glistenSpeed = 1.2 + Math.random() * 2.2
+          const glistenPhase = Math.random() * Math.PI * 2
+
           list.push({
             baseU: u,
             baseV: v,
             currentV: v,
             char,
             depth,
+            isGlistening,
+            glistenSpeed,
+            glistenPhase,
           })
         }
       }
@@ -152,7 +161,15 @@ export default function Ascii3DStarfield({
 
         if (screenX >= 0 && screenX < cols && screenY >= 0 && screenY < rows) {
           if (!isExcluded(screenX, screenY)) {
-            buffer[screenY][screenX] = star.char
+            let renderChar = star.char
+            if (star.isGlistening && !isScrolling) {
+              const phase = (time * 0.001 * star.glistenSpeed + star.glistenPhase) % (Math.PI * 2)
+              const norm = (Math.sin(phase) + 1) / 2
+              const idx = Math.min(GLISTEN_RAMP.length - 1, Math.floor(norm * GLISTEN_RAMP.length))
+              renderChar = GLISTEN_RAMP[idx]
+            }
+
+            buffer[screenY][screenX] = renderChar
 
             // Vertical hyperspace speed line trails during scroll
             if (isScrolling) {
