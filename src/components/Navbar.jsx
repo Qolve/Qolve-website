@@ -21,7 +21,14 @@ export default function Navbar({ activePage, onNavigate }) {
     <nav
       className="navbar"
       style={{
-        background: scrolled ? 'rgba(15,15,15,0.97)' : 'rgba(15,15,15,0.85)',
+        position: 'sticky',
+        top: 0,
+        zIndex: 100,
+        background: scrolled ? 'rgba(15, 15, 15, 0.88)' : 'rgba(15, 15, 15, 0.7)',
+        backdropFilter: 'blur(16px)',
+        WebkitBackdropFilter: 'blur(16px)',
+        borderBottom: scrolled ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(255, 255, 255, 0.04)',
+        transition: 'all 0.3s ease',
       }}
     >
       <div className="padding-global is-navbar">
@@ -30,7 +37,18 @@ export default function Navbar({ activePage, onNavigate }) {
             {/* Logo - Qolve Company & Quelp Product */}
             <button
               onClick={() => navTo('home')}
-              style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', gap: '0.625rem' }}
+              style={{
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                padding: 0,
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.625rem',
+                transition: 'transform 0.2s ease',
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.02)')}
+              onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
             >
               <div style={{
                 width: '2.25rem',
@@ -42,7 +60,8 @@ export default function Navbar({ activePage, onNavigate }) {
                 justifyContent: 'center',
                 fontWeight: 800,
                 color: '#0f0f0f',
-                fontSize: '1.25rem'
+                fontSize: '1.25rem',
+                boxShadow: '0 0 16px rgba(214, 253, 112, 0.4)',
               }}>
                 Q
               </div>
@@ -59,46 +78,73 @@ export default function Navbar({ activePage, onNavigate }) {
             {/* Desktop nav links */}
             <div className="nav_wrap">
               <nav className="nav_mobile">
-                <div className="navbar_list">
+                <div className="navbar_list" style={{ background: 'rgba(255,255,255,0.04)', padding: '0.25rem 0.5rem', borderRadius: '9999px', border: '1px solid rgba(255,255,255,0.06)' }}>
                   <button
                     onClick={() => navTo('home')}
                     className="nav_links"
-                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: activePage === 'home' ? '#d6fd70' : '#ffffff' }}
+                    style={{
+                      background: activePage === 'home' ? 'rgba(214, 253, 112, 0.12)' : 'none',
+                      borderRadius: '9999px',
+                      padding: '0.35rem 0.85rem',
+                      border: activePage === 'home' ? '1px solid rgba(214, 253, 112, 0.3)' : 'none',
+                      cursor: 'pointer',
+                      color: activePage === 'home' ? '#d6fd70' : '#ffffff',
+                      fontWeight: activePage === 'home' ? 600 : 500,
+                      transition: 'all 0.2s ease',
+                    }}
                   >
                     Home
                   </button>
                   <button
                     onClick={() => navTo('products')}
                     className="nav_links"
-                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: activePage === 'products' ? '#d6fd70' : '#ffffff' }}
+                    style={{
+                      background: activePage === 'products' ? 'rgba(214, 253, 112, 0.12)' : 'none',
+                      borderRadius: '9999px',
+                      padding: '0.35rem 0.85rem',
+                      border: activePage === 'products' ? '1px solid rgba(214, 253, 112, 0.3)' : 'none',
+                      cursor: 'pointer',
+                      color: activePage === 'products' ? '#d6fd70' : '#ffffff',
+                      fontWeight: activePage === 'products' ? 600 : 500,
+                      transition: 'all 0.2s ease',
+                    }}
                   >
                     Quelp Platform
                   </button>
                   <button
                     onClick={() => navTo('home', 'roadmap')}
                     className="nav_links"
-                    style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0.35rem 0.85rem' }}
                   >
                     Architecture
                   </button>
                   <button
                     onClick={() => navTo('team')}
                     className="nav_links"
-                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: activePage === 'team' ? '#d6fd70' : '#ffffff' }}
+                    style={{
+                      background: activePage === 'team' ? 'rgba(214, 253, 112, 0.12)' : 'none',
+                      borderRadius: '9999px',
+                      padding: '0.35rem 0.85rem',
+                      border: activePage === 'team' ? '1px solid rgba(214, 253, 112, 0.3)' : 'none',
+                      cursor: 'pointer',
+                      color: activePage === 'team' ? '#d6fd70' : '#ffffff',
+                      fontWeight: activePage === 'team' ? 600 : 500,
+                      transition: 'all 0.2s ease',
+                    }}
                   >
                     Qolve Team
                   </button>
                   <button
                     onClick={() => navTo('home', 'about')}
                     className="nav_links"
-                    style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0.35rem 0.85rem' }}
                   >
                     About Qolve
                   </button>
                   <button
                     onClick={() => navTo('home', 'pricing')}
                     className="nav_links"
-                    style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0.35rem 0.85rem' }}
                   >
                     Pricing
                   </button>
@@ -112,7 +158,18 @@ export default function Navbar({ activePage, onNavigate }) {
                 <button
                   onClick={() => navTo('products')}
                   className="button"
-                  style={{ padding: '0.625rem 1.25rem', fontSize: '0.875rem', background: '#d6fd70', color: '#0f0f0f', border: 'none', borderRadius: '9999px', fontWeight: 600, cursor: 'pointer' }}
+                  style={{
+                    padding: '0.625rem 1.35rem',
+                    fontSize: '0.875rem',
+                    background: '#d6fd70',
+                    color: '#0f0f0f',
+                    border: 'none',
+                    borderRadius: '9999px',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                    boxShadow: '0 0 20px rgba(214, 253, 112, 0.3)',
+                    transition: 'all 0.2s ease',
+                  }}
                 >
                   <div className="text-button-wrap">
                     <div>Explore Quelp Platform</div>
@@ -176,4 +233,5 @@ export default function Navbar({ activePage, onNavigate }) {
     </nav>
   )
 }
+
 

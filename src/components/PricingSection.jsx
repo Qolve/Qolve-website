@@ -1,3 +1,8 @@
+import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import SpotlightCard from './ui/SpotlightCard'
+import { WordReveal } from './ui/TextReveal'
+
 const CheckIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
     <path d="M10.6 13.8L8.45 11.65C8.26667 11.4667 8.03333 11.375 7.75 11.375C7.46667 11.375 7.23334 11.4667 7.05 11.65C6.86667 11.8333 6.775 12.0667 6.775 12.35C6.775 12.6333 6.86667 12.8667 7.05 13.05L9.9 15.9C10.1 16.1 10.3333 16.2 10.6 16.2C10.8667 16.2 11.1 16.1 11.3 15.9L16.95 10.25C17.1333 10.0667 17.225 9.83333 17.225 9.55C17.225 9.26667 17.1333 9.03333 16.95 8.85C16.7667 8.66667 16.5333 8.575 16.25 8.575C15.9667 8.575 15.7333 8.66667 15.55 8.85L10.6 13.8ZM12 22C10.6167 22 9.31667 21.7373 8.1 21.212C6.88334 20.6867 5.825 19.9743 4.925 19.075C4.025 18.1757 3.31267 17.1173 2.788 15.9C2.26333 14.6827 2.00067 13.3827 2 12C1.99933 10.6173 2.262 9.31733 2.788 8.1C3.314 6.88267 4.02633 5.82433 4.925 4.925C5.82367 4.02567 6.882 3.31333 8.1 2.788C9.318 2.26267 10.618 2 12 2C13.382 2 14.682 2.26267 15.9 2.788C17.118 3.31333 18.1763 4.02567 19.075 4.925C19.9737 5.82433 20.6863 6.88267 21.213 8.1C21.7397 9.31733 22.002 10.6173 22 12C21.998 13.3827 21.7353 14.6827 21.212 15.9C20.6887 17.1173 19.9763 18.1757 19.075 19.075C18.1737 19.9743 17.1153 20.687 15.9 21.213C14.6847 21.739 13.3847 22.0013 12 22Z" fill="currentColor" />
@@ -13,7 +18,8 @@ const ArrowIcon = () => (
 const plans = [
   {
     name: 'Starter Plan',
-    price: '$49',
+    monthlyPrice: 49,
+    annualPrice: 39,
     description: 'Flat-rate customer support platform designed for small teams and early-stage startups.',
     iconBg: 'bg-green',
     isTop: false,
@@ -31,7 +37,8 @@ const plans = [
   },
   {
     name: 'Growth Plan',
-    price: '$149',
+    monthlyPrice: 149,
+    annualPrice: 119,
     description: 'Complete white-label support suite with custom domain and Permafix AI assistance.',
     iconBg: 'bg-black',
     isTop: true,
@@ -50,7 +57,8 @@ const plans = [
   },
   {
     name: 'Enterprise Tier',
-    price: '$399',
+    monthlyPrice: 399,
+    annualPrice: 319,
     description: 'Scalable multi-tenant setup with dedicated support scope, SLA rules, and custom webhooks.',
     iconBg: 'bg-green',
     isTop: false,
@@ -69,99 +77,222 @@ const plans = [
 ]
 
 export default function PricingSection() {
+  const [isAnnual, setIsAnnual] = useState(false)
+
   return (
     <section className="section_pricing" id="pricing">
       <div className="padding-section-medium" />
       <div className="padding-global">
         <div className="container-large">
           <div className="vertical-center">
-            <div className="tag" data-anim>
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="tag"
+            >
               <div className="dot-square" />
               <div>Transparent Qolve Pricing</div>
-            </div>
+            </motion.div>
 
             <div className="spacer-medium" />
 
-            <div className="max-width-medium">
-              <h2 className="text-align-center" data-anim>
+            <div className="max-width-medium text-align-center">
+              <WordReveal
+                className="text-align-center"
+                style={{ justifyContent: 'center' }}
+                as="h2"
+              >
                 Lower-cost, predictable pricing for growing businesses
-              </h2>
+              </WordReveal>
             </div>
 
             <div className="spacer-medium" />
 
-            <div className="max-width-medium">
-              <div className="text-base text-align-center text-color-secondary" data-anim>
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="max-width-medium"
+            >
+              <div className="text-base text-align-center text-color-secondary">
                 Replace expensive enterprise support software with a transparent flat-rate subscription and cost-effective AI token scaling.
               </div>
-            </div>
+            </motion.div>
 
             <div className="spacer-medium" />
 
-            <a href="#products" className="button-arrow is-black">
-              <div className="button-arrow_wrap">
-                <div className="button-arrow_text">
-                  <div className="text_button">Explore Platform</div>
-                </div>
-                <div className="button_container-arrow is-black">
-                  <div className="icon-1x1-main">
-                    <ArrowIcon />
-                  </div>
-                </div>
-              </div>
-            </a>
+            {/* Interactive Billing Toggle */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: 0.25 }}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                background: '#141414',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                padding: '0.35rem',
+                borderRadius: '9999px',
+                gap: '0.5rem',
+              }}
+            >
+              <button
+                onClick={() => setIsAnnual(false)}
+                style={{
+                  background: !isAnnual ? '#ffffff' : 'transparent',
+                  color: !isAnnual ? '#0f0f0f' : '#888888',
+                  border: 'none',
+                  borderRadius: '9999px',
+                  padding: '0.5rem 1.25rem',
+                  fontWeight: 600,
+                  fontSize: '0.875rem',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                }}
+              >
+                Monthly
+              </button>
+              <button
+                onClick={() => setIsAnnual(true)}
+                style={{
+                  background: isAnnual ? '#d6fd70' : 'transparent',
+                  color: isAnnual ? '#0f0f0f' : '#888888',
+                  border: 'none',
+                  borderRadius: '9999px',
+                  padding: '0.5rem 1.25rem',
+                  fontWeight: 600,
+                  fontSize: '0.875rem',
+                  cursor: 'pointer',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.4rem',
+                  transition: 'all 0.2s ease',
+                }}
+              >
+                <span>Annual</span>
+                <span
+                  style={{
+                    background: isAnnual ? '#0f0f0f' : 'rgba(214, 253, 112, 0.15)',
+                    color: isAnnual ? '#d6fd70' : '#d6fd70',
+                    fontSize: '0.7rem',
+                    padding: '0.15rem 0.45rem',
+                    borderRadius: '9999px',
+                    fontWeight: 700,
+                  }}
+                >
+                  Save 20%
+                </span>
+              </button>
+            </motion.div>
           </div>
 
           <div className="spacer-section-medium" />
 
-          <div className="pricing_cards" data-anim>
-            {plans.map((plan, i) => (
-              <div key={i} className={`pricing_card ${plan.isTop ? 'is-top' : ''}`}>
-                <div className="horizontal-left-center is-small">
-                  <div className={`container-icon ${plan.iconBg}`}>
-                    {plan.icon}
-                  </div>
-                  <div className="geistmono text-style-nowrap">{plan.name}</div>
-                </div>
-
-                <div className="text-base text-color-secondary">{plan.description}</div>
-
-                <div className="horizontal-left-center is-small">
-                  <div className="text-4xl">{plan.price}</div>
-                  <div className="text-base text-color-secondary">/month</div>
-                </div>
-
-                <div className="gap-xsmall">
-                  {plan.features.map((feat, j) => (
-                    <div key={j}>
-                      <div className="horizontal-left-center is-small">
-                        <div className="icon-1x1-medium">
-                          <CheckIcon />
-                        </div>
-                        <div className="text-color-secondary">{feat}</div>
-                      </div>
-                      {j < plan.features.length - 1 && <div className="spacer-medium" />}
-                    </div>
-                  ))}
-                </div>
-
-                <a
-                  href="#products"
-                  className="button"
-                  data-variant="bg-black"
-                  style={{
-                    width: '100%',
-                    justifyContent: 'center',
-                    background: plan.isTop ? '#d6fd70' : '#0f0f0f',
-                    color: plan.isTop ? '#0f0f0f' : '#ffffff',
-                  }}
+          {/* Pricing cards with Spotlight and price flip */}
+          <div className="pricing_cards">
+            {plans.map((plan, i) => {
+              const currentPrice = isAnnual ? plan.annualPrice : plan.monthlyPrice
+              return (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-30px' }}
+                  transition={{ duration: 0.5, delay: i * 0.12, ease: [0.16, 1, 0.3, 1] }}
                 >
-                  <div className="text-button-wrap">
-                    <div>Get Started</div>
-                  </div>
-                </a>
-              </div>
-            ))}
+                  <SpotlightCard
+                    className={`pricing_card ${plan.isTop ? 'is-top' : ''}`}
+                    spotlightColor={plan.isTop ? 'rgba(214, 253, 112, 0.2)' : 'rgba(0, 0, 0, 0.05)'}
+                    style={{ height: '100%' }}
+                  >
+                    <div className="horizontal-left-center is-small">
+                      <div className={`container-icon ${plan.iconBg}`}>
+                        {plan.icon}
+                      </div>
+                      <div className="geistmono text-style-nowrap" style={{ fontWeight: 700 }}>
+                        {plan.name}
+                      </div>
+                      {plan.isTop && (
+                        <span
+                          style={{
+                            marginLeft: 'auto',
+                            background: '#d6fd70',
+                            color: '#0f0f0f',
+                            fontSize: '0.7rem',
+                            fontWeight: 700,
+                            padding: '0.2rem 0.6rem',
+                            borderRadius: '9999px',
+                            textTransform: 'uppercase',
+                            letterSpacing: '0.05em',
+                          }}
+                        >
+                          Popular
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="text-base text-color-secondary">{plan.description}</div>
+
+                    <div className="horizontal-left-center is-small">
+                      <AnimatePresence mode="wait">
+                        <motion.div
+                          key={currentPrice}
+                          initial={{ opacity: 0, y: -10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: 10 }}
+                          transition={{ duration: 0.2 }}
+                          className="text-4xl"
+                          style={{ fontWeight: 800 }}
+                        >
+                          ${currentPrice}
+                        </motion.div>
+                      </AnimatePresence>
+                      <div className="text-base text-color-secondary">
+                        /month {isAnnual && <span style={{ fontSize: '0.75rem' }}>(billed annually)</span>}
+                      </div>
+                    </div>
+
+                    <div className="gap-xsmall" style={{ margin: '1rem 0' }}>
+                      {plan.features.map((feat, j) => (
+                        <div key={j}>
+                          <div className="horizontal-left-center is-small">
+                            <div className="icon-1x1-medium" style={{ color: plan.isTop ? '#d6fd70' : '#16a34a' }}>
+                              <CheckIcon />
+                            </div>
+                            <div className="text-color-secondary" style={{ fontSize: '0.9375rem' }}>
+                              {feat}
+                            </div>
+                          </div>
+                          {j < plan.features.length - 1 && <div className="spacer-medium" />}
+                        </div>
+                      ))}
+                    </div>
+
+                    <a
+                      href="#products"
+                      className="button"
+                      data-variant="bg-black"
+                      style={{
+                        width: '100%',
+                        justifyContent: 'center',
+                        background: plan.isTop ? '#d6fd70' : '#0f0f0f',
+                        color: plan.isTop ? '#0f0f0f' : '#ffffff',
+                        fontWeight: 700,
+                        boxShadow: plan.isTop ? '0 0 20px rgba(214, 253, 112, 0.3)' : 'none',
+                      }}
+                    >
+                      <div className="text-button-wrap">
+                        <div>Get Started with {plan.name.split(' ')[0]}</div>
+                      </div>
+                    </a>
+                  </SpotlightCard>
+                </motion.div>
+              )
+            })}
           </div>
         </div>
       </div>
@@ -169,4 +300,5 @@ export default function PricingSection() {
     </section>
   )
 }
+
 

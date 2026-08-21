@@ -1,16 +1,20 @@
+import { motion } from 'framer-motion'
+import { WordReveal } from './ui/TextReveal'
+import SpotlightCard from './ui/SpotlightCard'
+
 const blogPosts = [
   {
-    title: 'Turning Data into Strategy: The Power of Analytics',
+    title: 'Turning Support Data into Retention: The Power of Analytics',
     slug: 'turning-data-into-strategy',
     img: 'https://cdn.prod.website-files.com/6929c116366a14507fc84252/6961c58c9c176be6aada8c2f_blog-img-1_1x.webp',
   },
   {
-    title: '5 Ways AI Can Streamline Business Operations',
+    title: '5 Ways Grounded AI Deflects Support Tickets Safely',
     slug: '5-ways-ai-streamline',
     img: 'https://cdn.prod.website-files.com/6929c116366a14507fc84252/6961c6ca3c9b5f744a47a796_blog-img-2_1x.webp',
   },
   {
-    title: 'Human + Machine: Finding the Perfect Balance',
+    title: 'White-Label Helpdesk: Why Branding Your Support Matters',
     slug: 'human-machine-balance',
     img: 'https://cdn.prod.website-files.com/6929c116366a14507fc84252/6961c70052120388fb4e8c2a_blog-img-3_1x.webp',
   },
@@ -24,23 +28,41 @@ export default function BlogSection() {
         <div className="container-large">
           <div className="horizontal-bottom is-between">
             <div>
-              <div className="tag" data-anim>
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+                className="tag"
+              >
                 <div className="dot-square" />
-                <div>Blog and articles</div>
-              </div>
+                <div>Insights &amp; Articles</div>
+              </motion.div>
 
               <div className="spacer-medium" />
 
-              <h2 data-anim>Latest insights and trends</h2>
+              <WordReveal as="h2">Latest insights and trends</WordReveal>
 
               <div className="spacer-medium" />
 
-              <div className="text-color-secondary" data-anim>
-                Whether you're optimizing today or building for tomorrow we help you move faster with confidence.
-              </div>
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.15 }}
+                className="text-color-secondary"
+              >
+                Practical blueprints and engineering breakdowns from the Qolve platform team.
+              </motion.div>
             </div>
 
-            <div className="button_portrait" data-anim>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: 0.2 }}
+              className="button_portrait"
+            >
               <a
                 href="#blog"
                 className="button"
@@ -48,31 +70,42 @@ export default function BlogSection() {
                 style={{ background: '#0f0f0f', color: '#ffffff' }}
               >
                 <div className="text-button-wrap">
-                  <div>View All</div>
+                  <div>View All Insights</div>
                 </div>
               </a>
-            </div>
+            </motion.div>
           </div>
 
           <div className="spacer-section-medium" />
 
           <div className="blog_cards">
             {blogPosts.map((post, i) => (
-              <div key={i} data-anim>
-                <a href={`#${post.slug}`} className="blog_card">
-                  <img
-                    src={post.img}
-                    loading="lazy"
-                    alt=""
-                    className="img"
-                    style={{ width: '100%', height: '20rem', objectFit: 'cover' }}
-                  />
-                  <div className="blur-card" />
-                  <div className="blog_card-content">
-                    <h3 className="text-xl text-color-on-primary relative">{post.title}</h3>
-                  </div>
-                </a>
-              </div>
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-30px' }}
+                transition={{ duration: 0.5, delay: i * 0.12, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <SpotlightCard
+                  spotlightColor="rgba(214, 253, 112, 0.15)"
+                  style={{ borderRadius: '1.25rem' }}
+                >
+                  <a href={`#${post.slug}`} className="blog_card">
+                    <img
+                      src={post.img}
+                      loading="lazy"
+                      alt=""
+                      className="img"
+                      style={{ width: '100%', height: '20rem', objectFit: 'cover' }}
+                    />
+                    <div className="blur-card" />
+                    <div className="blog_card-content">
+                      <h3 className="text-xl text-color-on-primary relative">{post.title}</h3>
+                    </div>
+                  </a>
+                </SpotlightCard>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -81,3 +114,4 @@ export default function BlogSection() {
     </section>
   )
 }
+

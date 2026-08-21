@@ -1,3 +1,7 @@
+import { motion } from 'framer-motion'
+import SpotlightCard from './ui/SpotlightCard'
+import { WordReveal } from './ui/TextReveal'
+
 const PLATFORM_PILLARS = [
   {
     pillar: 'Pillar 1',
@@ -86,26 +90,42 @@ export default function RoadmapSection() {
         <div className="container-large">
           <div className="vertical-center">
             {/* Tag pill */}
-            <div className="tag" data-anim>
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="tag"
+            >
               <div className="dot-square" />
               <div>Platform Architecture</div>
-            </div>
+            </motion.div>
 
             <div className="spacer-large" />
 
-            <div className="max-width-medium is-41rem">
-              <h2 className="text-align-center" data-anim>
+            <div className="max-width-medium is-41rem text-align-center">
+              <WordReveal
+                className="text-align-center"
+                style={{ justifyContent: 'center' }}
+                as="h2"
+              >
                 Core Pillars of the Qolve Ecosystem
-              </h2>
+              </WordReveal>
             </div>
 
             <div className="spacer-large" />
 
-            <div className="max-width-medium">
-              <div className="text-base text-align-center text-color-secondary" data-anim>
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="max-width-medium"
+            >
+              <div className="text-base text-align-center text-color-secondary">
                 Engineered by Qolve to deliver enterprise-level helpdesk performance, white-label branding, and grounded AI support automation.
               </div>
-            </div>
+            </motion.div>
           </div>
 
           <div className="spacer-section-large" />
@@ -113,67 +133,79 @@ export default function RoadmapSection() {
           {/* Grid of Platform Pillars */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.5rem' }}>
             {PLATFORM_PILLARS.map((item, idx) => (
-              <div key={idx} className={item.cardBg} data-anim style={{ padding: '2rem', minHeight: '24rem' }}>
-                <div className="vertical-space-between" style={{ height: '100%' }}>
-                  <div>
-                    {/* Header Row */}
-                    <div style={{ marginBottom: '1rem' }}>
-                      <span
-                        className="geistmono"
-                        style={{
-                          fontSize: '0.75rem',
-                          fontWeight: 700,
-                          padding: '0.25rem 0.625rem',
-                          borderRadius: '9999px',
-                          background: item.cardBg.includes('bg-black') ? 'rgba(214,253,112,0.15)' : 'rgba(0,0,0,0.06)',
-                          color: item.cardBg.includes('bg-black') ? '#d6fd70' : '#0f0f0f',
-                        }}
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-30px' }}
+                transition={{ duration: 0.5, delay: idx * 0.08, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <SpotlightCard
+                  className={item.cardBg}
+                  spotlightColor={item.cardBg.includes('bg-black') ? 'rgba(214, 253, 112, 0.15)' : 'rgba(0, 0, 0, 0.05)'}
+                  style={{ padding: '2rem', minHeight: '24rem', height: '100%', borderRadius: '1.25rem' }}
+                >
+                  <div className="vertical-space-between" style={{ height: '100%' }}>
+                    <div>
+                      {/* Header Row */}
+                      <div style={{ marginBottom: '1rem' }}>
+                        <span
+                          className="geistmono"
+                          style={{
+                            fontSize: '0.75rem',
+                            fontWeight: 700,
+                            padding: '0.25rem 0.625rem',
+                            borderRadius: '9999px',
+                            background: item.cardBg.includes('bg-black') ? 'rgba(214,253,112,0.15)' : 'rgba(0,0,0,0.06)',
+                            color: item.cardBg.includes('bg-black') ? '#d6fd70' : '#0f0f0f',
+                          }}
+                        >
+                          {item.pillar}
+                        </span>
+                      </div>
+
+                      <h3
+                        className={`text-xl ${item.cardBg.includes('bg-black') ? 'text-color-on-primary' : 'text-color-primary'}`}
+                        style={{ fontSize: '1.375rem', fontWeight: 700 }}
                       >
-                        {item.pillar}
+                        {item.title}
+                      </h3>
+
+                      <div className="spacer-small" />
+
+                      <p
+                        className={`text-base ${item.cardBg.includes('bg-black') ? 'text-color-on-primary' : 'text-color-secondary'}`}
+                        style={{ fontSize: '0.875rem', lineHeight: 1.6, opacity: 0.9 }}
+                      >
+                        {item.description}
+                      </p>
+
+                      <div className="spacer-medium" />
+
+                      {/* Capabilities */}
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                        {item.capabilities.map((cap, cIdx) => (
+                          <div key={cIdx} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem' }}>
+                            <span style={{ color: item.cardBg.includes('bg-black') ? '#d6fd70' : '#0f0f0f', fontSize: '0.875rem', lineHeight: 1.4 }}>•</span>
+                            <span
+                              className={`text-base ${item.cardBg.includes('bg-black') ? 'text-color-on-primary' : 'text-color-secondary'}`}
+                              style={{ fontSize: '0.875rem', lineHeight: 1.5, opacity: 0.9 }}
+                            >
+                              {cap}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div style={{ marginTop: '1.5rem', paddingTop: '1rem', borderTop: item.cardBg.includes('bg-black') ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.08)' }}>
+                      <span className="geistmono" style={{ fontSize: '0.75rem', color: item.cardBg.includes('bg-black') ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.5)' }}>
+                        Qolve Architecture Spec
                       </span>
                     </div>
-
-                    <h3
-                      className={`text-xl ${item.cardBg.includes('bg-black') ? 'text-color-on-primary' : 'text-color-primary'}`}
-                      style={{ fontSize: '1.375rem', fontWeight: 700 }}
-                    >
-                      {item.title}
-                    </h3>
-
-                    <div className="spacer-small" />
-
-                    <p
-                      className={`text-base ${item.cardBg.includes('bg-black') ? 'text-color-on-primary' : 'text-color-secondary'}`}
-                      style={{ fontSize: '0.875rem', lineHeight: 1.6, opacity: 0.9 }}
-                    >
-                      {item.description}
-                    </p>
-
-                    <div className="spacer-medium" />
-
-                    {/* Capabilities */}
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                      {item.capabilities.map((cap, cIdx) => (
-                        <div key={cIdx} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem' }}>
-                          <span style={{ color: item.cardBg.includes('bg-black') ? '#d6fd70' : '#0f0f0f', fontSize: '0.875rem', lineHeight: 1.4 }}>•</span>
-                          <span
-                            className={`text-base ${item.cardBg.includes('bg-black') ? 'text-color-on-primary' : 'text-color-secondary'}`}
-                            style={{ fontSize: '0.875rem', lineHeight: 1.5, opacity: 0.9 }}
-                          >
-                            {cap}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
                   </div>
-
-                  <div style={{ marginTop: '1.5rem', paddingTop: '1rem', borderTop: item.cardBg.includes('bg-black') ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.08)' }}>
-                    <span className="geistmono" style={{ fontSize: '0.75rem', color: item.cardBg.includes('bg-black') ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.5)' }}>
-                      Qolve Architecture Spec
-                    </span>
-                  </div>
-                </div>
-              </div>
+                </SpotlightCard>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -181,5 +213,6 @@ export default function RoadmapSection() {
     </section>
   )
 }
+
 
 

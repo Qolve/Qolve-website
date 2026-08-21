@@ -194,9 +194,12 @@ function MerryGoRound() {
 }
 
 
+import { motion } from 'framer-motion'
+import RotatingWords from './ui/RotatingWords'
+
 export default function HeroSection({ onNavigate }) {
   return (
-    <section className="section_hero" id="home">
+    <section className="section_hero" id="home" style={{ position: 'relative', overflow: 'hidden' }}>
       {/* Original Aeline Blue Hero Background Image */}
       <img
         src="https://cdn.prod.website-files.com/6929c116366a14507fc8424d/6929d3408e9ff6a515b9eee8_ai-hero%20(1).avif"
@@ -218,54 +221,90 @@ export default function HeroSection({ onNavigate }) {
         }}
       />
 
+      {/* Ambient background glow */}
+      <div className="ambient-hero-glow" />
+
       {/* Hero text content - Tailored specifically for Qolve */}
-      <div className="hero_wrap">
+      <div className="hero_wrap" style={{ position: 'relative', zIndex: 5 }}>
         <div className="padding-global is-hero" style={{ width: '100%' }}>
           <div className="vertical-center">
-            {/* Startup Brand Pill */}
-            <div
+            {/* Startup Brand Pill with live pulse */}
+            <motion.div
+              initial={{ opacity: 0, y: -12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: 'easeOut' }}
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '0.5rem',
-                padding: '0.375rem 0.875rem',
+                gap: '0.625rem',
+                padding: '0.4rem 0.95rem',
                 borderRadius: '9999px',
                 background: 'rgba(214, 253, 112, 0.12)',
-                border: '1px solid rgba(214, 253, 112, 0.3)',
+                border: '1px solid rgba(214, 253, 112, 0.35)',
                 color: '#d6fd70',
                 fontSize: '0.8125rem',
                 fontWeight: 600,
                 marginBottom: '1.25rem',
+                backdropFilter: 'blur(8px)',
+                boxShadow: '0 0 20px rgba(214, 253, 112, 0.15)',
               }}
             >
-              <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#d6fd70' }} />
-              Welcome to Qolve
-            </div>
+              <span className="badge-pulse-dot" style={{ color: '#d6fd70' }}>
+                <span />
+              </span>
+              <span>Welcome to Qolve • White-Label Architecture</span>
+            </motion.div>
 
-            <h1 className="text-align-center">
+            {/* Dynamic Animated Heading */}
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.65, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="text-align-center"
+              style={{ maxWidth: '62rem', margin: '0 auto' }}
+            >
               Reinventing Customer Support with <br />
-              <span className="opacity-73">Qolve &amp; Intelligent Automation</span>
-            </h1>
+              <RotatingWords
+                words={[
+                  'Intelligent Automation',
+                  'White-Label Portals',
+                  'Zero-Loss Relays',
+                  'Unified Inboxes',
+                ]}
+              />
+            </motion.h1>
 
             <div className="spacer-medium" />
 
-            <div className="max-width-medium">
-              <div className="text-base text-color-on-primary text-align-center">
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.25, ease: 'easeOut' }}
+              className="max-width-medium"
+            >
+              <div className="text-base text-color-on-primary text-align-center" style={{ opacity: 0.9, lineHeight: 1.7 }}>
                 Quelp is a fully branded, lower-cost customer support platform for growing businesses. Unify email, chat, and knowledge base in one intelligent, seamlessly styled platform.
               </div>
-            </div>
+            </motion.div>
 
             <div className="spacer-huge" />
 
-            <div className="button_wrapper is-hero">
+            {/* Action buttons */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, delay: 0.35, ease: 'easeOut' }}
+              className="button_wrapper is-hero"
+            >
               <button
                 onClick={() => onNavigate && onNavigate('products')}
                 className="button"
                 style={{
-                  background: 'transparent',
+                  background: 'rgba(255,255,255,0.06)',
                   color: '#fff',
-                  border: '1.5px solid rgba(255,255,255,0.35)',
-                  padding: '0.75rem 1.5rem',
+                  border: '1.5px solid rgba(255,255,255,0.25)',
+                  backdropFilter: 'blur(10px)',
+                  padding: '0.75rem 1.6rem',
                   borderRadius: '9999px',
                   fontWeight: 600,
                   fontSize: '0.9375rem',
@@ -273,7 +312,7 @@ export default function HeroSection({ onNavigate }) {
                   alignItems: 'center',
                   gap: '0.5rem',
                   cursor: 'pointer',
-                  transition: 'all 0.2s',
+                  transition: 'all 0.25s ease',
                 }}
               >
                 <div className="text-button-wrap">
@@ -294,7 +333,18 @@ export default function HeroSection({ onNavigate }) {
                   </div>
                   <div
                     className="button_container-arrow"
-                    style={{ width: '2.75rem', height: '2.75rem', borderRadius: '50%', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#0f0f0f', flexShrink: 0 }}
+                    style={{
+                      width: '2.75rem',
+                      height: '2.75rem',
+                      borderRadius: '50%',
+                      background: '#d6fd70',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: '#0f0f0f',
+                      flexShrink: 0,
+                      boxShadow: '0 0 20px rgba(214, 253, 112, 0.4)',
+                    }}
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                       <path d="M13.0457 8.13128L5.8733 15.3037L4.69479 14.1252L11.8672 6.95277L5.54568 6.95277L5.54568 5.28636H14.7121V14.4528L13.0457 14.4528V8.13128Z" fill="currentColor" />
@@ -303,7 +353,7 @@ export default function HeroSection({ onNavigate }) {
                   <div className="button-arrow_bg" />
                 </div>
               </a>
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>
@@ -312,26 +362,49 @@ export default function HeroSection({ onNavigate }) {
       <div style={{ height: '1.5rem' }} />
 
       {/* Interactive 3D Merry-Go-Round */}
-      <MerryGoRound />
+      <div style={{ position: 'relative', zIndex: 5 }}>
+        <MerryGoRound />
+      </div>
 
       <div className="_3d_spacer" />
 
-      {/* Rating badge */}
-      <div className="rating" style={{ position: 'relative', bottom: 'auto', marginBottom: '2rem', transform: 'none', left: 'auto', zIndex: 10 }}>
-        <div className="text-color-on-primary" style={{ fontSize: '0.875rem' }}>
-          Rated 4.9/5 by 4.900+ clients
+      {/* Rating badge with glow */}
+      <motion.div
+        initial={{ opacity: 0, y: 15 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+        className="rating"
+        style={{
+          position: 'relative',
+          bottom: 'auto',
+          marginBottom: '2rem',
+          transform: 'none',
+          left: 'auto',
+          zIndex: 10,
+          background: 'rgba(20, 20, 20, 0.75)',
+          border: '1px solid rgba(255, 255, 255, 0.1)',
+          backdropFilter: 'blur(12px)',
+          borderRadius: '9999px',
+          padding: '0.625rem 1.5rem',
+          boxShadow: '0 8px 24px rgba(0, 0, 0, 0.4)',
+        }}
+      >
+        <div className="text-color-on-primary" style={{ fontSize: '0.875rem', fontWeight: 500 }}>
+          Rated <span style={{ color: '#d6fd70', fontWeight: 700 }}>4.9/5</span> by 4,900+ clients
         </div>
         <div className="spacer-xsmall" />
         <div className="stars-wrap">
           {[...Array(5)].map((_, i) => (
-            <div key={i} className="icon-1x1-small">
+            <div key={i} className="icon-1x1-small" style={{ filter: 'drop-shadow(0 0 4px rgba(241, 238, 70, 0.5))' }}>
               <svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 16 16" fill="none">
                 <path d="M3.88203 13.9987L4.96536 9.31536L1.33203 6.16536L6.13203 5.7487L7.9987 1.33203L9.86536 5.7487L14.6654 6.16536L11.032 9.31536L12.1154 13.9987L7.9987 11.5154L3.88203 13.9987Z" fill="#F1EE46" />
               </svg>
             </div>
           ))}
         </div>
-      </div>
+      </motion.div>
     </section>
   )
 }
+

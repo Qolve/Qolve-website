@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { motion } from 'framer-motion'
+import { WordReveal } from './ui/TextReveal'
 
 const QuoteIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
@@ -27,19 +29,19 @@ const testimonials = [
   },
   {
     quote: '"Their insight resolved difficult hurdles, opening new paths and creating highly effective strategies."',
-    author: '- John Doe Tech Innovations',
+    author: '- Sarah Chen SaaS Scale',
     img: 'https://cdn.prod.website-files.com/6929c116366a14507fc8424d/692dca1eaa619febe5b5dbbe_testimonials-img-2.avif',
     logo: 'https://cdn.prod.website-files.com/6929c116366a14507fc8424d/699cbd0853b0828f2ba09cf4_logo-testimonials-3.svg',
   },
   {
     quote: '"We found focus for tricky requirements, cutting through noise and providing truly advanced responses."',
-    author: '- John Doe Tech Innovations',
+    author: '- Alex Rivera Enterprise Cloud',
     img: 'https://cdn.prod.website-files.com/6929c116366a14507fc8424d/692dca1ec7c3cf972adaf7d0_testimonials-img-3.avif',
     logo: 'https://cdn.prod.website-files.com/6929c116366a14507fc8424d/699cbd08a824b982dbb8e14f_logo-testimonials-1.svg',
   },
   {
     quote: '"They gave simple paths to hard puzzles, removing all delays while building fresh, brilliant projects."',
-    author: '- John Doe Tech Innovations',
+    author: '- Marcus Vance Data Logistics',
     img: 'https://cdn.prod.website-files.com/6929c116366a14507fc8424d/692dca1ef44243d100a616ae_testimonials-img-4.avif',
     logo: 'https://cdn.prod.website-files.com/6929c116366a14507fc8424d/692a148227a37705feded0ce_ipsum-logo.svg',
   },
@@ -62,28 +64,40 @@ export default function TestimonialsSection() {
       <div className="padding-global">
         <div className="container-large">
           <div>
-            <div className="tag" data-anim>
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="tag"
+            >
               <div className="dot-square" />
               <div>Testimonials</div>
-            </div>
+            </motion.div>
 
             <div className="spacer-medium" />
 
-            <h2 data-anim>What they say about us?</h2>
+            <WordReveal as="h2">What partners say about us</WordReveal>
 
             <div className="spacer-medium" />
 
             <div className="testi_wrap">
-              <div className="text-color-secondary" data-anim>
-                Here's what they shared about their experience working with our team.
-              </div>
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.15 }}
+                className="text-color-secondary"
+              >
+                Here's what product leaders share about their experience working with our team.
+              </motion.div>
 
               <div className="arrows_wrap is-testimonals">
                 <button
                   className="arrow_container slide_prev"
                   onClick={slidePrev}
                   disabled={currentIndex === 0}
-                  style={{ opacity: currentIndex === 0 ? 0.4 : 1 }}
+                  style={{ opacity: currentIndex === 0 ? 0.4 : 1, cursor: currentIndex === 0 ? 'not-allowed' : 'pointer' }}
                 >
                   <div className="icon-1x1-medium">
                     <PrevIcon />
@@ -93,7 +107,7 @@ export default function TestimonialsSection() {
                   className="arrow_container slide_next"
                   onClick={slideNext}
                   disabled={currentIndex >= testimonials.length - 3}
-                  style={{ opacity: currentIndex >= testimonials.length - 3 ? 0.4 : 1 }}
+                  style={{ opacity: currentIndex >= testimonials.length - 3 ? 0.4 : 1, cursor: currentIndex >= testimonials.length - 3 ? 'not-allowed' : 'pointer' }}
                 >
                   <div className="icon-1x1-medium">
                     <NextIcon />
@@ -111,10 +125,11 @@ export default function TestimonialsSection() {
               className="testimonials_cards"
               style={{
                 transform: `translateX(calc(-${currentIndex * (100 / 3)}% - ${currentIndex * 0.5}rem))`,
+                transition: 'transform 0.45s cubic-bezier(0.16, 1, 0.3, 1)',
               }}
             >
               {testimonials.map((t, i) => (
-                <div key={i} className="testimonials_card">
+                <div key={i} className="testimonials_card" style={{ transition: 'transform 0.3s ease' }}>
                   <img
                     src={t.img}
                     loading="lazy"
@@ -131,14 +146,14 @@ export default function TestimonialsSection() {
                   {/* Content */}
                   <div className="testimonial_card-container">
                     <div className="relative text-color-on-primary">
-                      <div className="icon-1x1-large">
+                      <div className="icon-1x1-large" style={{ color: '#d6fd70' }}>
                         <QuoteIcon />
                       </div>
-                      <div className="text-lg" style={{ display: '-webkit-box', overflow: 'hidden', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical' }}>
+                      <div className="text-lg" style={{ display: '-webkit-box', overflow: 'hidden', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', lineHeight: 1.5 }}>
                         {t.quote}
                       </div>
                       <div className="spacer-large" />
-                      <div className="text-align-right">{t.author}</div>
+                      <div className="text-align-right" style={{ fontWeight: 600, color: '#d6fd70' }}>{t.author}</div>
                     </div>
                   </div>
                 </div>
@@ -175,3 +190,4 @@ export default function TestimonialsSection() {
     </section>
   )
 }
+

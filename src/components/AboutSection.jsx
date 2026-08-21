@@ -1,125 +1,114 @@
-import { useEffect, useRef } from 'react'
+import { motion } from 'framer-motion'
+import SpotlightCard from './ui/SpotlightCard'
+import CountUpNumber from './ui/CountUpNumber'
 
-// Animated number counter hook
-function useCountUp(end, duration = 2000, trigger) {
-  const ref = useRef(null)
-  const hasRun = useRef(false)
-
-  useEffect(() => {
-    if (!trigger || hasRun.current) return
-    hasRun.current = true
-    const el = ref.current
-    if (!el) return
-    const start = 0
-    const startTime = performance.now()
-    const step = (currentTime) => {
-      const elapsed = currentTime - startTime
-      const progress = Math.min(elapsed / duration, 1)
-      const easeOut = 1 - Math.pow(1 - progress, 3)
-      el.textContent = Math.floor(easeOut * end).toLocaleString()
-      if (progress < 1) requestAnimationFrame(step)
-    }
-    requestAnimationFrame(step)
-  }, [trigger, end, duration])
-
-  return ref
-}
-
-function StatCard({ children, className = '' }) {
-  return (
-    <div className={`card_about ${className}`} data-anim="true">
-      {children}
-    </div>
-  )
-}
+const headingWords = [
+  { text: 'A', opacity: 1 },
+  { text: 'global', opacity: 1 },
+  { text: 'product', opacity: 1 },
+  { text: 'lab', opacity: 1 },
+  { text: 'dedicated', opacity: 1 },
+  { text: 'to', opacity: 1 },
+  { text: 'building', opacity: 1 },
+  {
+    icon: 'https://cdn.prod.website-files.com/6929c116366a14507fc8424d/69a8b414d6ce72030aa90514_icon1.svg',
+  },
+  { text: 'smarter', opacity: 1, highlight: true },
+  { text: 'and', opacity: 0.5 },
+  {
+    icon: 'https://cdn.prod.website-files.com/6929c116366a14507fc8424d/69a8b414217a32d2ca851e82_icon2.svg',
+  },
+  { text: 'more', opacity: 0.5 },
+  { text: 'adaptive', opacity: 0.5 },
+  { text: 'software.', opacity: 1, highlight: true },
+]
 
 export default function AboutSection() {
-  const sectionRef = useRef(null)
-  const triggered = useRef(false)
-
-  // We'll use vanilla JS for count animation on scroll
-  useEffect(() => {
-    const counters = sectionRef.current?.querySelectorAll('[data-count]')
-    if (!counters?.length) return
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && !triggered.current) {
-            triggered.current = true
-            counters.forEach((el) => {
-              const end = parseInt(el.dataset.count)
-              const duration = parseInt(el.dataset.duration || 2000)
-              const startTime = performance.now()
-              const step = (currentTime) => {
-                const elapsed = currentTime - startTime
-                const progress = Math.min(elapsed / duration, 1)
-                const easeOut = 1 - Math.pow(1 - progress, 3)
-                el.textContent = Math.floor(easeOut * end).toLocaleString()
-                if (progress < 1) requestAnimationFrame(step)
-              }
-              requestAnimationFrame(step)
-            })
-          }
-        })
-      },
-      { threshold: 0.3 }
-    )
-
-    if (sectionRef.current) observer.observe(sectionRef.current)
-    return () => observer.disconnect()
-  }, [])
-
   return (
-    <section className="section_about" id="about" ref={sectionRef}>
+    <section className="section_about" id="about">
       <div className="padding-section-large" />
       <div className="padding-global">
         <div className="container-large">
           <div className="vertical-center">
             {/* Tag */}
-            <div className="tag" data-anim>
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="tag"
+            >
               <div className="dot-square" />
-              <div>About us</div>
-            </div>
+              <div>About Qolve</div>
+            </motion.div>
 
             <div className="spacer-large" />
 
-            {/* Animated heading */}
+            {/* Animated heading with staggered word reveal on scroll */}
             <div className="max-width-medium is-41rem">
-              <div className="title-wrap" data-anim>
-                <h2>A</h2>
-                <h2>global</h2>
-                <h2>consulting</h2>
-                <h2>partner</h2>
-                <h2>dedicated</h2>
-                <h2>to</h2>
-                <h2>building</h2>
-                <img
-                  src="https://cdn.prod.website-files.com/6929c116366a14507fc8424d/69a8b414d6ce72030aa90514_icon1.svg"
-                  loading="lazy"
-                  alt=""
-                  className="title-icon"
-                />
-                <h2>smarter</h2>
-                <h2 style={{ opacity: 0.5 }}>and</h2>
-                <img
-                  src="https://cdn.prod.website-files.com/6929c116366a14507fc8424d/69a8b414217a32d2ca851e82_icon2.svg"
-                  loading="lazy"
-                  alt=""
-                  className="title-icon"
-                />
-                <h2 style={{ opacity: 0.5 }}>more</h2>
-                <h2 style={{ opacity: 0.5 }}>adaptive</h2>
-              </div>
+              <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: '-40px' }}
+                variants={{
+                  hidden: { opacity: 0 },
+                  visible: {
+                    opacity: 1,
+                    transition: { staggerChildren: 0.05, delayChildren: 0.1 },
+                  },
+                }}
+                className="title-wrap"
+                style={{ justifyContent: 'center' }}
+              >
+                {headingWords.map((item, idx) => {
+                  if (item.icon) {
+                    return (
+                      <motion.img
+                        key={idx}
+                        variants={{
+                          hidden: { opacity: 0, scale: 0.5, rotate: -20 },
+                          visible: { opacity: 1, scale: 1, rotate: 0, transition: { duration: 0.4 } },
+                        }}
+                        src={item.icon}
+                        loading="lazy"
+                        alt=""
+                        className="title-icon"
+                      />
+                    )
+                  }
+                  return (
+                    <motion.h2
+                      key={idx}
+                      variants={{
+                        hidden: { opacity: 0, y: 16, filter: 'blur(4px)' },
+                        visible: {
+                          opacity: item.opacity,
+                          y: 0,
+                          filter: 'blur(0px)',
+                          transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1] },
+                        },
+                      }}
+                      className={item.highlight ? 'text-shimmer-lime' : ''}
+                      style={{ opacity: item.opacity, display: 'inline-block' }}
+                    >
+                      {item.text}
+                    </motion.h2>
+                  )
+                })}
+              </motion.div>
             </div>
           </div>
 
           <div className="spacer-section-large" />
 
-          {/* Bento Cards */}
+          {/* Bento Cards with Spotlight Effect & CountUp */}
           <div className="about_layout">
             {/* Card 1 - Large with photo */}
-            <div className="card_about" data-anim style={{ gridColumn: 'span 1' }}>
+            <SpotlightCard
+              className="card_about"
+              style={{ gridColumn: 'span 1' }}
+              spotlightColor="rgba(214, 253, 112, 0.15)"
+            >
               <img
                 src="https://cdn.prod.website-files.com/6929c116366a14507fc8424d/693671b05ed33655d4b7ce17_card-about-img.avif"
                 loading="lazy"
@@ -127,7 +116,7 @@ export default function AboutSection() {
                 className="img"
                 style={{ width: '100%', height: '10rem', objectFit: 'cover', borderRadius: '0.75rem' }}
               />
-              <div className="vertical-space-between">
+              <div className="vertical-space-between" style={{ marginTop: '1.25rem' }}>
                 <div className="card_1-top">
                   <img
                     src="https://cdn.prod.website-files.com/6929c116366a14507fc8424d/692a148227a37705feded0ce_ipsum-logo.svg"
@@ -143,26 +132,31 @@ export default function AboutSection() {
                 </div>
                 <div className="about_card-float">
                   <div className="text-wrap">
-                    <div className="text-5xl" data-count="120" data-duration="2100">0</div>
-                    <div className="text-5xl">+</div>
+                    <div className="text-5xl" style={{ fontWeight: 800 }}>
+                      <CountUpNumber value={120} duration={2} suffix="+" />
+                    </div>
                   </div>
                   <div className="spacer-small" />
                   <div className="text-weight-medium">Collaborating with leading AI and cloud technology providers.</div>
                 </div>
               </div>
-            </div>
+            </SpotlightCard>
 
             {/* Card 2 - Subtle bg with testimonial */}
-            <div className="card_about bg-subtle" data-anim>
+            <SpotlightCard
+              className="card_about bg-subtle"
+              spotlightColor="rgba(0, 0, 0, 0.04)"
+            >
               <div>
-                <div className="text-weight-medium">Commitment to measurable</div>
+                <div className="text-weight-medium">Commitment to measurable impact</div>
                 <div className="spacer-small" />
                 <div className="text-wrap">
-                  <div className="text-4xl" data-count="100" data-duration="2000">0</div>
-                  <div className="text-4xl">%</div>
+                  <div className="text-4xl" style={{ fontWeight: 800 }}>
+                    <CountUpNumber value={100} duration={1.8} suffix="%" />
+                  </div>
                 </div>
               </div>
-              <div>
+              <div style={{ marginTop: '1.5rem' }}>
                 <div className="avatars-wrap">
                   {[
                     'https://cdn.prod.website-files.com/6929c116366a14507fc8424d/6998d6e4c804dbf540688e23_users-1.avif',
@@ -176,39 +170,51 @@ export default function AboutSection() {
                   ))}
                 </div>
                 <div className="spacer-small" />
-                <div className="text-base text-weight-medium">
-                  "Their automation strategy completely reshaped how we work. It's efficient, intelligent, and seamless."
+                <div className="text-base text-weight-medium" style={{ fontStyle: 'italic', opacity: 0.85 }}>
+                  "Their automation strategy completely reshaped how we handle customer support. It's efficient, intelligent, and seamless."
                 </div>
               </div>
-            </div>
+            </SpotlightCard>
 
             {/* Card 3 - Green bg with data points */}
-            <div className="card_about bg-green" data-anim>
-              <div className="vertical-space-between">
+            <SpotlightCard
+              className="card_about bg-green"
+              spotlightColor="rgba(255, 255, 255, 0.3)"
+            >
+              <div className="vertical-space-between" style={{ height: '100%' }}>
                 <div>
-                  <div className="text-weight-medium">Data Points</div>
+                  <div className="text-weight-medium">Support Data Points</div>
                   <div className="spacer-small" />
                   <div className="text-wrap">
-                    <div className="text-4xl" data-count="520" data-duration="3000">0</div>
-                    <div className="text-4xl">k+</div>
+                    <div className="text-4xl" style={{ fontWeight: 800 }}>
+                      <CountUpNumber value={520} duration={2.2} suffix="k+" />
+                    </div>
                   </div>
                 </div>
-                <div className="text-base text-weight-medium">
-                  Analyzed monthly to power smarter business strategies.
+                <div className="text-base text-weight-medium" style={{ marginTop: '1.5rem' }}>
+                  Processed monthly to power smarter business resolutions.
                 </div>
               </div>
-            </div>
+            </SpotlightCard>
 
             {/* Card 4 - Black bg */}
-            <div className="card_about bg-black" data-anim>
+            <SpotlightCard
+              className="card_about bg-black"
+              spotlightColor="rgba(214, 253, 112, 0.18)"
+            >
               <div className="card_4-content">
-                <div className="text-weight-medium text-color-on-primary">Continents</div>
+                <div className="text-weight-medium text-color-on-primary">Active Regions</div>
                 <div className="text-wrap text-color-on-primary">
-                  <div className="text-4xl" data-count="20" data-duration="2000">0</div>
-                  <div className="text-4xl">+</div>
+                  <div className="text-4xl text-color-green" style={{ fontWeight: 800 }}>
+                    <CountUpNumber value={20} duration={1.5} suffix="+" />
+                  </div>
+                </div>
+                <div className="spacer-xsmall" />
+                <div className="geistmono text-sm" style={{ color: 'rgba(255,255,255,0.6)' }}>
+                  Global AWS &amp; Cloud edge distribution
                 </div>
               </div>
-            </div>
+            </SpotlightCard>
           </div>
         </div>
       </div>
@@ -216,3 +222,4 @@ export default function AboutSection() {
     </section>
   )
 }
+

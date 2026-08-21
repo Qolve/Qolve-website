@@ -12,6 +12,7 @@ import CtaSection from './components/CtaSection'
 import Footer from './components/Footer'
 import TeamPage from './components/TeamPage'
 import ProductsPage from './components/ProductsPage'
+import ScrollProgress from './components/ui/ScrollProgress'
 
 function App() {
   const [activePage, setActivePage] = useState('home')
@@ -49,6 +50,7 @@ function App() {
 
   return (
     <div className="page-wrapper">
+      <ScrollProgress />
       <Navbar activePage={activePage} onNavigate={handleNavigate} />
       <main className="main-wrapper">
         {activePage === 'home' && (
