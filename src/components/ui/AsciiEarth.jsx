@@ -41,7 +41,7 @@ const WORLD_MAP = [
   "111111111111111111111111111111111111111111111111111111111111111111111111"  // 85°S - South Pole
 ]
 
-export default function AsciiEarth({ size = 44, speed = 0.005, color = '#d6fd70' }) {
+export default function AsciiEarth({ size = 44, speed = 0.005, color = '#000000' }) {
   const [asciiFrame, setAsciiFrame] = useState('')
   const angleRef = useRef(0)
   const reqRef = useRef(null)
@@ -77,21 +77,17 @@ export default function AsciiEarth({ size = 44, speed = 0.005, color = '#d6fd70'
             const nz = Math.sqrt(Math.max(0, 1.0 - distSq))
 
             // Apply Earth's 23.5° axial tilt then Y-axis planetary spin
-            // 1. Tilt around Z
             const tx = nx * cosTilt - ny * sinTilt
             const ty = nx * sinTilt + ny * cosTilt
             const tz = nz
 
-            // 2. Rotate around tilted planetary axis (spin)
             const rx = tx * cosT + tz * sinT
             const ry = ty
             const rz = -tx * sinT + tz * cosT
 
-            // Calculate precise latitude [-π/2, π/2] and longitude [-π, π]
             const lat = Math.asin(Math.max(-1, Math.min(1, ry)))
             const lon = Math.atan2(rx, rz)
 
-            // Convert to 1:1 Equirectangular texture map UV coordinates
             const u = (lon + Math.PI) / (2 * Math.PI)
             const v = (Math.PI / 2 - lat) / Math.PI
 
@@ -100,7 +96,6 @@ export default function AsciiEarth({ size = 44, speed = 0.005, color = '#d6fd70'
 
             const isLand = WORLD_MAP[mapY]?.[mapX] === '1'
 
-            // Directional sun illumination from top-left front
             const light = (-0.35 * nx + 0.85 * nz - 0.3 * ny + 1.0) / 2.0
             const clampedLight = Math.max(0, Math.min(1, light))
 
@@ -108,7 +103,6 @@ export default function AsciiEarth({ size = 44, speed = 0.005, color = '#d6fd70'
               const charIdx = Math.floor(clampedLight * (landChars.length - 1))
               line += landChars[charIdx] || '#'
             } else {
-              // Ocean with subtle atmospheric graticule lines
               const isGrid = Math.abs(lat) % (Math.PI / 6) < 0.05 || Math.abs(lon) % (Math.PI / 3) < 0.05
               if (isGrid && clampedLight > 0.3) {
                 line += '+'
@@ -137,44 +131,23 @@ export default function AsciiEarth({ size = 44, speed = 0.005, color = '#d6fd70'
   }, [size, speed])
 
   return (
-    <div
+    <pre
       style={{
-        position: 'relative',
-        display: 'inline-block',
+        margin: 0,
+        fontFamily: 'Courier, "Courier New", monospace',
+        fontSize: '0.92rem',
+        lineHeight: '0.90rem',
+        fontWeight: 700,
+        color: color,
+        letterSpacing: '0.035em',
+        userSelect: 'none',
+        pointerEvents: 'none',
+        textShadow: 'none',
+        whiteSpace: 'pre',
+        display: 'block',
       }}
     >
-      {/* Tightened ambient contrast aura hugging the sphere */}
-      <div
-        style={{
-          position: 'absolute',
-          inset: '3%',
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(15, 15, 15, 0.8) 0%, rgba(15, 15, 15, 0.4) 40%, rgba(15, 15, 15, 0) 58%)',
-          filter: 'blur(8px)',
-          zIndex: 0,
-          pointerEvents: 'none',
-        }}
-      />
-      <pre
-        style={{
-          position: 'relative',
-          zIndex: 1,
-          margin: 0,
-          fontFamily: 'Courier, "Courier New", monospace',
-          fontSize: '0.92rem',
-          lineHeight: '0.90rem',
-          fontWeight: 900,
-          color: color,
-          letterSpacing: '0.035em',
-          userSelect: 'none',
-          pointerEvents: 'none',
-          textShadow: '0 0 5px rgba(214, 253, 112, 0.6), 0 1px 1.5px rgba(0,0,0,0.7)',
-          whiteSpace: 'pre',
-          display: 'block',
-        }}
-      >
-        {asciiFrame}
-      </pre>
-    </div>
+      {asciiFrame}
+    </pre>
   )
 }
