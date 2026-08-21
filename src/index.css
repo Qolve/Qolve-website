@@ -204,33 +204,44 @@ p, .text-base {
 .spacer-section-medium { height: 1.5rem; }
 .spacer-section-large { height: 2rem; }
 
-/* Viewport screen-fitting for fixed snap sections */
+/* Viewport screen-fitting for individual fullpage scroll sections */
 .section_hero,
 .section_about,
 .section_services,
+.section_capabilities,
 .section_expertise,
 .section_pricing,
 .section_testimonials,
 .section_blog,
 .section_cta {
+  height: 100vh;
   min-height: 100vh;
+  max-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 2rem 0;
+  align-items: center;
+  padding: 1.5rem 0;
   box-sizing: border-box;
+  overflow: hidden;
+  position: relative;
 }
 
-@media (max-height: 800px) {
+@media (max-width: 991px) {
   .section_hero,
   .section_about,
   .section_services,
+  .section_capabilities,
   .section_expertise,
   .section_pricing,
   .section_testimonials,
   .section_blog,
   .section_cta {
-    padding: 1.25rem 0;
+    height: auto !important;
+    min-height: 100vh !important;
+    max-height: none !important;
+    overflow: visible !important;
+    padding: 4rem 0 !important;
   }
 }
 

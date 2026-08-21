@@ -59,7 +59,6 @@ function App() {
           {activePage === 'home' && (
             <>
               <HeroSection onNavigate={handleNavigate} />
-              <LogoLoop />
               <AboutSection />
               <ServicesSection />
               <StickyScrollLock />
