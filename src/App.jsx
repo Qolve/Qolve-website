@@ -16,8 +16,21 @@ import ScrollProgress from './components/ui/ScrollProgress'
 import StickyScrollLock from './components/ui/StickyScrollLock'
 import SmoothScrollProvider from './components/ui/SmoothScrollProvider'
 
+import MobileView from './components/mobile/MobileView'
+
 function App() {
   const [activePage, setActivePage] = useState('home')
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== 'undefined' ? window.innerWidth <= 768 : false
+  )
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768)
+    }
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   const handleNavigate = (page, sectionId) => {
     setActivePage(page)
@@ -49,6 +62,11 @@ function App() {
 
     return () => observer.disconnect()
   }, [activePage])
+
+  // Dedicated Mobile View Experience
+  if (isMobile && activePage === 'home') {
+    return <MobileView activePage={activePage} onNavigate={handleNavigate} />
+  }
 
   return (
     <SmoothScrollProvider>
