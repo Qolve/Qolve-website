@@ -35,7 +35,7 @@ export default function AboutSection() {
         background: '#ffffff',
       }}
     >
-      {/* Giant Ambient Background ASCII Earth / Moon - Black ASCII spinning on white background */}
+      {/* Giant Ambient Background ASCII Earth / Moon - Yellow/Lime ASCII spinning on white background */}
       <div
         style={{
           position: 'absolute',
@@ -50,7 +50,7 @@ export default function AboutSection() {
           WebkitMaskImage: 'radial-gradient(ellipse 90% 90% at 75% 50%, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 95%)',
         }}
       >
-        <AsciiEarth size={48} speed={0.005} color="#000000" />
+        <AsciiEarth size={48} speed={0.005} color="#d6fd70" />
       </div>
 
       <div className="padding-global" style={{ position: 'relative', zIndex: 5, width: '100%' }}>
@@ -127,14 +127,15 @@ export default function AboutSection() {
 
           <div className="spacer-medium" />
 
-          {/* Bento Cards centered, layered above background Earth */}
+          {/* Bento Cards shifted 15% over, layered above background Earth */}
           <div
             className="about_layout"
             style={{
-              width: '100%',
-              margin: '0 auto',
+              width: '115%',
+              marginLeft: '-7.5%',
               position: 'relative',
               zIndex: 6,
+              transition: 'all 0.3s ease',
             }}
           >
             {/* Card 1 - Large with photo */}

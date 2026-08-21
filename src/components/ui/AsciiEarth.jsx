@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 
-export default function AsciiEarth({ size = 44, speed = 0.006, color = '#000000' }) {
+export default function AsciiEarth({ size = 44, speed = 0.006, color = '#d6fd70' }) {
   const [asciiFrame, setAsciiFrame] = useState('')
   const angleRef = useRef(0)
   const reqRef = useRef(null)
@@ -91,7 +91,7 @@ export default function AsciiEarth({ size = 44, speed = 0.006, color = '#000000'
         letterSpacing: '0.03em',
         userSelect: 'none',
         pointerEvents: 'none',
-        textShadow: color === '#000000' || color === '#0f0f0f' ? 'none' : '0 0 16px rgba(214, 253, 112, 0.45)',
+        textShadow: color === '#d6fd70' ? '0 0 16px rgba(214, 253, 112, 0.7), 0 0 4px rgba(0,0,0,0.5)' : 'none',
         whiteSpace: 'pre',
         display: 'block',
       }}
