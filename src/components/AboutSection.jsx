@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import SpotlightCard from './ui/SpotlightCard'
 import CountUpNumber from './ui/CountUpNumber'
 import AsciiEarth from './ui/AsciiEarth'
+import GlisteningStars from './ui/GlisteningStars'
 
 const headingWords = [
   { text: 'A', opacity: 1 },
@@ -15,12 +16,12 @@ const headingWords = [
     icon: 'https://cdn.prod.website-files.com/6929c116366a14507fc8424d/69a8b414d6ce72030aa90514_icon1.svg',
   },
   { text: 'smarter', opacity: 1, highlight: true },
-  { text: 'and', opacity: 0.5 },
+  { text: 'and', opacity: 0.7 },
   {
     icon: 'https://cdn.prod.website-files.com/6929c116366a14507fc8424d/69a8b414217a32d2ca851e82_icon2.svg',
   },
-  { text: 'more', opacity: 0.5 },
-  { text: 'adaptive', opacity: 0.5 },
+  { text: 'more', opacity: 0.7 },
+  { text: 'adaptive', opacity: 0.7 },
   { text: 'software.', opacity: 1, highlight: true },
 ]
 
@@ -35,6 +36,9 @@ export default function AboutSection() {
         background: '#ffffff',
       }}
     >
+      {/* Slow Glistening Stars */}
+      <GlisteningStars count={30} />
+
       {/* Giant Ambient Background ASCII Earth - Color-Coordinated: Blue Oceans, Green Grass, Golden Deserts, White Ice */}
       <div
         style={{
@@ -68,7 +72,7 @@ export default function AboutSection() {
 
             <div className="spacer-small" />
 
-            {/* Centered Animated Heading */}
+            {/* Centered Animated Heading with Pitch Black Text */}
             <div className="max-width-medium is-41rem">
               <motion.div
                 initial="hidden"
@@ -113,7 +117,12 @@ export default function AboutSection() {
                         },
                       }}
                       className={item.highlight ? 'text-shimmer-lime' : ''}
-                      style={{ opacity: item.opacity, display: 'inline-block' }}
+                      style={{
+                        color: item.highlight ? undefined : '#000000',
+                        opacity: item.opacity,
+                        display: 'inline-block',
+                        fontWeight: 700,
+                      }}
                     >
                       {item.text}
                     </motion.h2>

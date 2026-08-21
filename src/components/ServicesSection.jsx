@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion'
 import SpotlightCard from './ui/SpotlightCard'
 import { WordReveal } from './ui/TextReveal'
+import AsciiMoon from './ui/AsciiMoon'
+import GlisteningStars from './ui/GlisteningStars'
 
 const ArrowIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -37,8 +39,34 @@ const services = [
 
 export default function ServicesSection() {
   return (
-    <section className="section_services" id="services">
-      <div className="padding-global">
+    <section
+      className="section_services"
+      id="services"
+      style={{
+        position: 'relative',
+        overflow: 'hidden',
+        background: '#ffffff',
+      }}
+    >
+      {/* Glistening Stars in the background */}
+      <GlisteningStars count={35} />
+
+      {/* Accurate ASCII Moon in the Top Left Corner */}
+      <div
+        style={{
+          position: 'absolute',
+          left: '-8vw',
+          top: '-4vw',
+          zIndex: 1,
+          pointerEvents: 'none',
+          opacity: 0.9,
+          userSelect: 'none',
+        }}
+      >
+        <AsciiMoon size={36} speed={0.003} />
+      </div>
+
+      <div className="padding-global" style={{ position: 'relative', zIndex: 5, width: '100%' }}>
         <div className="container-large">
           <div className="vertical-center">
             <motion.div
@@ -57,7 +85,7 @@ export default function ServicesSection() {
             <div className="max-width-medium is-41rem text-align-center">
               <WordReveal
                 className="text-align-center"
-                style={{ justifyContent: 'center' }}
+                style={{ justifyContent: 'center', color: '#000000', fontWeight: 700 }}
                 as="h2"
               >
                 Comprehensive consulting and intelligent innovation
@@ -73,7 +101,7 @@ export default function ServicesSection() {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="max-width-medium"
             >
-              <div className="text-base text-align-center text-color-secondary">
+              <div className="text-base text-align-center" style={{ color: '#1f2937', fontWeight: 500 }}>
                 Whether you're optimizing today or building for tomorrow we help you move faster with confidence.
               </div>
             </motion.div>
@@ -104,7 +132,7 @@ export default function ServicesSection() {
           <div className="spacer-section-medium" />
 
           {/* Service cards with staggered entrance */}
-          <div className="services_cards">
+          <div className="services_cards" style={{ position: 'relative', zIndex: 6 }}>
             {services.map((service, idx) => (
               <motion.div
                 key={service.id}
@@ -116,7 +144,7 @@ export default function ServicesSection() {
               >
                 <SpotlightCard
                   spotlightColor="rgba(214, 253, 112, 0.1)"
-                  style={{ borderRadius: '1.25rem', height: '100%' }}
+                  style={{ borderRadius: '1.25rem', height: '100%', background: '#ffffff', borderColor: 'rgba(0,0,0,0.08)' }}
                 >
                   <a href={`#${service.id}`} className="service_container" style={{ height: '100%' }}>
                     <div className="service_content">
@@ -124,9 +152,9 @@ export default function ServicesSection() {
                         <img src={service.iconSrc} loading="lazy" alt="" className="icon-1x1-medium" style={{ width: '1.5rem', height: '1.5rem' }} />
                       </div>
                       <div>
-                        <h3 className="text-xl">{service.title}</h3>
+                        <h3 className="text-xl" style={{ color: '#000000', fontWeight: 700 }}>{service.title}</h3>
                         <div className="spacer-xsmall" />
-                        <div className="text-base text-color-secondary">{service.description}</div>
+                        <div className="text-base" style={{ color: '#374151', lineHeight: '1.4' }}>{service.description}</div>
                       </div>
                     </div>
                     <div className={`service_img ${service.imgClass}`}>
@@ -142,4 +170,3 @@ export default function ServicesSection() {
     </section>
   )
 }
-
