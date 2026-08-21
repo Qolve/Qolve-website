@@ -45,11 +45,11 @@ const WORLD_MAP = [
 const TERMINAL_RAMP = " .:-=+*#%@"
 
 export default function AsciiEarth({
-  size = 42,
+  size = 35,
   speed = 0.005,
   color = '#000000',
-  fontSize = 'clamp(6.5px, 0.74vw, 14.5px)',
-  lineHeight = 'clamp(6px, 0.69vw, 13.5px)',
+  fontSize = 'clamp(5px, 0.48vw, 12px)',
+  lineHeight = 'clamp(4.5px, 0.44vw, 11px)',
   style = {},
 }) {
   const [asciiFrame, setAsciiFrame] = useState('')

@@ -73,15 +73,15 @@ export default function ServicesSection() {
         className="ascii-moon-wrap"
         style={{
           position: 'absolute',
-          left: '-5vw',
-          top: '-2vw',
+          left: '-3vw',
+          top: '-1vw',
           zIndex: 1,
           pointerEvents: 'none',
           userSelect: 'none',
         }}
       >
         <motion.div style={{ x: moonX, y: moonY, opacity: moonOpacity }}>
-          <AsciiMoon size={32} speed={0.003} />
+          <AsciiMoon size={28} speed={0.003} />
         </motion.div>
       </div>
 

@@ -11,41 +11,41 @@
 /* ==================== FLUID PROPORTIONAL RESOLUTION ENGINE ==================== */
 html {
   scroll-behavior: smooth;
-  font-size: 16px;
+  font-size: 14px;
 }
 
-/* Ultra-wide & 4K UHD screens (2560px - 3840px+) */
+/* 4K UHD screens (2560px - 3840px+) */
 @media screen and (min-width: 2560px) {
   html {
-    font-size: clamp(20px, 0.8vw + 4px, 26px);
+    font-size: 17px;
   }
 }
 
 /* 2K QHD screens (1921px - 2559px) */
 @media screen and (min-width: 1921px) and (max-width: 2559px) {
   html {
-    font-size: 18px;
+    font-size: 15.5px;
   }
 }
 
 /* Standard Full HD 1080p screens (1600px - 1920px) */
 @media screen and (min-width: 1600px) and (max-width: 1920px) {
   html {
-    font-size: 16px;
+    font-size: 14.5px;
   }
 }
 
 /* Medium Desktop & MacBooks (1440px - 1599px) */
 @media screen and (min-width: 1440px) and (max-width: 1599px) {
   html {
-    font-size: 15px;
+    font-size: 14px;
   }
 }
 
 /* Standard Laptops (1280px - 1439px e.g. 1366x768 / 1366x720) */
 @media screen and (min-width: 1280px) and (max-width: 1439px) {
   html {
-    font-size: 14px;
+    font-size: 13.5px;
   }
 }
 
@@ -786,25 +786,25 @@ p, .text-base {
 .about_layout {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: clamp(0.65rem, 1.1vw, 1.15rem);
+  gap: 1rem;
 }
 
 .card_about {
   background: #ffffff;
   border: 1px solid var(--border-light);
   border-radius: var(--radius-xl);
-  padding: clamp(1.1rem, 1.4vw, 1.5rem);
+  padding: 1.25rem;
   display: flex;
   flex-direction: column;
-  gap: clamp(0.75rem, 1vw, 1.25rem);
-  min-height: clamp(18rem, 24vh, 22rem);
+  gap: 1rem;
+  min-height: 19rem;
   overflow: hidden;
   position: relative;
 }
 
 .card_about .img {
   width: 100%;
-  height: clamp(7.5rem, 9.5vw, 10rem);
+  height: 8.5rem;
   object-fit: cover;
   border-radius: var(--radius-lg);
 }
@@ -2940,8 +2940,11 @@ html.lenis, html.lenis body {
   .menu-button {
     display: block !important;
   }
+  .about_layout {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
   .services_cards {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: repeat(2, 1fr) !important;
   }
   .expertise_cards {
     grid-template-columns: repeat(2, 1fr) !important;
