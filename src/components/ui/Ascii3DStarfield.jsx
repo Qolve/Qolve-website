@@ -79,7 +79,7 @@ export default function Ascii3DStarfield({
 
     window.addEventListener('resize', handleResize, { passive: true })
 
-    // Precise 5% contour boundary check helper
+    // Exact planet outskirts boundary check helper
     const isExcluded = (col, row) => {
       const normX = col / cols
       const normY = row / rows
@@ -87,19 +87,19 @@ export default function Ascii3DStarfield({
       const aspect = (width / height) || 1.77
 
       if (variant === 'about') {
-        // Earth sphere silhouette: center ~ (0.94, 0.50) with tight 5% border
-        const dx = (normX - 0.94) * aspect
+        // Earth sphere silhouette: exact physical outskirts at R = 0.255
+        const dx = (normX - 0.95) * aspect
         const dy = normY - 0.50
         const dist = Math.sqrt(dx * dx + dy * dy)
-        if (dist < 0.30) return true
+        if (dist < 0.255) return true
       }
 
       if (variant === 'services') {
-        // Moon sphere silhouette: center ~ (0.05, 0.06) with tight 5% border
-        const dx = (normX - 0.05) * aspect
-        const dy = normY - 0.06
+        // Moon sphere silhouette: exact physical outskirts at R = 0.185
+        const dx = (normX - 0.04) * aspect
+        const dy = normY - 0.05
         const dist = Math.sqrt(dx * dx + dy * dy)
-        if (dist < 0.23) return true
+        if (dist < 0.185) return true
       }
 
       return false
