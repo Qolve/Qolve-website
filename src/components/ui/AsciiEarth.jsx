@@ -148,35 +148,78 @@ export default function AsciiEarth({
   useEffect(() => {
     let animId = null
     let isMounted = true
+    let isVisible = true
     let lastTime = performance.now()
     let currentIdx = 0
     const frameAdvanceRate = (speed / (Math.PI * 2)) * NUM_EARTH_FRAMES
 
+    const startAnimation = () => {
+      if (!animId && isMounted && isVisible && !document.hidden) {
+        lastTime = performance.now()
+        animId = requestAnimationFrame(render)
+      }
+    }
+
+    const stopAnimation = () => {
+      if (animId) {
+        cancelAnimationFrame(animId)
+        animId = null
+      }
+    }
+
     const render = (time) => {
-      if (!isMounted) return
+      if (!isMounted || !isVisible || document.hidden) {
+        animId = null
+        return
+      }
 
-      if (!document.hidden) {
-        const dt = Math.min(0.05, (time - lastTime) / 1000)
-        lastTime = time
+      const dt = Math.min(0.05, (time - lastTime) / 1000)
+      lastTime = time
 
-        progressRef.current = (progressRef.current + frameAdvanceRate * (dt * 60)) % NUM_EARTH_FRAMES
-        const nextIdx = Math.floor(progressRef.current)
-        if (nextIdx !== currentIdx) {
-          currentIdx = nextIdx
-          setFrameIdx(nextIdx)
-        }
-      } else {
-        lastTime = time
+      progressRef.current = (progressRef.current + frameAdvanceRate * (dt * 60)) % NUM_EARTH_FRAMES
+      const nextIdx = Math.floor(progressRef.current)
+      if (nextIdx !== currentIdx) {
+        currentIdx = nextIdx
+        setFrameIdx(nextIdx)
       }
 
       animId = requestAnimationFrame(render)
     }
 
-    animId = requestAnimationFrame(render)
+    startAnimation()
+
+    // Observe parent section for viewport presence
+    let observer = null
+    const sectionEl = document.getElementById('about')
+    if (sectionEl && typeof IntersectionObserver !== 'undefined') {
+      observer = new IntersectionObserver(
+        (entries) => {
+          isVisible = entries[0].isIntersecting
+          if (isVisible) {
+            startAnimation()
+          } else {
+            stopAnimation()
+          }
+        },
+        { threshold: 0, rootMargin: '300px 0px 300px 0px' }
+      )
+      observer.observe(sectionEl)
+    }
+
+    const handleVisibility = () => {
+      if (document.hidden) {
+        stopAnimation()
+      } else if (isVisible) {
+        startAnimation()
+      }
+    }
+    document.addEventListener('visibilitychange', handleVisibility)
 
     return () => {
       isMounted = false
-      if (animId) cancelAnimationFrame(animId)
+      stopAnimation()
+      if (observer) observer.disconnect()
+      document.removeEventListener('visibilitychange', handleVisibility)
     }
   }, [size, speed])
 

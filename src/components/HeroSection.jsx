@@ -65,24 +65,41 @@ function MerryGoRound() {
     let animId = null
     let isMounted = true
 
-    const autoRotate = () => {
-      if (!isMounted) return
+    const startAutoRotate = () => {
+      if (!animId && isMounted && isIntersectingRef.current && !document.hidden) {
+        animId = requestAnimationFrame(autoRotate)
+      }
+    }
 
-      if (isIntersectingRef.current && !document.hidden && !isDraggingRef.current && !isHoveredRef.current) {
+    const stopAutoRotate = () => {
+      if (animId) {
+        cancelAnimationFrame(animId)
+        animId = null
+      }
+    }
+
+    const autoRotate = () => {
+      if (!isMounted || !isIntersectingRef.current || document.hidden) {
+        animId = null
+        return
+      }
+
+      if (!isDraggingRef.current && !isHoveredRef.current) {
         applyRotation((rotationRef.current + 0.05) % 360)
       }
 
       animId = requestAnimationFrame(autoRotate)
     }
 
-    animId = requestAnimationFrame(autoRotate)
+    startAutoRotate()
 
     let lastScrollY = window.scrollY
     const handleScroll = () => {
+      if (!isIntersectingRef.current) return
       const currentScrollY = window.scrollY
       const delta = currentScrollY - lastScrollY
       lastScrollY = currentScrollY
-      if (!isDraggingRef.current && isIntersectingRef.current) {
+      if (!isDraggingRef.current) {
         applyRotation(rotationRef.current + delta * 0.15)
       }
     }
@@ -94,6 +111,11 @@ function MerryGoRound() {
       observer = new IntersectionObserver(
         (entries) => {
           isIntersectingRef.current = entries[0].isIntersecting
+          if (isIntersectingRef.current) {
+            startAutoRotate()
+          } else {
+            stopAutoRotate()
+          }
         },
         { threshold: 0, rootMargin: '200px 0px 200px 0px' }
       )
@@ -102,7 +124,7 @@ function MerryGoRound() {
 
     return () => {
       isMounted = false
-      if (animId) cancelAnimationFrame(animId)
+      stopAutoRotate()
       if (observer) observer.disconnect()
       window.removeEventListener('scroll', handleScroll)
     }
