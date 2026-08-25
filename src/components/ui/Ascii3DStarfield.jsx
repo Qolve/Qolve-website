@@ -130,6 +130,18 @@ export default function Ascii3DStarfield({
     let lastScrollY = window.scrollY
     let scrollVelocity = 0
     let lastTime = performance.now()
+    let isIntersecting = true
+
+    const updateStarFonts = () => {
+      const resScale = Math.max(0.6, Math.min(2.2, width / 1920))
+      for (let i = 0; i < stars.length; i++) {
+        const star = stars[i]
+        const baseFontSize = (9.5 + (star.depth - 1) * 2.2 + star.sizeOffset) * resScale
+        const fontSize = Math.max(6, Math.min(22, Math.round(baseFontSize)))
+        star.fontStr = `${fontSize}px "Space Mono", monospace, monospace`
+      }
+    }
+    updateStarFonts()
 
     const handleScroll = () => {
       const currentY = window.scrollY
@@ -148,6 +160,7 @@ export default function Ascii3DStarfield({
       canvas.height = height * dpr
       canvas.style.width = `${width}px`
       canvas.style.height = `${height}px`
+      updateStarFonts()
     }
 
     window.addEventListener('resize', handleResize, { passive: true })
@@ -180,8 +193,8 @@ export default function Ascii3DStarfield({
     const renderLoop = (time) => {
       if (!isMounted) return
 
-      if (document.hidden) {
-        animId = requestAnimationFrame(renderLoop)
+      if (document.hidden || !isIntersecting) {
+        animId = null
         return
       }
 
@@ -203,6 +216,7 @@ export default function Ascii3DStarfield({
       ctx.textBaseline = 'middle'
 
       const sec = time / 1000
+      let activeFont = ''
 
       for (let i = 0; i < stars.length; i++) {
         const star = stars[i]
@@ -215,11 +229,10 @@ export default function Ascii3DStarfield({
         const posX = normX * width
         const posY = normY * height
 
-        // Responsive resolution-aware font calculation
-        const resScale = Math.max(0.6, Math.min(2.2, width / 1920))
-        const baseFontSize = (9.5 + (star.depth - 1) * 2.2 + star.sizeOffset) * resScale
-        const fontSize = Math.max(6, Math.min(22, Math.round(baseFontSize)))
-        ctx.font = `${fontSize}px "Space Mono", monospace, monospace`
+        if (activeFont !== star.fontStr) {
+          activeFont = star.fontStr
+          ctx.font = activeFont
+        }
 
         if (star.behavior === 'static') {
           // Stationary solid star
@@ -269,13 +282,57 @@ export default function Ascii3DStarfield({
       animId = requestAnimationFrame(renderLoop)
     }
 
-    animId = requestAnimationFrame(renderLoop)
+    const startAnimation = () => {
+      if (!animId && isMounted && isIntersecting && !document.hidden) {
+        lastTime = performance.now()
+        animId = requestAnimationFrame(renderLoop)
+      }
+    }
+
+    const stopAnimation = () => {
+      if (animId) {
+        cancelAnimationFrame(animId)
+        animId = null
+      }
+    }
+
+    // IntersectionObserver: Only render when section is in or near viewport (300px pre-wake margin)
+    let observer = null
+    if (container && typeof IntersectionObserver !== 'undefined') {
+      observer = new IntersectionObserver(
+        (entries) => {
+          const entry = entries[0]
+          isIntersecting = entry.isIntersecting
+          if (entry.isIntersecting) {
+            startAnimation()
+          } else {
+            stopAnimation()
+          }
+        },
+        { threshold: 0, rootMargin: '300px 0px 300px 0px' }
+      )
+      observer.observe(container)
+    } else {
+      startAnimation()
+    }
+
+    // Page Visibility API
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        stopAnimation()
+      } else {
+        startAnimation()
+      }
+    }
+    document.addEventListener('visibilitychange', handleVisibilityChange)
 
     return () => {
       isMounted = false
-      cancelAnimationFrame(animId)
+      stopAnimation()
+      if (observer) observer.disconnect()
       window.removeEventListener('scroll', handleScroll)
       window.removeEventListener('resize', handleResize)
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
     }
   }, [variant, numStars, isDark])
 

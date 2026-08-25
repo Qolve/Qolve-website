@@ -44,6 +44,95 @@ const WORLD_MAP = [
 // Authentic UNIX Terminal Density Gradient (7-bit ASCII standard)
 const TERMINAL_RAMP = " .:-=+*#%@"
 
+function computeEarthFrame(size, theta) {
+  const width = Math.round(size * 2.05)
+  const height = size
+  const mapH = WORLD_MAP.length
+  const mapW = WORLD_MAP[0].length
+  const axialTilt = 0.41 // 23.5 degrees in radians
+
+  const cosT = Math.cos(theta)
+  const sinT = Math.sin(theta)
+  const cosTilt = Math.cos(axialTilt)
+  const sinTilt = Math.sin(axialTilt)
+
+  let frame = ''
+
+  for (let y = 0; y < height; y++) {
+    let line = ''
+    const ny = (y - height / 2) / (height / 2)
+
+    for (let x = 0; x < width; x++) {
+      const nx = ((x - width / 2) / (width / 2)) * 1.18
+      const distSq = nx * nx + ny * ny
+
+      if (distSq <= 1.0) {
+        const nz = Math.sqrt(Math.max(0, 1.0 - distSq))
+
+        // Apply Earth's 23.5° axial tilt then Y-axis planetary spin
+        const tx = nx * cosTilt - ny * sinTilt
+        const ty = nx * sinTilt + ny * cosTilt
+        const tz = nz
+
+        const rx = tx * cosT + tz * sinT
+        const ry = ty
+        const rz = -tx * sinT + tz * cosT
+
+        const lat = Math.asin(Math.max(-1, Math.min(1, ry)))
+        const lon = Math.atan2(rx, rz)
+
+        const u = (lon + Math.PI) / (2 * Math.PI)
+        const v = (Math.PI / 2 - lat) / Math.PI
+
+        const mapX = Math.min(mapW - 1, Math.max(0, Math.floor(u * mapW)))
+        const mapY = Math.min(mapH - 1, Math.max(0, Math.floor(v * mapH)))
+
+        const isLand = WORLD_MAP[mapY]?.[mapX] === '1'
+
+        // Directional sun illumination
+        const light = (-0.35 * nx + 0.85 * nz - 0.3 * ny + 1.0) / 2.0
+        const clampedLight = Math.max(0, Math.min(1, light))
+
+        if (isLand) {
+          // Terminal land representation using density ramp
+          const charIdx = Math.floor(clampedLight * (TERMINAL_RAMP.length - 1))
+          line += TERMINAL_RAMP[charIdx] || '#'
+        } else {
+          // Terminal ocean grid / latitude-longitude lines
+          const isGrid = Math.abs(lat) % (Math.PI / 6) < 0.05 || Math.abs(lon) % (Math.PI / 3) < 0.05
+          if (isGrid && clampedLight > 0.25) {
+            line += '+'
+          } else if (clampedLight > 0.5) {
+            line += '.'
+          } else {
+            line += ' '
+          }
+        }
+      } else {
+        line += ' '
+      }
+    }
+    frame += line + '\n'
+  }
+
+  return frame
+}
+
+// 180 Precomputed High-Precision Rotational Frames (2.0° per step)
+const NUM_EARTH_FRAMES = 180
+const earthFramesCache = new Map()
+
+function getEarthFrames(size) {
+  if (earthFramesCache.has(size)) return earthFramesCache.get(size)
+  const frames = []
+  for (let i = 0; i < NUM_EARTH_FRAMES; i++) {
+    const theta = (i / NUM_EARTH_FRAMES) * Math.PI * 2
+    frames.push(computeEarthFrame(size, theta))
+  }
+  earthFramesCache.set(size, frames)
+  return frames
+}
+
 export default function AsciiEarth({
   size = 47,
   speed = 0.005,
@@ -52,97 +141,40 @@ export default function AsciiEarth({
   lineHeight = '0.63vw',
   style = {},
 }) {
-  const [asciiFrame, setAsciiFrame] = useState('')
-  const angleRef = useRef(0)
+  const frames = getEarthFrames(size)
+  const [frameIdx, setFrameIdx] = useState(0)
+  const progressRef = useRef(0)
   const reqRef = useRef(null)
 
   useEffect(() => {
-    const width = Math.round(size * 2.05)
-    const height = size
-    const mapH = WORLD_MAP.length
-    const mapW = WORLD_MAP[0].length
-    const axialTilt = 0.41 // 23.5 degrees in radians
+    let animId
+    let lastTime = performance.now()
+    let currentIdx = 0
+    const frameAdvanceRate = (speed / (Math.PI * 2)) * NUM_EARTH_FRAMES
 
-    const render = () => {
+    const render = (time) => {
       if (document.hidden) {
-        reqRef.current = requestAnimationFrame(render)
+        animId = requestAnimationFrame(render)
         return
       }
 
-      angleRef.current += speed
-      const theta = angleRef.current
-      const cosT = Math.cos(theta)
-      const sinT = Math.sin(theta)
-      const cosTilt = Math.cos(axialTilt)
-      const sinTilt = Math.sin(axialTilt)
+      const dt = Math.min(0.05, (time - lastTime) / 1000)
+      lastTime = time
 
-      let frame = ''
-
-      for (let y = 0; y < height; y++) {
-        let line = ''
-        const ny = (y - height / 2) / (height / 2)
-
-        for (let x = 0; x < width; x++) {
-          const nx = ((x - width / 2) / (width / 2)) * 1.18
-          const distSq = nx * nx + ny * ny
-
-          if (distSq <= 1.0) {
-            const nz = Math.sqrt(Math.max(0, 1.0 - distSq))
-
-            // Apply Earth's 23.5° axial tilt then Y-axis planetary spin
-            const tx = nx * cosTilt - ny * sinTilt
-            const ty = nx * sinTilt + ny * cosTilt
-            const tz = nz
-
-            const rx = tx * cosT + tz * sinT
-            const ry = ty
-            const rz = -tx * sinT + tz * cosT
-
-            const lat = Math.asin(Math.max(-1, Math.min(1, ry)))
-            const lon = Math.atan2(rx, rz)
-
-            const u = (lon + Math.PI) / (2 * Math.PI)
-            const v = (Math.PI / 2 - lat) / Math.PI
-
-            const mapX = Math.min(mapW - 1, Math.max(0, Math.floor(u * mapW)))
-            const mapY = Math.min(mapH - 1, Math.max(0, Math.floor(v * mapH)))
-
-            const isLand = WORLD_MAP[mapY]?.[mapX] === '1'
-
-            // Directional sun illumination
-            const light = (-0.35 * nx + 0.85 * nz - 0.3 * ny + 1.0) / 2.0
-            const clampedLight = Math.max(0, Math.min(1, light))
-
-            if (isLand) {
-              // Terminal land representation using density ramp
-              const charIdx = Math.floor(clampedLight * (TERMINAL_RAMP.length - 1))
-              line += TERMINAL_RAMP[charIdx] || '#'
-            } else {
-              // Terminal ocean grid / latitude-longitude lines
-              const isGrid = Math.abs(lat) % (Math.PI / 6) < 0.05 || Math.abs(lon) % (Math.PI / 3) < 0.05
-              if (isGrid && clampedLight > 0.25) {
-                line += '+'
-              } else if (clampedLight > 0.5) {
-                line += '.'
-              } else {
-                line += ' '
-              }
-            }
-          } else {
-            line += ' '
-          }
-        }
-        frame += line + '\n'
+      progressRef.current = (progressRef.current + frameAdvanceRate * (dt * 60)) % NUM_EARTH_FRAMES
+      const nextIdx = Math.floor(progressRef.current)
+      if (nextIdx !== currentIdx) {
+        currentIdx = nextIdx
+        setFrameIdx(nextIdx)
       }
 
-      setAsciiFrame(frame)
-      reqRef.current = requestAnimationFrame(render)
+      animId = requestAnimationFrame(render)
     }
 
-    reqRef.current = requestAnimationFrame(render)
+    animId = requestAnimationFrame(render)
 
     return () => {
-      if (reqRef.current) cancelAnimationFrame(reqRef.current)
+      if (animId) cancelAnimationFrame(animId)
     }
   }, [size, speed])
 
@@ -166,7 +198,7 @@ export default function AsciiEarth({
         ...style,
       }}
     >
-      {asciiFrame}
+      {frames[frameIdx] || frames[0]}
     </pre>
   )
 }

@@ -26,6 +26,92 @@ const LUNAR_MAP = [
 
 const TERMINAL_RAMP = " .:-=+*#%@"
 
+function computeMoonFrame(size, theta) {
+  const width = Math.round(size * 2.05)
+  const height = size
+  const mapH = LUNAR_MAP.length
+  const mapW = LUNAR_MAP[0].length
+
+  const cosT = Math.cos(theta)
+  const sinT = Math.sin(theta)
+
+  let frame = ''
+
+  for (let y = 0; y < height; y++) {
+    let line = ''
+    const ny = (y - height / 2) / (height / 2)
+
+    for (let x = 0; x < width; x++) {
+      const nx = ((x - width / 2) / (width / 2)) * 1.18
+      const distSq = nx * nx + ny * ny
+
+      if (distSq <= 1.0) {
+        const nz = Math.sqrt(Math.max(0, 1.0 - distSq))
+
+        // Lunar orbital rotation around Y-axis
+        const rx = nx * cosT + nz * sinT
+        const ry = ny
+        const rz = -nx * sinT + nz * cosT
+
+        const lat = Math.asin(Math.max(-1, Math.min(1, ry)))
+        const lon = Math.atan2(rx, rz)
+
+        const u = (lon + Math.PI) / (2 * Math.PI)
+        const v = (Math.PI / 2 - lat) / Math.PI
+
+        const mapX = Math.min(mapW - 1, Math.max(0, Math.floor(u * mapW)))
+        const mapY = Math.min(mapH - 1, Math.max(0, Math.floor(v * mapH)))
+
+        const feature = LUNAR_MAP[mapY]?.[mapX]
+
+        // Pseudo-procedural micro-crater noise based on spherical coordinates
+        const microCrater = Math.sin(lat * 18 + lon * 14) * Math.cos(lat * 12 - lon * 16)
+        const craterPerturb = microCrater * 0.18
+
+        // 3D Directional Sunlight with Crater Rim highlights
+        const light = (-0.45 * nx + 0.8 * nz - 0.3 * ny + 1.0) / 2.0 + craterPerturb
+        const clampedLight = Math.max(0, Math.min(1, light))
+
+        if (feature === '2') {
+          // Bright impact crater rim (Tycho / Copernicus ejecta rays)
+          line += ['#', '%', '@', '*'][Math.floor(clampedLight * 3.99)]
+        } else if (feature === '3') {
+          // Deep crater central shadow/hollow
+          line += ['.', ':', '-'][Math.floor(clampedLight * 2.99)] || '.'
+        } else if (feature === '1') {
+          // Dark Basaltic Lunar Maria (Sea of Tranquility / Ocean of Storms)
+          const charIdx = Math.floor(clampedLight * 5)
+          line += ['.', ':', '-', '=', '+'][charIdx] || ':'
+        } else {
+          // Rugged Highlands with dense crater topography
+          const charIdx = Math.floor(clampedLight * (TERMINAL_RAMP.length - 1))
+          line += TERMINAL_RAMP[charIdx] || '#'
+        }
+      } else {
+        line += ' '
+      }
+    }
+    frame += line + '\n'
+  }
+
+  return frame
+}
+
+// 180 Precomputed High-Precision Lunar Rotational Frames (2.0° per step)
+const NUM_MOON_FRAMES = 180
+const moonFramesCache = new Map()
+
+function getMoonFrames(size) {
+  if (moonFramesCache.has(size)) return moonFramesCache.get(size)
+  const frames = []
+  for (let i = 0; i < NUM_MOON_FRAMES; i++) {
+    const theta = (i / NUM_MOON_FRAMES) * Math.PI * 2
+    frames.push(computeMoonFrame(size, theta))
+  }
+  moonFramesCache.set(size, frames)
+  return frames
+}
+
 export default function AsciiMoon({
   size = 38,
   speed = 0.003,
@@ -34,94 +120,40 @@ export default function AsciiMoon({
   lineHeight = '0.52vw',
   style = {},
 }) {
-  const [asciiFrame, setAsciiFrame] = useState('')
-  const angleRef = useRef(0)
+  const frames = getMoonFrames(size)
+  const [frameIdx, setFrameIdx] = useState(0)
+  const progressRef = useRef(0)
   const reqRef = useRef(null)
 
   useEffect(() => {
-    const width = Math.round(size * 2.05)
-    const height = size
-    const mapH = LUNAR_MAP.length
-    const mapW = LUNAR_MAP[0].length
+    let animId
+    let lastTime = performance.now()
+    let currentIdx = 0
+    const frameAdvanceRate = (speed / (Math.PI * 2)) * NUM_MOON_FRAMES
 
-    const render = () => {
+    const render = (time) => {
       if (document.hidden) {
-        reqRef.current = requestAnimationFrame(render)
+        animId = requestAnimationFrame(render)
         return
       }
 
-      angleRef.current += speed
-      const theta = angleRef.current
-      const cosT = Math.cos(theta)
-      const sinT = Math.sin(theta)
+      const dt = Math.min(0.05, (time - lastTime) / 1000)
+      lastTime = time
 
-      let frame = ''
-
-      for (let y = 0; y < height; y++) {
-        let line = ''
-        const ny = (y - height / 2) / (height / 2)
-
-        for (let x = 0; x < width; x++) {
-          const nx = ((x - width / 2) / (width / 2)) * 1.18
-          const distSq = nx * nx + ny * ny
-
-          if (distSq <= 1.0) {
-            const nz = Math.sqrt(Math.max(0, 1.0 - distSq))
-
-            // Lunar orbital rotation around Y-axis
-            const rx = nx * cosT + nz * sinT
-            const ry = ny
-            const rz = -nx * sinT + nz * cosT
-
-            const lat = Math.asin(Math.max(-1, Math.min(1, ry)))
-            const lon = Math.atan2(rx, rz)
-
-            const u = (lon + Math.PI) / (2 * Math.PI)
-            const v = (Math.PI / 2 - lat) / Math.PI
-
-            const mapX = Math.min(mapW - 1, Math.max(0, Math.floor(u * mapW)))
-            const mapY = Math.min(mapH - 1, Math.max(0, Math.floor(v * mapH)))
-
-            const feature = LUNAR_MAP[mapY]?.[mapX]
-
-            // Pseudo-procedural micro-crater noise based on spherical coordinates
-            const microCrater = Math.sin(lat * 18 + lon * 14) * Math.cos(lat * 12 - lon * 16)
-            const craterPerturb = microCrater * 0.18
-
-            // 3D Directional Sunlight with Crater Rim highlights
-            const light = (-0.45 * nx + 0.8 * nz - 0.3 * ny + 1.0) / 2.0 + craterPerturb
-            const clampedLight = Math.max(0, Math.min(1, light))
-
-            if (feature === '2') {
-              // Bright impact crater rim (Tycho / Copernicus ejecta rays)
-              line += ['#', '%', '@', '*'][Math.floor(clampedLight * 3.99)]
-            } else if (feature === '3') {
-              // Deep crater central shadow/hollow
-              line += ['.', ':', '-'][Math.floor(clampedLight * 2.99)] || '.'
-            } else if (feature === '1') {
-              // Dark Basaltic Lunar Maria (Sea of Tranquility / Ocean of Storms)
-              const charIdx = Math.floor(clampedLight * 5)
-              line += ['.', ':', '-', '=', '+'][charIdx] || ':'
-            } else {
-              // Rugged Highlands with dense crater topography
-              const charIdx = Math.floor(clampedLight * (TERMINAL_RAMP.length - 1))
-              line += TERMINAL_RAMP[charIdx] || '#'
-            }
-          } else {
-            line += ' '
-          }
-        }
-        frame += line + '\n'
+      progressRef.current = (progressRef.current + frameAdvanceRate * (dt * 60)) % NUM_MOON_FRAMES
+      const nextIdx = Math.floor(progressRef.current)
+      if (nextIdx !== currentIdx) {
+        currentIdx = nextIdx
+        setFrameIdx(nextIdx)
       }
 
-      setAsciiFrame(frame)
-      reqRef.current = requestAnimationFrame(render)
+      animId = requestAnimationFrame(render)
     }
 
-    reqRef.current = requestAnimationFrame(render)
+    animId = requestAnimationFrame(render)
 
     return () => {
-      if (reqRef.current) cancelAnimationFrame(reqRef.current)
+      if (animId) cancelAnimationFrame(animId)
     }
   }, [size, speed])
 
@@ -145,7 +177,7 @@ export default function AsciiMoon({
         ...style,
       }}
     >
-      {asciiFrame}
+      {frames[frameIdx] || frames[0]}
     </pre>
   )
 }
