@@ -1,5 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
+import { motion } from 'framer-motion'
 import Ascii3DStarfield from './ui/Ascii3DStarfield'
+import RotatingWords from './ui/RotatingWords'
 
 // Original card images from Aeline template
 const CAROUSEL_IMAGES = [
@@ -255,10 +257,6 @@ function MerryGoRound() {
     </div>
   )
 }
-
-
-import { motion } from 'framer-motion'
-import RotatingWords from './ui/RotatingWords'
 
 export default function HeroSection({ onNavigate }) {
   return (

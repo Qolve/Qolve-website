@@ -130,7 +130,6 @@ export default function Ascii3DStarfield({
     let lastScrollY = window.scrollY
     let scrollVelocity = 0
     let lastTime = performance.now()
-    let isIntersecting = true
 
     const updateStarFonts = () => {
       const resScale = Math.max(0.6, Math.min(2.2, width / 1920))
@@ -148,6 +147,7 @@ export default function Ascii3DStarfield({
       const deltaY = currentY - lastScrollY
       lastScrollY = currentY
       scrollVelocity += deltaY * 0.05
+      startAnimation()
     }
 
     window.addEventListener('scroll', handleScroll, { passive: true })
@@ -161,6 +161,7 @@ export default function Ascii3DStarfield({
       canvas.style.width = `${width}px`
       canvas.style.height = `${height}px`
       updateStarFonts()
+      startAnimation()
     }
 
     window.addEventListener('resize', handleResize, { passive: true })
@@ -193,7 +194,7 @@ export default function Ascii3DStarfield({
     const renderLoop = (time) => {
       if (!isMounted) return
 
-      if (document.hidden || !isIntersecting) {
+      if (document.hidden) {
         animId = null
         return
       }
@@ -283,7 +284,7 @@ export default function Ascii3DStarfield({
     }
 
     const startAnimation = () => {
-      if (!animId && isMounted && isIntersecting && !document.hidden) {
+      if (!animId && isMounted && !document.hidden) {
         lastTime = performance.now()
         animId = requestAnimationFrame(renderLoop)
       }
@@ -296,25 +297,8 @@ export default function Ascii3DStarfield({
       }
     }
 
-    // IntersectionObserver: Only render when section is in or near viewport (300px pre-wake margin)
-    let observer = null
-    if (container && typeof IntersectionObserver !== 'undefined') {
-      observer = new IntersectionObserver(
-        (entries) => {
-          const entry = entries[0]
-          isIntersecting = entry.isIntersecting
-          if (entry.isIntersecting) {
-            startAnimation()
-          } else {
-            stopAnimation()
-          }
-        },
-        { threshold: 0, rootMargin: '300px 0px 300px 0px' }
-      )
-      observer.observe(container)
-    } else {
-      startAnimation()
-    }
+    // Start immediately on mount
+    startAnimation()
 
     // Page Visibility API
     const handleVisibilityChange = () => {
@@ -329,7 +313,6 @@ export default function Ascii3DStarfield({
     return () => {
       isMounted = false
       stopAnimation()
-      if (observer) observer.disconnect()
       window.removeEventListener('scroll', handleScroll)
       window.removeEventListener('resize', handleResize)
       document.removeEventListener('visibilitychange', handleVisibilityChange)

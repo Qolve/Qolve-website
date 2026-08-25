@@ -138,9 +138,8 @@ export default function AsciiMoon({
   style = {},
 }) {
   const frames = getMoonFrames(size)
-  const preRef = useRef(null)
+  const [frameIdx, setFrameIdx] = useState(0)
   const progressRef = useRef(0)
-  const isIntersectingRef = useRef(true)
 
   useEffect(() => {
     let animId = null
@@ -149,14 +148,10 @@ export default function AsciiMoon({
     let currentIdx = 0
     const frameAdvanceRate = (speed / (Math.PI * 2)) * NUM_MOON_FRAMES
 
-    if (preRef.current) {
-      preRef.current.textContent = frames[0]
-    }
-
     const render = (time) => {
       if (!isMounted) return
 
-      if (isIntersectingRef.current && !document.hidden) {
+      if (!document.hidden) {
         const dt = Math.min(0.05, (time - lastTime) / 1000)
         lastTime = time
 
@@ -164,9 +159,7 @@ export default function AsciiMoon({
         const nextIdx = Math.floor(progressRef.current)
         if (nextIdx !== currentIdx) {
           currentIdx = nextIdx
-          if (preRef.current) {
-            preRef.current.textContent = frames[nextIdx]
-          }
+          setFrameIdx(nextIdx)
         }
       } else {
         lastTime = time
@@ -177,28 +170,14 @@ export default function AsciiMoon({
 
     animId = requestAnimationFrame(render)
 
-    // Viewport intersection observer: pauses when off-screen
-    let observer = null
-    if (preRef.current && typeof IntersectionObserver !== 'undefined') {
-      observer = new IntersectionObserver(
-        (entries) => {
-          isIntersectingRef.current = entries[0].isIntersecting
-        },
-        { threshold: 0, rootMargin: '300px 0px 300px 0px' }
-      )
-      observer.observe(preRef.current)
-    }
-
     return () => {
       isMounted = false
       if (animId) cancelAnimationFrame(animId)
-      if (observer) observer.disconnect()
     }
   }, [size, speed])
 
   return (
     <pre
-      ref={preRef}
       style={{
         margin: 0,
         fontFamily: '"SF Mono", "Menlo", "Monaco", "Cascadia Code", "Courier New", monospace',
@@ -217,7 +196,7 @@ export default function AsciiMoon({
         ...style,
       }}
     >
-      {frames[0]}
+      {frames[frameIdx] || frames[0]}
     </pre>
   )
 }
