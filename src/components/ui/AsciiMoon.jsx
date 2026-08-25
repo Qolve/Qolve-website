@@ -138,7 +138,7 @@ export default function AsciiMoon({
   style = {},
 }) {
   const frames = getMoonFrames(size)
-  const [frameIdx, setFrameIdx] = useState(0)
+  const preRef = useRef(null)
   const progressRef = useRef(0)
 
   useEffect(() => {
@@ -146,8 +146,13 @@ export default function AsciiMoon({
     let isMounted = true
     let isVisible = true
     let lastTime = performance.now()
+    let lastRenderTime = 0
     let currentIdx = 0
     const frameAdvanceRate = (speed / (Math.PI * 2)) * NUM_MOON_FRAMES
+
+    if (preRef.current) {
+      preRef.current.textContent = frames[0]
+    }
 
     const startAnimation = () => {
       if (!animId && isMounted && isVisible && !document.hidden) {
@@ -169,14 +174,19 @@ export default function AsciiMoon({
         return
       }
 
-      const dt = Math.min(0.05, (time - lastTime) / 1000)
-      lastTime = time
+      if (time - lastRenderTime >= 35) {
+        const dt = Math.min(0.05, (time - lastTime) / 1000)
+        lastTime = time
+        lastRenderTime = time
 
-      progressRef.current = (progressRef.current + frameAdvanceRate * (dt * 60)) % NUM_MOON_FRAMES
-      const nextIdx = Math.floor(progressRef.current)
-      if (nextIdx !== currentIdx) {
-        currentIdx = nextIdx
-        setFrameIdx(nextIdx)
+        progressRef.current = (progressRef.current + frameAdvanceRate * (dt * 60)) % NUM_MOON_FRAMES
+        const nextIdx = Math.floor(progressRef.current)
+        if (nextIdx !== currentIdx) {
+          currentIdx = nextIdx
+          if (preRef.current) {
+            preRef.current.textContent = frames[nextIdx]
+          }
+        }
       }
 
       animId = requestAnimationFrame(render)
@@ -197,7 +207,7 @@ export default function AsciiMoon({
             stopAnimation()
           }
         },
-        { threshold: 0, rootMargin: '300px 0px 300px 0px' }
+        { threshold: 0, rootMargin: '100px 0px 100px 0px' }
       )
       observer.observe(sectionEl)
     }
@@ -221,6 +231,7 @@ export default function AsciiMoon({
 
   return (
     <pre
+      ref={preRef}
       style={{
         margin: 0,
         fontFamily: '"SF Mono", "Menlo", "Monaco", "Cascadia Code", "Courier New", monospace',
@@ -239,7 +250,7 @@ export default function AsciiMoon({
         ...style,
       }}
     >
-      {frames[frameIdx] || frames[0]}
+      {frames[0]}
     </pre>
   )
 }
