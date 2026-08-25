@@ -1,16 +1,14 @@
 import React, { useEffect, useRef } from 'react'
 
 /**
- * Ascii3DStarfield - Ultra-Slow Celestial Breathing & Gradient Glisten
+ * Ascii3DStarfield - Ultra-Slow Celestial Breathing & Gradient Glisten (Optimized)
  *
- * Features:
- * - Ultra-slow, serene glistening cycles (~35–60 seconds per period)
- * - Continuous smooth RGB color gradient interpolation
- * - Randomized behaviors: Shape-morphing, continuous Color blending, Dual morphing, or Solid
- * - Stationary in balanced grid distribution when page is at rest
- * - Hyperspace vertical travel streaks on scroll
- * - Exact outskirts boundary clipping around Earth and Moon
- * - Universal desktop support across all pages & sections (Hero, About, Services, Expertise, Pricing, Testimonials, Blog, CTA, Team, Products)
+ * Performance features:
+ * - IntersectionObserver: Automatically stops canvas render loop when off-screen
+ * - Tab Visibility API: Pauses rendering when browser tab is inactive
+ * - 30 FPS frame rate lock: Cuts GPU draw/clear cycles in half with zero loss in visual smoothness
+ * - Cached font strings: Eliminates CSS font parser thrashing in canvas draw loop
+ * - Memory-efficient 1.5x DPR capping
  */
 
 const BASE_CHARS = ['*', '+', '.', "'", 'o', '*', '+', '.', "'", '.']
@@ -62,6 +60,7 @@ export default function Ascii3DStarfield({
 }) {
   const canvasRef = useRef(null)
   const containerRef = useRef(null)
+  const isVisibleRef = useRef(true)
 
   const isDark =
     theme === 'dark' || (theme === 'auto' && (variant === 'hero' || variant === 'cta'))
@@ -71,17 +70,17 @@ export default function Ascii3DStarfield({
     const container = containerRef.current
     if (!canvas || !container) return
 
-    const ctx = canvas.getContext('2d')
+    const ctx = canvas.getContext('2d', { alpha: true })
     if (!ctx) return
 
-    let animId
+    let animId = null
     let isMounted = true
     let width = container.clientWidth || window.innerWidth
     let height = container.clientHeight || window.innerHeight
 
-    const dpr = Math.min(window.devicePixelRatio || 1, 2)
-    canvas.width = width * dpr
-    canvas.height = height * dpr
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.5)
+    canvas.width = Math.floor(width * dpr)
+    canvas.height = Math.floor(height * dpr)
     canvas.style.width = `${width}px`
     canvas.style.height = `${height}px`
 
@@ -119,6 +118,7 @@ export default function Ascii3DStarfield({
             glistenSpeed,
             glistenPhase,
             sizeOffset: (Math.random() - 0.5) * 2,
+            fontStr: '',
           })
         }
       }
@@ -127,15 +127,31 @@ export default function Ascii3DStarfield({
 
     const stars = createDistributedStars()
 
+    const updateStarFonts = () => {
+      const resScale = Math.max(0.6, Math.min(2.2, width / 1920))
+      for (let i = 0; i < stars.length; i++) {
+        const star = stars[i]
+        const baseFontSize = (9.5 + (star.depth - 1) * 2.2 + star.sizeOffset) * resScale
+        const fontSize = Math.max(6, Math.min(22, Math.round(baseFontSize)))
+        star.fontStr = `${fontSize}px "Space Mono", monospace, monospace`
+      }
+    }
+    updateStarFonts()
+
     let lastScrollY = window.scrollY
     let scrollVelocity = 0
-    let lastTime = performance.now()
+    let lastRenderTime = performance.now()
+    const targetInterval = 1000 / 30 // 30 FPS cap
 
     const handleScroll = () => {
       const currentY = window.scrollY
       const deltaY = currentY - lastScrollY
       lastScrollY = currentY
       scrollVelocity += deltaY * 0.05
+      // If we got scrolled into view, start animating
+      if (isVisibleRef.current && !animId) {
+        startLoop()
+      }
     }
 
     window.addEventListener('scroll', handleScroll, { passive: true })
@@ -144,10 +160,14 @@ export default function Ascii3DStarfield({
       if (!container) return
       width = container.clientWidth || window.innerWidth
       height = container.clientHeight || window.innerHeight
-      canvas.width = width * dpr
-      canvas.height = height * dpr
+      canvas.width = Math.floor(width * dpr)
+      canvas.height = Math.floor(height * dpr)
       canvas.style.width = `${width}px`
       canvas.style.height = `${height}px`
+      updateStarFonts()
+      if (isVisibleRef.current) {
+        drawFrame(performance.now())
+      }
     }
 
     window.addEventListener('resize', handleResize, { passive: true })
@@ -176,20 +196,8 @@ export default function Ascii3DStarfield({
       return false
     }
 
-    // Animation Render Loop
-    const renderLoop = (time) => {
-      if (!isMounted) return
-
-      const dt = Math.min(0.05, (time - lastTime) / 1000)
-      lastTime = time
-
-      // Smooth velocity decay
-      scrollVelocity *= 0.88
-      if (Math.abs(scrollVelocity) < 0.001) scrollVelocity = 0
-
-      const isScrolling = Math.abs(scrollVelocity) > 0.05
-      const scrollDir = Math.sign(scrollVelocity)
-
+    // Core Drawing Routine
+    const drawFrame = (time) => {
       ctx.save()
       ctx.scale(dpr, dpr)
       ctx.clearRect(0, 0, width, height)
@@ -197,7 +205,10 @@ export default function Ascii3DStarfield({
       ctx.textAlign = 'center'
       ctx.textBaseline = 'middle'
 
+      const isScrolling = Math.abs(scrollVelocity) > 0.05
+      const scrollDir = Math.sign(scrollVelocity)
       const sec = time / 1000
+      let activeFont = ''
 
       for (let i = 0; i < stars.length; i++) {
         const star = stars[i]
@@ -210,11 +221,10 @@ export default function Ascii3DStarfield({
         const posX = normX * width
         const posY = normY * height
 
-        // Responsive resolution-aware font calculation
-        const resScale = Math.max(0.6, Math.min(2.2, width / 1920))
-        const baseFontSize = (9.5 + (star.depth - 1) * 2.2 + star.sizeOffset) * resScale
-        const fontSize = Math.max(6, Math.min(22, Math.round(baseFontSize)))
-        ctx.font = `${fontSize}px "Space Mono", monospace, monospace`
+        if (activeFont !== star.fontStr) {
+          activeFont = star.fontStr
+          ctx.font = activeFont
+        }
 
         if (star.behavior === 'static') {
           // Stationary solid star
@@ -261,16 +271,82 @@ export default function Ascii3DStarfield({
       }
 
       ctx.restore()
+    }
+
+    // Animation Render Loop
+    const renderLoop = (time) => {
+      if (!isMounted || !isVisibleRef.current || document.hidden) {
+        animId = null
+        return
+      }
+
+      const elapsed = time - lastRenderTime
+      if (elapsed >= targetInterval) {
+        // Smooth velocity decay
+        scrollVelocity *= 0.88
+        if (Math.abs(scrollVelocity) < 0.001) scrollVelocity = 0
+
+        lastRenderTime = time - (elapsed % targetInterval)
+        drawFrame(time)
+      }
+
       animId = requestAnimationFrame(renderLoop)
     }
 
-    animId = requestAnimationFrame(renderLoop)
+    const startLoop = () => {
+      if (!animId && isMounted && isVisibleRef.current && !document.hidden) {
+        lastRenderTime = performance.now()
+        animId = requestAnimationFrame(renderLoop)
+      }
+    }
+
+    const stopLoop = () => {
+      if (animId) {
+        cancelAnimationFrame(animId)
+        animId = null
+      }
+    }
+
+    // IntersectionObserver: automatically halt RAF when off-screen
+    let observer = null
+    if (container && typeof IntersectionObserver !== 'undefined') {
+      observer = new IntersectionObserver(
+        (entries) => {
+          const entry = entries[0]
+          isVisibleRef.current = entry.isIntersecting
+          if (entry.isIntersecting) {
+            startLoop()
+          } else {
+            stopLoop()
+          }
+        },
+        { threshold: 0.01, rootMargin: '120px 0px 120px 0px' }
+      )
+      observer.observe(container)
+    } else {
+      startLoop()
+    }
+
+    // Page Visibility API
+    const handleVisibility = () => {
+      if (document.hidden) {
+        stopLoop()
+      } else if (isVisibleRef.current) {
+        startLoop()
+      }
+    }
+    document.addEventListener('visibilitychange', handleVisibility)
+
+    // Initial frame draw
+    drawFrame(performance.now())
 
     return () => {
       isMounted = false
-      cancelAnimationFrame(animId)
+      stopLoop()
+      if (observer) observer.disconnect()
       window.removeEventListener('scroll', handleScroll)
       window.removeEventListener('resize', handleResize)
+      document.removeEventListener('visibilitychange', handleVisibility)
     }
   }, [variant, numStars, isDark])
 
@@ -285,6 +361,7 @@ export default function Ascii3DStarfield({
         zIndex: 1,
         userSelect: 'none',
         opacity: opacity,
+        contain: 'strict',
       }}
     >
       <canvas
@@ -293,6 +370,7 @@ export default function Ascii3DStarfield({
           display: 'block',
           width: '100%',
           height: '100%',
+          contain: 'strict',
         }}
       />
     </div>

@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 
 export default function SpotlightCard({
   children,
@@ -8,32 +8,30 @@ export default function SpotlightCard({
   ...props
 }) {
   const divRef = useRef(null)
-  const [isFocused, setIsFocused] = useState(false)
-  const [position, setPosition] = useState({ x: 0, y: 0 })
-  const [opacity, setOpacity] = useState(0)
+  const overlayRef = useRef(null)
 
   const handleMouseMove = (e) => {
-    if (!divRef.current) return
+    if (!divRef.current || !overlayRef.current) return
     const rect = divRef.current.getBoundingClientRect()
-    setPosition({ x: e.clientX - rect.left, y: e.clientY - rect.top })
-  }
-
-  const handleFocus = () => {
-    setIsFocused(true)
-    setOpacity(1)
-  }
-
-  const handleBlur = () => {
-    setIsFocused(false)
-    setOpacity(0)
+    const x = e.clientX - rect.left
+    const y = e.clientY - rect.top
+    overlayRef.current.style.background = `radial-gradient(400px circle at ${x}px ${y}px, ${spotlightColor}, transparent 70%)`
   }
 
   const handleMouseEnter = () => {
-    setOpacity(1)
+    if (overlayRef.current) overlayRef.current.style.opacity = '1'
   }
 
   const handleMouseLeave = () => {
-    setOpacity(0)
+    if (overlayRef.current) overlayRef.current.style.opacity = '0'
+  }
+
+  const handleFocus = () => {
+    if (overlayRef.current) overlayRef.current.style.opacity = '1'
+  }
+
+  const handleBlur = () => {
+    if (overlayRef.current) overlayRef.current.style.opacity = '0'
   }
 
   return (
@@ -54,13 +52,13 @@ export default function SpotlightCard({
       {...props}
     >
       <div
+        ref={overlayRef}
         className="pointer-events-none"
         style={{
           position: 'absolute',
           inset: 0,
-          opacity,
+          opacity: 0,
           transition: 'opacity 0.4s ease',
-          background: `radial-gradient(400px circle at ${position.x}px ${position.y}px, ${spotlightColor}, transparent 70%)`,
           zIndex: 2,
           pointerEvents: 'none',
         }}
@@ -71,3 +69,4 @@ export default function SpotlightCard({
     </div>
   )
 }
+

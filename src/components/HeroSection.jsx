@@ -19,6 +19,8 @@ function MerryGoRound() {
   const [isDragging, setIsDragging] = useState(false)
   const [hasDragged, setHasDragged] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+  const containerRef = useRef(null)
+  const isVisibleRef = useRef(true)
   const isDraggingRef = useRef(false)
   const isHoveredRef = useRef(false)
   const startXRef = useRef(0)
@@ -26,6 +28,7 @@ function MerryGoRound() {
   const velocityRef = useRef(0)
   const lastXRef = useRef(0)
   const animFrameRef = useRef(null)
+  const autoAnimRef = useRef(null)
 
   const numCards = CAROUSEL_IMAGES.length
   const angleStep = 360 / numCards
@@ -47,31 +50,86 @@ function MerryGoRound() {
   const cardWidth = winWidth < 640 ? 130 : winWidth < 1280 ? 150 : winWidth < 1920 ? 175 : winWidth < 2560 ? 210 : 260
   const cardHeight = winWidth < 640 ? 90 : winWidth < 1280 ? 102 : winWidth < 1920 ? 118 : winWidth < 2560 ? 142 : 176
 
-  // Continuous slow auto-rotation + scroll-driven rotation
+  // Continuous slow auto-rotation + scroll-driven rotation with IntersectionObserver pause
   useEffect(() => {
-    let animId
-    const autoRotate = () => {
-      if (!isDraggingRef.current && !isHoveredRef.current) {
-        setRotationY((prev) => (prev + 0.05) % 360)
+    let lastTime = performance.now()
+
+    const autoRotate = (now) => {
+      if (!isVisibleRef.current || document.hidden) {
+        autoAnimRef.current = null
+        return
       }
-      animId = requestAnimationFrame(autoRotate)
+
+      const elapsed = now - lastTime
+      if (elapsed >= 30) {
+        lastTime = now
+        if (!isDraggingRef.current && !isHoveredRef.current) {
+          setRotationY((prev) => (prev + 0.08) % 360)
+        }
+      }
+      autoAnimRef.current = requestAnimationFrame(autoRotate)
     }
-    animId = requestAnimationFrame(autoRotate)
+
+    const startAuto = () => {
+      if (!autoAnimRef.current && isVisibleRef.current && !document.hidden) {
+        lastTime = performance.now()
+        autoAnimRef.current = requestAnimationFrame(autoRotate)
+      }
+    }
+
+    const stopAuto = () => {
+      if (autoAnimRef.current) {
+        cancelAnimationFrame(autoAnimRef.current)
+        autoAnimRef.current = null
+      }
+    }
+
+    // IntersectionObserver
+    let observer = null
+    if (containerRef.current && typeof IntersectionObserver !== 'undefined') {
+      observer = new IntersectionObserver(
+        (entries) => {
+          const entry = entries[0]
+          isVisibleRef.current = entry.isIntersecting
+          if (entry.isIntersecting) {
+            startAuto()
+          } else {
+            stopAuto()
+          }
+        },
+        { threshold: 0.01, rootMargin: '100px 0px 100px 0px' }
+      )
+      observer.observe(containerRef.current)
+    } else {
+      startAuto()
+    }
+
+    // Tab visibility
+    const handleVisibility = () => {
+      if (document.hidden) {
+        stopAuto()
+      } else if (isVisibleRef.current) {
+        startAuto()
+      }
+    }
+    document.addEventListener('visibilitychange', handleVisibility)
 
     let lastScrollY = window.scrollY
     const handleScroll = () => {
       const currentScrollY = window.scrollY
       const delta = currentScrollY - lastScrollY
       lastScrollY = currentScrollY
-      if (!isDraggingRef.current) {
+      if (!isDraggingRef.current && isVisibleRef.current) {
         setRotationY((prev) => prev + delta * 0.15)
       }
     }
     window.addEventListener('scroll', handleScroll, { passive: true })
 
     return () => {
-      cancelAnimationFrame(animId)
+      stopAuto()
+      if (observer) observer.disconnect()
       window.removeEventListener('scroll', handleScroll)
+      document.removeEventListener('visibilitychange', handleVisibility)
     }
   }, [])
 
@@ -128,6 +186,7 @@ function MerryGoRound() {
 
   return (
     <div
+      ref={containerRef}
       style={{
         width: '100%',
         perspective: '1200px',
