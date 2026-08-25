@@ -15,10 +15,13 @@ const CAROUSEL_IMAGES = [
 ]
 
 function MerryGoRound() {
-  const [rotationY, setRotationY] = useState(0)
   const [isDragging, setIsDragging] = useState(false)
   const [hasDragged, setHasDragged] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+
+  const containerRef = useRef(null)
+  const trackRef = useRef(null)
+  const rotationRef = useRef(0)
   const isDraggingRef = useRef(false)
   const isHoveredRef = useRef(false)
   const startXRef = useRef(0)
@@ -26,6 +29,7 @@ function MerryGoRound() {
   const velocityRef = useRef(0)
   const lastXRef = useRef(0)
   const animFrameRef = useRef(null)
+  const isIntersectingRef = useRef(true)
 
   const numCards = CAROUSEL_IMAGES.length
   const angleStep = 360 / numCards
@@ -47,15 +51,28 @@ function MerryGoRound() {
   const cardWidth = winWidth < 640 ? 130 : winWidth < 1280 ? 150 : winWidth < 1920 ? 175 : winWidth < 2560 ? 210 : 260
   const cardHeight = winWidth < 640 ? 90 : winWidth < 1280 ? 102 : winWidth < 1920 ? 118 : winWidth < 2560 ? 142 : 176
 
-  // Continuous slow auto-rotation + scroll-driven rotation
+  const applyRotation = (rot) => {
+    rotationRef.current = rot
+    if (trackRef.current) {
+      trackRef.current.style.transform = `rotateX(-6deg) rotateY(${rot}deg)`
+    }
+  }
+
+  // Continuous smooth auto-rotation at native display refresh rate with direct DOM mutation
   useEffect(() => {
-    let animId
+    let animId = null
+    let isMounted = true
+
     const autoRotate = () => {
-      if (!isDraggingRef.current && !isHoveredRef.current) {
-        setRotationY((prev) => (prev + 0.05) % 360)
+      if (!isMounted) return
+
+      if (isIntersectingRef.current && !document.hidden && !isDraggingRef.current && !isHoveredRef.current) {
+        applyRotation((rotationRef.current + 0.05) % 360)
       }
+
       animId = requestAnimationFrame(autoRotate)
     }
+
     animId = requestAnimationFrame(autoRotate)
 
     let lastScrollY = window.scrollY
@@ -63,14 +80,28 @@ function MerryGoRound() {
       const currentScrollY = window.scrollY
       const delta = currentScrollY - lastScrollY
       lastScrollY = currentScrollY
-      if (!isDraggingRef.current) {
-        setRotationY((prev) => prev + delta * 0.15)
+      if (!isDraggingRef.current && isIntersectingRef.current) {
+        applyRotation(rotationRef.current + delta * 0.15)
       }
     }
     window.addEventListener('scroll', handleScroll, { passive: true })
 
+    // Viewport intersection observer: sleeps when off-screen
+    let observer = null
+    if (containerRef.current && typeof IntersectionObserver !== 'undefined') {
+      observer = new IntersectionObserver(
+        (entries) => {
+          isIntersectingRef.current = entries[0].isIntersecting
+        },
+        { threshold: 0, rootMargin: '200px 0px 200px 0px' }
+      )
+      observer.observe(containerRef.current)
+    }
+
     return () => {
-      cancelAnimationFrame(animId)
+      isMounted = false
+      if (animId) cancelAnimationFrame(animId)
+      if (observer) observer.disconnect()
       window.removeEventListener('scroll', handleScroll)
     }
   }, [])
@@ -83,7 +114,7 @@ function MerryGoRound() {
     const clientX = e.touches ? e.touches[0].clientX : e.clientX
     startXRef.current = clientX
     lastXRef.current = clientX
-    startRotationRef.current = rotationY
+    startRotationRef.current = rotationRef.current
     velocityRef.current = 0
   }
 
@@ -94,7 +125,7 @@ function MerryGoRound() {
     const stepDelta = clientX - lastXRef.current
     lastXRef.current = clientX
     velocityRef.current = stepDelta * 0.3
-    setRotationY(startRotationRef.current + deltaX * 0.4)
+    applyRotation(startRotationRef.current + deltaX * 0.4)
   }
 
   const handlePointerUp = () => {
@@ -103,13 +134,11 @@ function MerryGoRound() {
     isDraggingRef.current = false
 
     let currentVel = velocityRef.current
-    let currentRot = rotationY
 
     const applyInertia = () => {
       if (Math.abs(currentVel) > 0.05) {
-        currentRot += currentVel
+        applyRotation(rotationRef.current + currentVel)
         currentVel *= 0.95
-        setRotationY(currentRot)
         animFrameRef.current = requestAnimationFrame(applyInertia)
       }
     }
@@ -124,10 +153,11 @@ function MerryGoRound() {
       window.removeEventListener('mouseup', onUp)
       window.removeEventListener('touchend', onUp)
     }
-  }, [isDragging, rotationY])
+  }, [isDragging])
 
   return (
     <div
+      ref={containerRef}
       style={{
         width: '100%',
         perspective: '1200px',
@@ -149,14 +179,14 @@ function MerryGoRound() {
     >
       {/* 3D Carousel Stage */}
       <div
+        ref={trackRef}
         style={{
           position: 'relative',
           width: `${cardWidth}px`,
           height: `${cardHeight}px`,
           margin: '0 auto',
           transformStyle: 'preserve-3d',
-          transform: `rotateX(-6deg) rotateY(${rotationY}deg)`,
-          transition: isDragging ? 'none' : 'transform 0.05s ease-out',
+          transform: `rotateX(-6deg) rotateY(0deg)`,
         }}
       >
         {CAROUSEL_IMAGES.map((src, i) => {
