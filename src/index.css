@@ -2801,11 +2801,10 @@ p, .text-base {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 600px;
-  height: 400px;
+  width: 700px;
+  height: 500px;
   transform: translate(-50%, -50%);
-  background: radial-gradient(circle, rgba(214, 253, 112, 0.12) 0%, rgba(16, 185, 129, 0.05) 45%, transparent 70%);
-  filter: blur(60px);
+  background: radial-gradient(circle, rgba(214, 253, 112, 0.15) 0%, rgba(16, 185, 129, 0.08) 35%, rgba(214, 253, 112, 0.02) 55%, transparent 70%);
   pointer-events: none;
   z-index: 1;
   border-radius: 50%;

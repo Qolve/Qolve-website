@@ -73,21 +73,23 @@ export default function Ascii3DStarfield({
 
     const ctx = canvas.getContext('2d')
     if (!ctx) return
-
     let animId
     let isMounted = true
-    let isVisible = true
     let width = container.clientWidth || window.innerWidth
     let height = container.clientHeight || window.innerHeight
 
-    // Memory-efficient 1.25x DPR: razor-sharp typography with 60% less GPU pixel fill-rate
-    const dpr = Math.min(window.devicePixelRatio || 1, 1.25)
-    canvas.width = Math.round(width * dpr)
-    canvas.height = Math.round(height * dpr)
+    // Exact 1.0x native DPR: razor-sharp ASCII monospace glyphs with minimal GPU memory
+    const dpr = 1
+    canvas.width = width
+    canvas.height = height
     canvas.style.width = `${width}px`
     canvas.style.height = `${height}px`
 
     const selectedPalettes = isDark ? DARK_PALETTES : LIGHT_PALETTES
+
+    // Check initial viewport visibility
+    const initialRect = container.getBoundingClientRect()
+    let isVisible = initialRect.top < window.innerHeight + 200 && initialRect.bottom > -200
 
     // Generate balanced, randomized stars with distinct behaviors
     const createDistributedStars = () => {
@@ -144,7 +146,14 @@ export default function Ascii3DStarfield({
     }
     updateStarFonts()
 
+    const startAnimation = () => {
+      if (!animId && isMounted && isVisible && !document.hidden) {
+        animId = requestAnimationFrame(renderLoop)
+      }
+    }
+
     const handleScroll = () => {
+      if (!isVisible) return
       const currentY = window.scrollY
       const deltaY = currentY - lastScrollY
       lastScrollY = currentY
@@ -158,12 +167,13 @@ export default function Ascii3DStarfield({
       if (!container) return
       width = container.clientWidth || window.innerWidth
       height = container.clientHeight || window.innerHeight
-      canvas.width = Math.round(width * dpr)
-      canvas.height = Math.round(height * dpr)
+      canvas.width = width
+      canvas.height = height
       canvas.style.width = `${width}px`
       canvas.style.height = `${height}px`
       updateStarFonts()
-      startAnimation()
+      drawFrame(performance.now())
+      if (isVisible) startAnimation()
     }
 
     window.addEventListener('resize', handleResize, { passive: true })
@@ -195,7 +205,6 @@ export default function Ascii3DStarfield({
     // Core Drawing Routine
     const drawFrame = (time) => {
       ctx.save()
-      ctx.scale(dpr, dpr)
       ctx.clearRect(0, 0, width, height)
 
       ctx.textAlign = 'center'
@@ -269,7 +278,7 @@ export default function Ascii3DStarfield({
       ctx.restore()
     }
 
-    // Animation Render Loop with Adaptive Pacing (20 FPS Idle ↔ 120 FPS Scroll)
+    // Animation Render Loop with Adaptive Pacing (24 FPS Idle ↔ 120 FPS Scroll)
     const renderLoop = (time) => {
       if (!isMounted || !isVisible || document.hidden) {
         animId = null
@@ -281,8 +290,8 @@ export default function Ascii3DStarfield({
       if (Math.abs(scrollVelocity) < 0.001) scrollVelocity = 0
 
       const isScrolling = Math.abs(scrollVelocity) > 0.05
-      // 50ms (20 FPS) for slow idle breathing; 0ms (uncapped 120 FPS) during active scroll
-      const minInterval = isScrolling ? 0 : 50
+      // 42ms (~24 FPS) when idle; 0ms (uncapped 120 FPS) during active scroll
+      const minInterval = isScrolling ? 0 : 42
 
       if (time - lastRenderTime >= minInterval) {
         lastRenderTime = time
@@ -292,12 +301,6 @@ export default function Ascii3DStarfield({
       animId = requestAnimationFrame(renderLoop)
     }
 
-    const startAnimation = () => {
-      if (!animId && isMounted && isVisible && !document.hidden) {
-        animId = requestAnimationFrame(renderLoop)
-      }
-    }
-
     const stopAnimation = () => {
       if (animId) {
         cancelAnimationFrame(animId)
@@ -305,7 +308,7 @@ export default function Ascii3DStarfield({
       }
     }
 
-    // Viewport IntersectionObserver with 400px pre-wake margin (keeps off-screen canvases asleep)
+    // Viewport IntersectionObserver with 250px pre-wake margin (keeps off-screen canvases asleep)
     let observer = null
     if (container && typeof IntersectionObserver !== 'undefined') {
       observer = new IntersectionObserver(
@@ -317,15 +320,16 @@ export default function Ascii3DStarfield({
             stopAnimation()
           }
         },
-        { threshold: 0, rootMargin: '400px 0px 400px 0px' }
+        { threshold: 0, rootMargin: '250px 0px 250px 0px' }
       )
       observer.observe(container)
-    } else {
-      startAnimation()
     }
 
-    // Initial draw so the canvas is immediately painted on load
+    // Initial draw on mount
     drawFrame(performance.now())
+    if (isVisible) {
+      startAnimation()
+    }
 
     // Page Visibility API
     const handleVisibilityChange = () => {
