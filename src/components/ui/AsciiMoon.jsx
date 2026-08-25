@@ -1,36 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
 
-// High-Detail Lunar Surface Map (Maria '1', Bright Crater Rims '2', Crater Centers '3', Rugged Highlands '4')
-const LUNAR_MAP = [
-  "   444444444444444444444444444444444444444444444444444444   ", // 90°N North Polar Highlands
-  "  44444444444444444444444444444444444444444444444444444444  ", // 80°N
-  " 444444444444444444444444444444444444444444444444444444444 ", // 75°N
-  "4444444444444441111111111111111444444444444444444444444444", // 65°N - Mare Frigoris & Plato Crater
-  "44444444111111111111111111111111111111444444444444444444444", // 55°N - Mare Imbrium North & Sinus Iridum
-  "44444411111111111111111111111111111111111444423244444444444", // 45°N - Archimedes / Aristillus
-  "44444111111111111111111111111111111111111144444444444444444", // 35°N - Mare Serenitatis / Oceanus Procellarum
-  "44441111111111111111111111111111111111111111444411111144444", // 25°N - Mare Crisium & Mare Tranquillitatis
-  "44441111111111111111111111111111111111111111144111111114444", // 15°N - Copernicus Crater System (232)
-  "44441111111111111232111111111111111111111111144111111114444", // 5°N  - Copernicus / Kepler Crater Rims
-  "44444111111111111111111111111111111111111111144411111144444", // 0°   - Equator & Sinus Medii
-  "44444111111111111111111111111111111111111111444444444444444", // 5°S  - Mare Cognitum
-  "44444411111111111111111111111111111111111144444444444444444", // 15°S - Mare Nubium & Mare Nectaris
-  "44444441111111111111111111111111111111144444444444444444444", // 25°S - Mare Humorum & Bullialdus
-  "44444444444444444444444444444444444444444444444444444444444", // 35°S - Deslandres & Pitatus
-  "44444444444444444222332224444444444444444444444444444444444", // 43°S - Tycho Crater & Massive Ray System
-  "44444444444444442222222222444444444444444444444444444444444", // 55°S - Clavius Crater Basin
-  "44444444444444444444444444444444444444444444444444444444444", // 70°S - Southern Highlands
-  " 444444444444444444444444444444444444444444444444444444444 ", // 80°S
-  "  44444444444444444444444444444444444444444444444444444444  "  // 90°S South Pole
-]
-
-const TERMINAL_RAMP = " .:-=+*#%@"
+// Minimalist, elegant terminal density ramp with soft gradations
+const TERMINAL_RAMP = "  ..:--==++**##"
 
 function computeMoonFrame(size, theta) {
   const width = Math.round(size * 2.05)
   const height = size
-  const mapH = LUNAR_MAP.length
-  const mapW = LUNAR_MAP[0].length
 
   const cosT = Math.cos(theta)
   const sinT = Math.sin(theta)
@@ -56,37 +31,36 @@ function computeMoonFrame(size, theta) {
         const lat = Math.asin(Math.max(-1, Math.min(1, ry)))
         const lon = Math.atan2(rx, rz)
 
-        const u = (lon + Math.PI) / (2 * Math.PI)
-        const v = (Math.PI / 2 - lat) / Math.PI
+        // Soft, organic lunar maria (dark plains)
+        const maria = Math.sin(lat * 2.5 + lon * 2.0) * 0.5 + Math.cos(lat * 3.2 - lon * 1.6) * 0.5
+        const mariaDarkening = maria > 0.25 ? (maria - 0.25) * 0.22 : 0
 
-        const mapX = Math.min(mapW - 1, Math.max(0, Math.floor(u * mapW)))
-        const mapY = Math.min(mapH - 1, Math.max(0, Math.floor(v * mapH)))
+        // Subtle circular crater depressions
+        const dTycho = Math.hypot(lat - (-0.7), lon - (-0.3))
+        const dCopernicus = Math.hypot(lat - (0.2), lon - (-0.6))
+        const dMareCrisium = Math.hypot(lat - (0.3), lon - (0.6))
+        const dPlato = Math.hypot(lat - (0.75), lon - (-0.1))
 
-        const feature = LUNAR_MAP[mapY]?.[mapX]
+        let craterFeature = 0
+        if (dTycho < 0.24) {
+          craterFeature = dTycho < 0.09 ? -0.14 : 0.16
+        } else if (dCopernicus < 0.2) {
+          craterFeature = dCopernicus < 0.08 ? -0.12 : 0.14
+        } else if (dMareCrisium < 0.22) {
+          craterFeature = -0.18
+        } else if (dPlato < 0.15) {
+          craterFeature = -0.14
+        }
 
-        // Pseudo-procedural micro-crater noise based on spherical coordinates
-        const microCrater = Math.sin(lat * 18 + lon * 14) * Math.cos(lat * 12 - lon * 16)
-        const craterPerturb = microCrater * 0.18
+        // Soft organic micro-texture (subtle, non-grainy)
+        const softNoise = (Math.sin(lat * 5 + lon * 4) * Math.cos(lat * 4 - lon * 5)) * 0.04
 
-        // 3D Directional Sunlight with Crater Rim highlights
-        const light = (-0.45 * nx + 0.8 * nz - 0.3 * ny + 1.0) / 2.0 + craterPerturb
+        // 3D Directional Sunlight with soft curvature
+        const light = (-0.35 * nx + 0.85 * nz - 0.25 * ny + 1.0) / 2.0 - mariaDarkening + craterFeature + softNoise
         const clampedLight = Math.max(0, Math.min(1, light))
 
-        if (feature === '2') {
-          // Bright impact crater rim (Tycho / Copernicus ejecta rays)
-          line += ['#', '%', '@', '*'][Math.floor(clampedLight * 3.99)]
-        } else if (feature === '3') {
-          // Deep crater central shadow/hollow
-          line += ['.', ':', '-'][Math.floor(clampedLight * 2.99)] || '.'
-        } else if (feature === '1') {
-          // Dark Basaltic Lunar Maria (Sea of Tranquility / Ocean of Storms)
-          const charIdx = Math.floor(clampedLight * 5)
-          line += ['.', ':', '-', '=', '+'][charIdx] || ':'
-        } else {
-          // Rugged Highlands with dense crater topography
-          const charIdx = Math.floor(clampedLight * (TERMINAL_RAMP.length - 1))
-          line += TERMINAL_RAMP[charIdx] || '#'
-        }
+        const charIdx = Math.floor(clampedLight * (TERMINAL_RAMP.length - 1))
+        line += TERMINAL_RAMP[charIdx] || " "
       } else {
         line += ' '
       }
@@ -123,7 +97,6 @@ export default function AsciiMoon({
   const frames = getMoonFrames(size)
   const [frameIdx, setFrameIdx] = useState(0)
   const progressRef = useRef(0)
-  const reqRef = useRef(null)
 
   useEffect(() => {
     let animId
