@@ -12,7 +12,7 @@ const SECTIONS = [
   { id: 'contact', label: 'Contact' },
 ]
 
-export default function SmoothScrollProvider({ children }) {
+export default function SmoothScrollProvider({ children, activePage = 'home' }) {
   const [activeSection, setActiveSection] = useState('home')
   const [isHoveredNav, setIsHoveredNav] = useState(false)
   const isLockedRef = useRef(false)
@@ -20,6 +20,7 @@ export default function SmoothScrollProvider({ children }) {
 
   // Scroll directly to section by index with exact presentation-grade locked alignment
   const scrollToSectionIndex = useCallback((index) => {
+    if (activePage !== 'home') return
     const validIdx = Math.max(0, Math.min(SECTIONS.length - 1, index))
     const secId = SECTIONS[validIdx].id
     const targetEl = document.getElementById(secId)
@@ -35,10 +36,11 @@ export default function SmoothScrollProvider({ children }) {
     lockTimerRef.current = setTimeout(() => {
       isLockedRef.current = false
     }, 650)
-  }, [])
+  }, [activePage])
 
   // Listen to external navigation events (e.g. from Navbar, dropdown, or CTA buttons)
   useEffect(() => {
+    if (activePage !== 'home') return
     const handleQolveScroll = (e) => {
       const { sectionId } = e.detail || {}
       if (!sectionId || sectionId === 'home') {
@@ -64,10 +66,11 @@ export default function SmoothScrollProvider({ children }) {
 
     window.addEventListener('qolve-scroll-to', handleQolveScroll)
     return () => window.removeEventListener('qolve-scroll-to', handleQolveScroll)
-  }, [scrollToSectionIndex])
+  }, [scrollToSectionIndex, activePage])
 
   // Sync active HUD indicator during free scrolling
   useEffect(() => {
+    if (activePage !== 'home') return
     const handleScroll = () => {
       if (isLockedRef.current) return
       const scrollY = window.scrollY
@@ -87,10 +90,11 @@ export default function SmoothScrollProvider({ children }) {
 
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+  }, [activePage])
 
   // Wheel interceptor for desktop locked section jumping
   useEffect(() => {
+    if (activePage !== 'home') return
     const handleWheel = (e) => {
       e.preventDefault()
 
@@ -154,7 +158,7 @@ export default function SmoothScrollProvider({ children }) {
       window.removeEventListener('keydown', handleKeyDown)
       if (lockTimerRef.current) clearTimeout(lockTimerRef.current)
     }
-  }, [scrollToSectionIndex])
+  }, [scrollToSectionIndex, activePage])
 
   const handleHudClick = useCallback((id) => {
     const index = SECTIONS.findIndex((s) => s.id === id)
@@ -167,77 +171,79 @@ export default function SmoothScrollProvider({ children }) {
     <>
       {children}
 
-      {/* Floating Section HUD */}
-      <div
-        className="fixed-section-hud"
-        onMouseEnter={() => setIsHoveredNav(true)}
-        onMouseLeave={() => setIsHoveredNav(false)}
-        style={{
-          position: 'fixed',
-          right: '1.75rem',
-          top: '50%',
-          transform: 'translateY(-50%)',
-          zIndex: 90,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'flex-end',
-          gap: '0.85rem',
-          pointerEvents: 'auto',
-        }}
-      >
-        {SECTIONS.map((sec) => {
-          const isActive = activeSection === sec.id
-          return (
-            <button
-              key={sec.id}
-              onClick={() => handleHudClick(sec.id)}
-              aria-label={`Scroll to ${sec.label}`}
-              style={{
-                background: 'none',
-                border: 'none',
-                padding: '0.2rem',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.6rem',
-                outline: 'none',
-              }}
-            >
-              <span
-                className="hud-label"
+      {/* Floating Section HUD - Home View Only */}
+      {activePage === 'home' && (
+        <div
+          className="fixed-section-hud"
+          onMouseEnter={() => setIsHoveredNav(true)}
+          onMouseLeave={() => setIsHoveredNav(false)}
+          style={{
+            position: 'fixed',
+            right: '1.75rem',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            zIndex: 90,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-end',
+            gap: '0.85rem',
+            pointerEvents: 'auto',
+          }}
+        >
+          {SECTIONS.map((sec) => {
+            const isActive = activeSection === sec.id
+            return (
+              <button
+                key={sec.id}
+                onClick={() => handleHudClick(sec.id)}
+                aria-label={`Scroll to ${sec.label}`}
                 style={{
-                  color: isActive ? '#d6fd70' : 'rgba(255, 255, 255, 0.5)',
-                  fontSize: '0.75rem',
-                  fontWeight: isActive ? 700 : 500,
-                  letterSpacing: '0.04em',
-                  textTransform: 'uppercase',
-                  opacity: isHoveredNav || isActive ? 1 : 0,
-                  transform: isHoveredNav || isActive ? 'translateX(0)' : 'translateX(8px)',
-                  transition: 'all 0.25s ease',
-                  background: isActive ? 'rgba(15, 15, 15, 0.85)' : 'rgba(0, 0, 0, 0.6)',
-                  padding: '0.2rem 0.55rem',
-                  borderRadius: '9999px',
-                  border: isActive ? '1px solid rgba(214, 253, 112, 0.3)' : '1px solid rgba(255, 255, 255, 0.08)',
-                  backdropFilter: 'blur(8px)',
+                  background: 'none',
+                  border: 'none',
+                  padding: '0.2rem',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.6rem',
+                  outline: 'none',
                 }}
               >
-                {sec.label}
-              </span>
+                <span
+                  className="hud-label"
+                  style={{
+                    color: isActive ? '#d6fd70' : 'rgba(255, 255, 255, 0.5)',
+                    fontSize: '0.75rem',
+                    fontWeight: isActive ? 700 : 500,
+                    letterSpacing: '0.04em',
+                    textTransform: 'uppercase',
+                    opacity: isHoveredNav || isActive ? 1 : 0,
+                    transform: isHoveredNav || isActive ? 'translateX(0)' : 'translateX(8px)',
+                    transition: 'all 0.25s ease',
+                    background: isActive ? 'rgba(15, 15, 15, 0.85)' : 'rgba(0, 0, 0, 0.6)',
+                    padding: '0.2rem 0.55rem',
+                    borderRadius: '9999px',
+                    border: isActive ? '1px solid rgba(214, 253, 112, 0.3)' : '1px solid rgba(255, 255, 255, 0.08)',
+                    backdropFilter: 'blur(8px)',
+                  }}
+                >
+                  {sec.label}
+                </span>
 
-              <div
-                style={{
-                  width: isActive ? '8px' : '6px',
-                  height: isActive ? '24px' : '6px',
-                  borderRadius: '9999px',
-                  background: isActive ? '#d6fd70' : 'rgba(255, 255, 255, 0.25)',
-                  boxShadow: isActive ? '0 0 12px rgba(214, 253, 112, 0.7)' : 'none',
-                  transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
-                }}
-              />
-            </button>
-          )
-        })}
-      </div>
+                <div
+                  style={{
+                    width: isActive ? '8px' : '6px',
+                    height: isActive ? '24px' : '6px',
+                    borderRadius: '9999px',
+                    background: isActive ? '#d6fd70' : 'rgba(255, 255, 255, 0.25)',
+                    boxShadow: isActive ? '0 0 12px rgba(214, 253, 112, 0.7)' : 'none',
+                    transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+                  }}
+                />
+              </button>
+            )
+          })}
+        </div>
+      )}
 
       <style>{`
         @media (max-width: 1024px) {

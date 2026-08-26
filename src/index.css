@@ -24,21 +24,6 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-snap-type: y mandatory;
-}
-
-body {
-  overflow-x: hidden;
-  color: var(--color-primary);
-  background-color: var(--bg-primary);
-  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-img, video, canvas, svg {
-  max-width: 100%;
-  display: block;
 }
 
 /* Fluid Typography */
@@ -61,11 +46,6 @@ img, video, canvas, svg {
   font-weight: 600;
   line-height: 1.25;
   letter-spacing: -0.01em;
-}
-
-section {
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
 }
 
 /* Short height screens (e.g. 720p / 768p displays) - ensure content fits comfortably */

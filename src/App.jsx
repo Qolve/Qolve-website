@@ -34,6 +34,7 @@ function App() {
 
   const handleNavigate = (page, sectionId) => {
     if (page !== activePage) {
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
       setActivePage(page)
       if (page === 'home') {
         setTimeout(() => {
@@ -43,8 +44,6 @@ function App() {
             })
           )
         }, 100)
-      } else {
-        window.scrollTo({ top: 0, behavior: 'smooth' })
       }
     } else if (page === 'home') {
       window.dispatchEvent(
@@ -53,7 +52,7 @@ function App() {
         })
       )
     } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' })
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
     }
   }
 
@@ -82,7 +81,7 @@ function App() {
   }
 
   return (
-    <SmoothScrollProvider>
+    <SmoothScrollProvider activePage={activePage}>
       <div className="page-wrapper">
         <ScrollProgress />
         <Navbar activePage={activePage} onNavigate={handleNavigate} />
