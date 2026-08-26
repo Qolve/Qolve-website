@@ -215,6 +215,7 @@ export default function MobileView({ activePage, onNavigate }) {
       }}
     >
       {/* Fixed Glass Header */}
+      {/* Fixed Glass Header with hairline cyber top light */}
       <header
         style={{
           position: 'fixed',
@@ -222,42 +223,63 @@ export default function MobileView({ activePage, onNavigate }) {
           left: 0,
           right: 0,
           zIndex: 100,
-          background: 'rgba(9, 9, 11, 0.92)',
-          backdropFilter: 'blur(20px)',
-          WebkitBackdropFilter: 'blur(20px)',
+          background: 'rgba(12, 12, 12, 0.94)',
+          backdropFilter: 'blur(24px) saturate(180%)',
+          WebkitBackdropFilter: 'blur(24px) saturate(180%)',
           borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
           padding: '0.75rem 1.25rem',
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
+          boxShadow: '0 8px 24px rgba(0, 0, 0, 0.7)',
         }}
       >
+        {/* Hairline cyber gradient accent light across top edge */}
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            height: '1px',
+            background: 'linear-gradient(90deg, transparent 0%, rgba(214, 253, 112, 0.5) 50%, transparent 100%)',
+            pointerEvents: 'none',
+          }}
+        />
+
         <button
           onClick={() => scrollToSegment('hero')}
-          style={{ background: 'none', border: 'none', padding: 0, display: 'flex', alignItems: 'center', gap: '0.55rem', cursor: 'pointer' }}
+          style={{ background: 'none', border: 'none', padding: 0, display: 'flex', alignItems: 'center', gap: '0.65rem', cursor: 'pointer' }}
         >
           <div
             style={{
-              width: '2rem',
-              height: '2rem',
-              borderRadius: '0.45rem',
+              width: '2.1rem',
+              height: '2.1rem',
+              borderRadius: '0.5rem',
               background: '#d6fd70',
               color: '#0f0f0f',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               fontWeight: 900,
-              fontSize: '1.15rem',
-              boxShadow: '0 0 12px rgba(214, 253, 112, 0.4)',
+              fontSize: '1.2rem',
+              letterSpacing: '-0.04em',
+              boxShadow: '0 0 16px rgba(214, 253, 112, 0.4)',
             }}
           >
             Q
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', textAlign: 'left' }}>
-            <span style={{ fontSize: '1.1rem', fontWeight: 800, color: '#ffffff', letterSpacing: '-0.02em', lineHeight: 1 }}>qolve</span>
-            <span style={{ fontSize: '0.6rem', color: '#d6fd70', fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase' }}>
-              Whitelabel
-            </span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+              <span style={{ fontSize: '1.15rem', fontWeight: 800, color: '#ffffff', letterSpacing: '-0.03em', lineHeight: 1 }}>qolve</span>
+              <span style={{ fontSize: '0.55rem', fontFamily: 'Geist Mono, monospace', color: 'rgba(255, 255, 255, 0.45)', background: 'rgba(255, 255, 255, 0.06)', border: '1px solid rgba(255, 255, 255, 0.1)', padding: '0.05rem 0.3rem', borderRadius: '0.2rem' }}>LABS</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', marginTop: '0.15rem' }}>
+              <span style={{ width: '4px', height: '4px', borderRadius: '50%', background: '#d6fd70', boxShadow: '0 0 6px #d6fd70' }} />
+              <span style={{ fontSize: '0.575rem', fontFamily: 'Geist Mono, monospace', color: '#d6fd70', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+                White-Label
+              </span>
+            </div>
           </div>
         </button>
 
@@ -269,37 +291,42 @@ export default function MobileView({ activePage, onNavigate }) {
               color: '#0f0f0f',
               border: 'none',
               borderRadius: '9999px',
-              padding: '0.38rem 0.85rem',
+              padding: '0.4rem 0.9rem',
               fontSize: '0.75rem',
               fontWeight: 800,
               cursor: 'pointer',
-              boxShadow: '0 0 14px rgba(214, 253, 112, 0.3)',
+              letterSpacing: '-0.01em',
+              boxShadow: '0 0 16px rgba(214, 253, 112, 0.35)',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.35rem',
             }}
           >
-            Quelp App
+            <span>Quelp</span>
+            <span style={{ fontSize: '0.65rem' }}>↗</span>
           </button>
 
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Menu"
             style={{
-              background: 'rgba(255,255,255,0.06)',
-              border: '1px solid rgba(255,255,255,0.12)',
+              background: 'rgba(255,255,255,0.05)',
+              border: '1px solid rgba(255,255,255,0.1)',
               borderRadius: '0.5rem',
               padding: '0.45rem',
               cursor: 'pointer',
               display: 'flex',
               flexDirection: 'column',
               gap: '4px',
-              width: '34px',
-              height: '34px',
+              width: '36px',
+              height: '36px',
               alignItems: 'center',
               justifyContent: 'center',
             }}
           >
-            <div style={{ width: '16px', height: '2px', background: mobileMenuOpen ? '#d6fd70' : '#ffffff', transition: 'all 0.2s ease', transform: mobileMenuOpen ? 'rotate(45deg) translate(2px, 2px)' : 'none' }} />
-            <div style={{ width: '16px', height: '2px', background: mobileMenuOpen ? '#d6fd70' : '#ffffff', transition: 'all 0.2s ease', opacity: mobileMenuOpen ? 0 : 1 }} />
-            <div style={{ width: '16px', height: '2px', background: mobileMenuOpen ? '#d6fd70' : '#ffffff', transition: 'all 0.2s ease', transform: mobileMenuOpen ? 'rotate(-45deg) translate(2px, -2px)' : 'none' }} />
+            <div style={{ width: '16px', height: '2px', background: mobileMenuOpen ? '#d6fd70' : '#ffffff', transition: 'all 0.2s ease', transform: mobileMenuOpen ? 'rotate(45deg) translate(2px, 2px)' : 'none', borderRadius: '1px' }} />
+            <div style={{ width: '16px', height: '2px', background: mobileMenuOpen ? '#d6fd70' : '#ffffff', transition: 'all 0.2s ease', opacity: mobileMenuOpen ? 0 : 1, borderRadius: '1px' }} />
+            <div style={{ width: '16px', height: '2px', background: mobileMenuOpen ? '#d6fd70' : '#ffffff', transition: 'all 0.2s ease', transform: mobileMenuOpen ? 'rotate(-45deg) translate(2px, -2px)' : 'none', borderRadius: '1px' }} />
           </button>
         </div>
       </header>
@@ -311,52 +338,86 @@ export default function MobileView({ activePage, onNavigate }) {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2, ease: 'easeOut' }}
             style={{
               position: 'fixed',
               top: '56px',
               left: 0,
               right: 0,
-              background: 'rgba(9,9,11,0.98)',
+              background: 'rgba(12, 12, 12, 0.98)',
               backdropFilter: 'blur(24px)',
-              borderBottom: '1px solid rgba(255,255,255,0.12)',
-              padding: '1rem 1.25rem',
+              WebkitBackdropFilter: 'blur(24px)',
+              borderBottom: '1px solid rgba(214, 253, 112, 0.25)',
+              padding: '1rem 1.25rem 1.5rem',
               zIndex: 99,
               display: 'flex',
               flexDirection: 'column',
               gap: '0.35rem',
+              boxShadow: '0 20px 40px rgba(0, 0, 0, 0.9)',
             }}
           >
+            <div
+              style={{
+                fontFamily: 'Geist Mono, monospace',
+                fontSize: '0.625rem',
+                color: 'rgba(255, 255, 255, 0.4)',
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                marginBottom: '0.3rem',
+                paddingLeft: '0.4rem',
+              }}
+            >
+              // Systems Index
+            </div>
+
             {[
-              { label: '01 • Hero Overview', id: 'hero' },
-              { label: '02 • About Qolve & Global Reach', id: 'about' },
+              { label: '01 • Overview', id: 'hero' },
+              { label: '02 • About Qolve Lab', id: 'about' },
               { label: '03 • Services & Solutions', id: 'services' },
               { label: '04 • Platform Capabilities', id: 'capabilities' },
               { label: '05 • Transparent Pricing', id: 'pricing' },
               { label: '06 • Client Testimonials', id: 'testimonials' },
               { label: '07 • Launch Platform', id: 'contact' },
-              { label: 'Quelp Platform (App)', page: 'products' },
-              { label: 'Qolve Team', page: 'team' },
+              { label: 'Quelp Platform (App)', page: 'products', badge: 'PROD' },
+              { label: 'Qolve Team Roster', page: 'team' },
             ].map((item, idx) => (
               <button
                 key={idx}
                 onClick={() => (item.page ? navToPage(item.page) : scrollToSegment(item.id))}
                 style={{
-                  background: 'none',
-                  border: 'none',
+                  background: 'rgba(255, 255, 255, 0.02)',
+                  border: '1px solid rgba(255, 255, 255, 0.04)',
+                  borderRadius: '0.45rem',
                   color: '#ffffff',
                   textAlign: 'left',
-                  padding: '0.65rem 0.5rem',
-                  fontSize: '0.95rem',
+                  padding: '0.65rem 0.75rem',
+                  fontSize: '0.9rem',
                   fontWeight: 600,
                   cursor: 'pointer',
-                  borderBottom: '1px solid rgba(255,255,255,0.05)',
                   display: 'flex',
                   justifyContent: 'space-between',
                   alignItems: 'center',
+                  transition: 'all 0.18s ease',
                 }}
               >
                 <span>{item.label}</span>
-                <span style={{ color: '#d6fd70', fontSize: '0.85rem' }}>→</span>
+                {item.badge ? (
+                  <span
+                    style={{
+                      fontSize: '0.55rem',
+                      fontFamily: 'Geist Mono, monospace',
+                      fontWeight: 700,
+                      color: '#0f0f0f',
+                      background: '#d6fd70',
+                      padding: '0.1rem 0.4rem',
+                      borderRadius: '9999px',
+                    }}
+                  >
+                    {item.badge}
+                  </span>
+                ) : (
+                  <span style={{ color: '#d6fd70', fontSize: '0.85rem' }}>→</span>
+                )}
               </button>
             ))}
           </motion.div>
