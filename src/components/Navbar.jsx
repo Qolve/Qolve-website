@@ -21,12 +21,11 @@ export default function Navbar({ activePage, onNavigate }) {
   }
 
   const navItems = [
-    { id: 'home', label: 'Home', isPage: true },
     { id: 'products', label: 'Quelp Platform', isPage: true, badge: 'PROD' },
     { id: 'architecture', label: 'Architecture', page: 'home', sectionId: 'capabilities' },
     { id: 'team', label: 'Qolve Team', isPage: true },
-    { id: 'about', label: 'About', page: 'home', sectionId: 'about' },
     { id: 'pricing', label: 'Pricing', page: 'home', sectionId: 'pricing' },
+    { id: 'about', label: 'About', page: 'home', sectionId: 'about' },
   ]
 
   const isItemActive = (item) => {

@@ -371,13 +371,12 @@ export default function MobileView({ activePage, onNavigate }) {
             </div>
 
             {[
-              { label: '01 • Overview', id: 'hero' },
-              { label: '02 • About Qolve Lab', id: 'about' },
-              { label: '03 • Services & Solutions', id: 'services' },
-              { label: '04 • Platform Capabilities', id: 'capabilities' },
-              { label: '05 • Transparent Pricing', id: 'pricing' },
-              { label: '06 • Client Testimonials', id: 'testimonials' },
-              { label: '07 • Launch Platform', id: 'contact' },
+              { label: '01 • About Qolve Lab', id: 'about' },
+              { label: '02 • Services & Solutions', id: 'services' },
+              { label: '03 • Platform Capabilities', id: 'capabilities' },
+              { label: '04 • Transparent Pricing', id: 'pricing' },
+              { label: '05 • Client Testimonials', id: 'testimonials' },
+              { label: '06 • Launch Platform', id: 'contact' },
               { label: 'Quelp Platform (App)', page: 'products', badge: 'PROD' },
               { label: 'Qolve Team Roster', page: 'team' },
             ].map((item, idx) => (
