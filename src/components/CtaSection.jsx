@@ -91,7 +91,14 @@ export default function CtaSection() {
               transition={{ duration: 0.45, delay: 0.25 }}
               className="button_wrapper"
             >
-              <a href="#contact" className="button-arrow hero-btn-arrow">
+              <a
+                href="#contact"
+                onClick={(e) => {
+                  e.preventDefault()
+                  window.dispatchEvent(new CustomEvent('qolve-scroll-to', { detail: { sectionId: 'contact' } }))
+                }}
+                className="button-arrow hero-btn-arrow"
+              >
                 <div className="button-arrow_wrap">
                   <div className="button-arrow_text">
                     <div className="text_button" style={{ color: 'white', fontWeight: 600 }}>Get Started with Qolve</div>

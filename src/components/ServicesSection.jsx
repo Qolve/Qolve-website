@@ -133,7 +133,14 @@ export default function ServicesSection() {
               viewport={{ once: true }}
               transition={{ duration: 0.45, delay: 0.25 }}
             >
-              <a href="#contact" className="button-arrow is-black">
+              <a
+                href="#contact"
+                onClick={(e) => {
+                  e.preventDefault()
+                  window.dispatchEvent(new CustomEvent('qolve-scroll-to', { detail: { sectionId: 'contact' } }))
+                }}
+                className="button-arrow is-black"
+              >
                 <div className="button-arrow_wrap">
                   <div className="button-arrow_text">
                     <div className="text_button">Get Started</div>

@@ -33,12 +33,25 @@ function App() {
   }, [])
 
   const handleNavigate = (page, sectionId) => {
-    setActivePage(page)
-    if (sectionId) {
-      setTimeout(() => {
-        const el = document.getElementById(sectionId)
-        if (el) el.scrollIntoView({ behavior: 'smooth' })
-      }, 100)
+    if (page !== activePage) {
+      setActivePage(page)
+      if (page === 'home') {
+        setTimeout(() => {
+          window.dispatchEvent(
+            new CustomEvent('qolve-scroll-to', {
+              detail: { sectionId: sectionId || 'home' },
+            })
+          )
+        }, 100)
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      }
+    } else if (page === 'home') {
+      window.dispatchEvent(
+        new CustomEvent('qolve-scroll-to', {
+          detail: { sectionId: sectionId || 'home' },
+        })
+      )
     } else {
       window.scrollTo({ top: 0, behavior: 'smooth' })
     }

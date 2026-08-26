@@ -273,8 +273,8 @@ export default function PricingSection() {
                       ))}
                     </div>
 
-                    <a
-                      href="#products"
+                    <button
+                      onClick={() => window.dispatchEvent(new CustomEvent('qolve-scroll-to', { detail: { sectionId: 'contact' } }))}
                       className="button"
                       data-variant="bg-black"
                       style={{
@@ -286,12 +286,14 @@ export default function PricingSection() {
                         padding: '0.6rem 1rem',
                         fontSize: '0.875rem',
                         boxShadow: plan.isTop ? '0 0 20px rgba(214, 253, 112, 0.3)' : 'none',
+                        cursor: 'pointer',
+                        border: 'none',
                       }}
                     >
                       <div className="text-button-wrap">
                         <div>Get Started</div>
                       </div>
-                    </a>
+                    </button>
                   </SpotlightCard>
                 </motion.div>
               )

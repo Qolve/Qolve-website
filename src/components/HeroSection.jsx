@@ -406,6 +406,10 @@ export default function HeroSection({ onNavigate }) {
 
               <a
                 href="#contact"
+                onClick={(e) => {
+                  e.preventDefault()
+                  if (onNavigate) onNavigate('home', 'contact')
+                }}
                 className="button-arrow"
                 style={{ display: 'inline-flex', alignItems: 'center', textDecoration: 'none', cursor: 'pointer' }}
               >

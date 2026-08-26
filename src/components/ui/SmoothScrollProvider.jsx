@@ -18,7 +18,7 @@ export default function SmoothScrollProvider({ children }) {
   const isLockedRef = useRef(false)
   const lockTimerRef = useRef(null)
 
-  // Scroll directly to section by index
+  // Scroll directly to section by index with exact presentation-grade locked alignment
   const scrollToSectionIndex = useCallback((index) => {
     const validIdx = Math.max(0, Math.min(SECTIONS.length - 1, index))
     const secId = SECTIONS[validIdx].id
@@ -35,6 +35,58 @@ export default function SmoothScrollProvider({ children }) {
     lockTimerRef.current = setTimeout(() => {
       isLockedRef.current = false
     }, 650)
+  }, [])
+
+  // Listen to external navigation events (e.g. from Navbar, dropdown, or CTA buttons)
+  useEffect(() => {
+    const handleQolveScroll = (e) => {
+      const { sectionId } = e.detail || {}
+      if (!sectionId || sectionId === 'home') {
+        scrollToSectionIndex(0)
+        return
+      }
+      const idx = SECTIONS.findIndex((s) => s.id === sectionId)
+      if (idx !== -1) {
+        scrollToSectionIndex(idx)
+      } else {
+        const targetEl = document.getElementById(sectionId)
+        if (targetEl) {
+          isLockedRef.current = true
+          const targetY = targetEl.getBoundingClientRect().top + window.scrollY
+          window.scrollTo({ top: targetY, behavior: 'smooth' })
+          if (lockTimerRef.current) clearTimeout(lockTimerRef.current)
+          lockTimerRef.current = setTimeout(() => {
+            isLockedRef.current = false
+          }, 650)
+        }
+      }
+    }
+
+    window.addEventListener('qolve-scroll-to', handleQolveScroll)
+    return () => window.removeEventListener('qolve-scroll-to', handleQolveScroll)
+  }, [scrollToSectionIndex])
+
+  // Sync active HUD indicator during free scrolling
+  useEffect(() => {
+    const handleScroll = () => {
+      if (isLockedRef.current) return
+      const scrollY = window.scrollY
+      const offsets = SECTIONS.map(({ id }) => {
+        const el = document.getElementById(id)
+        return el ? el.getBoundingClientRect().top + window.scrollY : 0
+      })
+
+      let currentIdx = 0
+      for (let i = 0; i < offsets.length; i++) {
+        if (scrollY >= offsets[i] - 120) {
+          currentIdx = i
+        }
+      }
+      setActiveSection(SECTIONS[currentIdx].id)
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
   // Wheel interceptor for desktop locked section jumping
